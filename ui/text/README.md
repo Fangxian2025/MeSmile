@@ -2,8 +2,8 @@
 
 Early stage and part of goose's broader move to ACP
 
-https://github.com/aaif-goose/goose/issues/6642
-https://github.com/aaif-goose/goose/discussions/7309
+https://github.com/Fangxian2025/MeSmile/issues/6642
+https://github.com/Fangxian2025/MeSmile/discussions/7309
 
 ## Running
 
@@ -22,13 +22,13 @@ npm run start
 The `dev:binary` script checks if the Rust binary needs rebuilding by comparing timestamps of:
 - `target/release/goose` binary
 - `Cargo.toml` and `Cargo.lock` 
-- `crates/goose-cli/Cargo.toml`
+- `crates/mesmile-cli/Cargo.toml`
 
-If any source files are newer, it runs `cargo build --release -p goose-cli` automatically.
+If any source files are newer, it runs `cargo build --release -p mesmile-cli` automatically.
 
 ### Production (with prebuilt binaries)
 
-In production, the TUI uses prebuilt binaries from the `@aaif/goose-binary-*` packages installed via `postinstall`.
+In production, the TUI uses prebuilt binaries from the `@aaif/mesmile-binary-*` packages installed via `postinstall`.
 
 ### Custom server URL
 

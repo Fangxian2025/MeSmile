@@ -45,7 +45,7 @@ export interface GooseMode {
   descriptionDescriptor: { id: string; defaultMessage: string };
 }
 
-export const all_goose_modes: GooseMode[] = [
+export const all_mesmile_modes: GooseMode[] = [
   {
     key: 'auto',
     labelDescriptor: i18n.autonomousLabel,

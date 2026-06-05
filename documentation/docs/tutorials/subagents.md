@@ -32,7 +32,7 @@ By the end of the session, you'll have a working prototype and a clear understan
 Create apps in html, javascript, and css when possible.
 NEVER run blocking server commands (node server.js, npm start, etc.) - provide commands for user to run separately.
 ```
-4. (Optional) Install the [goose docs extension](/docs/mcp/goose-docs-mcp) in case you need to ask goose about itself
+4. (Optional) Install the [goose docs extension](/docs/mcp/mesmile-docs-mcp) in case you need to ask goose about itself
 
 ## Tasks
 
@@ -155,7 +155,7 @@ Spin up two developer subagents in parallel to build the core app. One will hand
   - Implement `server.js` with Express
   - Add POST `/api/briefing` endpoint accepting `{ "topic": "string" }`
   - Use **Headless goose** to generate the summary:
-    - `goose run -t "YOUR_PROMPT_HERE" --quiet --no-session --max-turns 1`
+    - `mesmile run -t "YOUR_PROMPT_HERE" --quiet --no-session --max-turns 1`
   - Use `child_process.spawn()` instead of `exec()`
   - Clean response: remove ANSI codes, markdown blocks, and extract JSON
   - Handle timeouts (max 60s) and errors
@@ -336,7 +336,7 @@ Don't expect your app to be production ready. This workshop shows how vibe codin
    ```
 2. **Test goose manually**:
    ```bash
-   goose run -t "Return JSON: {\"test\": \"value\"}" --quiet --no-session --max-turns 1
+   mesmile run -t "Return JSON: {\"test\": \"value\"}" --quiet --no-session --max-turns 1
    ```
 3. **If manual test works**: Check your spawn() implementation
 4. **If manual test hangs**: Try a simpler prompt first

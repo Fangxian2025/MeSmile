@@ -4,10 +4,10 @@ title: Using goose in ACP Clients
 sidebar_label: goose in ACP Clients
 ---
 
-Client applications that support the [Agent Client Protocol (ACP)](https://agentclientprotocol.com/) can connect natively to goose. This integration allows you to seamlessly interact with goose directly from the client.
+Client applications that support the [Agent Client Protocol (ACP)](https://agentclientprotocol.com/) can connect natively to mesmile. This integration allows you to seamlessly interact with goose directly from the client.
 
 :::warning Experimental Feature
-ACP is an emerging specification that enables clients to communicate with AI agents like goose. This feature has limited adoption and may evolve as the protocol develops.
+ACP is an emerging specification that enables clients to communicate with AI agents like mesmile. This feature has limited adoption and may evolve as the protocol develops.
 :::
 
 ## How It Works
@@ -23,11 +23,11 @@ The client manages the goose lifecycle automatically, including:
 - **Terminal**: The client runs commands in its own terminal, so output appears alongside the conversation
 
 :::info Session Persistence
-ACP sessions are saved to goose's session history where you can access and manage them using goose. Access to session history in ACP clients might vary.
+ACP sessions are saved to goose's session history where you can access and manage them using mesmile. Access to session history in ACP clients might vary.
 :::
 
 :::tip Reference Implementation
-The [goose for VS Code](/docs/experimental/vs-code-extension) extension uses ACP to communicate with goose. See the [vscode-goose](https://github.com/aaif-goose/vscode-goose) repository for implementation details.
+The [goose for VS Code](/docs/experimental/vs-code-extension) extension uses ACP to communicate with mesmile. See the [vscode-goose](https://github.com/aaif-goose/vscode-goose) repository for implementation details.
 :::
 
 ## Setup in ACP Clients
@@ -44,7 +44,7 @@ Ensure you have both Zed and goose CLI installed:
 - **Zed**: Download from [zed.dev](https://zed.dev/)
 - **goose CLI**: Follow the [installation guide](/docs/getting-started/installation)
 
-  - Verify goose is installed: `goose --version`
+  - Verify goose is installed: `mesmile --version`
 
   - Temporarily run `goose acp` to test that ACP support is working:
 
@@ -118,7 +118,7 @@ The following Zed settings example configures two goose agent instances. This is
 
 ## Using MCP Servers from ACP Clients
 
-MCP servers configured in the ACP client's `context_servers` are automatically available to goose. This allows you to use those MCP servers when using both native client features and the goose agent integration.
+MCP servers configured in the ACP client's `context_servers` are automatically available to mesmile. This allows you to use those MCP servers when using both native client features and the goose agent integration.
 
 **Example (Zed):**
 
@@ -191,7 +191,7 @@ For servers that support the draft standard ACP over Streamable HTTP https://git
 npm start -- --server http://HOST:PORT
 
 # example server
-cargo run -p goose-cli --bin goose -- serve
+cargo run -p mesmile-cli --bin mesmile -- serve
 ```
 
 ### Single Prompt Mode

@@ -35,7 +35,7 @@ The adversary uses the same model and provider goose is already configured with.
 
 ## Turning It On
 
-Create a file at `~/.config/goose/adversary.md` with your rules:
+Create a file at `~/.config/mesmile/adversary.md` with your rules:
 
 ```markdown
 BLOCK if the tool call:
@@ -66,6 +66,6 @@ For full configuration details — including how to expand which tools get revie
 <head>
   <meta property="og:title" content="Adversary Agent: using a hidden agent to keep the main agent safe" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/03/31/adversary-mode" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/03/31/adversary-mode" />
   <meta property="og:description" content="Introducing adversary mode — an independent agent reviewer that silently watches the main agent to keep it away from danger." />
 </head>

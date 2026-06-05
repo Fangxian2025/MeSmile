@@ -4,7 +4,7 @@ Automated pipeline for detecting and documenting Recipe schema and validation ru
 
 ## Overview
 
-This automation keeps the [Recipe Reference Guide](https://goose-docs.ai/docs/guides/recipes/recipe-reference) synchronized with code changes by:
+This automation keeps the [Recipe Reference Guide](https://mesmile-docs.ai/docs/guides/recipes/recipe-reference) synchronized with code changes by:
 
 1. **Extracting** schema and validation rules from source code (deterministic)
 2. **Detecting** changes between versions (deterministic diff)
@@ -39,11 +39,11 @@ The automation runs automatically when a new release is published. See [TESTING.
                                         > output/validation-changes.json
 
 # 4. Generate human-readable change documentation
-cd output && goose run --recipe ../recipes/synthesize-validation-changes.yaml
+cd output && mesmile run --recipe ../recipes/synthesize-validation-changes.yaml
 
 # 5. Update recipe-reference.md
 export RECIPE_REF_PATH=/path/to/recipe-reference.md
-goose run --recipe ../recipes/update-recipe-reference.yaml
+mesmile run --recipe ../recipes/update-recipe-reference.yaml
 ```
 
 ## Architecture
@@ -283,7 +283,7 @@ Analyzes detected changes and generates human-readable documentation.
 **Usage:**
 ```bash
 cd output
-goose run --recipe ../recipes/synthesize-validation-changes.yaml
+mesmile run --recipe ../recipes/synthesize-validation-changes.yaml
 ```
 
 **What it does:**
@@ -308,7 +308,7 @@ Updates the Recipe Reference Guide based on synthesized changes.
 **Usage:**
 ```bash
 export RECIPE_REF_PATH=/path/to/recipe-reference.md
-goose run --recipe recipes/update-recipe-reference.yaml
+mesmile run --recipe recipes/update-recipe-reference.yaml
 ```
 
 **What it does:**

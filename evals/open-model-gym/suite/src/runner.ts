@@ -13,7 +13,7 @@ import { validateAll } from "./validator.js";
 // Types
 // =============================================================================
 
-type RunnerType = "goose" | "opencode" | "pi";
+type RunnerType = "mesmile" | "opencode" | "pi";
 
 interface ModelConfig {
   name: string;
@@ -25,7 +25,7 @@ interface RunnerConfig {
   name: string;
   type: RunnerType;
   bin: string;
-  extensions?: string[];  // goose-specific
+  extensions?: string[];  // mesmile-specific
   stdio?: string[];       // MCP servers
 }
 
@@ -295,8 +295,8 @@ const PLATFORM_EXTENSIONS = new Set([
   "chatrecall", "apps", "imagegenerator"
 ]);
 
-// Isolated goose config directory
-const GOOSE_ROOT = join(import.meta.dirname, "../.goose-root");
+// Isolated mesmile config directory
+const GOOSE_ROOT = join(import.meta.dirname, "../.mesmile-root");
 const GOOSE_CONFIG_DIR = join(GOOSE_ROOT, "config");
 
 function generateGooseConfig(model: ModelConfig, runner: RunnerConfig): object {
@@ -355,13 +355,13 @@ async function runGooseAgent(
   sessionName?: string,  // If provided, use/continue this session
   resume: boolean = false  // If true, resume existing session (for turn 2+)
 ): Promise<string> {
-  const promptFile = join(workdir, ".goose-prompt.txt");
+  const promptFile = join(workdir, ".mesmile-prompt.txt");
   writeFileSync(promptFile, prompt);
 
   // Write goose config
   mkdirSync(GOOSE_CONFIG_DIR, { recursive: true });
-  const gooseConfig = generateGooseConfig(model, runner);
-  writeFileSync(join(GOOSE_CONFIG_DIR, "config.yaml"), stringify(gooseConfig));
+  const mesmileConfig = generateGooseConfig(model, runner);
+  writeFileSync(join(GOOSE_CONFIG_DIR, "config.yaml"), stringify(mesmileConfig));
 
   let cmd: string;
   if (sessionName) {
@@ -658,7 +658,7 @@ async function runPiAgent(
 
 interface AgentResult {
   output: string;
-  sessionId?: string;  // For multi-turn (goose, pi)
+  sessionId?: string;  // For multi-turn (mesmile, pi)
 }
 
 async function runAgent(
@@ -666,7 +666,7 @@ async function runAgent(
   runner: RunnerConfig,
   prompt: string,
   workdir: string,
-  sessionId?: string,  // For multi-turn (goose, pi)
+  sessionId?: string,  // For multi-turn (mesmile, pi)
   resume: boolean = false  // For multi-turn: true on turn 2+
 ): Promise<AgentResult> {
   if (runner.type === "opencode") {
@@ -751,13 +751,13 @@ function parseLogMetrics(logContent: string, workdir?: string): { toolCalls: num
   }
 
   // Goose format: ─── tool_name | extension ───
-  const gooseToolCalls = (logContent.match(/─── .+ \| .+ ───/g) || []).length;
+  const mesmileToolCalls = (logContent.match(/─── .+ \| .+ ───/g) || []).length;
   
   // OpenCode format: TURN N
   const opencodeTurns = (logContent.match(/^TURN \d+$/gm) || []).length;
   
   // Total tool calls = MCP harness calls + Goose built-in tool calls
-  const toolCalls = mcpToolCalls + gooseToolCalls;
+  const toolCalls = mcpToolCalls + mesmileToolCalls;
 
   // For OpenCode, use explicit TURN markers
   const turns = opencodeTurns > 0 ? opencodeTurns : Math.ceil(toolCalls / 3); // Estimate ~3 tool calls per turn
@@ -877,9 +877,9 @@ async function runScenario(
   ];
   const isMultiTurn = turns.length > 1;
 
-  // For goose/pi: generate session ID upfront
+  // For mesmile/pi: generate session ID upfront
   // For opencode: capture session ID from first turn's output
-  let sessionId: string | undefined = isMultiTurn && (runner.type === "goose" || runner.type === "pi")
+  let sessionId: string | undefined = isMultiTurn && (runner.type === "mesmile" || runner.type === "pi")
     ? `test_${testId}_${Date.now()}`
     : undefined;
 

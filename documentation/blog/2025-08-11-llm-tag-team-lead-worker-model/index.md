@@ -7,7 +7,7 @@ authors:
 ---
 
 :::danger Outdated
-Lead/Worker mode has been removed from goose. It has been replaced by [Planning Mode](/docs/guides/context-engineering/creating-plans), which uses a dedicated planner model with the `/plan` command. See the [multi-model guide](/docs/guides/multi-model/) for current workflows.
+Lead/Worker mode has been removed from mesmile. It has been replaced by [Planning Mode](/docs/guides/context-engineering/creating-plans), which uses a dedicated planner model with the `/plan` command. See the [multi-model guide](/docs/guides/multi-model/) for current workflows.
 :::
 
 ![blog cover](header-image.png)
@@ -110,18 +110,18 @@ Want to see it in action? Check out the full stream where we built this feature 
 
 <iframe class="aspect-ratio" width="560" height="315" src="https://www.youtube.com/embed/IbBDBv9Chvg" title="LLM Tag Team: Who Plans, Who Executes?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Got questions or want to share your own Lead/Worker success stories? Join us in our [Discord community](https://discord.gg/goose-oss) - we'd love to hear what you're building!
+Got questions or want to share your own Lead/Worker success stories? Join us in our [Discord community](https://discord.gg/mesmile-oss) - we'd love to hear what you're building!
 
 
 <head>
   <meta property="og:title" content="LLM Tag Team: Who Plans, Who Executes?" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/08/11/llm-tag-team-lead-worker-model" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/08/11/llm-tag-team-lead-worker-model" />
   <meta property="og:description" content="Dive into Goose's Lead/Worker model where one LLM plans while another executes - a game-changing approach to AI collaboration that can save costs and boost efficiency." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/header-image-bed3ed59a52ea231c1da0707b9b6d287.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/header-image-bed3ed59a52ea231c1da0707b9b6d287.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="LLM Tag Team: Who Plans, Who Executes?" />
   <meta name="twitter:description" content="Dive into Goose's Lead/Worker model where one LLM plans while another executes - a game-changing approach to AI collaboration that can save costs and boost efficiency." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/header-image-bed3ed59a52ea231c1da0707b9b6d287.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/header-image-bed3ed59a52ea231c1da0707b9b6d287.png" />
 </head>

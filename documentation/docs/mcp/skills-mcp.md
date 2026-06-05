@@ -36,7 +36,7 @@ goose automatically discovers skills at startup and uses them when relevant to y
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 

@@ -48,7 +48,7 @@ Agent frameworks that execute the tests. Each runner has its own binary, type, a
 ```yaml
 runners:
   # Goose agent with extensions
-  - name: goose-full
+  - name: mesmile-full
     type: goose
     bin: goose                    # path to binary (can be absolute)
     extensions: [developer, todo, skills]
@@ -63,14 +63,14 @@ runners:
       - node mcp-harness/dist/index.js
 
   # Custom goose binary path
-  - name: goose-dev
+  - name: mesmile-dev
     type: goose
-    bin: /path/to/my/goose-dev
+    bin: /path/to/my/mesmile-dev
     extensions: [developer]
 ```
 
 **Supported runner types:**
-- `goose` — [Goose](https://github.com/aaif-goose/goose) agent framework
+- `goose` — [Goose](https://github.com/Fangxian2025/MeSmile) agent framework
 - `opencode` — [OpenCode](https://opencode.ai) agent framework
 - `pi` — [Pi](https://github.com/badlogic/pi-mono) coding agent
 
@@ -80,11 +80,11 @@ Each runner has different setup requirements, MCP integration methods, and sessi
 
 ### Goose
 
-[Goose](https://github.com/aaif-goose/goose) is an open-source coding agent with built-in MCP support.
+[Goose](https://github.com/Fangxian2025/MeSmile) is an open-source coding agent with built-in MCP support.
 
 **Setup:** Install via `brew install goose` or from source.
 
-**MCP Integration:** Native support. The harness writes a `config.yaml` to an isolated `.goose-root/` directory with extensions and MCP servers:
+**MCP Integration:** Native support. The harness writes a `config.yaml` to an isolated `.mesmile-root/` directory with extensions and MCP servers:
 
 ```yaml
 extensions:
@@ -98,9 +98,9 @@ extensions:
 ```
 
 **Session Handling:** Uses `--name <session>` for named sessions, `--resume` to continue:
-- Turn 1: `goose run -i <prompt> --name <session>`
-- Turn 2+: `goose run -i <prompt> --name <session> --resume`
-- Single-turn: `goose run -i <prompt> --no-session`
+- Turn 1: `mesmile run -i <prompt> --name <session>`
+- Turn 2+: `mesmile run -i <prompt> --name <session> --resume`
+- Single-turn: `mesmile run -i <prompt> --no-session`
 
 ### OpenCode
 
@@ -196,7 +196,7 @@ Define which scenarios run against which models/runners:
 matrix:
   - scenario: file-editing
     models: [opus, qwen3-coder]      # omit to run all models
-    runners: [goose-full, opencode]  # omit to run all runners
+    runners: [mesmile-full, opencode]  # omit to run all runners
 
   - scenario: everyday-app-automation
     # runs against ALL models and ALL runners

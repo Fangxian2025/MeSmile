@@ -70,7 +70,7 @@ In goose, enable the [Summon extension](/docs/mcp/summon-mcp) to load Agent Skil
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 
@@ -91,7 +91,7 @@ In goose, enable the [Summon extension](/docs/mcp/summon-mcp) to load Agent Skil
 Give goose a single prompt that describes what you want to test:
 
 ```
-Using the Playwright CLI skill, open goose-docs.ai, click on the Docs menu, click on Context Engineering, 
+Using the Playwright CLI skill, open mesmile-docs.ai, click on the Docs menu, click on Context Engineering, 
 then click on Using Skills and generate a test with video and traces
 ```
 
@@ -111,7 +111,7 @@ await page.getByRole('link', { name: 'Docs' }).click();
 
 ### What goose does
 
-1. Opens the browser: `playwright-cli open goose-docs.ai`
+1. Opens the browser: `playwright-cli open mesmile-docs.ai`
 2. Starts recording: `playwright-cli video-start` and `playwright-cli tracing-start`
 3. Takes snapshots to find elements: `playwright-cli snapshot`
 4. Performs clicks: `playwright-cli click <ref>`
@@ -134,7 +134,7 @@ The generated test might look like:
 import { test, expect } from '@playwright/test';
 
 test('navigate to Using Skills guide via docs menu', async ({ page }) => {
-  await page.goto('https://goose-docs.ai');
+  await page.goto('https://mesmile-docs.ai');
   await expect(page).toHaveTitle(/goose/);
   
   // Click on Docs in the navigation
@@ -183,7 +183,7 @@ The trace viewer shows:
 
 ## Visual Dashboard for Multiple Sessions
 
-When you have goose running several browser tasks at once, it can be hard to keep track of what's happening. The visual dashboard gives you a bird's eye view of all your active browser sessions, letting you watch progress in real time or jump in and take control when needed.
+When you have mesmile running several browser tasks at once, it can be hard to keep track of what's happening. The visual dashboard gives you a bird's eye view of all your active browser sessions, letting you watch progress in real time or jump in and take control when needed.
 
 ```
 Show playwright dashboard
@@ -220,7 +220,7 @@ What else can you do with the Playwright skill?
 
 ## Conclusion
 
-Getting started with the Playwright CLI agent skill is easy and opens up powerful browser automation capabilities directly from natural language prompts. Whether you're generating tests, debugging with videos and traces, or automating complex interactions, the Playwright CLI agent skill provides a token-efficient way to leverage Playwright's full power with goose.
+Getting started with the Playwright CLI agent skill is easy and opens up powerful browser automation capabilities directly from natural language prompts. Whether you're generating tests, debugging with videos and traces, or automating complex interactions, the Playwright CLI agent skill provides a token-efficient way to leverage Playwright's full power with mesmile.
 
 ## Resources
 

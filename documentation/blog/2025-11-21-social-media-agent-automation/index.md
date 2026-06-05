@@ -154,7 +154,7 @@ Here's where Sprout kind of did me dirty though. Their API doesn't let you creat
 
 ## Testing It Out
 
-Once both MCP servers were built, I plugged them into goose. For local servers, you just:
+Once both MCP servers were built, I plugged them into mesmile. For local servers, you just:
 
 1. Go to Extensions in goose
 2. Add the server with `node` command and path to your server
@@ -183,7 +183,7 @@ Sometimes the right move is to reduce instead of add, and this new version ended
 To fully automate this workflow, you must schedule your recipe. 
 In goose Desktop, open the `recipe` section, click the `calendar icon` , and choose when it should run (I set mine to 10 AM daily).
 
-You can read more in the [Shareable Recipes Guide](https://goose-docs.ai/docs/guides/recipes/session-recipes#schedule-recipe).
+You can read more in the [Shareable Recipes Guide](https://mesmile-docs.ai/docs/guides/recipes/session-recipes#schedule-recipe).
 :::
 
 <details>
@@ -220,7 +220,7 @@ instructions: |
   - Use that item for posting
   
   **IF NO new content exists:**
-  - Load the file /Users/ebonyl/.config/goose/evergreen.json
+  - Load the file /Users/ebonyl/.config/mesmile/evergreen.json
   - Parse the JSON array
   - Randomly select ONE item from the array
   - Use that item for posting
@@ -355,7 +355,7 @@ instructions: |
   
   **IF the item was NEW content (not evergreen):**
   - Call contentfetcher__markContentSeen with { id, type }
-  - This updates ~/.config/goose/content-fetcher-mcp/last_seen.json
+  - This updates ~/.config/mesmile/content-fetcher-mcp/last_seen.json
   
   **IF the item was EVERGREEN:**
   - DO NOT mark as seen (so it can be reused in the future)
@@ -459,12 +459,12 @@ Got questions or ideas? Come chat with us on [Discord](https://discord.gg/block-
 <head>
   <meta property="og:title" content="Building a Social Media Agent" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/11/21/building-social-media-agent" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/11/21/building-social-media-agent" />
   <meta property="og:description" content="I built a fully automated social media agent using MCP servers to fetch content and post through Sprout Social." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/header-image-7f5ab50f65332fb53302ca30a3f86e46.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/header-image-7f5ab50f65332fb53302ca30a3f86e46.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Building a Social Media Agent" />
   <meta name="twitter:description" content="I built a fully automated social media agent using MCP servers to fetch content and post through Sprout Social." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/header-image-7f5ab50f65332fb53302ca30a3f86e46.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/header-image-7f5ab50f65332fb53302ca30a3f86e46.png" />
 </head>

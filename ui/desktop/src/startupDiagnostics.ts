@@ -11,7 +11,7 @@ export interface StartupTraceEvent {
 export interface StartupDiagnostics {
   attemptId: string;
   startedAt: string;
-  goosedPath: string | null;
+  mesmiledPath: string | null;
   workingDir: string;
   baseUrl: string | null;
   pid: number | null;
@@ -45,7 +45,7 @@ const cleanupStartupDiagnostics = (diagnosticsDir: string) => {
     .readdirSync(diagnosticsDir, { withFileTypes: true })
     .filter(
       (entry) =>
-        entry.isFile() && entry.name.startsWith('goosed-startup-') && entry.name.endsWith('.json')
+        entry.isFile() && entry.name.startsWith('mesmiled-startup-') && entry.name.endsWith('.json')
     )
     .map((entry) => {
       const filePath = path.join(diagnosticsDir, entry.name);
@@ -72,14 +72,14 @@ export const createStartupDiagnostics = (
   fs.mkdirSync(diagnosticsDir, { recursive: true });
   cleanupStartupDiagnostics(diagnosticsDir);
   const startedAt = new Date();
-  const attemptId = `goosed-startup-${startedAt.toISOString().replace(/:/g, '-')}-${process.pid}.json`;
+  const attemptId = `mesmiled-startup-${startedAt.toISOString().replace(/:/g, '-')}-${process.pid}.json`;
   const diagnosticsPath = path.join(diagnosticsDir, attemptId);
   const monotonicStart = Date.now();
 
   const diagnostics: StartupDiagnostics = {
     attemptId,
     startedAt: startedAt.toISOString(),
-    goosedPath: null,
+    mesmiledPath: null,
     workingDir,
     baseUrl: null,
     pid: null,

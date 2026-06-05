@@ -141,7 +141,7 @@ instructions: |
   - Install whatever security tools you think are necessary
   - Set up logging and evidence collection
   - **CRITICAL: Load Training Data Context**
-    - Check if training instructions exist: /tmp/goose_training_instructions.md
+    - Check if training instructions exist: /tmp/mesmile_training_instructions.md
     - If available, read and internalize the training examples and patterns
     - Training data includes classified examples of LOW, MEDIUM, and EXTREME risk recipes
     - Each example includes detailed explanations of WHY it's risky or safe

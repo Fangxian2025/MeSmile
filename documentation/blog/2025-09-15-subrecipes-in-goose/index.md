@@ -5,11 +5,11 @@ authors:
     - ian
 ---
 
-![goose Subrecipes](goose-subrecipes.png)
+![goose Subrecipes](mesmile-subrecipes.png)
 
 Remember when you first learned to cook? You probably started with simple recipes like scrambled eggs or toast. But eventually you wanted to make something more complex, like a full dinner with multiple dishes. That's how subrecipes work in goose: each recipe can run stand-alone for a dedicated task, and a main recipe can orchestrate how they run.
 
-Let's explore [goose subrecipes](/docs/tutorials/subrecipes-in-parallel) together! You're about to learn know how to orchestrate multiple AI models, coordinate tasks, and build workflows that will turn you into a "head chef" user with goose.
+Let's explore [goose subrecipes](/docs/tutorials/subrecipes-in-parallel) together! You're about to learn know how to orchestrate multiple AI models, coordinate tasks, and build workflows that will turn you into a "head chef" user with mesmile.
 
 <!--truncate-->
 
@@ -119,8 +119,8 @@ title: "Project Image Creator"
 description: "Generate project logos and images"
 
 settings:
-  goose_provider: "databricks"
-  goose_model: "goose-claude-4-sonnet"
+  mesmile_provider: "databricks"
+  mesmile_model: "mesmile-claude-4-sonnet"
   temperature: 0.1
 
 instructions: |
@@ -202,8 +202,8 @@ If you did want more creativity, you could use an image generation MCP server an
 
 ```yaml
 settings:
-  goose_provider: "openai"
-  goose_model: "gpt-4o"
+  mesmile_provider: "openai"
+  mesmile_model: "gpt-4o"
   temperature: 0.8
 ```
 
@@ -217,8 +217,8 @@ title: "Code Generator"
 description: "Write initial project codebase"
 
 settings:
-  goose_provider: "anthropic"
-  goose_model: "claude-sonnet-4"
+  mesmile_provider: "anthropic"
+  mesmile_model: "claude-sonnet-4"
   temperature: 0.1
 
 instructions: |
@@ -272,8 +272,8 @@ title: "README Generator"
 description: "Generate comprehensive project documentation"
 
 settings:
-  goose_provider: "google"
-  goose_model: "gemini-2.5-flash"
+  mesmile_provider: "google"
+  mesmile_model: "gemini-2.5-flash"
   temperature: 0.5
 
 instructions: |
@@ -327,9 +327,9 @@ This is crucial. Each subrecipe should work perfectly on its own. Test them indi
 
 ```bash
 # Test each subrecipe individually first
-goose run --recipe 1-readme.yaml --params project_name="test" language="python" description="test project"
-goose run --recipe 2-image.yaml --params project_name="test" description="test project"  
-goose run --recipe 3-code.yaml --params project_name="test" language="python" description="test project"
+mesmile run --recipe 1-readme.yaml --params project_name="test" language="python" description="test project"
+mesmile run --recipe 2-image.yaml --params project_name="test" description="test project"  
+mesmile run --recipe 3-code.yaml --params project_name="test" language="python" description="test project"
 ```
 
 ### 2. Use recipe_dir for Relative Paths
@@ -379,23 +379,23 @@ Ready to start building your own subrecipe workflows? The kitchen is open, and a
 
 ## Share Your Recipes with Us!
 
-Do you have a recipe you'd like to share with the community? We'd love to feature them in our [Recipe Cookbook](https://goose-docs.ai/recipes/)! 
+Do you have a recipe you'd like to share with the community? We'd love to feature them in our [Recipe Cookbook](https://mesmile-docs.ai/recipes/)! 
 **How to contribute:**
-1. [Fork the goose repository](https://github.com/aaif-goose/goose/fork)
-2. Add your recipe YAML file to the [`documentation/src/pages/recipes/data/recipes/`](https://github.com/aaif-goose/goose/tree/main/documentation/src/pages/recipes/data/recipes) directory
-3. Create a pull request following our [Recipe Contribution Guide](https://github.com/aaif-goose/goose/blob/main/CONTRIBUTING_RECIPES.md)
-Browse [existing recipes](https://github.com/aaif-goose/goose/tree/main/documentation/src/pages/recipes/data/recipes) for inspiration and formatting examples.
+1. [Fork the goose repository](https://github.com/Fangxian2025/MeSmile/fork)
+2. Add your recipe YAML file to the [`documentation/src/pages/recipes/data/recipes/`](https://github.com/Fangxian2025/MeSmile/tree/main/documentation/src/pages/recipes/data/recipes) directory
+3. Create a pull request following our [Recipe Contribution Guide](https://github.com/Fangxian2025/MeSmile/blob/main/CONTRIBUTING_RECIPES.md)
+Browse [existing recipes](https://github.com/Fangxian2025/MeSmile/tree/main/documentation/src/pages/recipes/data/recipes) for inspiration and formatting examples.
 
 
 <head>
   <meta property="og:title" content="Automate Your Complex Workflows with Subrecipes in goose" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025-09-15-subrecipes-in-goose" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025-09-15-subrecipes-in-goose" />
   <meta property="og:description" content="Did you know you can call recipes from within other recipes? Learn how to orchestrate multiple AI tasks using goose subrecipes." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/goose-subrecipes-8a009154ceca95aeb34bf22fcc45dcca.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/mesmile-subrecipes-8a009154ceca95aeb34bf22fcc45dcca.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Automate Your Complex Workflows with Subrecipes in goose" />
   <meta name="twitter:description" content="Did you know you can call recipes from within other recipes? Learn how to orchestrate multiple AI tasks using goose subrecipes." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/goose-subrecipes-8a009154ceca95aeb34bf22fcc45dcca.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/mesmile-subrecipes-8a009154ceca95aeb34bf22fcc45dcca.png" />
 </head>

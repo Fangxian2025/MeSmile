@@ -9,16 +9,16 @@ description: Best practices for working with goose
 goose is an AI agent, which means you can prompt goose to perform tasks for you like opening applications, running shell commands, automating workflows, writing code, browsing the web, and more.
 
 ### Prompt goose using natural language
-You don't need fancy language or special syntax to prompt goose. Talk with goose like you would talk to a friend. You can even use slang or say please and thank you; goose will understand.
+You don't need fancy language or special syntax to prompt mesmile. Talk with goose like you would talk to a friend. You can even use slang or say please and thank you; goose will understand.
 
 ### Extend goose's capabilities to any application
 goose's capabilities are extensible. As an [MCP](https://modelcontextprotocol.io/) client, goose can connect to your apps and services through [extensions](/extensions), allowing it to work across your entire workflow.
 
 ### Choose how much control goose has
-You can customize how much [supervision](/docs/guides/managing-tools/goose-permissions) goose needs. Choose between full autonomy, requiring approval before actions, or simply chatting without any actions.
+You can customize how much [supervision](/docs/guides/managing-tools/mesmile-permissions) goose needs. Choose between full autonomy, requiring approval before actions, or simply chatting without any actions.
 
 ### Choose the right LLM
-Your experience with goose is shaped by your [choice of LLM](/blog/2025/03/31/goose-benchmark), as it handles all the planning while goose manages the execution. When choosing an LLM, consider its tool support, specific capabilities, and associated costs.
+Your experience with goose is shaped by your [choice of LLM](/blog/2025/03/31/mesmile-benchmark), as it handles all the planning while goose manages the execution. When choosing an LLM, consider its tool support, specific capabilities, and associated costs.
 
 ### Keep sessions short
 LLMs have context windows, which are limits on how much conversation history they can retain. Once exceeded, they may forget earlier parts of the conversation. Monitor your token usage and [start new sessions](/docs/guides/sessions/session-management) as needed.

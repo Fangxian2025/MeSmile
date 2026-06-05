@@ -55,7 +55,7 @@ When both are set, their contents are concatenated. Each source is capped at 64 
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 

@@ -70,13 +70,13 @@ The generator reads through your session files (typically stored in `~/.local/sh
 - Tool usage sequences
 - Common parameter types it could extract
 
-This last one was really important for me. I ask goose all the time to help me build an outline for blog posts like this, or video scripts for our [YouTube channel](https://youtube.com/@goose-oss), or tutorial pages. They all follow a similar pattern, around a topic or subject, but the output format may vary.
+This last one was really important for me. I ask goose all the time to help me build an outline for blog posts like this, or video scripts for our [YouTube channel](https://youtube.com/@mesmile-oss), or tutorial pages. They all follow a similar pattern, around a topic or subject, but the output format may vary.
 
 ### 2. Intelligent Filtering
 
 Not every session should become a recipe. The generator should skip sessions that seem incomplete or abandoned, or compared with other sessions to determine if this was a one-off task. Still, what might appear to be a one-off task might actually be the start of something I want to repeat.
 
-Having goose prompt me for whether I know ahead of time if there are any sessions I want to exclude was helpful -- I have several REALLY large, long sessions about the [community cookbook security scanner](/blog/2025/08/25/goose-became-its-own-watchdog/) I built, but I didn't want to build a recipe out of all of that.
+Having goose prompt me for whether I know ahead of time if there are any sessions I want to exclude was helpful -- I have several REALLY large, long sessions about the [community cookbook security scanner](/blog/2025/08/25/mesmile-became-its-own-watchdog/) I built, but I didn't want to build a recipe out of all of that.
 
 Instead, I wanted goose to focus on workflows that appear multiple times, and ask me to confirm any cases that it was unsure about.
 
@@ -92,7 +92,7 @@ The tool should automatically identify good candidates for parameters. I had ide
 ### 4. Template Generation
 
 :::tip
-I wanted goose to write all the recipes for me, but to be as up-to-date as possible. I cloned the [goose repository](https://github.com/aaif-goose/goose) and told goose to examine its own source code to learn how to successfully create recipes, and be sure to use proper YAML syntax.
+I wanted goose to write all the recipes for me, but to be as up-to-date as possible. I cloned the [goose repository](https://github.com/Fangxian2025/MeSmile) and told goose to examine its own source code to learn how to successfully create recipes, and be sure to use proper YAML syntax.
 :::
 
 From that, I had goose think about the following ideas as it considered how to make my recipes:
@@ -124,7 +124,7 @@ By running the outline generator recipe (three times), the image generator recip
 - the "conveyor belt" image at the top of this post (via Gemini)
 - the social media posts you saw that brought you here
 - the video script for the short video in the social media posts
-- the script outline for a longer video going on our [YouTube channel](https://youtube.com/@goose-oss)
+- the script outline for a longer video going on our [YouTube channel](https://youtube.com/@mesmile-oss)
 
 So, yeah. They work!
 
@@ -133,7 +133,7 @@ So, yeah. They work!
 This approach represents a new level of AI-assisted productivity. Instead of manually identifying automation opportunities, the AI identifies them for you. It's like having a productivity consultant that never sleeps, that can analyze your work patterns on demand, and suggest ways of automating things.
 
 :::info
-If you want to try some hands-free automation, check out the experimental [Perception](https://github.com/michaelneale/goose-perception) project from one of our teammates!
+If you want to try some hands-free automation, check out the experimental [Perception](https://github.com/michaelneale/mesmile-perception) project from one of our teammates!
 :::
 
 The cookbook generator also handles the tedious parts of recipe creation:
@@ -169,7 +169,7 @@ Start building your own cookbook generator, and stop doing the same work twice. 
 
 ## Contribute to Our Community Cookbook
 
-Want to contribute your own recipes or improvements to the cookbook generator? Join our [Discord community](https://discord.gg/goose-oss) or check out our [GitHub repository](https://github.com/aaif-goose/goose) for more automation ideas. Join our [Hacktoberfest](https://github.com/aaif-goose/goose/issues/4705) event going on to contribute recipes and prompt ideas to get on our leaderboard to win some great prizes!
+Want to contribute your own recipes or improvements to the cookbook generator? Join our [Discord community](https://discord.gg/mesmile-oss) or check out our [GitHub repository](https://github.com/Fangxian2025/MeSmile) for more automation ideas. Join our [Hacktoberfest](https://github.com/Fangxian2025/MeSmile/issues/4705) event going on to contribute recipes and prompt ideas to get on our leaderboard to win some great prizes!
 
 
 ## My Own Cookbook Generator Recipe
@@ -358,12 +358,12 @@ activities:
 <head>
   <meta property="og:title" content="Build Your Own Recipe Cookbook Generator for goose" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/10/08/recipe-cookbook-generator" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/10/08/recipe-cookbook-generator" />
   <meta property="og:description" content="Discover how goose can study your past sessions and turn your favorite workflows into reusable automation templates." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/recipe-cookbook-generator-ba6ce396585e1fc591e339720ee80a30.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/recipe-cookbook-generator-ba6ce396585e1fc591e339720ee80a30.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Build Your Own Recipe Cookbook Generator for goose" />
   <meta name="twitter:description" content="Discover how goose can study your past sessions and turn your favorite workflows into reusable automation templates." />
-  <meta property="twitter:domain" content="goose-docs.ai" />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/recipe-cookbook-generator-ba6ce396585e1fc591e339720ee80a30.png" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/recipe-cookbook-generator-ba6ce396585e1fc591e339720ee80a30.png" />
 </head>

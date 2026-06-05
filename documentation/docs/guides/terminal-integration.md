@@ -36,9 +36,9 @@ goose term init fish | source
 
 Add to `~/.config/nushell/config.nu`:
 ```nu
-let goose_term_init = ($nu.cache-dir | path join "goose-term-init.nu")
-^goose term init nu | save --force $goose_term_init
-source $goose_term_init
+let mesmile_term_init = ($nu.cache-dir | path join "mesmile-term-init.nu")
+^goose term init nu | save --force $mesmile_term_init
+source $mesmile_term_init
 ```
 
 </TabItem>
@@ -101,9 +101,9 @@ goose term init fish --name my-project | source
 <TabItem value="nu" label="Nushell">
 
 ```nu
-let goose_term_init = ($nu.cache-dir | path join "goose-term-init.nu")
-^goose term init nu --name my-project | save --force $goose_term_init
-source $goose_term_init
+let mesmile_term_init = ($nu.cache-dir | path join "mesmile-term-init.nu")
+^goose term init nu --name my-project | save --force $mesmile_term_init
+source $mesmile_term_init
 ```
 
 </TabItem>
@@ -151,9 +151,9 @@ eval "$(goose term init bash --default)"
 <TabItem value="nu" label="Nushell">
 
 ```nu
-let goose_term_init = ($nu.cache-dir | path join "goose-term-init.nu")
-^goose term init nu --default | save --force $goose_term_init
-source $goose_term_init
+let mesmile_term_init = ($nu.cache-dir | path join "mesmile-term-init.nu")
+^goose term init nu --default | save --force $mesmile_term_init
+source $mesmile_term_init
 ```
 
 </TabItem>
@@ -214,7 +214,7 @@ Your terminal prompt now shows the context usage and model name (shortened for r
 ```
 ## Shell Completion for goose Commands
 
-`@goose` provides context-aware assistance based on your command history. To enable tab completion of goose CLI commands (like `goose session`, `goose run`, etc.), see the [shell completion documentation](/docs/guides/goose-cli-commands#completion).
+`@goose` provides context-aware assistance based on your command history. To enable tab completion of goose CLI commands (like `goose session`, `mesmile run`, etc.), see the [shell completion documentation](/docs/guides/mesmile-cli-commands#completion).
 
 ## Troubleshooting
 
@@ -241,7 +241,7 @@ eval "$(goose term init zsh)"
 ```
 ```nu
 # Nushell
-let goose_term_init = ($nu.cache-dir | path join "goose-term-init.nu")
-^goose term init nu | save --force $goose_term_init
-source $goose_term_init
+let mesmile_term_init = ($nu.cache-dir | path join "mesmile-term-init.nu")
+^goose term init nu | save --force $mesmile_term_init
+source $mesmile_term_init
 ```

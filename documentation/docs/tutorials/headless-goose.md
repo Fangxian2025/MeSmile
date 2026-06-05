@@ -36,13 +36,13 @@ Perfect for headless servers, containerized environments, and cloud deployments 
 
 ```bash
 # Automated server maintenance
-goose run --with-builtin developer -t "Check system logs for errors in the last 24 hours, identify performance bottlenecks, and generate a maintenance report"
+mesmile run --with-builtin developer -t "Check system logs for errors in the last 24 hours, identify performance bottlenecks, and generate a maintenance report"
 
 # Container optimization
-goose run --no-session -t "Analyze the Dockerfile, optimize for smaller image size, and update the build process documentation"
+mesmile run --no-session -t "Analyze the Dockerfile, optimize for smaller image size, and update the build process documentation"
 
 # Cloud resource audit
-goose run -t "Review our AWS infrastructure configuration, identify cost optimization opportunities, and create a migration plan for underutilized resources"
+mesmile run -t "Review our AWS infrastructure configuration, identify cost optimization opportunities, and create a migration plan for underutilized resources"
 ```
 
 ### 2. CI/CD Pipeline Integration
@@ -53,14 +53,14 @@ Seamlessly integrate AI-powered analysis and fixes into your continuous integrat
 # In your .github/workflows/ci.yml
 - name: AI-Powered Code Review
   run: |
-    goose run --with-builtin developer \
+    mesmile run --with-builtin developer \
       -t "Analyze the code changes in this PR, check for security vulnerabilities, performance issues, and suggest improvements. Generate a detailed review report."
 
 # Test failure analysis
-goose run --debug -t "Examine the failing test suite, identify the root cause of failures, implement fixes, and ensure all tests pass"
+mesmile run --debug -t "Examine the failing test suite, identify the root cause of failures, implement fixes, and ensure all tests pass"
 
 # Automated documentation updates
-goose run -t "Review code changes and update the README.md and API documentation to reflect new features and modifications"
+mesmile run -t "Review code changes and update the README.md and API documentation to reflect new features and modifications"
 ```
 
 ### 3. Batch Processing and Bulk Operations
@@ -69,18 +69,18 @@ Handle large-scale operations across multiple files, repositories, or systems.
 
 ```bash
 # Bulk code modernization
-goose run --with-builtin developer \
+mesmile run --with-builtin developer \
   -t "Upgrade all Python files in the src/ directory from Python 3.8 to 3.11 syntax, update dependencies, and ensure compatibility"
 
 # Multi-repository maintenance
 for repo in repo1 repo2 repo3; do
   cd $repo
-  goose run --no-session -t "Update all dependencies to latest stable versions, run tests, and create a PR if changes are needed"
+  mesmile run --no-session -t "Update all dependencies to latest stable versions, run tests, and create a PR if changes are needed"
   cd ..
 done
 
 # Database migration automation
-goose run -t "Analyze the current database schema, generate migration scripts for the new requirements, and create rollback procedures"
+mesmile run -t "Analyze the current database schema, generate migration scripts for the new requirements, and create rollback procedures"
 ```
 
 ### 4. Scheduled Job Execution
@@ -89,10 +89,10 @@ Combine with cron jobs or task schedulers for regular automated maintenance.
 
 ```bash
 # Daily security scan (add to crontab)
-0 2 * * * /usr/local/bin/goose run --no-session -t "Run comprehensive security audit, check for vulnerabilities, and email report to security team"
+0 2 * * * /usr/local/bin/mesmile run --no-session -t "Run comprehensive security audit, check for vulnerabilities, and email report to security team"
 
 # Weekly dependency updates
-0 9 * * 1 /usr/local/bin/goose run -t "Check for outdated dependencies, create update PRs for non-breaking changes, and schedule review for major updates"
+0 9 * * 1 /usr/local/bin/mesmile run -t "Check for outdated dependencies, create update PRs for non-breaking changes, and schedule review for major updates"
 ```
 
 ## Best Practices for Headless Success
@@ -107,10 +107,10 @@ Your instructions are the blueprint for a successful tool. Your prompt idea need
 
 ```bash
 # Good: Specific and actionable
-goose run -t "Analyze the test failures in the latest CI run, identify the root cause, and create a fix with appropriate unit tests"
+mesmile run -t "Analyze the test failures in the latest CI run, identify the root cause, and create a fix with appropriate unit tests"
 
 # Better: Even more detailed
-goose run -t "Review the failed tests in tests/integration/, identify why the authentication middleware is failing, implement a fix that maintains backward compatibility, and add regression tests"
+mesmile run -t "Review the failed tests in tests/integration/, identify why the authentication middleware is failing, implement a fix that maintains backward compatibility, and add regression tests"
 ```
 
 ### 2. **Pre-Configure Your Environment**
@@ -131,7 +131,7 @@ Always check exit codes and handle failures gracefully in your automation script
 
 ```bash
 #!/bin/bash
-if ! goose run --no-session -t "Run security audit and fix critical issues"; then
+if ! mesmile run --no-session -t "Run security audit and fix critical issues"; then
     echo "goose automation failed - manual intervention required"
     exit 1
 fi
@@ -194,15 +194,15 @@ extensions:
 
 ```bash
 # Basic recipe execution
-goose run --recipe automation-recipe.yaml
+mesmile run --recipe automation-recipe.yaml
 
 # With custom parameters
-goose run --recipe automation-recipe.yaml \
+mesmile run --recipe automation-recipe.yaml \
   --params target_directory=./backend \
   --params output_format=json
 
 # Complex workflow with multiple recipes
-goose run --recipe main-workflow.yaml \
+mesmile run --recipe main-workflow.yaml \
   --sub-recipe security-audit.yaml \
   --sub-recipe performance-analysis.yaml \
   --params environment=production
@@ -222,10 +222,10 @@ While headless mode is incredibly powerful, it's important to understand its con
 
 ```bash
 # Problematic: Too vague
-goose run -t "Fix the issues"
+mesmile run -t "Fix the issues"
 
 # Better: Specific and actionable
-goose run -t "Fix the TypeScript compilation errors in src/components/, ensure all imports are correct, and update any deprecated API calls to use the latest syntax"
+mesmile run -t "Fix the TypeScript compilation errors in src/components/, ensure all imports are correct, and update any deprecated API calls to use the latest syntax"
 ```
 
 ### 2. Recipe Prompt Requirements
@@ -272,10 +272,10 @@ export GOOSE_MAX_TURNS=100  # Prevent runaway execution
 
 ```bash
 #!/bin/bash
-if ! goose run --recipe complex-deployment.yaml; then
+if ! mesmile run --recipe complex-deployment.yaml; then
     # Fallback to simpler approach or alert human operators
     echo "Complex deployment failed, initiating rollback procedure"
-    goose run --recipe rollback.yaml
+    mesmile run --recipe rollback.yaml
 fi
 ```
 
@@ -323,4 +323,4 @@ Whether you're looking to streamline your CI/CD pipelines, automate server maint
 3. **Test in a safe environment** before deploying to production
 4. **Integrate with your existing workflows** and watch your productivity soar
 
-Connect with us on our [Discord community](https://discord.gg/goose-oss) to share your headless mode success stories, ask questions, and collaborate with other developers who want to push the boundaries of AI automation.
+Connect with us on our [Discord community](https://discord.gg/mesmile-oss) to share your headless mode success stories, ask questions, and collaborate with other developers who want to push the boundaries of AI automation.

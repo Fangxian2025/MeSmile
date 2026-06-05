@@ -22,7 +22,7 @@ import CLIExtensionInstructions from '@site/src/components/CLIExtensionInstructi
 </details>
 
 
-This tutorial will get you started with the [Square MCP server](https://developer.squareup.com/docs/mcp) to enable interactive and automated work for your Square seller account. The Square MCP server is an open source project that allows you to interact with the Square API using goose.
+This tutorial will get you started with the [Square MCP server](https://developer.squareup.com/docs/mcp) to enable interactive and automated work for your Square seller account. The Square MCP server is an open source project that allows you to interact with the Square API using mesmile.
 
 Square offers two versions of the MCP server:
 
@@ -78,7 +78,7 @@ Note that you'll need [Node.js](https://nodejs.org/) installed on your system to
   :::tip Quick Install
   <Tabs groupId="interface">
     <TabItem value="ui" label="goose Desktop" default>
-    [Launch the installer](goose://extension?cmd=npx&arg=square-mcp-server&arg=start&id=mcp_square_api&name=Square%20MCP%20Server&description=Square%20API%20MCP%20Server&env=ACCESS_TOKEN%3DYour%20Access%20Token&env=SANDBOX%3Dtrue)
+    [Launch the installer](mesmile://extension?cmd=npx&arg=square-mcp-server&arg=start&id=mcp_square_api&name=Square%20MCP%20Server&description=Square%20API%20MCP%20Server&env=ACCESS_TOKEN%3DYour%20Access%20Token&env=SANDBOX%3Dtrue)
 
     </TabItem>
     <TabItem value="cli" label="goose CLI">

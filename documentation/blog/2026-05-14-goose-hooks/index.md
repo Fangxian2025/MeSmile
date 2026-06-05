@@ -1,12 +1,12 @@
 ---
 title: "Hooks: run your own scripts on every goose event"
 description: "goose now supports lifecycle hooks via the Open Plugins spec. Wire shell scripts into PreToolUse, PostToolUse, UserPromptSubmit, SessionStart, and more."
-image: /img/blog/goose-hooks.jpg
+image: /img/blog/mesmile-hooks.jpg
 authors:
   - alexhancock
 ---
 
-![Hooks: run your own scripts on every goose event](/img/blog/goose-hooks.jpg)
+![Hooks: run your own scripts on every goose event](/img/blog/mesmile-hooks.jpg)
 
 goose now supports **lifecycle hooks**. Drop a plugin into a directory on disk and goose will run your shell scripts when things happen during a session: a tool is about to fire, a tool just finished, the user submitted a prompt, the session started, the session ended.
 
@@ -35,7 +35,7 @@ A minimal hook config looks like this:
 }
 ```
 
-When the event fires, goose runs the command, sets `PLUGIN_ROOT` in the environment, and pipes a JSON payload to the script on stdin:
+When the event fires, mesmile runs the command, sets `PLUGIN_ROOT` in the environment, and pipes a JSON payload to the script on stdin:
 
 ```json
 {
@@ -141,7 +141,7 @@ Hook `SessionEnd` and append a one-line summary to a markdown file:
 payload="$(cat)"
 session_id="$(printf '%s' "$payload" | jq -r .session_id)"
 date_str="$(date '+%Y-%m-%d %H:%M')"
-echo "- $date_str — session $session_id ended" >> ~/notes/goose-journal.md
+echo "- $date_str — session $session_id ended" >> ~/notes/mesmile-journal.md
 ```
 
 Capture `UserPromptSubmit` payloads too and you've got a log of every question you asked your agent today.

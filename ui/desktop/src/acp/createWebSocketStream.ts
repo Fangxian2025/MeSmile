@@ -1,4 +1,4 @@
-import type { Stream } from '@aaif/goose-sdk';
+import type { Stream } from '@aaif/mesmile-sdk';
 
 export function createWebSocketStream(wsUrl: string): Stream {
   const ws = new window.WebSocket(wsUrl);

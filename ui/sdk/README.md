@@ -1,4 +1,4 @@
-# @aaif/goose-sdk
+# @aaif/mesmile-sdk
 
 TypeScript client library for the Goose Agent Client Protocol (ACP).
 
@@ -9,7 +9,7 @@ This package provides:
 ## Installation
 
 ```bash
-npm install @aaif/goose-sdk
+npm install @aaif/mesmile-sdk
 ```
 
 The native `goose` binaries are distributed as optional dependencies
@@ -52,7 +52,7 @@ npm run build
 npm link
 
 # In ui/text (or another project)
-npm link @aaif/goose-sdk
+npm link @aaif/mesmile-sdk
 ```
 
 ### Schema Generation
@@ -74,17 +74,17 @@ npm run build:schema
 ## Native Binary Packages
 
 Platform-specific npm packages for the `goose` binary are located in
-`ui/goose-binary/`:
+`ui/mesmile-binary/`:
 
 | Package | Platform |
 |---------|----------|
-| `@aaif/goose-binary-darwin-arm64` | macOS Apple Silicon |
-| `@aaif/goose-binary-darwin-x64` | macOS Intel |
-| `@aaif/goose-binary-linux-arm64` | Linux ARM64 |
-| `@aaif/goose-binary-linux-x64` | Linux x64 |
-| `@aaif/goose-binary-win32-x64` | Windows x64 |
+| `@aaif/mesmile-binary-darwin-arm64` | macOS Apple Silicon |
+| `@aaif/mesmile-binary-darwin-x64` | macOS Intel |
+| `@aaif/mesmile-binary-linux-arm64` | Linux ARM64 |
+| `@aaif/mesmile-binary-linux-x64` | Linux x64 |
+| `@aaif/mesmile-binary-win32-x64` | Windows x64 |
 
-These are published separately from `@aaif/goose-sdk`.
+These are published separately from `@aaif/mesmile-sdk`.
 
 ### Building Native Binaries
 
@@ -111,14 +111,14 @@ For manual publishing:
 ```
 
 This will:
-1. Build and publish `@aaif/goose-sdk`
+1. Build and publish `@aaif/mesmile-sdk`
 2. Publish all native binary packages
 3. Publish `@aaif/goose` (which depends on the above)
 
 ## Usage
 
 ```typescript
-import { GooseClient } from "@aaif/goose-sdk";
+import { GooseClient } from "@aaif/mesmile-sdk";
 
 const client = new GooseClient({
   // ... configuration

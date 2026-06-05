@@ -48,7 +48,7 @@ runners:
   #   stdio:
   #     - node mcp-harness/dist/index.js
 
-  - name: goose-full
+  - name: mesmile-full
     type: goose
     bin: goose
     extensions: [developer, todo, skills, code_execution, extensionmanager]
@@ -82,4 +82,4 @@ matrix:
 
   # Multi-turn: goose and pi only (opencode doesn't support session continuation)
   - scenario: multi-turn-edit
-    runners: [goose-full]
+    runners: [mesmile-full]

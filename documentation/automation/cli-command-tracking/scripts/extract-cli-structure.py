@@ -3,7 +3,7 @@
 Extract CLI command structure from goose binary using --help output.
 
 Usage:
-    ./extract-cli-structure.py <goose-binary-path> > output/cli-structure.json
+    ./extract-cli-structure.py <mesmile-binary-path> > output/cli-structure.json
     
 Example:
     ./extract-cli-structure.py /path/to/goose > output/new-cli-structure.json
@@ -315,7 +315,7 @@ def extract_version(binary_path: str) -> str:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: extract-cli-structure.py <goose-binary-path> [source-version]", file=sys.stderr)
+        print("Usage: extract-cli-structure.py <mesmile-binary-path> [source-version]", file=sys.stderr)
         print("Example: extract-cli-structure.py /usr/local/bin/goose v1.15.0", file=sys.stderr)
         sys.exit(1)
     

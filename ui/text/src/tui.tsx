@@ -21,8 +21,8 @@ import type {
   RequestPermissionResponse,
 } from "@agentclientprotocol/sdk";
 import { PROTOCOL_VERSION, ndJsonStream } from "@agentclientprotocol/sdk";
-import { GooseClient } from "@aaif/goose-sdk";
-import { resolveGooseBinary } from "@aaif/goose-sdk/node";
+import { GooseClient } from "@aaif/mesmile-sdk";
+import { resolveGooseBinary } from "@aaif/mesmile-sdk/node";
 import Onboarding from "./onboarding.js";
 import ConfigureScreen, { ConfigureIntent } from "./configure.js";
 import ExtensionsManager from "./extensions.js";
@@ -225,7 +225,7 @@ const InputBar = React.memo(function InputBar({
       {queued && (
         <Box>
           <Text color={GOLD} dimColor italic>
-            message queued — will send when goose finishes
+            message queued — will send when mesmile finishes
           </Text>
         </Box>
       )}
@@ -457,7 +457,7 @@ const SplashScreen = React.memo(function SplashScreen({
       </Box>
       <Box marginTop={1}>
         <Text color={TEXT_PRIMARY} bold>
-          goose
+          mesmile
         </Text>
       </Box>
       <Box alignItems="center">
@@ -509,7 +509,7 @@ function App({
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("connecting…");
   const [spinIdx, setSpinIdx] = useState(0);
-  const [gooseFrame, setGooseFrame] = useState(0);
+  const [mesmileFrame, setGooseFrame] = useState(0);
   const [bannerVisible, setBannerVisible] = useState(true);
   const [queuedMessages, setQueuedMessages] = useState<string[]>([]);
 
@@ -537,7 +537,7 @@ function App({
   const isProcessingRef = useRef(false);
 
   // Only run the animation tick when something is actually animating:
-  // the splash goose while the banner is up, or the spinner while loading.
+  // the splash mesmile while the banner is up, or the spinner while loading.
   // Otherwise we were re-rendering the entire viewport every 300ms forever,
   // which rebuilds every turn's markdown and can OOM long-running sessions.
   useEffect(() => {
@@ -794,7 +794,7 @@ function App({
         setStatus("handshaking…");
         await client.initialize({
           protocolVersion: PROTOCOL_VERSION,
-          clientInfo: { name: "goose-text", version: "0.1.0" },
+          clientInfo: { name: "mesmile-text", version: "0.1.0" },
           clientCapabilities: {},
         });
         if (cancelled) return;
@@ -802,7 +802,7 @@ function App({
         setStatus("checking provider…");
         let hasProvider = false;
         try {
-          const resp = await client.goose.defaultsRead_unstable({});
+          const resp = await client.mesmile.defaultsRead_unstable({});
           hasProvider =
             resp.providerId != null &&
             resp.providerId !== "" &&
@@ -1212,7 +1212,7 @@ function App({
     >
       {bannerVisible ? (
         <SplashScreen
-          animFrame={gooseFrame}
+          animFrame={mesmileFrame}
           width={contentWidth}
           height={Math.max(
             safeTermHeight - PAD_TOP - PAD_BOTTOM - inputBarH,
@@ -1291,7 +1291,7 @@ function App({
 const cli = meow(
   `
   Usage
-    $ goose
+    $ mesmile
 
   Options
     --server, -s  Server URL (default: auto-launch bundled server)
@@ -1337,7 +1337,7 @@ async function runTextMode(serverConnection: Stream | string, prompt: string) {
 
     await client.initialize({
       protocolVersion: PROTOCOL_VERSION,
-      clientInfo: { name: "goose-text", version: "0.1.0" },
+      clientInfo: { name: "mesmile-text", version: "0.1.0" },
       clientCapabilities: {},
     });
 
@@ -1372,7 +1372,7 @@ async function main() {
     });
 
     serverProcess.on("error", (err) => {
-      console.error(`Failed to start goose acp: ${err.message}`);
+      console.error(`Failed to start mesmile acp: ${err.message}`);
       process.exit(1);
     });
 

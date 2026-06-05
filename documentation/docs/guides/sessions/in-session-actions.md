@@ -301,7 +301,7 @@ Provide goose with context from your codebase, documents, and other files to get
 
         3. **Manual Path**: Type or paste the file path directly into the chat input
 
-        4. **Quick File Search**: Use the [`@` shortcut key](/docs/guides/file-management#quick-file-search-in-goose-desktop) to quickly find and include files
+        4. **Quick File Search**: Use the [`@` shortcut key](/docs/guides/file-management#quick-file-search-in-mesmile-desktop) to quickly find and include files
     </TabItem>
     <TabItem value="cli" label="goose CLI">
         You can reference files by their paths directly in your messages. Since you're already in a terminal, you can use standard shell commands to help with file paths:
@@ -321,7 +321,7 @@ Provide goose with context from your codebase, documents, and other files to get
 
 ## Mid-Session Changes
 
-You can change some settings during a session and they will take effect immediately, rather than requiring you to start a new session. This gives you more control over context and capabilities while you're interacting with goose.
+You can change some settings during a session and they will take effect immediately, rather than requiring you to start a new session. This gives you more control over context and capabilities while you're interacting with mesmile.
 
 <Tabs groupId="interface">
   <TabItem value="ui" label="goose Desktop" default>
@@ -333,7 +333,7 @@ You can change some settings during a session and they will take effect immediat
   | **Working Directory** | <FolderDot className="inline" size={16} /> directory switcher | New sessions (after restart) |
   | [**Enabled Extensions**](/docs/getting-started/using-extensions#change-extensions-mid-session) | <Puzzle className="inline" size={16} /> icon | Current session only |
   | [**Model**](/docs/getting-started/providers#configure-provider-and-model) | <Bot className="inline" size={16} /> model switcher | New sessions |
-  | [**goose Mode**](/docs/guides/managing-tools/goose-permissions#configuring-goose-mode) | <Tornado className="inline" size={16} /> mode switcher | New sessions |
+  | [**goose Mode**](/docs/guides/managing-tools/mesmile-permissions#configuring-mesmile-mode) | <Tornado className="inline" size={16} /> mode switcher | New sessions |
 
   </TabItem>
   <TabItem value="cli" label="goose CLI">
@@ -343,10 +343,10 @@ You can change some settings during a session and they will take effect immediat
   | Setting | Slash Command | Persistence* |
   |---------|--------------|-------------|
   | [**Enabled Extensions**](/docs/getting-started/using-extensions#change-extensions-mid-session) | `/extension` or `/builtin` | Current session only |
-  | [**goose Mode**](/docs/guides/managing-tools/goose-permissions#configuring-goose-mode) | `/mode [options]` | New sessions |
+  | [**goose Mode**](/docs/guides/managing-tools/mesmile-permissions#configuring-mesmile-mode) | `/mode [options]` | New sessions |
 
   :::info
-  The CLI supports [additional slash commands](/docs/guides/goose-cli-commands#slash-commands) but doesn't support mid-session changes to the working directory or model.
+  The CLI supports [additional slash commands](/docs/guides/mesmile-cli-commands#slash-commands) but doesn't support mid-session changes to the working directory or model.
   :::
 
   </TabItem>

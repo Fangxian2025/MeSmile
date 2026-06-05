@@ -1,6 +1,6 @@
 # build-windows.ps1
 # Build Goose Desktop for Windows with VMware Tanzu Platform provider
-# Run this script from the root of the goose-fork repository in PowerShell
+# Run this script from the root of the mesmile-fork repository in PowerShell
 #
 # Prerequisites:
 #   - Git (https://git-scm.com/download/win)
@@ -9,7 +9,7 @@
 #   - pnpm: npm install -g pnpm
 #
 # Usage:
-#   cd C:\path\to\goose-fork
+#   cd C:\path\to\mesmile-fork
 #   .\scripts\build-windows.ps1
 
 $ErrorActionPreference = "Stop"
@@ -42,7 +42,7 @@ Write-Host ""
 # Step 1: Clone or update repo
 Write-Host "[2/7] Building Rust backend (release)..." -ForegroundColor Yellow
 Write-Host "  This may take 5-15 minutes on first build..."
-cargo build --release -p goose-server
+cargo build --release -p mesmile-server
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Rust build failed!" -ForegroundColor Red
     exit 1
@@ -55,9 +55,9 @@ Write-Host "[3/7] Copying binaries to desktop app..." -ForegroundColor Yellow
 $binDir = "ui\desktop\src\bin"
 if (-not (Test-Path $binDir)) { New-Item -ItemType Directory -Path $binDir -Force | Out-Null }
 
-Copy-Item "target\release\goosed.exe" "$binDir\" -Force
-if (Test-Path "target\release\goose.exe") {
-    Copy-Item "target\release\goose.exe" "$binDir\" -Force
+Copy-Item "target\release\mesmiled.exe" "$binDir\" -Force
+if (Test-Path "target\release\mesmile.exe") {
+    Copy-Item "target\release\mesmile.exe" "$binDir\" -Force
 }
 # Copy required DLLs if they exist (from cross-compilation)
 Get-ChildItem "target\release\*.dll" -ErrorAction SilentlyContinue | ForEach-Object {

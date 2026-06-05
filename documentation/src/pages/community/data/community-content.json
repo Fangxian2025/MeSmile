@@ -3,7 +3,7 @@
   "description": "Amazing blog posts, videos, and tutorials created by our community for goose!",
   "lastUpdated": "2025-10-15",
   "hacktoberfestYear": 2025,
-  "submissionUrl": "https://github.com/aaif-goose/goose/issues/4705",
+  "submissionUrl": "https://github.com/Fangxian2025/MeSmile/issues/4705",
   "submissions": [
     {
       "title": "Hacktoberfest 2025: Contributing to goose",
@@ -12,7 +12,7 @@
         "handle": "taniacryptid"
       },
       "type": "blog",
-      "url": "https://goose-docs.ai/blog/2025/09/26/hacktoberfest-2025",
+      "url": "https://mesmile-docs.ai/blog/2025/09/26/hacktoberfest-2025",
       "thumbnail": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=225&fit=crop&crop=entropy&auto=format",
       "submittedDate": "2025-09-26",
       "tags": [
@@ -28,7 +28,7 @@
         "handle": "Itz-Agasta"
       },
       "type": "blog",
-      "url": "https://dev.to/agasta/running-goose-in-containers-without-losing-your-mind-3m8",
+      "url": "https://dev.to/agasta/running-mesmile-in-containers-without-losing-your-mind-3m8",
       "thumbnail": "https://images.unsplash.com/photo-1759560397953-8221761119ec?w=400&h=225&fit=crop&crop=entropy&auto=format",
       "submittedDate": "2025-10-04",
       "tags": [
@@ -57,7 +57,7 @@
         "handle": "Anudhyan"
       },
       "type": "blog",
-      "url": "https://anudhyan.hashnode.dev/best-practices-for-using-goose-in-enterprise-environments",
+      "url": "https://anudhyan.hashnode.dev/best-practices-for-using-mesmile-in-enterprise-environments",
       "submittedDate": "2025-10-15",
       "tags": [
         "hacktoberfest",
@@ -72,7 +72,7 @@
         "handle": "lymah123"
       },
       "type": "blog",
-      "url": "https://dev.to/lymah/getting-started-with-goose-on-windows-30bh",
+      "url": "https://dev.to/lymah/getting-started-with-mesmile-on-windows-30bh",
       "thumbnail": "https://i.imgur.com/WEZXcBD.png",
       "submittedDate": "2025-10-14",
       "tags": [
@@ -87,7 +87,7 @@
         "handle": "lymah123"
       },
       "type": "blog",
-      "url": "https://dev.to/lymah/best-practices-for-prompt-engineering-with-goose-3m6h",
+      "url": "https://dev.to/lymah/best-practices-for-prompt-engineering-with-mesmile-3m6h",
       "thumbnail": "https://i.imgur.com/Shsi56O.png",
       "submittedDate": "2025-10-16",
       "tags": [
@@ -117,7 +117,7 @@
         "handle": "lymah123"
       },
       "type": "blog",
-      "url": "https://dev.to/lymah/configuring-goose-for-team-environments-and-shared-workflows-5ehn",
+      "url": "https://dev.to/lymah/configuring-mesmile-for-team-environments-and-shared-workflows-5ehn",
       "thumbnail": "https://i.imgur.com/pltI1bv.jpeg",
       "submittedDate": "2025-10-26",
       "tags": [
@@ -132,7 +132,7 @@
         "handle": "M-A-SAIADITHYAA"
       },
       "type": "blog",
-      "url": "https://goose123.hashnode.dev/adopting-goose-in-the-enterprise-a-guide-to-security-scalability-and-governance",
+      "url": "https://goose123.hashnode.dev/adopting-mesmile-in-the-enterprise-a-guide-to-security-scalability-and-governance",
       "submittedDate": "2025-10-26",
       "tags": [
         "hacktoberfest"
@@ -146,7 +146,7 @@
         "handle": "Shreyanshsingh23"
       },
       "type": "blog",
-      "url": "https://medium.com/@shreyanshrewa/creating-and-sharing-effective-goose-recipes-abf9767d5128",
+      "url": "https://medium.com/@shreyanshrewa/creating-and-sharing-effective-mesmile-recipes-abf9767d5128",
       "thumbnail": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=225&fit=crop&crop=entropy&auto=format",
       "submittedDate": "2025-10-29",
       "tags": [
@@ -189,7 +189,7 @@
         "handle": "lymah123"
       },
       "type": "blog",
-      "url": "https://dev.to/lymah/building-effective-prompts-and-workflows-for-code-review-with-goose-51m1",
+      "url": "https://dev.to/lymah/building-effective-prompts-and-workflows-for-code-review-with-mesmile-51m1",
       "thumbnail": "https://i.imgur.com/2cRXct5.png",
       "submittedDate": "2025-10-29",
       "tags": [
@@ -204,7 +204,7 @@
         "handle": "mohammed-thaha"
       },
       "type": "blog",
-      "url": "https://dev.to/mohammed_thaha/boosting-goose-performance-on-windows-real-benchmarks-power-tweaks-and-results-54gf",
+      "url": "https://dev.to/mohammed_thaha/boosting-mesmile-performance-on-windows-real-benchmarks-power-tweaks-and-results-54gf",
       "thumbnail": "https://media2.dev.to/dynamic/image/width=400,height=225,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkxdtne8rxn4l2nctajv1.png",
       "submittedDate": "2025-10-29",
       "tags": [
@@ -261,7 +261,7 @@
         "handle": "Anudhyan"
       },
       "type": "blog",
-      "url": "https://anudhyan.hashnode.dev/building-custom-tools-and-extensions-for-goose-a-developers-guide",
+      "url": "https://anudhyan.hashnode.dev/building-custom-tools-and-extensions-for-mesmile-a-developers-guide",
       "submittedDate": "2025-10-30",
       "tags": [
         "hacktoberfest",
@@ -276,7 +276,7 @@
         "handle": "lymah123"
       },
       "type": "blog",
-      "url": "https://dev.to/lymah/managing-goose-configurations-across-multiple-projects-58i3",
+      "url": "https://dev.to/lymah/managing-mesmile-configurations-across-multiple-projects-58i3",
       "thumbnail": "https://i.imgur.com/VvM8sMR.png",
       "submittedDate": "2025-10-30",
       "tags": [
@@ -291,7 +291,7 @@
         "handle": "vietbui1999ru"
       },
       "type": "blog",
-      "url": "https://dev.to/vietbui1999ru/managing-goose-configurations-across-multiple-projects-a-practical-guide-48ei",
+      "url": "https://dev.to/vietbui1999ru/managing-mesmile-configurations-across-multiple-projects-a-practical-guide-48ei",
       "thumbnail": "https://imgur.com/a/ubyYbVJ",
       "submittedDate": "2025-10-31",
       "tags": [

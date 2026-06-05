@@ -6,7 +6,7 @@ export default function ExtensionRedirect(): JSX.Element {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    window.location.href = `goose://extension${params.toString() ? '?' + params.toString() : ''}`;
+    window.location.href = `mesmile://extension${params.toString() ? '?' + params.toString() : ''}`;
   }, [location]);
 
   return (

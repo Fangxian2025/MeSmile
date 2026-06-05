@@ -12,7 +12,7 @@ These variables control the [language models](/docs/getting-started/providers) a
 
 ### Basic Provider Configuration
 
-These are the minimum required variables to get started with goose.
+These are the minimum required variables to get started with mesmile.
 
 | Variable | Purpose | Values | Default |
 |----------|---------|---------|---------|
@@ -238,11 +238,11 @@ These variables control how goose manages conversation sessions and context.
 | `CONTEXT_FILE_NAMES` | Specifies custom filenames for [hint/context files](/docs/guides/context-engineering/using-goosehints#custom-context-files) | JSON array of strings (e.g., `["CLAUDE.md", ".goosehints"]`) | `[".goosehints"]` |
 | `GOOSE_DISABLE_SESSION_NAMING` | Disables automatic AI-generated session naming; avoids the background model call and keeps the default "CLI Session" (goose CLI) or "New Chat" (goose Desktop) | "1", "true" (case-insensitive) to enable | false |
 | `GOOSE_DISABLE_TOOL_CALL_SUMMARY` | Disables the per-tool-call AI-generated summary title, keeping the fallback title instead. Saves one provider call per tool invocation. | "1", "true" (case-insensitive) to enable | false |
-| `GOOSE_PROMPT_EDITOR` | [External editor](/docs/guides/goose-cli-commands#external-editor-mode) to use for composing prompts instead of CLI input | Editor command (e.g., "vim", "code --wait") | Unset (uses CLI input) |
-| `GOOSE_CLI_THEME` | [Theme](/docs/guides/goose-cli-commands#themes) for CLI response  markdown | "light", "dark", "ansi" | "dark" |
+| `GOOSE_PROMPT_EDITOR` | [External editor](/docs/guides/mesmile-cli-commands#external-editor-mode) to use for composing prompts instead of CLI input | Editor command (e.g., "vim", "code --wait") | Unset (uses CLI input) |
+| `GOOSE_CLI_THEME` | [Theme](/docs/guides/mesmile-cli-commands#themes) for CLI response  markdown | "light", "dark", "ansi" | "dark" |
 | `GOOSE_CLI_LIGHT_THEME` | Custom [bat theme](https://github.com/sharkdp/bat#adding-new-themes) for syntax highlighting when using light mode | bat theme name (e.g., "Solarized (light)", "OneHalfLight") | "GitHub" |
 | `GOOSE_CLI_DARK_THEME` | Custom [bat theme](https://github.com/sharkdp/bat#adding-new-themes) for syntax highlighting when using dark mode | bat theme name (e.g., "Dracula", "Nord") | "zenburn" |
-| `GOOSE_CLI_NEWLINE_KEY` | Customize the keyboard shortcut for [inserting newlines in CLI input](/docs/guides/goose-cli-commands#keyboard-shortcuts) | Single character (e.g., "n", "m") | "j" (Ctrl+J) |
+| `GOOSE_CLI_NEWLINE_KEY` | Customize the keyboard shortcut for [inserting newlines in CLI input](/docs/guides/mesmile-cli-commands#keyboard-shortcuts) | Single character (e.g., "n", "m") | "j" (Ctrl+J) |
 | `GOOSE_CLI_SHOW_THINKING` | Shows model reasoning/thinking output in CLI responses. Some models (e.g., DeepSeek-R1, Kimi, Gemini) expose their internal reasoning process — this variable makes it visible in the CLI. | Set to any value to enable | Disabled |
 | `GOOSE_RANDOM_THINKING_MESSAGES` | Controls whether to show amusing random messages during processing | "true", "false" | "true" |
 | `GOOSE_CLI_SHOW_COST` | Toggles display of model cost estimates in CLI output | "1", "true" (case-insensitive) to enable | false |
@@ -353,7 +353,7 @@ For more details and examples, see [Model Context Limit Overrides](/docs/guides/
 
 ## Tool Configuration
 
-These variables control how goose handles [tool execution](/docs/guides/managing-tools/goose-permissions) and [tool management](/docs/guides/managing-tools/).
+These variables control how goose handles [tool execution](/docs/guides/managing-tools/mesmile-permissions) and [tool management](/docs/guides/managing-tools/).
 
 | Variable | Purpose | Values | Default |
 |----------|---------|---------|---------|
@@ -362,7 +362,7 @@ These variables control how goose handles [tool execution](/docs/guides/managing
 | `GOOSE_TOOLSHIM_OLLAMA_MODEL` | Specifies the model for [tool call interpretation](/docs/experimental/ollama) | Model name (e.g. llama3.2, qwen2.5) | System default |
 | `GOOSE_CLI_MIN_PRIORITY` | Controls verbosity of [tool output](/docs/guides/managing-tools/adjust-tool-output) | Float between 0.0 and 1.0 | 0.0 |
 | `GOOSE_CLI_TOOL_PARAMS_TRUNCATION_MAX_LENGTH` | Maximum length for tool parameter values before truncation in CLI output (not in debug mode) | Integer | 40 |
-| `GOOSE_DEBUG` | Enables debug mode to show full tool parameters without truncation. Can also be toggled during a session using the `/r` [slash command](/docs/guides/goose-cli-commands#slash-commands) | "1", "true" (case-insensitive) to enable | false |
+| `GOOSE_DEBUG` | Enables debug mode to show full tool parameters without truncation. Can also be toggled during a session using the `/r` [slash command](/docs/guides/mesmile-cli-commands#slash-commands) | "1", "true" (case-insensitive) to enable | false |
 | `GOOSE_SEARCH_PATHS` | Prepends additional directories to PATH for extension commands | JSON array of paths (for example, `["/usr/local/bin", "~/custom/bin"]`) | System PATH only |
 | `GOOSE_MAX_TOOL_RESPONSE_SIZE` | Maximum character count for a single tool response before it is written to a temporary file instead of being included inline in the conversation | Positive integer (e.g., 100000, 200000) | 200000 |
 | `GOOSE_SHELL` | Overrides the shell used for Developer extension shell commands | Shell executable path or name (for example, `/bin/zsh`, `pwsh`, `C:\cygwin64\bin\bash.exe`) | Unix: `/bin/bash` if present, otherwise `$SHELL`, otherwise `sh`. Windows: `cmd` |
@@ -462,7 +462,7 @@ export GOOSE_TELEMETRY_ENABLED=true   # Enable telemetry
 :::tip
 When the keyring is disabled (or cannot be accessed and goose [falls back to file-based storage](/docs/troubleshooting/known-issues#keyring-cannot-be-accessed-automatic-fallback)), secrets are stored here:
 
-* macOS/Linux: `~/.config/goose/secrets.yaml`
+* macOS/Linux: `~/.config/mesmile/secrets.yaml`
 * Windows: `%APPDATA%\Block\goose\config\secrets.yaml`
 :::
 
@@ -476,7 +476,7 @@ Optional [macOS sandbox](/docs/guides/sandbox) for goose Desktop that restricts 
 
 ## Network Configuration
 
-These variables configure network proxy settings for goose.
+These variables configure network proxy settings for mesmile.
 
 ### OAuth Callback Port
 
@@ -583,27 +583,27 @@ These variables configure the [Langfuse integration for observability](/docs/tut
 
 ## goose Server
 
-These variables configure the `goosed` server process. They are most often used when [running `goosed` on a remote machine](/docs/guides/remote-goose-server) and connecting goose Desktop to it, but they apply to any `goosed` invocation.
+These variables configure the `mesmiled` server process. They are most often used when [running `mesmiled` on a remote machine](/docs/guides/remote-mesmile-server) and connecting goose Desktop to it, but they apply to any `mesmiled` invocation.
 
 | Variable | Purpose | Values | Default |
 |----------|---------|---------|---------|
 | `GOOSE_HOST` | Interface the server binds to. Use `0.0.0.0` to accept connections from other machines; `localhost` or `127.0.0.1` restricts to the local machine. | Hostname or IP | `127.0.0.1` |
 | `GOOSE_PORT` | TCP port the server listens on | Port number | `3000` |
-| `GOOSE_TLS` | Enable TLS with a self-signed certificate. Required when connecting goose Desktop to a remote `goosed`. | `true`, `false` | `true` |
+| `GOOSE_TLS` | Enable TLS with a self-signed certificate. Required when connecting goose Desktop to a remote `mesmiled`. | `true`, `false` | `true` |
 | `GOOSE_SERVER__SECRET_KEY` | Shared secret required in the `X-Secret-Key` header on all client requests | Secret string | Random (auto-generated) |
 
 **Examples**
 
 ```bash
-# Start a goosed server reachable on the local network over TLS
+# Start a mesmiled server reachable on the local network over TLS
 export GOOSE_HOST=0.0.0.0
 export GOOSE_PORT=3000
 export GOOSE_TLS=true
 export GOOSE_SERVER__SECRET_KEY='a-long-random-secret'
-goosed agent
+mesmiled agent
 ```
 
-When TLS is enabled, `goosed` prints a `GOOSED_CERT_FINGERPRINT=...` line on startup. Clients (such as goose Desktop) need this fingerprint to verify the self-signed certificate. See [Running a Remote goose Server](/docs/guides/remote-goose-server) for the full setup.
+When TLS is enabled, `mesmiled` prints a `GOOSED_CERT_FINGERPRINT=...` line on startup. Clients (such as goose Desktop) need this fingerprint to verify the self-signed certificate. See [Running a Remote goose Server](/docs/guides/remote-mesmile-server) for the full setup.
 
 ## Recipe Configuration
 
@@ -612,7 +612,7 @@ These variables control recipe discovery and management.
 | Variable | Purpose | Values | Default |
 |----------|---------|---------|---------|
 | `GOOSE_RECIPE_PATH` | Additional directories to search for recipes | Colon-separated paths on Unix, semicolon-separated on Windows | None |
-| `GOOSE_RECIPE_GITHUB_REPO` | GitHub repository to search for recipes | Format: "owner/repo" (e.g., "aaif-goose/goose-recipes") | None |
+| `GOOSE_RECIPE_GITHUB_REPO` | GitHub repository to search for recipes | Format: "owner/repo" (e.g., "Fangxian2025/MeSmile-recipes") | None |
 | `GOOSE_RECIPE_RETRY_TIMEOUT_SECONDS` | Global timeout for recipe success check commands | Integer (seconds) | Recipe-specific default |
 | `GOOSE_RECIPE_ON_FAILURE_TIMEOUT_SECONDS` | Global timeout for recipe on_failure commands | Integer (seconds) | Recipe-specific default |
 
@@ -623,7 +623,7 @@ These variables control recipe discovery and management.
 export GOOSE_RECIPE_PATH="/path/to/my/recipes:/path/to/team/recipes"
 
 # Configure GitHub recipe repository
-export GOOSE_RECIPE_GITHUB_REPO="myorg/goose-recipes"
+export GOOSE_RECIPE_GITHUB_REPO="myorg/mesmile-recipes"
 
 # Set global recipe timeouts
 export GOOSE_RECIPE_RETRY_TIMEOUT_SECONDS=300
@@ -649,16 +649,16 @@ When set, goose creates `config/`, `data/`, and `state/` subdirectories under th
 
 ```bash
 # Temporary test environment
-export GOOSE_PATH_ROOT="/tmp/goose-test"
+export GOOSE_PATH_ROOT="/tmp/mesmile-test"
 
 # Isolated environment for a single command
-GOOSE_PATH_ROOT="/tmp/goose-isolated" goose run --recipe my-recipe.yaml
+GOOSE_PATH_ROOT="/tmp/mesmile-isolated" mesmile run --recipe my-recipe.yaml
 
 # CI/CD usage
-GOOSE_PATH_ROOT="$(mktemp -d)" goose run --recipe integration-test.yaml
+GOOSE_PATH_ROOT="$(mktemp -d)" mesmile run --recipe integration-test.yaml
 
 # Use with developer tools
-GOOSE_PATH_ROOT="/tmp/goose-test" ./scripts/goose-db-helper.sh status
+GOOSE_PATH_ROOT="/tmp/mesmile-test" ./scripts/mesmile-db-helper.sh status
 ```
 
 ## Variables Controlled by goose
@@ -686,7 +686,7 @@ This is most useful when using goose CLI, where shell commands are executed dire
 
 goose provides the `GOOSE_TERMINAL` and `AGENT` variables you can use to detect whether goose is the executing agent.
 
-1. When goose runs commands:
+1. When mesmile runs commands:
    - `GOOSE_TERMINAL` is automatically set to "1"
    - `AGENT` is automatically set to "goose"
 2. Your shell configuration can detect this and change behavior while keeping your normal terminal usage unchanged
@@ -721,7 +721,7 @@ if [[ -n "$AGENT" ]]; then
   echo "Running under AI agent: $AGENT"
   # Apply agent-specific behavior if needed
   if [[ "$AGENT" == "goose" ]]; then
-    echo "Detected goose - applying goose-specific settings"
+    echo "Detected goose - applying mesmile-specific settings"
   fi
 fi
 ```

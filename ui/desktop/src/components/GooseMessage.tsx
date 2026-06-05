@@ -112,7 +112,7 @@ export default function GooseMessage({
   const pendingConfirmationIds = getPendingToolConfirmationIds(messages);
 
   return (
-    <div className="goose-message flex w-[90%] justify-start min-w-0">
+    <div className="mesmile-message flex w-[90%] justify-start min-w-0">
       <div className="flex flex-col w-full min-w-0">
         {thinkingContent && (
           <ThinkingContent
@@ -169,7 +169,7 @@ export default function GooseMessage({
                   const confirmationContent = findConfirmationForToolAcrossMessages(toolRequest.id);
                   const isApprovalClicked = confirmationContent && !isPending && hasResponse;
                   return (
-                    <div className="goose-message-tool" key={toolRequest.id}>
+                    <div className="mesmile-message-tool" key={toolRequest.id}>
                       <ToolCallWithResponse
                         sessionId={sessionId}
                         isCancelledMessage={false}

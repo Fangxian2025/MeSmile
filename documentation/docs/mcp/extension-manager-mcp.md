@@ -32,7 +32,7 @@ Simply describe your task, and goose will handle the extension management automa
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 

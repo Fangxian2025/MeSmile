@@ -19,7 +19,7 @@ instructions: |
   - Catch common mistakes before submission
   - Provide testing or editorial guidance
   - Review existing tutorials in documentation/docs/mcp/ for formatting patterns
-  - Use {{ goose_repo_path }}/documentation/docs/mcp/_template_.mdx as the base template for new tutorials
+  - Use {{ mesmile_repo_path }}/documentation/docs/mcp/_template_.mdx as the base template for new tutorials
   
   **Hard Rules (Must Fix):**
   - Tutorial filename MUST be {id}-mcp.md where {id} matches servers.json (no duplicate -mcp in filename)
@@ -48,8 +48,8 @@ instructions: |
   
   ### Step 1: Check Existing Files
   - **Only if `current_status` is NOT "Nothing yet - starting fresh":**
-    - Look in {{ goose_repo_path }}/documentation/static/servers.json for their server entry
-    - Look in {{ goose_repo_path }}/documentation/docs/mcp/ for their tutorial file
+    - Look in {{ mesmile_repo_path }}/documentation/static/servers.json for their server entry
+    - Look in {{ mesmile_repo_path }}/documentation/docs/mcp/ for their tutorial file
     - Report what you found (just say "Found" or "Not found" - don't show full content yet)
   - **If "Nothing yet - starting fresh":** Skip file checking, go straight to Step 2
   
@@ -140,7 +140,7 @@ instructions: |
   ### Step 3: Generate Content (Only After Confirmation!)
   - **BEFORE creating files, check if tutorial file already exists:**
     - Calculate expected tutorial filename (if id ends with "-mcp", use `{id}.md`, otherwise `{id}-mcp.md`)
-    - Check if {{ goose_repo_path }}/documentation/docs/mcp/{filename} exists
+    - Check if {{ mesmile_repo_path }}/documentation/docs/mcp/{filename} exists
     - If it exists, STOP and warn: "⚠️ A tutorial file already exists at {filename}. This would overwrite existing content. Options:
       1. Rename the existing file first (e.g., to {filename}.bak)
       2. Use a different ID for this server
@@ -164,18 +164,18 @@ instructions: |
     📝 Add real example prompt and output: Replace placeholders in Example Usage section
     📝 Review for any remaining TODOs or placeholders
   - Provide the testing checklist:
-    📝 Build and run the docs server using [these steps](https://github.com/aaif-goose/goose/blob/main/documentation/README.md), then verify:
+    📝 Build and run the docs server using [these steps](https://github.com/Fangxian2025/MeSmile/blob/main/documentation/README.md), then verify:
     📝 Extensions page (`/goose/extensions`) loads successfully. Verify:
        - Info is correct on the summary and details cards (click extension name to view details card)
-       - The `goose://` deeplink opens the installer correctly in Desktop
+       - The `mesmile://` deeplink opens the installer correctly in Desktop
        - The server repo link works and the docs link on the details card opens your tutorial
     📝 Tutorial page loads successfully. Verify:
-       - The `goose://` deeplink opens the installer correctly in Desktop (both TLDR and config steps)
+       - The `mesmile://` deeplink opens the installer correctly in Desktop (both TLDR and config steps)
        - The CLI configuration steps install correctly
   
   ## Key Technical Details
 
-  All related code is under the {{ goose_repo_path }}/documentation directory.
+  All related code is under the {{ mesmile_repo_path }}/documentation directory.
   
   **servers.json fields:**
   - `id` (kebab-case server name) - When creating new: NO -mcp suffix
@@ -183,20 +183,20 @@ instructions: |
   - `command` (STDIO) OR `url` (HTTP)
   - `type`: "streamable-http" for HTTP, "local"/undefined for STDIO
   - `environmentVariables` OR `headers` (for HTTP)
-  - Supported commands for install link: npx, uvx, docker, jbang, cu, goosed
+  - Supported commands for install link: npx, uvx, docker, jbang, cu, mesmiled
   - Unsupported commands: set `show_install_link: false`
   - servers.json is used from /src/pages/extensions and /documentation/src/components/server-card.tsx
   
   **Tutorial and components:**
   - Tutorial filename: If id ends with "-mcp", use `{id}.md`. Otherwise, use `{id}-mcp.md` 
     - For existing content: .mdx file type is acceptable
-  - GooseDesktopInstaller: Desktop UI install (generates goose:// URL) - source is /src/components/GooseDesktopInstaller.tsx
+  - GooseDesktopInstaller: Desktop UI install (generates mesmile:// URL) - source is /src/components/GooseDesktopInstaller.tsx
   - CLIExtensionInstructions: CLI install (shows `goose configure` flow)  - source is /src/components/CLIExtensionInstructions.tsx
   - Key difference: Desktop uses `command` + `args`, CLI uses full `command` string
   - Desktop `envVars` has `name`/`label`, CLI has `key`/`value` (dots for placeholder with sensitive info like API keys)
   
   **TLDR deeplink generation:**
-  - Generate the goose:// URL following the buildGooseUrl() pattern from /src/components/GooseDesktopInstaller.tsx
+  - Generate the mesmile:// URL following the buildGooseUrl() pattern from /src/components/GooseDesktopInstaller.tsx
   - The TLDR link and the GooseDesktopInstaller component link MUST be identical
   - Verify both links match before completing
   
@@ -262,7 +262,7 @@ parameters:
       - "STDIO (command-based: npx, uvx, docker, etc.)"
       - "HTTP (endpoint-based)"
   
-  - key: goose_repo_path
+  - key: mesmile_repo_path
     input_type: string
     requirement: optional
     description: "Path to your goose repository fork (leave empty to attempt auto-detect)"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Box, Text, useInput, useStdout } from "ink";
-import type { GooseClient, ProviderInventoryEntryDto } from "@aaif/goose-sdk";
+import type { GooseClient, ProviderInventoryEntryDto } from "@aaif/mesmile-sdk";
 import {
   CRANBERRY,
   TEAL,
@@ -375,7 +375,7 @@ export default function ConfigureScreen({
 
     (async () => {
       try {
-        const resp = await client.goose.providersList_unstable({
+        const resp = await client.mesmile.providersList_unstable({
           providerIds: [],
         });
         if (cancelled) return;
@@ -389,7 +389,7 @@ export default function ConfigureScreen({
 
         if (initialIntent === "model") {
           try {
-            const cfg = await client.goose.defaultsRead_unstable({});
+            const cfg = await client.mesmile.defaultsRead_unstable({});
             if (cancelled) return;
             const current = sorted.find((p) => p.providerId === cfg.providerId);
             if (current) {
@@ -425,7 +425,7 @@ export default function ConfigureScreen({
     ) => {
       setPhase("saving");
       try {
-        await client.goose.providersConfigSave_unstable({
+        await client.mesmile.providersConfigSave_unstable({
           providerId: provider.providerId,
           fields: Object.entries(configValues).map(([key, value]) => ({
             key,

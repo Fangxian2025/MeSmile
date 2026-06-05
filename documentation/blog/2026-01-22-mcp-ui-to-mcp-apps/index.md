@@ -329,7 +329,7 @@ This is one of those changes that doesn’t dramatically affect your day-to-day 
 
 ## Try it yourself
 
-If you’re curious about building MCP Apps yourself, follow the guide [Building MCP Apps](https://goose-docs.ai/docs/tutorials/building-mcp-apps/).
+If you’re curious about building MCP Apps yourself, follow the guide [Building MCP Apps](https://mesmile-docs.ai/docs/tutorials/building-mcp-apps/).
 
 And if you already have an MCP-UI server, try converting just one tool to an MCP App. That’s usually the moment when everything starts to really click.
 
@@ -340,12 +340,12 @@ As a reminder, MCP Apps run sandboxed with CSP restrictions, so it’s worth und
 <head>
   <meta property="og:title" content="From MCP-UI to MCP Apps: Evolving Interactive Agent UIs" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/01/22/mcp-ui-to-mcp-apps" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/01/22/mcp-ui-to-mcp-apps" />
   <meta property="og:description" content="I migrated a real MCP-UI server to MCP Apps. Here’s what actually changed, what broke, and why this shift matters." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/blogbanner-1d2185a745552379fe543020a901e8cc.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/blogbanner-1d2185a745552379fe543020a901e8cc.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="From MCP-UI to MCP Apps: Evolving Interactive Agent UIs" />
   <meta name="twitter:description" content="I migrated a real MCP-UI server to MCP Apps. Here’s what actually changed, what broke, and why this shift matters.." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/blogbanner-1d2185a745552379fe543020a901e8cc.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/blogbanner-1d2185a745552379fe543020a901e8cc.png" />
 </head>

@@ -25,7 +25,7 @@ export function buildConnectSrc(externalGoosed?: ExternalGoosedConfig): string {
       externalUrl.protocol = externalUrl.protocol === 'https:' ? 'wss:' : 'ws:';
       sources.push(externalUrl.origin);
     } catch {
-      console.warn('Invalid external goosed URL in settings, skipping CSP entry');
+      console.warn('Invalid external mesmiled URL in settings, skipping CSP entry');
     }
   }
 

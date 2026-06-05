@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { all_goose_modes, ModeSelectionItem } from './ModeSelectionItem';
+import { all_mesmile_modes, ModeSelectionItem } from './ModeSelectionItem';
 import { useConfig } from '../../ConfigContext';
 import { ConversationLimitsDropdown } from './ConversationLimitsDropdown';
 import { updateSession } from '../../../api';
@@ -12,13 +12,13 @@ export const ModeSection = ({ sessionId }: { sessionId?: string }) => {
   const handleModeChange = async (newMode: string) => {
     try {
       if (sessionId) {
-        await updateSession({ body: { session_id: sessionId, goose_mode: newMode } });
+        await updateSession({ body: { session_id: sessionId, mesmile_mode: newMode } });
       }
       await upsert('GOOSE_MODE', newMode, false);
       setCurrentMode(newMode);
     } catch (error) {
-      console.error('Error updating goose mode:', error);
-      throw new Error(`Failed to store new goose mode: ${newMode}`);
+      console.error('Error updating MeSmile mode:', error);
+      throw new Error(`Failed to store new MeSmile mode: ${newMode}`);
     }
   };
 
@@ -56,7 +56,7 @@ export const ModeSection = ({ sessionId }: { sessionId?: string }) => {
   return (
     <div className="space-y-1">
       {/* Mode Selection */}
-      {all_goose_modes.map((mode) => (
+      {all_mesmile_modes.map((mode) => (
         <ModeSelectionItem
           key={mode.key}
           mode={mode}

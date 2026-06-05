@@ -14,74 +14,74 @@ import { defineMessages, useIntl } from '../../../i18n';
 
 const i18n = defineMessages({
   dialogTitle: {
-    id: 'goosehintsModal.dialogTitle',
-    defaultMessage: 'Configure Project Hints (.goosehints)',
+    id: 'mesmilehintsModal.dialogTitle',
+    defaultMessage: 'Configure Project Hints (.mesmilehints)',
   },
   dialogDescription: {
-    id: 'goosehintsModal.dialogDescription',
+    id: 'mesmilehintsModal.dialogDescription',
     defaultMessage:
       'Provide additional context about your project to improve communication with Goose',
   },
   helpText1: {
-    id: 'goosehintsModal.helpText1',
+    id: 'mesmilehintsModal.helpText1',
     defaultMessage:
-      '.goosehints is a text file used to provide additional context about your project and improve the communication with Goose.',
+      '.mesmilehints is a text file used to provide additional context about your project and improve the communication with Goose.',
   },
   helpText2: {
-    id: 'goosehintsModal.helpText2',
+    id: 'mesmilehintsModal.helpText2',
     defaultMessage:
-      "Please make sure {bold} extension is enabled in the extensions page. This extension is required to use .goosehints. You'll need to restart your session for .goosehints updates to take effect.",
+      "Please make sure {bold} extension is enabled in the extensions page. This extension is required to use .mesmilehints. You'll need to restart your session for .mesmilehints updates to take effect.",
   },
   helpText3: {
-    id: 'goosehintsModal.helpText3',
+    id: 'mesmilehintsModal.helpText3',
     defaultMessage: 'See {link} for more information.',
   },
   helpTextLink: {
-    id: 'goosehintsModal.helpTextLink',
-    defaultMessage: 'using .goosehints',
+    id: 'mesmilehintsModal.helpTextLink',
+    defaultMessage: 'using .mesmilehints',
   },
   errorReading: {
-    id: 'goosehintsModal.errorReading',
-    defaultMessage: 'Error reading .goosehints file: {error}',
+    id: 'mesmilehintsModal.errorReading',
+    defaultMessage: 'Error reading .mesmilehints file: {error}',
   },
   fileFound: {
-    id: 'goosehintsModal.fileFound',
-    defaultMessage: '.goosehints file found at: {filePath}',
+    id: 'mesmilehintsModal.fileFound',
+    defaultMessage: '.mesmilehints file found at: {filePath}',
   },
   fileCreating: {
-    id: 'goosehintsModal.fileCreating',
-    defaultMessage: 'Creating new .goosehints file at: {filePath}',
+    id: 'mesmilehintsModal.fileCreating',
+    defaultMessage: 'Creating new .mesmilehints file at: {filePath}',
   },
   placeholder: {
-    id: 'goosehintsModal.placeholder',
+    id: 'mesmilehintsModal.placeholder',
     defaultMessage: 'Enter project hints here...',
   },
   savedSuccessfully: {
-    id: 'goosehintsModal.savedSuccessfully',
+    id: 'mesmilehintsModal.savedSuccessfully',
     defaultMessage: 'Saved successfully',
   },
   close: {
-    id: 'goosehintsModal.close',
+    id: 'mesmilehintsModal.close',
     defaultMessage: 'Close',
   },
   saving: {
-    id: 'goosehintsModal.saving',
+    id: 'mesmilehintsModal.saving',
     defaultMessage: 'Saving...',
   },
   save: {
-    id: 'goosehintsModal.save',
+    id: 'mesmilehintsModal.save',
     defaultMessage: 'Save',
   },
   failedToAccess: {
-    id: 'goosehintsModal.failedToAccess',
-    defaultMessage: 'Failed to access .goosehints file',
+    id: 'mesmilehintsModal.failedToAccess',
+    defaultMessage: 'Failed to access .mesmilehints file',
   },
   failedToSave: {
-    id: 'goosehintsModal.failedToSave',
-    defaultMessage: 'Failed to save .goosehints file',
+    id: 'mesmilehintsModal.failedToSave',
+    defaultMessage: 'Failed to save .mesmilehints file',
   },
   developer: {
-    id: 'goosehintsModal.developer',
+    id: 'mesmilehintsModal.developer',
     defaultMessage: 'Developer',
   },
 });
@@ -105,7 +105,7 @@ const HelpText = () => {
               className="text-blue-500 hover:text-blue-600 p-0 h-auto"
               onClick={() =>
                 window.open(
-                  'https://goose-docs.ai/docs/guides/using-goosehints/',
+                  'https://mesmile-docs.ai/docs/guides/using-mesmilehints/',
                   '_blank'
                 )
               }
@@ -148,55 +148,55 @@ const FileInfo = ({ filePath, found }: { filePath: string; found: boolean }) => 
   );
 };
 
-const getGoosehintsFile = async (filePath: string) => await window.electron.readFile(filePath);
+const getMesmilehintsFile = async (filePath: string) => await window.electron.readFile(filePath);
 
-interface GoosehintsModalProps {
+interface MesmilehintsModalProps {
   directory: string;
-  setIsGoosehintsModalOpen: (isOpen: boolean) => void;
+  setIsMesmilehintsModalOpen: (isOpen: boolean) => void;
 }
 
-export const GoosehintsModal = ({ directory, setIsGoosehintsModalOpen }: GoosehintsModalProps) => {
+export const MesmilehintsModal = ({ directory, setIsMesmilehintsModalOpen }: MesmilehintsModalProps) => {
   const intl = useIntl();
-  const goosehintsFilePath = `${directory}/.goosehints`;
-  const [goosehintsFile, setGoosehintsFile] = useState<string>('');
-  const [goosehintsFileFound, setGoosehintsFileFound] = useState<boolean>(false);
-  const [goosehintsFileReadError, setGoosehintsFileReadError] = useState<string>('');
+  const mesmilehintsFilePath = `${directory}/.mesmilehints`;
+  const [mesmilehintsFile, setMesmilehintsFile] = useState<string>('');
+  const [mesmilehintsFileFound, setMesmilehintsFileFound] = useState<boolean>(false);
+  const [mesmilehintsFileReadError, setMesmilehintsFileReadError] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
   useEffect(() => {
-    const fetchGoosehintsFile = async () => {
+    const fetchMesmilehintsFile = async () => {
       try {
-        const { file, error, found } = await getGoosehintsFile(goosehintsFilePath);
-        setGoosehintsFile(file);
-        setGoosehintsFileFound(found);
-        setGoosehintsFileReadError(found && error ? error : '');
+        const { file, error, found } = await getMesmilehintsFile(mesmilehintsFilePath);
+        setMesmilehintsFile(file);
+        setMesmilehintsFileFound(found);
+        setMesmilehintsFileReadError(found && error ? error : '');
       } catch (error) {
-        console.error('Error fetching .goosehints file:', error);
-        setGoosehintsFileReadError(intl.formatMessage(i18n.failedToAccess));
+        console.error('Error fetching .mesmilehints file:', error);
+        setMesmilehintsFileReadError(intl.formatMessage(i18n.failedToAccess));
       }
     };
-    if (directory) fetchGoosehintsFile();
-  }, [directory, goosehintsFilePath, intl]);
+    if (directory) fetchMesmilehintsFile();
+  }, [directory, mesmilehintsFilePath, intl]);
 
   const writeFile = async () => {
     setIsSaving(true);
     setSaveSuccess(false);
     try {
-      await window.electron.writeFile(goosehintsFilePath, goosehintsFile);
+      await window.electron.writeFile(mesmilehintsFilePath, mesmilehintsFile);
       setSaveSuccess(true);
-      setGoosehintsFileFound(true);
+      setMesmilehintsFileFound(true);
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (error) {
-      console.error('Error writing .goosehints file:', error);
-      setGoosehintsFileReadError(intl.formatMessage(i18n.failedToSave));
+      console.error('Error writing .mesmilehints file:', error);
+      setMesmilehintsFileReadError(intl.formatMessage(i18n.failedToSave));
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <Dialog open={true} onOpenChange={(open) => setIsGoosehintsModalOpen(open)}>
+    <Dialog open={true} onOpenChange={(open) => setIsMesmilehintsModalOpen(open)}>
       <DialogContent className="w-[80vw] max-w-[80vw] sm:max-w-[80vw] max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>{intl.formatMessage(i18n.dialogTitle)}</DialogTitle>
@@ -207,15 +207,15 @@ export const GoosehintsModal = ({ directory, setIsGoosehintsModalOpen }: Goosehi
           <HelpText />
 
           <div>
-            {goosehintsFileReadError ? (
-              <ErrorDisplay error={new Error(goosehintsFileReadError)} />
+            {mesmilehintsFileReadError ? (
+              <ErrorDisplay error={new Error(mesmilehintsFileReadError)} />
             ) : (
               <div className="space-y-2">
-                <FileInfo filePath={goosehintsFilePath} found={goosehintsFileFound} />
+                <FileInfo filePath={mesmilehintsFilePath} found={mesmilehintsFileFound} />
                 <textarea
-                  value={goosehintsFile}
+                  value={mesmilehintsFile}
                   className="w-full h-80 border rounded-md p-2 text-sm resize-none bg-background-primary text-text-primary border-border-primary focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  onChange={(event) => setGoosehintsFile(event.target.value)}
+                  onChange={(event) => setMesmilehintsFile(event.target.value)}
                   placeholder={intl.formatMessage(i18n.placeholder)}
                 />
               </div>
@@ -230,7 +230,7 @@ export const GoosehintsModal = ({ directory, setIsGoosehintsModalOpen }: Goosehi
               {intl.formatMessage(i18n.savedSuccessfully)}
             </span>
           )}
-          <Button variant="outline" onClick={() => setIsGoosehintsModalOpen(false)}>
+          <Button variant="outline" onClick={() => setIsMesmilehintsModalOpen(false)}>
             {intl.formatMessage(i18n.close)}
           </Button>
           <Button onClick={writeFile} disabled={isSaving}>

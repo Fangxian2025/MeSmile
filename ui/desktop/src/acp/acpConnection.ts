@@ -2,7 +2,7 @@ import {
   DEFAULT_GOOSE_MCP_HOST_CAPABILITIES,
   GooseClient,
   type Client,
-} from '@aaif/goose-sdk';
+} from '@aaif/mesmile-sdk';
 import { PROTOCOL_VERSION } from '@agentclientprotocol/sdk';
 import packageJson from '../../package.json';
 import { createWebSocketStream } from './createWebSocketStream';
@@ -48,7 +48,7 @@ async function initializeConnection(): Promise<GooseClient> {
     protocolVersion: PROTOCOL_VERSION,
     clientCapabilities: {
       _meta: {
-        goose: {
+        mesmile: {
           mcpHostCapabilities: DEFAULT_GOOSE_MCP_HOST_CAPABILITIES,
         },
       },

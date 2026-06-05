@@ -10,17 +10,17 @@ The easiest way to use goose with Docker is to pull the pre-built image from Git
 
 ```bash
 # Pull the latest image
-docker pull ghcr.io/aaif-goose/goose:latest
+docker pull ghcr.io/Fangxian2025/MeSmile:latest
 
 # Run goose CLI
-docker run --rm ghcr.io/aaif-goose/goose:latest --version
+docker run --rm ghcr.io/Fangxian2025/MeSmile:latest --version
 
 # Run with LLM configuration
 docker run --rm \
   -e GOOSE_PROVIDER=openai \
   -e GOOSE_MODEL=gpt-4o \
   -e OPENAI_API_KEY=$OPENAI_API_KEY \
-  ghcr.io/aaif-goose/goose:latest run -t "Hello, world!"
+  ghcr.io/Fangxian2025/MeSmile:latest run -t "Hello, world!"
 ```
 
 ## Building from Source
@@ -35,7 +35,7 @@ docker run --rm \
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/aaif-goose/goose.git
+git clone https://github.com/Fangxian2025/MeSmile.git
 cd goose
 ```
 
@@ -110,20 +110,20 @@ version: '3.8'
 
 services:
   goose:
-    image: ghcr.io/aaif-goose/goose:latest
+    image: ghcr.io/Fangxian2025/MeSmile:latest
     environment:
       - GOOSE_PROVIDER=${GOOSE_PROVIDER:-openai}
       - GOOSE_MODEL=${GOOSE_MODEL:-gpt-4o}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     volumes:
       - ./workspace:/workspace
-      - goose-config:/home/goose/.config/goose
+      - mesmile-config:/home/goose/.config/mesmile
     working_dir: /workspace
     stdin_open: true
     tty: true
 
 volumes:
-  goose-config:
+  mesmile-config:
 ```
 
 Run with:
@@ -146,7 +146,7 @@ The Docker image accepts all standard goose environment variables:
 Mount the configuration directory to persist settings:
 ```bash
 docker run --rm \
-  -v ~/.config/goose:/home/goose/.config/goose \
+  -v ~/.config/mesmile:/home/goose/.config/mesmile \
   goose:local configure
 ```
 
@@ -160,10 +160,10 @@ docker run --rm \
   -u root \
   --entrypoint bash \
   goose:local \
-  -c "apt-get update && apt-get install -y vim && goose --version"
+  -c "apt-get update && apt-get install -y vim && mesmile --version"
 
 # Or create a custom Dockerfile
-FROM ghcr.io/aaif-goose/goose:latest
+FROM ghcr.io/Fangxian2025/MeSmile:latest
 USER root
 RUN apt-get update && apt-get install -y \
     vim \
@@ -181,7 +181,7 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/aaif-goose/goose:latest
+      image: ghcr.io/Fangxian2025/MeSmile:latest
       env:
         GOOSE_PROVIDER: openai
         GOOSE_MODEL: gpt-4o
@@ -190,19 +190,19 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run goose analysis
         run: |
-          goose run -t "Review this codebase for security issues"
+          mesmile run -t "Review this codebase for security issues"
 ```
 
 ### GitLab CI
 
 ```yaml
 analyze:
-  image: ghcr.io/aaif-goose/goose:latest
+  image: ghcr.io/Fangxian2025/MeSmile:latest
   variables:
     GOOSE_PROVIDER: openai
     GOOSE_MODEL: gpt-4o
   script:
-    - goose run -t "Generate documentation for this project"
+    - mesmile run -t "Generate documentation for this project"
 ```
 
 ## Image Details
@@ -298,7 +298,7 @@ For production deployments:
 
 Example production Dockerfile:
 ```dockerfile
-FROM ghcr.io/aaif-goose/goose:v1.6.0
+FROM ghcr.io/Fangxian2025/MeSmile:v1.6.0
 # Add any additional tools needed for your use case
 USER root
 RUN apt-get update && apt-get install -y your-tools && rm -rf /var/lib/apt/lists/*
@@ -317,6 +317,6 @@ When contributing Docker-related changes:
 
 ## Related Documentation
 
-- [goose in Docker Tutorial](documentation/docs/tutorials/goose-in-docker.md) - Step-by-step tutorial
-- [Installation Guide](https://goose-docs.ai/docs/getting-started/installation) - All installation methods
-- [Configuration Guide](https://goose-docs.ai/docs/guides/config-files) - Detailed configuration options
+- [goose in Docker Tutorial](documentation/docs/tutorials/mesmile-in-docker.md) - Step-by-step tutorial
+- [Installation Guide](https://mesmile-docs.ai/docs/getting-started/installation) - All installation methods
+- [Configuration Guide](https://mesmile-docs.ai/docs/guides/config-files) - Detailed configuration options

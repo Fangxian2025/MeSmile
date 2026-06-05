@@ -20,12 +20,12 @@ const windowsFiles = [
     '*.exe',
     '*.dll',
     '*.cmd',
-    'goose-npm/**/*'
+    'mesmile-npm/**/*'
 ];
 
 const macosFiles = [
-    'goosed',
-    'goose',
+    'mesmiled',
+    'mesmile',
     'jbang',
     'npx',
     'uvx',
@@ -128,7 +128,7 @@ async function ensureWindowsUvBinaries() {
         return;
     }
 
-    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'goose-uv-'));
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'mesmile-uv-'));
     const zipPath = path.join(tmpDir, 'uv.zip');
     const extractDir = path.join(tmpDir, 'extract');
     fs.mkdirSync(extractDir, { recursive: true });

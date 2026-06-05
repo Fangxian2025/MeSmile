@@ -15,7 +15,7 @@ This tutorial covers how to add the [goose Docs MCP Server](https://github.com/i
 :::tip Quick Install
 <Tabs groupId="interface">
   <TabItem value="ui" label="goose Desktop" default>
-  [Launch the installer](goose://extension?cmd=npx&arg=mcp-remote&arg=https%3A%2F%2Fblock.gitmcp.io%2Fgoose%2F&id=goose-docs&name=goose%20Docs&description=gitmcp%20for%20goose%20documentation)
+  [Launch the installer](mesmile://extension?cmd=npx&arg=mcp-remote&arg=https%3A%2F%2Fblock.gitmcp.io%2Fgoose%2F&id=mesmile-docs&name=goose%20Docs&description=gitmcp%20for%20goose%20documentation)
   </TabItem>
   <TabItem value="cli" label="goose CLI">
   **Command**
@@ -31,7 +31,7 @@ This tutorial covers how to add the [goose Docs MCP Server](https://github.com/i
 <Tabs groupId="interface">
   <TabItem value="ui" label="goose Desktop" default>
     <GooseDesktopInstaller
-      extensionId="goose-docs"
+      extensionId="mesmile-docs"
       extensionName="goose Docs"
       description="GitMCP for goose documentation"
       command="npx"
@@ -123,14 +123,14 @@ The recipe outputs a comprehensive JSON structure with:
 
 #### Basic Usage:
 ```bash
-goose run automated-code-review.yaml \
+mesmile run automated-code-review.yaml \
   --repository_path ./my-project \
   --programming_language Python
 ```
 
 #### Advanced Usage:
 ```bash
-goose run automated-code-review.yaml \
+mesmile run automated-code-review.yaml \
   --repository_path ./my-project \
   --programming_language JavaScript \
   --min_test_coverage 85 \
@@ -147,7 +147,7 @@ The structured JSON output makes it perfect for CI/CD pipelines:
 # Example GitHub Actions integration
 - name: Run Code Review
   run: |
-    goose run automated-code-review.yaml \
+    mesmile run automated-code-review.yaml \
       --repository_path . \
       --programming_language ${{ matrix.language }} \
       --output review-results.json

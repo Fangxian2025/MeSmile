@@ -23,7 +23,7 @@ Before saving recipes, it's important to understand where they can be stored and
 
 | Type | Location | Availability | Best For |
 |------|----------|-------------|----------|
-| **Global** | `~/.config/goose/recipes/` | All projects and sessions | Personal workflows, general-purpose recipes |
+| **Global** | `~/.config/mesmile/recipes/` | All projects and sessions | Personal workflows, general-purpose recipes |
 | **Local** | `YOUR_WORKING_DIRECTORY/.goose/recipes/` | Only when working in that project | Project-specific workflows, team recipes |
 
 **Choose Global Storage When:**
@@ -141,7 +141,7 @@ goose searches for recipes in the following locations (in order):
 
 1. **Current directory**: `.` (looks for `*.yaml` and `*.json` files)
 2. **Custom paths**: Directories specified in [`GOOSE_RECIPE_PATH`](/docs/guides/environment-variables#recipe-configuration) environment variable
-3. **Global recipe library**: `~/.config/goose/recipes/` (or equivalent on your OS)
+3. **Global recipe library**: `~/.config/mesmile/recipes/` (or equivalent on your OS)
 4. **Local project recipes**: `./.goose/recipes/`
 5. **GitHub repository**: If [`GOOSE_RECIPE_GITHUB_REPO`](/docs/guides/environment-variables#recipe-configuration) environment variable is configured
 
@@ -151,30 +151,30 @@ goose searches for recipes in the following locations (in order):
 ```bash
 $ goose recipe list
 Available recipes:
-goose-self-test - A comprehensive meta-testing recipe - local: ./goose-self-test.yaml
-hello-world - A sample recipe demonstrating basic usage - local: ~/.config/goose/recipes/hello-world.yaml
-job-finder - Find software engineering positions - local: ~/.config/goose/recipes/job-finder.yaml
+mesmile-self-test - A comprehensive meta-testing recipe - local: ./mesmile-self-test.yaml
+hello-world - A sample recipe demonstrating basic usage - local: ~/.config/mesmile/recipes/hello-world.yaml
+job-finder - Find software engineering positions - local: ~/.config/mesmile/recipes/job-finder.yaml
 ```
 
 *Verbose mode:*
 ```bash
 $ goose recipe list --verbose
 Available recipes:
-  goose-self-test - A comprehensive meta-testing recipe - local: ./goose-self-test.yaml
+  mesmile-self-test - A comprehensive meta-testing recipe - local: ./mesmile-self-test.yaml
     Title: goose Self-Testing Integration Suite
-    Path: ./goose-self-test.yaml
-  hello-world - A sample recipe demonstrating basic usage - local: ~/.config/goose/recipes/hello-world.yaml
+    Path: ./mesmile-self-test.yaml
+  hello-world - A sample recipe demonstrating basic usage - local: ~/.config/mesmile/recipes/hello-world.yaml
     Title: Hello World Recipe
-    Path: /Users/username/.config/goose/recipes/hello-world.yaml
+    Path: /Users/username/.config/mesmile/recipes/hello-world.yaml
 ```
 
 *JSON format for automation:*
 ```json
 [
   {
-    "name": "goose-self-test",
+    "name": "mesmile-self-test",
     "source": "Local",
-    "path": "./goose-self-test.yaml",
+    "path": "./mesmile-self-test.yaml",
     "title": "goose Self-Testing Integration Suite",
     "description": "A comprehensive meta-testing recipe"
   },
@@ -198,7 +198,7 @@ goose recipe list
 
 Configure GitHub recipe repository:
 ```bash
-export GOOSE_RECIPE_GITHUB_REPO="myorg/goose-recipes"
+export GOOSE_RECIPE_GITHUB_REPO="myorg/mesmile-recipes"
 goose recipe list
 ```
 
@@ -210,7 +210,7 @@ If you need to browse recipe directories manually:
 
 ```bash
 # List recipes in default global location
-ls ~/.config/goose/recipes/
+ls ~/.config/mesmile/recipes/
 
 # List recipes in current project
 ls .goose/recipes/
@@ -241,7 +241,7 @@ The `goose recipe list` command is the recommended way to find recipes as it aut
   </TabItem>
   <TabItem value="cli" label="goose CLI">
 
-Once you've located your recipe file, [run the recipe](/docs/guides/recipes/session-recipes#run-a-recipe) or [open it in goose Desktop](/docs/guides/goose-cli-commands#recipe).
+Once you've located your recipe file, [run the recipe](/docs/guides/recipes/session-recipes#run-a-recipe) or [open it in goose Desktop](/docs/guides/mesmile-cli-commands#recipe).
 
 :::tip Format Compatibility
 The CLI can run recipes saved from goose Desktop without any conversion. Both CLI-created and Desktop-saved recipes work with all recipe commands.

@@ -11,7 +11,7 @@ set -eu
 # Supported Architectures: x86_64, arm64
 #
 # Usage:
-#   curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+#   curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash
 #
 # Environment variables:
 #   GOOSE_BIN_DIR  - Directory to which goose will be installed (default: $HOME/.local/bin)
@@ -28,13 +28,13 @@ set -eu
 # --- 1) Check for dependencies ---
 # Check for curl
 if ! command -v curl >/dev/null 2>&1; then
-  echo "Error: 'curl' is required to download goose. Please install curl and try again."
+  echo "Error: 'curl' is required to download mesmile. Please install curl and try again."
   exit 1
 fi
 
 # Check for tar or unzip (depending on OS)
 if ! command -v tar >/dev/null 2>&1 && ! command -v unzip >/dev/null 2>&1; then
-  echo "Error: Either 'tar' or 'unzip' is required to extract goose. Please install one and try again."
+  echo "Error: Either 'tar' or 'unzip' is required to extract mesmile. Please install one and try again."
   exit 1
 fi
 
@@ -54,7 +54,7 @@ fi
 
 
 # --- 2) Variables ---
-REPO="aaif-goose/goose"
+REPO="Fangxian2025/MeSmile"
 OUT_FILE="goose"
 
 # Set default bin directory based on detected OS environment
@@ -175,7 +175,7 @@ echo "Detected OS: $OS with ARCH $ARCH"
 
 # Build the filename and URL for the stable release
 if [ "$OS" = "darwin" ]; then
-  FILE="goose-$ARCH-apple-darwin.tar.bz2"
+  FILE="mesmile-$ARCH-apple-darwin.tar.bz2"
   EXTRACT_CMD="tar"
 elif [ "$OS" = "windows" ]; then
   case "$GOOSE_WINDOWS_VARIANT" in
@@ -190,12 +190,12 @@ elif [ "$OS" = "windows" ]; then
     echo "Error: Windows currently only supports x86_64 architecture."
     exit 1
   fi
-  FILE="goose-$ARCH-pc-windows-msvc.zip"
+  FILE="mesmile-$ARCH-pc-windows-msvc.zip"
   if [ "$GOOSE_WINDOWS_VARIANT" = "cuda" ]; then
-    FILE="goose-$ARCH-pc-windows-msvc-cuda.zip"
+    FILE="mesmile-$ARCH-pc-windows-msvc-cuda.zip"
   fi
   EXTRACT_CMD="unzip"
-  OUT_FILE="goose.exe"
+  OUT_FILE="mesmile.exe"
 else
   case "$GOOSE_LINUX_VARIANT" in
     standard|vulkan|musl) ;;
@@ -204,11 +204,11 @@ else
       exit 1
       ;;
   esac
-  FILE="goose-$ARCH-unknown-linux-gnu.tar.bz2"
+  FILE="mesmile-$ARCH-unknown-linux-gnu.tar.bz2"
   if [ "$GOOSE_LINUX_VARIANT" = "vulkan" ]; then
-    FILE="goose-$ARCH-unknown-linux-gnu-vulkan.tar.bz2"
+    FILE="mesmile-$ARCH-unknown-linux-gnu-vulkan.tar.bz2"
   elif [ "$GOOSE_LINUX_VARIANT" = "musl" ]; then
-    FILE="goose-$ARCH-unknown-linux-musl.tar.bz2"
+    FILE="mesmile-$ARCH-unknown-linux-musl.tar.bz2"
   fi
   EXTRACT_CMD="tar"
 fi
@@ -220,7 +220,7 @@ echo "Downloading $RELEASE_TAG release: $FILE..."
 if ! curl -sLf "$DOWNLOAD_URL" --output "$FILE"; then
   # If the download fails, only fall back to latest stable when no version was specified and canary was not requested).
   if ! [ -n "${GOOSE_VERSION:-}" ] && [ "${CANARY:-false}" != "true" ]; then
-    LATEST_TAG=$(curl -s https://api.github.com/repos/aaif-goose/goose/releases/latest | \
+    LATEST_TAG=$(curl -s https://api.github.com/repos/Fangxian2025/MeSmile/releases/latest | \
       grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     if [ -z "$LATEST_TAG" ]; then
       echo "Error: Failed to download $DOWNLOAD_URL and latest tag unavailable"
@@ -242,7 +242,7 @@ if ! curl -sLf "$DOWNLOAD_URL" --output "$FILE"; then
 fi
 
 # Create a temporary directory for extraction
-TMP_DIR="/tmp/goose_install_$RANDOM"
+TMP_DIR="/tmp/mesmile_install_$RANDOM"
 if ! mkdir -p "$TMP_DIR"; then
   echo "Error: Could not create temporary extraction directory"
   exit 1
@@ -289,16 +289,16 @@ set -e  # Re-enable immediate exit on error
 rm "$FILE" # clean up the downloaded archive
 
 # Determine the extraction directory (handle subdirectory in Windows packages)
-# Windows releases may contain files in a 'goose-package' subdirectory
+# Windows releases may contain files in a 'mesmile-package' subdirectory
 EXTRACT_DIR="$TMP_DIR"
-if [ "$OS" = "windows" ] && [ -d "$TMP_DIR/goose-package" ]; then
-  echo "Found goose-package subdirectory, using that as extraction directory"
-  EXTRACT_DIR="$TMP_DIR/goose-package"
+if [ "$OS" = "windows" ] && [ -d "$TMP_DIR/mesmile-package" ]; then
+  echo "Found mesmile-package subdirectory, using that as extraction directory"
+  EXTRACT_DIR="$TMP_DIR/mesmile-package"
 fi
 
 # Make binary executable
 if [ "$OS" = "windows" ]; then
-  chmod +x "$EXTRACT_DIR/goose.exe"
+  chmod +x "$EXTRACT_DIR/mesmile.exe"
 else
   chmod +x "$EXTRACT_DIR/goose"
 fi
@@ -311,7 +311,7 @@ fi
 
 echo "Moving goose to $GOOSE_BIN_DIR/$OUT_FILE"
 if [ "$OS" = "windows" ]; then
-  mv "$EXTRACT_DIR/goose.exe" "$GOOSE_BIN_DIR/$OUT_FILE"
+  mv "$EXTRACT_DIR/mesmile.exe" "$GOOSE_BIN_DIR/$OUT_FILE"
 else
   # On Linux, if the target binary is currently running, writing to it fails
   # with ETXTBSY ("Text file busy"). Rename the old binary out of the way

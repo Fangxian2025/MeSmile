@@ -60,7 +60,7 @@ In your first session, goose prompts you to [set up an LLM (Large Language Model
         2. Click `Settings`
         3. Click the `Keyboard` tab
         
-        Changes to global shortcuts (Focus Window, Quick Launcher) take effect immediately. Changes to application shortcuts (New Chat, Settings, etc.) require restarting goose.
+        Changes to global shortcuts (Focus Window, Quick Launcher) take effect immediately. Changes to application shortcuts (New Chat, Settings, etc.) require restarting mesmile.
         
         #### Quick Launcher
         Start a new session by typing your prompt into a popup:
@@ -71,7 +71,7 @@ In your first session, goose prompts you to [set up an LLM (Large Language Model
 
     </TabItem>
     <TabItem value="cli" label="goose CLI">
-        From your terminal, navigate to the directory from which you'd like to start, and run the [session](/docs/guides/goose-cli-commands#session-options) command:
+        From your terminal, navigate to the directory from which you'd like to start, and run the [session](/docs/guides/mesmile-cli-commands#session-options) command:
         ```sh
         goose session 
         ```
@@ -121,7 +121,7 @@ In your first session, goose prompts you to [set up an LLM (Large Language Model
         20260213_9 - react-migration - 2026-02-13 16:20:37 UTC
         ```
 
-        In the output above, `20260213_9` is the session ID. Session IDs use the format `YYYYMMDD_<COUNT>`. Many [goose CLI commands](/docs/guides/goose-cli-commands) let you identify a session by name (`--name` / `-n`) as an alternative to `--session-id`.
+        In the output above, `20260213_9` is the session ID. Session IDs use the format `YYYYMMDD_<COUNT>`. Many [goose CLI commands](/docs/guides/mesmile-cli-commands) let you identify a session by name (`--name` / `-n`) as an alternative to `--session-id`.
     </TabItem>
 </Tabs>
 
@@ -235,7 +235,7 @@ Search allows you to find specific content within sessions or find specific sess
 
     #### Search Session Data Directly
     
-    The [`session list`](/docs/guides/goose-cli-commands#session-list-options) subcommand with supported options can be useful for some search operations.
+    The [`session list`](/docs/guides/mesmile-cli-commands#session-list-options) subcommand with supported options can be useful for some search operations.
 
     You can also query the SQLite database directly:
 
@@ -254,7 +254,7 @@ Search allows you to find specific content within sessions or find specific sess
     ```
 
     :::info Session Storage Migration
-    Starting with version 1.10.0, goose uses a SQLite database (`sessions.db`) instead of individual `.jsonl` files. Legacy `.jsonl` files remain on disk but are no longer managed by goose.
+    Starting with version 1.10.0, goose uses a SQLite database (`sessions.db`) instead of individual `.jsonl` files. Legacy `.jsonl` files remain on disk but are no longer managed by mesmile.
     :::
 
   </TabItem>
@@ -332,7 +332,7 @@ While you can resume sessions, we recommend creating new sessions for new tasks 
         Project-based sessions are only available through the CLI.
     </TabItem>
     <TabItem value="cli" label="goose CLI">
-        You can use the [`project`](/docs/guides/goose-cli-commands#project) and [`projects`](/docs/guides/goose-cli-commands#projects) commands to start or resume sessions from a project, which is a tracked working directory with session metadata. For a complete guide to using Projects, see [Managing Projects Guide](/docs/guides/managing-projects).
+        You can use the [`project`](/docs/guides/mesmile-cli-commands#project) and [`projects`](/docs/guides/mesmile-cli-commands#projects) commands to start or resume sessions from a project, which is a tracked working directory with session metadata. For a complete guide to using Projects, see [Managing Projects Guide](/docs/guides/managing-projects).
     </TabItem>
 </Tabs>
 
@@ -413,7 +413,7 @@ Create a complete copy of any session to reuse configurations, experiment with v
         The session will be immediately removed from your session history and the underlying session record will be deleted from local storage.
     </TabItem>
     <TabItem value="cli" label="goose CLI">
-        You can remove sessions using CLI commands. For detailed instructions on session removal, see the [CLI Commands documentation](/docs/guides/goose-cli-commands#session-remove-options).
+        You can remove sessions using CLI commands. For detailed instructions on session removal, see the [CLI Commands documentation](/docs/guides/mesmile-cli-commands#session-remove-options).
     </TabItem>
 </Tabs>
 
@@ -453,7 +453,7 @@ Create a complete copy of any session to reuse configurations, experiment with v
     <TabItem value="cli" label="goose CLI">
         Export sessions for backup, sharing, migration, or documentation purposes. You can export as JSON files to preserve complete session data including conversation history, metadata, and settings, or as Markdown files to get a formatted, readable version of the conversation.
 
-        From your terminal, run the [`session export`](/docs/guides/goose-cli-commands#session-export-options) subcommand:
+        From your terminal, run the [`session export`](/docs/guides/mesmile-cli-commands#session-export-options) subcommand:
         
         ```bash
         goose session export

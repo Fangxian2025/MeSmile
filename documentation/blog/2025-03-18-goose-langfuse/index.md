@@ -5,7 +5,7 @@ authors:
     - tania
 ---
 
-![blog cover](goose_aierrors.png)
+![blog cover](mesmile_aierrors.png)
 
 How do we debug AI agents like goose? In the [Goosing Around](https://youtube.com/playlist?list=PLyMFt_U2IX4uFFhd_2TD9-tlJkgHMMb6F&feature=shared) stream series, host [Rizel Scarlett](https://www.linkedin.com/in/rizel-bobb-semple/) invited [Marc Klingen](https://www.linkedin.com/in/marcklingen/), Co-Founder at Langfuse, and [Alice Hau](https://www.linkedin.com/in/alice-hau/), Machine Learning Engineer at Block, to demo how Langfuse enables observability into goose's actions, letting you trace LLM behavior and catch errors.
 
@@ -13,7 +13,7 @@ How do we debug AI agents like goose? In the [Goosing Around](https://youtube.co
 
 ## What is Langfuse
 
-[Langfuse](https://langfuse.com/) is an open source observability platform specifically designed for LLM-powered apps. Mark revealed during stream that Langfuse wasn't originally an observability platform, it was born from early attempts to build an AI agent like goose. 
+[Langfuse](https://langfuse.com/) is an open source observability platform specifically designed for LLM-powered apps. Mark revealed during stream that Langfuse wasn't originally an observability platform, it was born from early attempts to build an AI agent like mesmile. 
 
 While they were limited by the available models at the time, especially with multi-file edits, the team discovered the tooling they had built for debugging and monitoring their agent was more valuable to them than their agent.
 
@@ -44,7 +44,7 @@ As developers focus on operational efficiency, researchers can use the analytica
 # The Future of AI Observability
 These powerful debugging and analysis capabilities are only the beginning. This integration between goose and Langfuse represents a significant step forward in making AI agents as transparent and debuggable as traditional code.
 
-To keep up with the exciting developments as they release, you can check out both of the [goose](https://github.com/aaif-goose/goose) and [Langfuse](https://github.com/langfuse/langfuse) repositories on GitHub. 
+To keep up with the exciting developments as they release, you can check out both of the [goose](https://github.com/Fangxian2025/MeSmile) and [Langfuse](https://github.com/langfuse/langfuse) repositories on GitHub. 
 
 You can also watch the [livestream discussing the goose and Langfuse integration](https://www.youtube.com/live/W39BQjsTS9E?feature=shared), and follow the [tutorial showing you how to integrate Langfuse with goose](/docs/tutorials/langfuse).
 
@@ -53,12 +53,12 @@ Also, be sure to subscribe to our [events calendar](https://calget.com/c/t7jszri
 <head>
   <meta property="og:title" content="How goose Catches AI Errors with Langfuse" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/03/18/goose-langfuse" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/03/18/mesmile-langfuse" />
   <meta property="og:description" content="Get detailed insights into goose's behavior with Langfuse's observability tools." />
-  <meta property="og:image" content="http://goose-docs.ai/assets/images/goose_aierrors-22154af884db86789ce1a12a72897e8e.png" />
+  <meta property="og:image" content="http://mesmile-docs.ai/assets/images/mesmile_aierrors-22154af884db86789ce1a12a72897e8e.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="How goose Catches AI Errors with Langfuse" />
   <meta name="twitter:description" content="Get detailed insights into goose's behavior with Langfuse's observability tools." />
-  <meta name="twitter:image" content="http://goose-docs.ai/assets/images/goose_aierrors-22154af884db86789ce1a12a72897e8e.png" />
+  <meta name="twitter:image" content="http://mesmile-docs.ai/assets/images/mesmile_aierrors-22154af884db86789ce1a12a72897e8e.png" />
 </head>

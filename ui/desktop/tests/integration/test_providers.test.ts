@@ -1,7 +1,7 @@
 /**
  * Provider smoke tests — normal mode (direct tool calls).
  *
- * Each available provider/model pair gets its own test that spawns `goose run`
+ * Each available provider/model pair gets its own test that spawns `mesmile run`
  * with the developer builtin, asks the model to read files via the shell tool,
  * and validates the output.
  */
@@ -15,11 +15,11 @@ import { buildGoose, discoverTestCases, runGoose, providerTest } from './test_pr
 const BUILTINS = 'developer';
 const TEST_CONTENT = 'test-content-abc123';
 
-let gooseBin: string;
+let mesmileBin: string;
 let testFile: string;
 
 beforeAll(() => {
-  gooseBin = buildGoose();
+  mesmileBin = buildGoose();
 
   const targetDir = path.resolve(process.cwd(), '..', '..', 'target');
   fs.mkdirSync(targetDir, { recursive: true });
@@ -30,7 +30,7 @@ beforeAll(() => {
 const { testAgentic, testNonAgentic } = providerTest(discoverTestCases());
 
 testNonAgentic('reads files via shell tool', async (tc) => {
-  const testdir = fs.mkdtempSync(path.join(os.tmpdir(), 'goose-test-'));
+  const testdir = fs.mkdtempSync(path.join(os.tmpdir(), 'mesmile-test-'));
   try {
     const tokenA = `smoke-alpha-${Math.floor(Math.random() * 32768)}`;
     const tokenB = `smoke-bravo-${Math.floor(Math.random() * 32768)}`;
@@ -38,7 +38,7 @@ testNonAgentic('reads files via shell tool', async (tc) => {
     fs.writeFileSync(path.join(testdir, 'part-b.txt'), tokenB + '\n');
 
     const output = await runGoose(
-      gooseBin,
+      mesmileBin,
       testdir,
       'Use the shell tool to cat ./part-a.txt and ./part-b.txt, then reply with ONLY the contents of both files, one per line, nothing else.',
       BUILTINS,
@@ -64,12 +64,12 @@ testNonAgentic('reads files via shell tool', async (tc) => {
 });
 
 testAgentic('reads file contents', async (tc) => {
-  const testdir = fs.mkdtempSync(path.join(os.tmpdir(), 'goose-test-'));
+  const testdir = fs.mkdtempSync(path.join(os.tmpdir(), 'mesmile-test-'));
   try {
     fs.copyFileSync(testFile, path.join(testdir, 'test-content.txt'));
 
     const output = await runGoose(
-      gooseBin,
+      mesmileBin,
       testdir,
       'read ./test-content.txt and output its contents exactly',
       BUILTINS,

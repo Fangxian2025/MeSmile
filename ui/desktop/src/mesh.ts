@@ -305,10 +305,10 @@ export function cleanup(): void {
 
 // ── Startup check ───────────────────────────────────────────────────
 
-export async function checkProviderRunning(goosedClient: Client): Promise<boolean> {
+export async function checkProviderRunning(mesmiledClient: Client): Promise<boolean> {
   const res = await readConfig({
     body: { key: 'GOOSE_PROVIDER', is_secret: false },
-    client: goosedClient,
+    client: mesmiledClient,
   });
   const provider = typeof res.data === 'string' ? res.data : String(res.data ?? '');
   if (!provider.includes('mesh')) return true;

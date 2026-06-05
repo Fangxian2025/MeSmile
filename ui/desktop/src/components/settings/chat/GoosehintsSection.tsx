@@ -1,26 +1,26 @@
 import { useState } from 'react';
 import { Button } from '../../ui/button';
 import { FolderKey } from 'lucide-react';
-import { GoosehintsModal } from './GoosehintsModal';
+import { MesmilehintsModal } from './MesmilehintsModal';
 import { defineMessages, useIntl } from '../../../i18n';
 
 const i18n = defineMessages({
   title: {
-    id: 'goosehintsSection.title',
-    defaultMessage: 'Project Hints (.goosehints)',
+    id: 'mesmilehintsSection.title',
+    defaultMessage: 'Project Hints (.mesmilehints)',
   },
   description: {
-    id: 'goosehintsSection.description',
+    id: 'mesmilehintsSection.description',
     defaultMessage:
-      "Configure your project's .goosehints file to provide additional context to Goose",
+      "Configure your project's .mesmilehints file to provide additional context to Goose",
   },
   configure: {
-    id: 'goosehintsSection.configure',
+    id: 'mesmilehintsSection.configure',
     defaultMessage: 'Configure',
   },
 });
 
-export const GoosehintsSection = () => {
+export const MesmilehintsSection = () => {
   const intl = useIntl();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const directory = window.appConfig?.get('GOOSE_WORKING_DIR') as string;
@@ -45,7 +45,7 @@ export const GoosehintsSection = () => {
         </Button>
       </div>
       {isModalOpen && (
-        <GoosehintsModal directory={directory} setIsGoosehintsModalOpen={setIsModalOpen} />
+        <MesmilehintsModal directory={directory} setIsMesmilehintsModalOpen={setIsModalOpen} />
       )}
     </>
   );

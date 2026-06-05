@@ -32,7 +32,7 @@ goose automatically uses Chat Recall when you reference past work or ask questio
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 
@@ -48,7 +48,7 @@ goose automatically uses Chat Recall when you reference past work or ask questio
 
 ## Example Usage
 
-Chat Recall can search across all sessions using keywords. Results are grouped by session and ordered by recency, and can be filtered by date. Alternatively, you can provide [session IDs](/docs/guides/goose-cli-commands#session-list-options) to load summaries of specific sessions.
+Chat Recall can search across all sessions using keywords. Results are grouped by session and ordered by recency, and can be filtered by date. Alternatively, you can provide [session IDs](/docs/guides/mesmile-cli-commands#session-list-options) to load summaries of specific sessions.
 
 Let's ask goose to find recent conversations about a topic:
 

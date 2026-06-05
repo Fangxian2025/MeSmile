@@ -110,7 +110,7 @@ Wraps `pi-acp`, an ACP adapter for Pi. Uses your existing Pi installation.
    Or configure through the goose CLI using `goose configure`:
 
    ```bash
-   ┌   goose-configure
+   ┌   mesmile-configure
    │
    ◇  What would you like to configure?
    │  Configure Providers
@@ -146,7 +146,7 @@ Wraps `pi-acp`, an ACP adapter for Pi. Uses your existing Pi installation.
    Or configure through the goose CLI using `goose configure`:
 
    ```bash
-   ┌   goose-configure
+   ┌   mesmile-configure
    │
    ◇  What would you like to configure?
    │  Configure Providers
@@ -192,13 +192,13 @@ goose session
 Extensions configured via `--with-extension` or `--with-streamable-http-extension` are passed through to the ACP agent:
 
 ```bash
-GOOSE_PROVIDER=claude-acp goose run \
+GOOSE_PROVIDER=claude-acp mesmile run \
   --with-extension 'npx -y @modelcontextprotocol/server-everything' \
   -t 'Use the echo tool to say hello'
 ```
 
 ```bash
-GOOSE_PROVIDER=codex-acp goose run \
+GOOSE_PROVIDER=codex-acp mesmile run \
   --with-streamable-http-extension 'https://mcp.kiwi.com' \
   -t 'Search for flights from BKI to SYD tomorrow'
 ```

@@ -33,7 +33,7 @@ import { PanelLeft } from 'lucide-react';
           :::
         </div>
         <h3>Option 2: Install via Homebrew</h3>
-        Homebrew downloads the [same app](https://github.com/Homebrew/homebrew-cask/blob/master/Casks/b/block-goose.rb) but can take care of updates too.
+        Homebrew downloads the [same app](https://github.com/Homebrew/homebrew-cask/blob/master/Casks/b/block-mesmile.rb) but can take care of updates too.
         ```bash
           brew install --cask block-goose
         ```
@@ -55,14 +55,14 @@ import { PanelLeft } from 'lucide-react';
         Run the following command to install the latest version of goose on macOS:
 
         ```sh
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash
         ```
         This script will fetch the latest version of goose and set it up on your system.
 
         If you'd like to install without interactive configuration, disable `CONFIGURE`:
 
         ```sh
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | CONFIGURE=false bash
         ```
 
         :::tip Updating goose
@@ -73,9 +73,9 @@ import { PanelLeft } from 'lucide-react';
         :::
 
         <h3>Option 2: Install via Homebrew</h3>
-        Homebrew downloads the [a precompiled CLI tool](https://github.com/Homebrew/homebrew-core/blob/master/Formula/b/block-goose-cli.rb) and can take care of updates.
+        Homebrew downloads the [a precompiled CLI tool](https://github.com/Homebrew/homebrew-core/blob/master/Formula/b/block-mesmile-cli.rb) and can take care of updates.
         ```bash
-        brew install block-goose-cli
+        brew install block-mesmile-cli
         ```
       </TabItem>
     </Tabs>
@@ -107,14 +107,14 @@ import { PanelLeft } from 'lucide-react';
         Run the following command to install the goose CLI on Linux:
 
         ```sh
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash
         ```
         This script will fetch the latest version of goose and set it up on your system.
 
         If you'd like to install without interactive configuration, disable `CONFIGURE`:
 
         ```sh
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | CONFIGURE=false bash
         ```
 
         :::tip Updating goose
@@ -155,20 +155,20 @@ import { PanelLeft } from 'lucide-react';
         **Git Bash / MSYS2: Standard**
 
         ```bash
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash
         ```
 
         To install without interactive configuration, disable `CONFIGURE`:
 
         ```bash
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | CONFIGURE=false bash
         ```
 
         **PowerShell Installation: Standard**
         Download the PowerShell installation script to your current directory.
 
         ```powershell
-        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/aaif-goose/goose/main/download_cli.ps1" -OutFile "download_cli.ps1";
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Fangxian2025/MeSmile/main/download_cli.ps1" -OutFile "download_cli.ps1";
         ```
         Then run the script to install goose:
         ```powershell
@@ -220,7 +220,7 @@ import { PanelLeft } from 'lucide-react';
 
           3. Run the goose installation script:
           ```bash
-          curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+          curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash
           ```
           :::tip
             If you encounter any issues on download, you might need to install `bzip2` to extract the downloaded file:
@@ -233,7 +233,7 @@ import { PanelLeft } from 'lucide-react';
           If you'd like to install without interactive configuration, disable `CONFIGURE`:
 
           ```sh
-          curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+          curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | CONFIGURE=false bash
           ```
 
           If needed, add goose to your path:
@@ -268,7 +268,7 @@ goose works with [supported LLM providers][providers] that give goose the AI int
     Example configuration flow:
 
     ```
-    ┌   goose-configure
+    ┌   mesmile-configure
     │
     ◇ How would you like to set up your provider?
     │ Tetrate Agent Router Service Login
@@ -285,7 +285,7 @@ goose works with [supported LLM providers][providers] that give goose the AI int
     Testing configuration...
     ✓ Configuration test passed!
     ✓ Developer extension enabled!
-    └ Tetrate Agent Router Service setup complete! You can now use goose.
+    └ Tetrate Agent Router Service setup complete! You can now use mesmile.
   ```
 
   :::info Windows Users
@@ -315,7 +315,7 @@ goose works with [supported LLM providers][providers] that give goose the AI int
 :::
 
 :::info Free Credits Offer
-You'll receive $10 in free credits the first time you automatically authenticate with Tetrate through goose. This offer is available to both new and existing Tetrate users.
+You'll receive $10 in free credits the first time you automatically authenticate with Tetrate through mesmile. This offer is available to both new and existing Tetrate users.
 :::
 
 ## Update Provider
@@ -341,7 +341,7 @@ You can change your LLM provider and/or model or update your API key at any time
     To select an option during configuration, use the up and down arrows to highlight your choice then press Enter.
 
     ```
-    ┌   goose-configure
+    ┌   mesmile-configure
     │
     ◇ What would you like to configure?
     │ Configure Providers
@@ -415,9 +415,9 @@ If you're packaging goose for a Linux distribution or creating a custom build, y
 just generate-manpages
 ```
 
-This creates ROFF-formatted manpages in `target/man/` (e.g., `goose.1`, `goose-session.1`) that can be installed to `/usr/share/man/man1/` to provide offline documentation via the `man` command.
+This creates ROFF-formatted manpages in `target/man/` (e.g., `mesmile.1`, `mesmile-session.1`) that can be installed to `/usr/share/man/man1/` to provide offline documentation via the `man` command.
 
-Manpage generation requires the goose source repository and is intended for distribution packagers preparing packages for Fedora, Debian, and other Linux distributions. See the [generate_manpages.rs source](https://github.com/aaif-goose/goose/blob/main/crates/goose-cli/src/bin/generate_manpages.rs) for implementation details.
+Manpage generation requires the goose source repository and is intended for distribution packagers preparing packages for Fedora, Debian, and other Linux distributions. See the [generate_manpages.rs source](https://github.com/Fangxian2025/MeSmile/blob/main/crates/mesmile-cli/src/bin/generate_manpages.rs) for implementation details.
 
 ## Additional Resources
 

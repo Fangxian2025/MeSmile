@@ -24,11 +24,11 @@ goose includes several built-in extensions you can start using out of the box:
 - [Developer](/docs/mcp/developer-mcp): Provides a set of general development tools that are useful for software development. The Developer extension is **enabled by default**.
 - [Computer Controller](/docs/mcp/computer-controller-mcp): Provides general computer control tools for webscraping, file caching, and automations.
 - [Memory](/docs/mcp/memory-mcp): Teaches goose to remember your preferences as you use it.
-- [Tutorial](/docs/mcp/tutorial-mcp): Provides interactive tutorials for learning about goose.
+- [Tutorial](/docs/mcp/tutorial-mcp): Provides interactive tutorials for learning about mesmile.
 - [Auto Visualiser](/docs/mcp/autovisualiser-mcp): Automatically generates graphical data visualizations in conversations.
 
 :::warning Access Control
-goose operates autonomously by default. Combined with the Developer extension's tools, this means goose can execute commands and modify files without your approval. If you want more control over this behavior, you can configure the [goose permission mode](/docs/guides/managing-tools/goose-permissions), [tool permissions](/docs/guides/managing-tools/tool-permissions), and [.gooseignore files](/docs/guides/context-engineering/using-gooseignore). See [Configuring Access Controls](/docs/mcp/developer-mcp#configuring-access-controls) for a brief overview.
+goose operates autonomously by default. Combined with the Developer extension's tools, this means goose can execute commands and modify files without your approval. If you want more control over this behavior, you can configure the [goose permission mode](/docs/guides/managing-tools/mesmile-permissions), [tool permissions](/docs/guides/managing-tools/tool-permissions), and [.gooseignore files](/docs/guides/context-engineering/using-gooseignore). See [Configuring Access Controls](/docs/mcp/developer-mcp#configuring-access-controls) for a brief overview.
 :::
 
 ### Built-in Platform Extensions
@@ -75,7 +75,7 @@ Platform extensions are built-in extensions that provide global features like co
     **Example: Adding Built-in Extension**
 
     ```
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension 
@@ -155,7 +155,7 @@ See available servers in the **[MCP Server Directory](https://www.pulsemcp.com/s
   2. Select `Add Extension` from the menu.
 
   3. Choose the type of extension you'd like to add:
-      - `Built-In Extension`: Use an extension that comes pre-installed with goose.
+      - `Built-In Extension`: Use an extension that comes pre-installed with mesmile.
       - `Command-Line Extension`: Add a local command or script to run as an extension.
       - `Remote Extension (Streamable HTTP)`: Connect to a remote system via Streamable HTTP
 
@@ -166,7 +166,7 @@ See available servers in the **[MCP Server Directory](https://www.pulsemcp.com/s
 <Tabs groupId="extensions">
    <TabItem value="node" label="Node">
   ```
- ┌   goose-configure 
+ ┌   mesmile-configure 
  │
  ◇  What would you like to configure?
  │  Add Extension 
@@ -193,7 +193,7 @@ See available servers in the **[MCP Server Directory](https://www.pulsemcp.com/s
    <TabItem value="python" label="Python">
 
   ```
- ┌   goose-configure
+ ┌   mesmile-configure
  │
  ◇  What would you like to configure?
  │  Add Extension
@@ -222,7 +222,7 @@ See available servers in the **[MCP Server Directory](https://www.pulsemcp.com/s
 Note: Java and Kotlin extensions are only support on Linux and macOS
 
   ```
- ┌   goose-configure
+ ┌   mesmile-configure
  │
  ◇  What would you like to configure?
  │  Add Extension
@@ -268,11 +268,11 @@ Extensions can be installed using goose's deep link protocol. The URL format var
 <Tabs groupId="interface">
   <TabItem value="stdio" label="StandardIO" default>
 ```
-goose://extension?cmd=<command>&arg=<argument>&id=<id>&name=<name>&description=<description>
+mesmile://extension?cmd=<command>&arg=<argument>&id=<id>&name=<name>&description=<description>
 ```
 
 Required parameters:
-- `cmd`: The base command to run, one of `jbang`, `npx`, `uvx`, `goosed`, or `docker`
+- `cmd`: The base command to run, one of `jbang`, `npx`, `uvx`, `mesmiled`, or `docker`
 - `arg`: (cmd only) Command arguments (can be repeated for multiple arguments: `&arg=...&arg=...`)
 - `timeout`: Maximum time (in seconds) to wait for extension responses
 - `id`: Unique identifier for the extension
@@ -282,14 +282,14 @@ Required parameters:
 A command like `npx -y @modelcontextprotocol/server-github` would be represented as:
 
 ```
-goose://extension?cmd=npx&arg=-y&arg=%40modelcontextprotocol/server-github&timeout=<timeout>&id=<id>&name=<name>&description=<description>
+mesmile://extension?cmd=npx&arg=-y&arg=%40modelcontextprotocol/server-github&timeout=<timeout>&id=<id>&name=<name>&description=<description>
 ```
 
 Note that each parameter to the `npx` command is passed as a separate `arg` parameter in the deeplink.
   </TabItem>
   <TabItem value="streamable_http" label="Streamable HTTP">
 ```
-goose://extension?url=<remote-streamable-http-url>&type=streamable_http&id=<id>&name=<n>&description=<description>
+mesmile://extension?url=<remote-streamable-http-url>&type=streamable_http&id=<id>&name=<n>&description=<description>
 ```
 
 Parameters:
@@ -303,7 +303,7 @@ Parameters:
 For example, a deeplink for a URL like `https://example.com/streamable` would look like this when URL-encoded:
 
 ```
-goose://extension?url=https%3A%2F%2Fexample.com%2Fstreamable&type=streamable_http&timeout=<timeout>&id=<id>&name=<n>&description=<description>
+mesmile://extension?url=https%3A%2F%2Fexample.com%2Fstreamable&type=streamable_http&timeout=<timeout>&id=<id>&name=<n>&description=<description>
 ```
 
   </TabItem>
@@ -315,7 +315,7 @@ All parameters in the deeplink must be URL-encoded. For example, spaces should b
 
 
 ### Config Entry
-For advanced users, you can also directly edit the config file (`~/.config/goose/config.yaml`) to add, remove, or update an extension:
+For advanced users, you can also directly edit the config file (`~/.config/mesmile/config.yaml`) to add, remove, or update an extension:
 
 ```yaml
 extensions:
@@ -360,7 +360,7 @@ Changes made to your default extensions apply to future sessions. Updates to the
   **Example:**
 
   ```
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 
@@ -543,7 +543,7 @@ goose relies on extension properties to determine how to handle an extension. Yo
 
   <TabItem value="cli" label="Config file">
   
-  1. Navigate to the goose [configuration file](/docs/guides/config-files). For example, navigate to `~/.config/goose/config.yaml` on macOS.
+  1. Navigate to the goose [configuration file](/docs/guides/config-files). For example, navigate to `~/.config/mesmile/config.yaml` on macOS.
   2. Edit the extension properties as needed and save your changes.
 
   </TabItem>
@@ -576,7 +576,7 @@ You can remove installed extensions.
     3. Arrow down to the extension you want to remove.
     4. Press the `space bar` to select the extension. Solid means selected. 
     ```
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Remove Extension 
@@ -670,7 +670,7 @@ goose session --with-streamable-http-extension "https://example.com/streamable"
 
 ### Extensions in Containers
 
-goose can use the `--container` flag to run extensions inside your Docker containers for devcontainer workflows. See [Running Extensions in Docker Containers](/docs/tutorials/goose-in-docker#running-extensions-in-docker-containers) for details.
+goose can use the `--container` flag to run extensions inside your Docker containers for devcontainer workflows. See [Running Extensions in Docker Containers](/docs/tutorials/mesmile-in-docker#running-extensions-in-docker-containers) for details.
 
 ## Developing Extensions
 

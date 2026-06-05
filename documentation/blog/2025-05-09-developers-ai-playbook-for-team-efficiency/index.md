@@ -68,13 +68,13 @@ If you're creating the recipe file in YAML, you can share the file with your tea
 
 Clicking a shared URL from your team will open Goose and load the recipe in a new session. No data is shared between users, so you don't have to worry about leaking API keys or other sensitive information.
 
-For the CLI, you can run the recipe by using the command `goose run recipe-filename.yaml` in your terminal/shell.
+For the CLI, you can run the recipe by using the command `mesmile run recipe-filename.yaml` in your terminal/shell.
 
 :::info PRO TIP
 You can set an environment variable to point to a shared GitHub repo for your team's recipes, and teammates can run the recipes by name:
 `export GOOSE_RECIPE_GITHUB_REPO=github-username/repo-name`
 
-Then, to run a recipe: `goose run --recipe <recipe-name>`
+Then, to run a recipe: `mesmile run --recipe <recipe-name>`
 :::
 
 
@@ -155,7 +155,7 @@ activities:
 - Extract PR-linked changes only
 - Categorize commits by conventional commit types
 author:
-  contact: goose-community
+  contact: mesmile-community
 ```
 
 </details>
@@ -180,7 +180,7 @@ Using this play helps create consistent and informative PRs. This makes the code
 version: 1.0.0
 title: PR Generator
 author:
-  contact: goose-community
+  contact: mesmile-community
 description: Automatically generate pull request descriptions based on changes in a local git repo
 instructions: Your job is to generate descriptive and helpful pull request descriptions without asking for additional information. Generate commit messages and branch names based on the actual code changes.
 parameters:
@@ -293,20 +293,20 @@ Your team can create plays for many other tasks:
 
 ## What kinds of tasks can your team automate?
 
-We'd love for you to share your ideas with us! Share your ideas by creating a recipe and posting it to the [Goose community on Discord](http://discord.gg/goose-oss).
+We'd love for you to share your ideas with us! Share your ideas by creating a recipe and posting it to the [Goose community on Discord](http://discord.gg/mesmile-oss).
 
 
 
 <head>
   <meta property="og:title" content="Championship Driven Development: Your team's AI Playbook for Peak Performance" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/05/09/developers-ai-playbook-for-team-efficiency" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/05/09/developers-ai-playbook-for-team-efficiency" />
   <meta property="og:description" content="Learn how AI-driven 'plays,' based on Model Context Protocol, can help development teams improve common workflows like changelog generation and pull requests." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/cdd-playbook-69a053588574d8678c2acb92a1b21da6.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/cdd-playbook-69a053588574d8678c2acb92a1b21da6.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Championship Driven Development: Your team's AI Playbook for Peak Performance" />
   <meta name="twitter:description" content="Learn how AI-driven 'plays,' based on Model Context Protocol, can help development teams improve common workflows like changelog generation and pull requests." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/cdd-playbook-69a053588574d8678c2acb92a1b21da6.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/cdd-playbook-69a053588574d8678c2acb92a1b21da6.png" />
   <meta name="keywords" content="AI development; Model Context Protocol; developer productivity; team playbook; AI automation; Goose; software development efficiency; changelogs; pull requests" />
 </head>

@@ -78,7 +78,7 @@ Here's how to configure:
         2. Select `goose settings` from the menu and press Enter.
 
         ```sh
-        ┌ goose-configure
+        ┌ mesmile-configure
         │
         ◆ What would you like to configure?
         | ○ Configure Providers
@@ -94,7 +94,7 @@ Here's how to configure:
         3. Choose `goose mode` from the menu and press Enter.
 
         ```sh
-        ┌   goose-configure
+        ┌   mesmile-configure
         │
         ◇  What would you like to configure?
         │  goose settings 
@@ -116,7 +116,7 @@ Here's how to configure:
         4.  Choose the goose mode you would like to configure.
 
         ```sh
-        ┌   goose-configure
+        ┌   mesmile-configure
         │
         ◇  What would you like to configure?
         │  goose settings

@@ -18,7 +18,7 @@ This tutorial covers how to add the [gotoHuman MCP Server](https://github.com/go
 :::tip Quick Install
 <Tabs groupId="interface">
   <TabItem value="ui" label="goose Desktop" default>
-  [Launch the installer](goose://extension?cmd=npx&arg=-y&arg=%40gotohuman%2Fmcp-server&id=gotoHuman&name=gotoHuman&description=gotoHuman%20MCP%20server%20for%20human-in-the-loop%20approvals&env=GOTOHUMAN_API_KEY%3DgotoHuman%20API%20Key)
+  [Launch the installer](mesmile://extension?cmd=npx&arg=-y&arg=%40gotohuman%2Fmcp-server&id=gotoHuman&name=gotoHuman&description=gotoHuman%20MCP%20server%20for%20human-in-the-loop%20approvals&env=GOTOHUMAN_API_KEY%3DgotoHuman%20API%20Key)
   </TabItem>
   <TabItem value="cli" label="goose CLI">
   **Command**
@@ -98,7 +98,7 @@ In this example, goose sends a LinkedIn post draft to gotoHuman for approval usi
 Send this blog draft about goose to gotoHuman for review using my `n8n news to post` form. 
 
 Include today’s date as the timestamp, these links: 
-[goose Docs: https://goose-docs.ai/, gotoHuman: https://gotohuman.com/], 
+[goose Docs: https://mesmile-docs.ai/, gotoHuman: https://gotohuman.com/], 
 summarize it as ‘Introducing goose’s integration with gotoHuman for human approvals,’ 
 and here’s the draft:
 

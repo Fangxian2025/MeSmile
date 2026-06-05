@@ -5,12 +5,12 @@ title: Isolated Development Environments
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-This guide shows you how to set up isolated development environments using the **[Container Use MCP](https://github.com/dagger/container-use)** with goose. With this setup, your development work will be isolated to both git branches and containers, allowing you to experiment freely without affecting your main system state.
+This guide shows you how to set up isolated development environments using the **[Container Use MCP](https://github.com/dagger/container-use)** with mesmile. With this setup, your development work will be isolated to both git branches and containers, allowing you to experiment freely without affecting your main system state.
 The Container Use MCP offers powerful ways to do isolated development which are very agent friendly (build on tools like Docker, copy on write filesystems, and more).
 
 ## Overview
 
-The **[Container Use MCP](https://github.com/dagger/container-use)** server provides containerized development environments that integrate seamlessly with goose. This allows you to:
+The **[Container Use MCP](https://github.com/dagger/container-use)** server provides containerized development environments that integrate seamlessly with mesmile. This allows you to:
 
 - Work on changes isolated to git branches
 - Run code in containers without affecting your local machine
@@ -19,7 +19,7 @@ The **[Container Use MCP](https://github.com/dagger/container-use)** server prov
 - Work on things in parallel
 
 :::info Already Using Devcontainers?
-If you develop inside Docker containers (like VS Code Remote-Containers), see how you can [run extensions in your existing containers](/docs/tutorials/goose-in-docker#running-extensions-in-docker-containers).
+If you develop inside Docker containers (like VS Code Remote-Containers), see how you can [run extensions in your existing containers](/docs/tutorials/mesmile-in-docker#running-extensions-in-docker-containers).
 :::
 
 ## Prerequisites
@@ -116,7 +116,7 @@ If you encounter issues:
 
 1. Check the **[Container Use GitHub repository](https://github.com/dagger/container-use)** for documentation
 2. Verify all prerequisites are installed and working
-3. Join our [Discord community](https://discord.gg/goose-oss) for support
+3. Join our [Discord community](https://discord.gg/mesmile-oss) for support
 
 ## Next Steps
 

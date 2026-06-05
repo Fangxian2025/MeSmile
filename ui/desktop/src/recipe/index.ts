@@ -74,7 +74,7 @@ export async function scanRecipe(recipe: Recipe): Promise<{ has_security_warning
 
 export async function generateDeepLink(recipe: Recipe): Promise<string> {
   const encoded = await encodeRecipe(recipe);
-  return `goose://recipe?config=${encoded}`;
+  return `mesmile://recipe?config=${encoded}`;
 }
 
 /**
@@ -123,11 +123,11 @@ export async function parseDeeplink(deeplink: string): Promise<Recipe | null> {
   try {
     const cleanLink = deeplink.trim();
 
-    if (!cleanLink.startsWith('goose://recipe?config=')) {
-      throw new Error('Invalid deeplink format. Expected: goose://recipe?config=...');
+    if (!cleanLink.startsWith('mesmile://recipe?config=')) {
+      throw new Error('Invalid deeplink format. Expected: mesmile://recipe?config=...');
     }
 
-    const recipeEncoded = cleanLink.replace('goose://recipe?config=', '');
+    const recipeEncoded = cleanLink.replace('mesmile://recipe?config=', '');
 
     if (!recipeEncoded) {
       throw new Error('No recipe configuration found in deeplink');

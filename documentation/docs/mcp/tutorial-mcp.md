@@ -33,7 +33,7 @@ The Tutorial extension serves as an interactive learning tool that:
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 
@@ -144,4 +144,4 @@ After completing tutorials, you can:
 ### Need Further Help? 
 If you have questions, run into issues, or just need to brainstorm ideas join the [Discord Community][discord]!
 
-[discord]: https://discord.gg/goose-oss
+[discord]: https://discord.gg/mesmile-oss

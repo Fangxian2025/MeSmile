@@ -12,7 +12,7 @@ The [goose for VS Code extension](https://marketplace.visualstudio.com/items?ite
 goose for VS Code is in active development. Behavior and configuration may change in future releases.
 :::
 
-The extension uses the [Agent Client Protocol (ACP)](/docs/guides/acp-clients) to communicate with goose.
+The extension uses the [Agent Client Protocol (ACP)](/docs/guides/acp-clients) to communicate with mesmile.
 
 ## Install the Extension
 
@@ -29,7 +29,7 @@ The extension uses the [Agent Client Protocol (ACP)](/docs/guides/acp-clients) t
 
 ## Share Context with goose
 
-There are two ways to provide context to goose.
+There are two ways to provide context to mesmile.
 
 ### Send Selected Code
 

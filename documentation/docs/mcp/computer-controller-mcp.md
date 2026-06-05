@@ -36,7 +36,7 @@ Let goose complete its tasks without interruption - avoid using your mouse or ke
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 

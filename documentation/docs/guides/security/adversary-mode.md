@@ -20,7 +20,7 @@ The adversary uses the same model and provider goose is already configured with.
 
 ## Enabling Adversary Mode
 
-Create a file at `~/.config/goose/adversary.md` with your rules:
+Create a file at `~/.config/mesmile/adversary.md` with your rules:
 
 ```markdown
 BLOCK if the tool call:
@@ -85,4 +85,4 @@ Some tool names you might want to add:
 ## See Also
 
 - [Prompt Injection Detection](/docs/guides/security/prompt-injection-detection) — pattern-based detection (complementary, always-on when enabled)
-- [goose Permission Modes](/docs/guides/managing-tools/goose-permissions) — control goose's autonomy level
+- [goose Permission Modes](/docs/guides/managing-tools/mesmile-permissions) — control goose's autonomy level

@@ -41,9 +41,9 @@ goose employed the [analyze tool](/docs/mcp/developer-mcp#developer-extension-to
 ```
 User Browser
     ↓
-[goose-access-gateway] (React SPA)
+[mesmile-access-gateway] (React SPA)
     ↓ (HTTPS REST API)
-[goose-hacknight-backend] (Express API)
+[mesmile-hacknight-backend] (Express API)
     ↓ (HTTPS REST API)
 [OpenRouter API] (Third-party service)
 ```
@@ -86,7 +86,7 @@ But, I was so happy that goose generated a pixel perfect recreation of the app.
 
 ### Task Decomposition
 
-The agent's successful, perfect recreation of the UI was largely due to the [Todo extension](/docs/mcp/todo-mcp), an MCP server that's built into goose. I find that this extension helps prevent scope drift, where agents autonomously expand into adjacent functionality after completing an objective.
+The agent's successful, perfect recreation of the UI was largely due to the [Todo extension](/docs/mcp/todo-mcp), an MCP server that's built into mesmile. I find that this extension helps prevent scope drift, where agents autonomously expand into adjacent functionality after completing an objective.
 
 The to do list included items like:
 
@@ -115,7 +115,7 @@ I gave goose the following prompt:
 
 Once it analyzed that code, I gave the final instruction:
 
-> Use what you learned from the recipe project logic to make this happen in goose-credits... send the API key to their email using the SendGrid API.
+> Use what you learned from the recipe project logic to make this happen in mesmile-credits... send the API key to their email using the SendGrid API.
 
 This "copy-and-adapt" strategy was incredibly effective. goose successfully implemented the necessary API routes and clearly identified the environment variables I needed to supply. I manually added those variables. I didn't give them to goose for security purposes.
 
@@ -127,18 +127,18 @@ I hope this clarifies how to converse with an agent and accomplish complex tasks
 
 <iframe class="aspect-ratio" src="https://www.youtube.com/embed/zGyXfA3kKTk" title="How to Successfully Migrate Your App with an AI Agent" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Ready to try AI-assisted migration with goose? Get started with our [quickstart guide](/docs/quickstart) and share your experience in our [Discord community](http://discord.gg/goose-oss).*
+*Ready to try AI-assisted migration with goose? Get started with our [quickstart guide](/docs/quickstart) and share your experience in our [Discord community](http://discord.gg/mesmile-oss).*
 
 
 <head>
   <meta property="og:title" content="How to Successfully Migrate Your App with an AI Agent" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/11/17/migrate-app-with-ai-agent" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/11/17/migrate-app-with-ai-agent" />
   <meta property="og:description" content="A step-by-step prompt strategy for AI-assisted code migration with real examples from a Next.js refactor" />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/migrate-app-ai-agent-e8e3dcddf74909b6f84f85c8c776aaed.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/migrate-app-ai-agent-e8e3dcddf74909b6f84f85c8c776aaed.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="How to Successfully Migrate Your App with an AI Agent" />
   <meta name="twitter:description" content="A step-by-step prompt strategy for AI-assisted code migration with real examples from a Next.js refactor" />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/migrate-app-ai-agent-e8e3dcddf74909b6f84f85c8c776aaed.png"/>
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/migrate-app-ai-agent-e8e3dcddf74909b6f84f85c8c776aaed.png"/>
 </head>

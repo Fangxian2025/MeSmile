@@ -34,7 +34,7 @@ This guide will cover enabling and using the Auto Visualiser MCP Server.
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like you configure?
   │  Toggle Extensions 

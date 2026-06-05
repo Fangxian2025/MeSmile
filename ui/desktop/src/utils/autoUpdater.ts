@@ -353,7 +353,7 @@ export function setupAutoUpdater(tray?: Tray) {
   const feedConfig = {
     provider: 'github' as const,
     owner: 'block',
-    repo: 'goose',
+    repo: 'MeSmile',
     releaseType: 'release' as const,
   };
 

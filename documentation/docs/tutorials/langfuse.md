@@ -32,9 +32,9 @@ export LANGFUSE_URL=https://cloud.langfuse.com # EU data region 🇪🇺
 
 Now, you can run goose and monitor your AI requests and actions through Langfuse.
 
-With goose running and the environment variables set, Langfuse will start capturing traces of your goose activities.
+With mesmile running and the environment variables set, Langfuse will start capturing traces of your goose activities.
 
 _[Example trace (public) in Langfuse](https://cloud.langfuse.com/project/cloramnkj0002jz088vzn1ja4/traces/cea4ed38-0c44-4b0a-8c20-4b0b6b9e8d73?timestamp=2025-01-31T15%3A52%3A30.362Z&observation=7c8e5807-3c29-4c28-9c6f-7d7427be401f)_
 
-![goose trace in Langfuse](https://langfuse.com//images/docs/goose-integration/goose-example-trace.png)
+![goose trace in Langfuse](https://langfuse.com//images/docs/mesmile-integration/mesmile-example-trace.png)
 

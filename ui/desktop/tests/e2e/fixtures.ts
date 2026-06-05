@@ -6,7 +6,7 @@ import { promisify } from 'util';
 const execAsync = promisify(exec);
 
 type GooseTestFixtures = {
-  goosePage: Page;
+  mesmilePage: Page;
 };
 
 /**
@@ -21,14 +21,14 @@ type GooseTestFixtures = {
  * Usage:
  *   import { test, expect } from './fixtures';
  *
- *   test('my test', async ({ goosePage }) => {
- *     await goosePage.waitForSelector('[data-testid="chat-input"]');
+ *   test('my test', async ({ mesmilePage }) => {
+ *     await mesmilePage.waitForSelector('[data-testid="chat-input"]');
  *     // ... test code
  *   });
  */
 export const test = base.extend<GooseTestFixtures>({
   // Test-scoped fixture: launches a fresh Electron app for each test
-  goosePage: async ({ browserName }, providePage, testInfo) => {
+  mesmilePage: async ({ browserName }, providePage, testInfo) => {
     void browserName;
     console.log(`Launching fresh Electron app for test: ${testInfo.title}`);
 
@@ -54,7 +54,7 @@ export const test = base.extend<GooseTestFixtures>({
           GOOSE_ALLOWLIST_BYPASS: 'true',
           ENABLE_PLAYWRIGHT: 'true',
           PLAYWRIGHT_DEBUG_PORT: debugPort.toString(), // Unique port per test for parallel execution
-          RUST_LOG: 'info', // Enable info-level logging for goosed backend
+          RUST_LOG: 'info', // Enable info-level logging for mesmiled backend
         }
       });
 

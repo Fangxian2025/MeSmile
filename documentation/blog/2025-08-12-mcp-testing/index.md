@@ -38,7 +38,7 @@ To keep pace with growing MCP complexity, **automated metadata validation become
 
 ## 2. System Overview: Modular and Composable Goose Recipes
 
-The foundation of this framework is [Goose’s recipe engine](https://goose-docs.ai/docs/guides/recipes/). Recipes define reusable, declarative workflows for AI-assisted tasks. Each one encapsulates a step—like generating predictions or comparing results—and can be composed into larger pipelines.
+The foundation of this framework is [Goose’s recipe engine](https://mesmile-docs.ai/docs/guides/recipes/). Recipes define reusable, declarative workflows for AI-assisted tasks. Each one encapsulates a step—like generating predictions or comparing results—and can be composed into larger pipelines.
 
 We start with a core recipe that maps natural language queries to tool calls. It reads queries, analyzes the toolset, and produces structured JSON mappings. This recipe becomes the building block for workflows like:
 
@@ -61,9 +61,9 @@ The recipe starts by reading a plain text file containing natural language queri
 
 ```
 List contributors to the block/mcp repository
-List the top 10 contributors to aaif-goose/goose
+List the top 10 contributors to Fangxian2025/MeSmile
 Show me the closed branches in block/mcp
-Show me all branches in the aaif-goose/goose repository
+Show me all branches in the Fangxian2025/MeSmile repository
 ```
 
 **Step 2: Ask Goose to Make Predictions**
@@ -96,7 +96,7 @@ instructions: |
     {
         "test_cases": [
             {
-                "query": "Show me open pull requests in the aaif-goose/goose repository",
+                "query": "Show me open pull requests in the Fangxian2025/MeSmile repository",
                 "expected": {
                     "tool": "tool_name",
                     "parameters": {
@@ -133,8 +133,8 @@ extensions:
   timeout: 300
   bundled: true
 settings:
-  goose_provider: databricks
-  goose_model: goose-claude-4-sonnet
+  mesmile_provider: databricks
+  mesmile_model: mesmile-claude-4-sonnet
   temperature: 0.0
 parameters:
 - key: server_input
@@ -172,7 +172,7 @@ author:
 #### 🚀 Running the Recipe
 
 ```bash
-goose run --recipe generate_predictions_recipe.yaml --params output_file=my_predictions.json
+mesmile run --recipe generate_predictions_recipe.yaml --params output_file=my_predictions.json
 ```
 
 #### 🧪 Example Output JSON
@@ -243,7 +243,7 @@ Once predictions are generated via the core recipe, the next step is to detect r
 First, we run the core recipe from Section 3 to generate fresh predictions based on the current tool metadata:
 
 ```bash
-goose run --recipe generate_predictions_recipe.yaml --params output_file=new_evaluation.json
+mesmile run --recipe generate_predictions_recipe.yaml --params output_file=new_evaluation.json
 ```
 
 This produces a JSON file with current tool predictions.
@@ -272,7 +272,7 @@ description: Generate predictions and evaluate against a known correct output
 instructions: |
   This task involves running automated evaluation scripts to generate tool-parameter mappings from natural language queries, then comparing the output against gold standard datasets to identify discrepancies. 
 
-  Command to generate output: goose run --recipe generate_predictions_recipe.yaml --params output_file={{ output_file }}
+  Command to generate output: mesmile run --recipe generate_predictions_recipe.yaml --params output_file={{ output_file }}
   Script to compare 2 files: python compare_results.py {{ output_file }} {{ gold_file }}
 
   Go over the output of the comparison script and highlight what cases differ in terms of tool name or parameters. You can ignore minor mismatches like:
@@ -286,8 +286,8 @@ extensions:
   timeout: 300
   bundled: true
 settings:
-  goose_provider: databricks
-  goose_model: goose-claude-4-sonnet
+  mesmile_provider: databricks
+  mesmile_model: mesmile-claude-4-sonnet
   temperature: 0.0
 parameters:
 - key: output_file
@@ -315,7 +315,7 @@ author:
 #### 🚀 Running the Complete Evaluation
 
 ```bash
-goose run --recipe evaluate_predictions.yaml --params output_file=new_evaluation.json gold_file=mcp_github_query_tool_truth.json
+mesmile run --recipe evaluate_predictions.yaml --params output_file=new_evaluation.json gold_file=mcp_github_query_tool_truth.json
 ```
 
 #### 📉 Example Comparison Results
@@ -349,7 +349,7 @@ Here are two common types of mismatches the system detects:
 - **Issue:** Tool name changed from `list_branches` to `get_repo_branches`, likely due to a tooltip or function name update
 
 **❌ Example 2: Parameter Mismatch**
-- **Query:** "Search for files containing console.log in aaif-goose/goose"
+- **Query:** "Search for files containing console.log in Fangxian2025/MeSmile"
 - **Gold Standard:**
   ```json
   {
@@ -433,7 +433,7 @@ instructions: |
   MCP server file: {{ server_input }}
   MCP tool documentation {{ tool_documentation }}
   Script to count tokens {{ count_token_script }}
-  Command to run evaluation goose run --recipe evaluate_predictions.yaml
+  Command to run evaluation mesmile run --recipe evaluate_predictions.yaml
 prompt: Reduce token count for tool descriptions and tooltips and make sure evaluation succeeds. Read instructions for more details
 extensions:
 - type: builtin
@@ -442,8 +442,8 @@ extensions:
   timeout: 300
   bundled: true
 settings:
-  goose_provider: databricks
-  goose_model: goose-claude-4-sonnet
+  mesmile_provider: databricks
+  mesmile_model: mesmile-claude-4-sonnet
   temperature: 0.0
 parameters:
 - key: server_input
@@ -481,7 +481,7 @@ author:
 #### 🚀 Running the Token Reduction Loop
 
 ```bash
-goose run --recipe compress_evaluate_mcp.yaml --params target_reduction=10
+mesmile run --recipe compress_evaluate_mcp.yaml --params target_reduction=10
 ```
 
 #### 📉 Real Example: Iterative Fixing Process
@@ -564,12 +564,12 @@ With these building blocks in place, teams can confidently expand their automati
 <head>
   <meta property="og:title" content="Automated MCP Testing: Using Composable Goose Recipes to Validate Tool Metadata" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/08/12/mcp-testing" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/08/12/mcp-testing" />
   <meta property="og:description" content="Automate MCP tool metadata validation using composable Goose recipes to catch regressions, optimize token usage, and ensure AI agents can reliably discover and use your tools" />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/automated_mcp_testing-296dac2cd2b1b327e58854f4bfb0c89a.jpg" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/automated_mcp_testing-296dac2cd2b1b327e58854f4bfb0c89a.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Automated MCP Testing: Using Composable Goose Recipes to Validate Tool Metadata" />
   <meta name="twitter:description" content="Automate MCP tool metadata validation using composable Goose recipes to catch regressions, optimize token usage, and ensure AI agents can reliably discover and use your tools" />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/automated_mcp_testing-296dac2cd2b1b327e58854f4bfb0c89a.jpg" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/automated_mcp_testing-296dac2cd2b1b327e58854f4bfb0c89a.jpg" />
 </head>

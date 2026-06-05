@@ -79,7 +79,7 @@ function normalizeRecipe(recipe: any): Recipe {
   };
   
   const encoded = toBase64(JSON.stringify(configForGoose));
-  cleaned.recipeUrl = `goose://recipe?config=${encoded}`;
+  cleaned.recipeUrl = `mesmile://recipe?config=${encoded}`;
 
   return cleaned;
 }

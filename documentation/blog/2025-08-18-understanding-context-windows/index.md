@@ -73,15 +73,15 @@ Use [.goosehints](/docs/guides/context-engineering/using-goosehints/) files to a
 
 **3. Memory extension**
 
-The [Memory extension](https://goose-docs.ai/docs/mcp/memory-mcp) stores important information across sessions. Instead of re-explaining your project background, past decisions, or important context every time you start a new conversation, you can reference stored information. This keeps your prompts focused on the current task rather than repeating historical context.
+The [Memory extension](https://mesmile-docs.ai/docs/mcp/memory-mcp) stores important information across sessions. Instead of re-explaining your project background, past decisions, or important context every time you start a new conversation, you can reference stored information. This keeps your prompts focused on the current task rather than repeating historical context.
 
 **4. Recipes**
 
-[Recipes](https://goose-docs.ai/docs/guides/recipes/) package complete task setups into reusable configurations, eliminating the need to provide lengthy instructions repeatedly. Instead of consuming tokens explaining complex workflows in every session, recipes contain all necessary instructions, extensions, and parameters upfront. This is particularly valuable for repetitive tasks where you'd otherwise spend significant tokens on setup and explanation. And if your recipe starts to feel overly lengthy, you can break the tasks up into [subrecipes](https://goose-docs.ai/docs/guides/recipes/subrecipes).
+[Recipes](https://mesmile-docs.ai/docs/guides/recipes/) package complete task setups into reusable configurations, eliminating the need to provide lengthy instructions repeatedly. Instead of consuming tokens explaining complex workflows in every session, recipes contain all necessary instructions, extensions, and parameters upfront. This is particularly valuable for repetitive tasks where you'd otherwise spend significant tokens on setup and explanation. And if your recipe starts to feel overly lengthy, you can break the tasks up into [subrecipes](https://mesmile-docs.ai/docs/guides/recipes/subrecipes).
 
 **5. Subagents**
 
-[Subagents](https://goose-docs.ai/docs/guides/context-engineering/subagents) handle specific tasks in their own isolated sessions. This prevents your main conversation from getting cluttered with implementation details and tool outputs. You delegate work to subagents and only see the final results, keeping your primary context window clean and focused.
+[Subagents](https://mesmile-docs.ai/docs/guides/context-engineering/subagents) handle specific tasks in their own isolated sessions. This prevents your main conversation from getting cluttered with implementation details and tool outputs. You delegate work to subagents and only see the final results, keeping your primary context window clean and focused.
 
 **6. Short sessions**
 
@@ -99,12 +99,12 @@ The next time your AI agent seems to 'forget' something important or goes off tr
 <head>
   <meta property="og:title" content="The AI Skeptic’s Guide to Context Windows" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/08/18/understanding-context-windows" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/08/18/understanding-context-windows" />
   <meta property="og:description" content="Why do AI agents forget? Learn how context windows, tokens, and Goose help you manage memory and long conversations." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/contextwindow-fa46f7a54cfb23a538d62f0e4502e19e.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/contextwindow-fa46f7a54cfb23a538d62f0e4502e19e.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="The AI Skeptic’s Guide to Context Windows" />
   <meta name="twitter:description" content="Why do AI agents forget? Learn how context windows, tokens, and Goose help you manage memory and long conversations." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/contextwindow-fa46f7a54cfb23a538d62f0e4502e19e.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/contextwindow-fa46f7a54cfb23a538d62f0e4502e19e.png" />
 </head>

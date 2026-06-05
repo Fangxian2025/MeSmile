@@ -11,7 +11,7 @@ authors:
 
 I'm a developer at heart, so when I'm working on a personal project, the hardest part isn't writing code—it's making design decisions. I recently built a calendar user interface. I wanted to enhance its visual appeal, so I researched UI design trends like "glassmorphism" and "claymorphism."
 
-However, I didn't want to spend hours implementing the CSS for each design trend, so I developed a faster approach: screenshot-driven development. I used an open source developer agent called [goose](https://github.com/aaif-goose/goose) to transform my user interfaces quickly.
+However, I didn't want to spend hours implementing the CSS for each design trend, so I developed a faster approach: screenshot-driven development. I used an open source developer agent called [goose](https://github.com/Fangxian2025/MeSmile) to transform my user interfaces quickly.
 
 <!-- truncate -->
 
@@ -23,7 +23,7 @@ This post was written about a beta version of goose and the commands and flow ma
 ![calendar](screenshot-calendar-og.png)
 
 ### goose prototyped the designs below: 
-![goose prototypes](goose-prototypes-calendar.png)
+![goose prototypes](mesmile-prototypes-calendar.png)
 
 In this blog post, I'll show you how to quickly prototype design styles by letting goose handle the CSS for you.
 >💡 Note: Your results might look different from my examples - that's part of the fun of generative AI! Each run can produce unique variations of these design trends.
@@ -185,7 +185,7 @@ Once saved, open the file in your browser. You should see a calendar!
 ```bash
 brew install pipx
 pipx ensurepath
-pipx install goose-ai
+pipx install mesmile-ai
 ```
 
 ### Step 3: Start a session
@@ -205,9 +205,9 @@ export ANTHROPIC_API_KEY=your_api_key
 ```
 
 ### Step 4: Enable the Screen toolkit
-goose uses [toolkits](https://goose-docs.ai/plugins/plugins.html) to extend its capabilities. The [screen](https://goose-docs.ai/plugins/available-toolkits.html#6-screen-toolkit) toolkit lets goose take and analyze screenshots.
+goose uses [toolkits](https://mesmile-docs.ai/plugins/plugins.html) to extend its capabilities. The [screen](https://mesmile-docs.ai/plugins/available-toolkits.html#6-screen-toolkit) toolkit lets goose take and analyze screenshots.
 
-To enable the Screen toolkit, add it to your goose profile at ~/.config/goose/profiles.yaml.
+To enable the Screen toolkit, add it to your goose profile at ~/.config/mesmile/profiles.yaml.
 
 > Your configuration might look slightly different depending on your LLM provider preferences.
 
@@ -281,17 +281,17 @@ Developing user interfaces is a blend of creativity and problem-solving. And I l
 
 Beyond prototyping, goose's ability to analyze screenshots can help developers identify and resolve UI bugs.
 
-If you're interested in learning more, check out the [goose repo](https://github.com/aaif-goose/goose) and join our [Discord community](https://discord.gg/goose-oss).
+If you're interested in learning more, check out the [goose repo](https://github.com/Fangxian2025/MeSmile) and join our [Discord community](https://discord.gg/mesmile-oss).
 
 <head>
     <meta property="og:title" content="Screenshot-Driven Development" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://goose-docs.ai/blog/2024/11/22/screenshot-driven-development" />
+    <meta property="og:url" content="https://mesmile-docs.ai/blog/2024/11/22/screenshot-driven-development" />
     <meta property="og:description" content="AI Agent uses screenshots to assist in styling." />
-    <meta property="og:image" content="https://goose-docs.ai/assets/images/screenshot-driven-development-4ed1beaa10c6062c0bf87e2d27590ad6.png" />
+    <meta property="og:image" content="https://mesmile-docs.ai/assets/images/screenshot-driven-development-4ed1beaa10c6062c0bf87e2d27590ad6.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content="goose-docs.ai" />
+    <meta property="twitter:domain" content="mesmile-docs.ai" />
     <meta name="twitter:title" content="Screenshot-Driven Development" />
     <meta name="twitter:description" content="AI Agent uses screenshots to assist in styling." />
-    <meta name="twitter:image" content="https://goose-docs.ai/assets/images/screenshot-driven-development-4ed1beaa10c6062c0bf87e2d27590ad6.png" />
+    <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/screenshot-driven-development-4ed1beaa10c6062c0bf87e2d27590ad6.png" />
 </head>

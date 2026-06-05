@@ -58,10 +58,10 @@ export const getStorageDirectory = (isGlobal: boolean): string => {
     if (configDir) {
       return `${configDir}/recipes`;
     }
-    return '~/.config/goose/recipes';
+    return '~/.config/mesmile/recipes';
   } else {
     // For directory recipes, build absolute path using working directory
     const workingDir = window.appConfig.get('GOOSE_WORKING_DIR') as string;
-    return `${workingDir}/.goose/recipes`;
+    return `${workingDir}/.mesmile recipes`;
   }
 };

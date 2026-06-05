@@ -6,7 +6,7 @@ if [ -f .env ]; then
 fi
 
 if [ -z "$SKIP_BUILD" ]; then
-  echo "Building goose..."
+  echo "Building mesmile..."
   cargo build --bin goose
   echo ""
 else

@@ -27,7 +27,7 @@ export type GooseToolUiMetadata = Extract<
 
 export type GooseToolMetadata = NonNullable<Tool["_meta"]> & {
   ui?: GooseToolUiMetadata;
-  goose_extension?: string;
+  mesmile_extension?: string;
 };
 
 export type GooseSessionTool = Tool & {
@@ -57,7 +57,7 @@ export interface GooseMcpAppToolPayload {
 }
 
 export interface GooseToolCallUpdateMeta {
-  goose?: {
+  mesmile?: {
     mcpApp?: GooseMcpAppToolPayload;
     [key: string]: unknown;
   };

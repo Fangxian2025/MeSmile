@@ -40,7 +40,7 @@ You can create, modify, and delete apps through chat without needing to edit fil
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 

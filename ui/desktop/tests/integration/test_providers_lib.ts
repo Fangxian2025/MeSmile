@@ -143,14 +143,14 @@ function getProviders(): ProviderConfig[] {
       models: ['gpt-4.1'],
       available: () =>
         hasEnv('GITHUB_COPILOT_TOKEN') ||
-        hasFile(path.join(os.homedir(), '.config/goose/github_copilot_token.json')),
+        hasFile(path.join(os.homedir(), '.config/mesmile/github_copilot_token.json')),
     },
     {
       provider: 'chatgpt_codex',
       models: ['gpt-5.4'],
       available: () =>
         hasEnv('CHATGPT_CODEX_TOKEN') ||
-        hasFile(path.join(os.homedir(), '.config/goose/chatgpt_codex/tokens.json')),
+        hasFile(path.join(os.homedir(), '.config/mesmile/chatgpt_codex/tokens.json')),
     },
     {
       provider: 'claude-code',
@@ -220,7 +220,7 @@ function shouldSkipProvider(provider: string): boolean {
 
 export function buildGoose(): string {
   if (!process.env.SKIP_BUILD) {
-    console.error('Building goose...');
+    console.error('Building mesmile...');
     execSync('cargo build --bin goose', { stdio: 'inherit' });
     console.error('');
   } else {
@@ -364,7 +364,7 @@ export function providerTest(cases: TestCase[]) {
 // ---------------------------------------------------------------------------
 
 export function runGoose(
-  gooseBin: string,
+  mesmileBin: string,
   cwd: string,
   prompt: string,
   builtins: string,
@@ -373,7 +373,7 @@ export function runGoose(
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     const child: ChildProcess = spawn(
-      gooseBin,
+      mesmileBin,
       ['run', '--text', prompt, '--with-builtin', builtins],
       {
         cwd,

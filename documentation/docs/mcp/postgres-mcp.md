@@ -18,7 +18,7 @@ The PostgreSQL MCP Server extension allows goose to interact directly with your 
 :::tip Quick Install
 <Tabs groupId="interface">
   <TabItem value="ui" label="goose Desktop" default>
-  [Launch the installer](goose://extension?cmd=npx&arg=-y&arg=@modelcontextprotocol/server-postgres&arg=Your%20PostgreSQL%20connection%20URL&id=postgres&name=PostgreSQL&description=PostgreSQL%20database%20integration)
+  [Launch the installer](mesmile://extension?cmd=npx&arg=-y&arg=@modelcontextprotocol/server-postgres&arg=Your%20PostgreSQL%20connection%20URL&id=postgres&name=PostgreSQL&description=PostgreSQL%20database%20integration)
   </TabItem>
   <TabItem value="cli" label="goose CLI">
   **Command**
@@ -85,7 +85,7 @@ Note that you'll need [Node.js](https://nodejs.org/) installed on your system to
 
   2. Choose to add a `Command-line Extension`
   ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -101,7 +101,7 @@ Note that you'll need [Node.js](https://nodejs.org/) installed on your system to
 
   3. Name your extension
   ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -118,7 +118,7 @@ Note that you'll need [Node.js](https://nodejs.org/) installed on your system to
 
   4. Enter the command with your database connection URL
   ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -135,7 +135,7 @@ Note that you'll need [Node.js](https://nodejs.org/) installed on your system to
 
   5. Set the timeout (default 300s is usually sufficient)
   ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -155,7 +155,7 @@ Note that you'll need [Node.js](https://nodejs.org/) installed on your system to
 
   6. Choose to add a description. If you select "Yes" here, you will be prompted to enter a description for the extension.
   ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -178,7 +178,7 @@ Note that you'll need [Node.js](https://nodejs.org/) installed on your system to
 
   7. Configure your PostgreSQL connection URL
   ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 

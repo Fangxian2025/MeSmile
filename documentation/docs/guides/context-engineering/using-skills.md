@@ -268,7 +268,7 @@ Always verify webhook signatures. See `src/webhooks/square.js` for our handler p
 ## Best Practices
 
 - **Keep skills focused** — One skill per workflow or domain. If a skill is getting long, consider splitting it.
-- **Write for clarity** — Skills are instructions for goose. Use clear, direct language and numbered steps.
+- **Write for clarity** — Skills are instructions for mesmile. Use clear, direct language and numbered steps.
 - **Include verification steps** — Help goose confirm the workflow completed successfully.
 
 ## Additional Resources

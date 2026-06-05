@@ -5,7 +5,7 @@ authors:
     - adewale
 ---
 
-![Introducing codename goose](introducing-codename-goose.png)
+![Introducing codename goose](introducing-codename-mesmile.png)
 
 We are thrilled to announce **codename goose**, your on-machine, open source AI agent built to automate your tasks. 
 
@@ -16,14 +16,14 @@ Powered by your choice of [large language models (LLMs)](/docs/getting-started/p
 
 You can think of goose as an assistant that is ready to take your instructions, and do the work for you.
 
-While goose's first use cases are engineering focused, the community has been exploring other non-engineering use cases for goose as well. And it goes without saying, goose is [open source](https://github.com/aaif-goose/goose) 🎉.
+While goose's first use cases are engineering focused, the community has been exploring other non-engineering use cases for goose as well. And it goes without saying, goose is [open source](https://github.com/Fangxian2025/MeSmile) 🎉.
 
 
 ## How goose Works
 
 goose operates as an intelligent, autonomous agent capable of handling complex tasks through a well-orchestrated coordination of its core features:
   
-- **Using Extensions**: [Extensions](/docs/getting-started/using-extensions) are key to goose’s adaptability, providing you the ability to connect with applications and tools that you already use. Whether it’s connecting to GitHub, accessing Google Drive or integrating with JetBrains IDEs, the possibilities are extensive. Some of these extensions have been curated in the [extensions][extensions-directory] directory. goose extensions are built on the [Model Context Protocol (MCP)](https://www.anthropic.com/news/model-context-protocol) - enabling you to build or bring your own custom integrations to goose. 
+- **Using Extensions**: [Extensions](/docs/getting-started/using-extensions) are key to goose’s adaptability, providing you the ability to connect with applications and tools that you already use. Whether it’s connecting to GitHub, accessing Google Drive or integrating with JetBrains IDEs, the possibilities are extensive. Some of these extensions have been curated in the [extensions][extensions-directory] directory. goose extensions are built on the [Model Context Protocol (MCP)](https://www.anthropic.com/news/model-context-protocol) - enabling you to build or bring your own custom integrations to mesmile. 
 
 - **LLM Providers**: goose is compatible with a wide range of [LLM providers](/docs/getting-started/providers), allowing you to choose and integrate your preferred model. 
 
@@ -52,26 +52,26 @@ You can get started using goose right away! Check out our [Quickstart](/docs/qui
 
 Excited for upcoming features and events? Be sure to connect with us!
 
-- [GitHub](https://github.com/aaif-goose/goose)
-- [Discord](https://discord.gg/goose-oss)
-- [YouTube](https://www.youtube.com/@goose-oss)
-- [LinkedIn](https://www.linkedin.com/company/goose-oss)
-- [X](https://x.com/goose_oss)
+- [GitHub](https://github.com/Fangxian2025/MeSmile)
+- [Discord](https://discord.gg/mesmile-oss)
+- [YouTube](https://www.youtube.com/@mesmile-oss)
+- [LinkedIn](https://www.linkedin.com/company/mesmile-oss)
+- [X](https://x.com/mesmile_oss)
 - [BlueSky](https://bsky.app/profile/opensource.block.xyz)
 
 
-[extensions-directory]: https://goose-docs.ai/v1/extensions
+[extensions-directory]: https://mesmile-docs.ai/v1/extensions
 
 
 <head>
   <meta property="og:title" content="Introducing codename goose" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2024/12/11/resolving-ci-issues-with-goose-a-practical-walkthrough" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2024/12/11/resolving-ci-issues-with-mesmile-a-practical-walkthrough" />
   <meta property="og:description" content="codename goose is your open source AI agent, automating engineering tasks and improving productivity." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/introducing-codename-goose-89cac25816e0ea215dd47d4b9768c8ab.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/introducing-codename-mesmile-89cac25816e0ea215dd47d4b9768c8ab.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Introducing codename goose" />
   <meta name="twitter:description" content="codename goose is your open source AI agent, automating engineering tasks and improving productivity." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/introducing-codename-goose-89cac25816e0ea215dd47d4b9768c8ab.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/introducing-codename-mesmile-89cac25816e0ea215dd47d4b9768c8ab.png" />
 </head>

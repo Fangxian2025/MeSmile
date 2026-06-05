@@ -25,8 +25,8 @@ import path from 'node:path';
 import os from 'node:os';
 import { execFileSync, spawn, execFile } from 'child_process';
 import 'dotenv/config';
-import { checkServerStatus } from './goosed';
-import { startGoosed } from './goosed';
+import { checkServerStatus } from './mesmiled';
+import { startGoosed } from './mesmiled';
 import { createClient, createConfig } from './api/client';
 import { expandTilde } from './utils/pathUtils';
 import log from './utils/logger';
@@ -48,7 +48,7 @@ import {
 import { UPDATES_ENABLED } from './updates';
 import './utils/recipeHash';
 import { Client } from './api/client';
-import { GooseApp } from './api';
+import { MesmileApp } from './api';
 import * as mesh from './mesh';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import { BLOCKED_PROTOCOLS, WEB_PROTOCOLS } from './utils/urlSecurity';
@@ -260,14 +260,14 @@ async function configureProxy() {
 
 if (started) app.quit();
 
-// Certificate trust for goosed servers (local and external).
+// Certificate trust for mesmiled servers (local and external).
 // Both certificate-error (renderer) and setCertificateVerifyProc (main-process
-// net.fetch) pin to the exact cert fingerprint. For locally-spawned goosed the
+// net.fetch) pin to the exact cert fingerprint. For locally-spawned mesmiled the
 // fingerprint comes from its stdout; for external backends we use Trust-On-First-Use
 // (TOFU) — the first TLS handshake pins the cert for the lifetime of the process.
 let pinnedCertFingerprint: string | null = null;
 
-// Cached hostname of the configured external goosed server, updated when a
+// Cached hostname of the configured external mesmiled server, updated when a
 // chat is created so we don't hit the filesystem on every TLS handshake.
 let trustedExternalHostname: string | null = null;
 
@@ -292,7 +292,7 @@ function normalizeFingerprint(fp: string): string {
   return fp.toUpperCase();
 }
 
-// Renderer requests: pin to the exact cert goosed generated once known.
+// Renderer requests: pin to the exact cert mesmiled generated once known.
 // Before the fingerprint is available (during the health-check bootstrap
 // window) any localhost cert is accepted so the server can come up.
 app.on('certificate-error', (event, _webContents, url, _error, certificate, callback) => {
@@ -330,7 +330,7 @@ app.whenReady().then(() => {
   }
 });
 
-// Main-process net.fetch: pin to the exact cert goosed generated.
+// Main-process net.fetch: pin to the exact cert mesmiled generated.
 app.whenReady().then(() => {
   session.defaultSession.setCertificateVerifyProc((request, callback) => {
     if (!isTrustedHost(request.hostname)) {
@@ -359,13 +359,13 @@ if (process.env.ENABLE_PLAYWRIGHT) {
 // In production, register normally
 if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
   // Development mode - force registration
-  console.log('[Main] Development mode: Forcing protocol registration for goose://');
-  app.setAsDefaultProtocolClient('goose');
+  console.log('[Main] Development mode: Forcing protocol registration for mesmile://');
+  app.setAsDefaultProtocolClient('mesmile');
 
   if (process.platform === 'darwin') {
     try {
       // Reset the default handler to ensure dev version takes precedence
-      spawn('open', ['-a', process.execPath, '--args', '--reset-protocol-handler', 'goose'], {
+      spawn('open', ['-a', process.execPath, '--args', '--reset-protocol-handler', 'mesmile'], {
         detached: true,
         stdio: 'ignore',
       });
@@ -375,7 +375,7 @@ if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
   }
 } else {
   // Production mode - normal registration
-  app.setAsDefaultProtocolClient('goose');
+  app.setAsDefaultProtocolClient('mesmile');
 }
 
 // Apply single instance lock on Windows and Linux where it's needed for deep links
@@ -388,7 +388,7 @@ if (process.platform !== 'darwin') {
     app.quit();
   } else {
     app.on('second-instance', (_event, commandLine) => {
-      const protocolUrl = commandLine.find((arg) => arg.startsWith('goose://'));
+      const protocolUrl = commandLine.find((arg) => arg.startsWith('mesmile://'));
       if (protocolUrl) {
         const parsedUrl = new URL(protocolUrl);
         // If it's a bot/recipe URL, handle it directly by creating a new window
@@ -446,7 +446,7 @@ if (process.platform !== 'darwin') {
   }
 
   // Handle protocol URLs on Windows and Linux startup
-  const protocolUrl = process.argv.find((arg) => arg.startsWith('goose://'));
+  const protocolUrl = process.argv.find((arg) => arg.startsWith('mesmile://'));
   if (protocolUrl) {
     app.whenReady().then(() => {
       handleProtocolUrl(protocolUrl);
@@ -469,7 +469,7 @@ function getResumeSessionId(parsedUrl: URL): string | null {
 async function createResumeChatWindow(parsedUrl: URL, dir?: string): Promise<boolean> {
   const resumeSessionId = getResumeSessionId(parsedUrl);
   if (!resumeSessionId) {
-    log.warn('[Main] Ignoring goose://resume URL without a session id');
+    log.warn('[Main] Ignoring mesmile://resume URL without a session id');
     return false;
   }
 
@@ -708,7 +708,7 @@ interface BundledConfig {
 
 const getBundledConfig = (): BundledConfig => {
   //{env-macro-start}//
-  //needed when goose is bundled for a specific provider
+  //needed when mesmile is bundled for a specific provider
   //{env-macro-end}//
   return {
     defaultProvider: process.env.GOOSE_DEFAULT_PROVIDER,
@@ -771,7 +771,7 @@ let appConfig = {
 };
 
 const windowMap = new Map<number, BrowserWindow>();
-const goosedClients = new Map<number, Client>();
+const mesmiledClients = new Map<number, Client>();
 const appWindows = new Map<string, BrowserWindow>();
 
 const windowPowerSaveBlockers = new Map<number, number>(); // windowId -> blockerId
@@ -823,7 +823,7 @@ const createChat = async (app: App, options: CreateChatOptions = {}) => {
     pinnedCertFingerprint = null;
   }
 
-  const goosedResult = await startGoosed({
+  const mesmiledResult = await startGoosed({
     serverSecret,
     dir: dir || os.homedir(),
     env: {
@@ -836,16 +836,16 @@ const createChat = async (app: App, options: CreateChatOptions = {}) => {
     diagnosticsDir: STARTUP_LOGS_DIR,
   });
 
-  // For locally-spawned goosed, pin using the fingerprint from stdout.
+  // For locally-spawned mesmiled, pin using the fingerprint from stdout.
   // For external backends the TOFU path in the cert handlers will pin
   // the fingerprint on the first successful TLS handshake.
-  if (goosedResult.certFingerprint) {
-    pinnedCertFingerprint = goosedResult.certFingerprint;
+  if (mesmiledResult.certFingerprint) {
+    pinnedCertFingerprint = mesmiledResult.certFingerprint;
   }
 
   app.on('will-quit', async () => {
-    log.info('App quitting, terminating goosed server');
-    await goosedResult.cleanup();
+    log.info('App quitting, terminating mesmiled server');
+    await mesmiledResult.cleanup();
   });
 
   const {
@@ -856,7 +856,7 @@ const createChat = async (app: App, options: CreateChatOptions = {}) => {
     startupDiagnosticsPath,
     getStartupDiagnostics,
     recordStartupEvent,
-  } = goosedResult;
+  } = mesmiledResult;
 
   const mainWindowState = windowStateKeeper({
     defaultWidth: 940,
@@ -901,7 +901,7 @@ const createChat = async (app: App, options: CreateChatOptions = {}) => {
           SECURITY_ML_MODEL_MAPPING: process.env.SECURITY_ML_MODEL_MAPPING,
         }),
       ],
-      partition: 'persist:goose',
+      partition: 'persist:mesmile',
     },
   });
 
@@ -916,7 +916,7 @@ const createChat = async (app: App, options: CreateChatOptions = {}) => {
 
   // Re-create the client with Electron's net.fetch so requests to the local
   // self-signed HTTPS server go through the session's certificate handling.
-  const goosedClient = createClient(
+  const mesmiledClient = createClient(
     createConfig({
       baseUrl,
       fetch: net.fetch as unknown as typeof globalThis.fetch,
@@ -926,9 +926,9 @@ const createChat = async (app: App, options: CreateChatOptions = {}) => {
       },
     })
   );
-  goosedClients.set(mainWindow.id, goosedClient);
+  mesmiledClients.set(mainWindow.id, mesmiledClient);
 
-  const serverReady = await checkServerStatus(goosedClient, errorLog, {
+  const serverReady = await checkServerStatus(mesmiledClient, errorLog, {
     onEvent: recordStartupEvent,
   });
   if (!serverReady) {
@@ -955,7 +955,7 @@ const createChat = async (app: App, options: CreateChatOptions = {}) => {
         type: 'error',
         title: 'External Backend Unreachable',
         message: `Could not connect to external backend at ${settings.externalGoosed?.url}`,
-        detail: 'The external goosed server may not be running.',
+        detail: 'The external mesmiled server may not be running.',
         buttons: ['Disable External Backend & Retry', 'Quit'],
         defaultId: 0,
         cancelId: 1,
@@ -991,7 +991,7 @@ const createChat = async (app: App, options: CreateChatOptions = {}) => {
   // Delay to let the renderer mount before sending the IPC event.
   setTimeout(() => {
     mesh
-      .checkProviderRunning(goosedClient)
+      .checkProviderRunning(mesmiledClient)
       .then((ok) => {
         if (!ok && !mainWindow.isDestroyed()) {
           mainWindow.webContents.send('mesh-not-running');
@@ -1227,7 +1227,7 @@ const createLauncher = () => {
       nodeIntegration: false,
       contextIsolation: true,
       additionalArguments: [JSON.stringify(appConfig)],
-      partition: 'persist:goose',
+      partition: 'persist:mesmile',
     },
     skipTaskbar: true,
     alwaysOnTop: true,
@@ -1645,12 +1645,12 @@ ipcMain.handle('get-secret-key', () => {
   return getServerSecret(settings);
 });
 
-ipcMain.handle('get-goosed-host-port', async (event) => {
+ipcMain.handle('get-mesmiled-host-port', async (event) => {
   const windowId = BrowserWindow.fromWebContents(event.sender)?.id;
   if (!windowId) {
     return null;
   }
-  const client = goosedClients.get(windowId);
+  const client = mesmiledClients.get(windowId);
   if (!client) {
     return null;
   }
@@ -1662,7 +1662,7 @@ ipcMain.handle('get-acp-url', async (event) => {
   if (!windowId) {
     return null;
   }
-  const client = goosedClients.get(windowId);
+  const client = mesmiledClients.get(windowId);
   const baseUrl = client?.getConfig().baseUrl;
   if (!baseUrl) {
     return null;
@@ -2651,7 +2651,7 @@ async function appMain() {
     }
   });
 
-  ipcMain.handle('launch-app', async (event, gooseApp: GooseApp) => {
+  ipcMain.handle('launch-app', async (event, mesmileApp: MesmileApp) => {
     try {
       const launchingWindow = BrowserWindow.fromWebContents(event.sender);
       if (!launchingWindow) {
@@ -2659,43 +2659,43 @@ async function appMain() {
       }
 
       const launchingWindowId = launchingWindow.id;
-      const launchingClient = goosedClients.get(launchingWindowId);
+      const launchingClient = mesmiledClients.get(launchingWindowId);
       if (!launchingClient) {
         throw new Error('No client found for launching window');
       }
 
       const appWindow = new BrowserWindow({
-        title: formatAppName(gooseApp.name),
-        width: gooseApp.width ?? 800,
-        height: gooseApp.height ?? 600,
-        resizable: gooseApp.resizable ?? true,
+        title: formatAppName(mesmileApp.name),
+        width: mesmileApp.width ?? 800,
+        height: mesmileApp.height ?? 600,
+        resizable: mesmileApp.resizable ?? true,
         useContentSize: true,
         webPreferences: {
           preload: path.join(__dirname, 'preload.js'),
           nodeIntegration: false,
           contextIsolation: true,
           webSecurity: true,
-          partition: 'persist:goose',
+          partition: 'persist:mesmile',
         },
       });
 
-      goosedClients.set(appWindow.id, launchingClient);
-      appWindows.set(gooseApp.name, appWindow);
+      mesmiledClients.set(appWindow.id, launchingClient);
+      appWindows.set(mesmileApp.name, appWindow);
 
       appWindow.on('close', () => {
-        goosedClients.delete(appWindow.id);
-        appWindows.delete(gooseApp.name);
+        mesmiledClients.delete(appWindow.id);
+        appWindows.delete(mesmileApp.name);
       });
 
       const workingDir = app.getPath('home');
-      const extensionName = gooseApp.mcpServers?.[0] ?? '';
+      const extensionName = mesmileApp.mcpServers?.[0] ?? '';
 
       const url = getAppUrl();
 
       const searchParams = new URLSearchParams();
-      searchParams.set('resourceUri', gooseApp.uri);
+      searchParams.set('resourceUri', mesmileApp.uri);
       searchParams.set('extensionName', extensionName);
-      searchParams.set('appName', gooseApp.name);
+      searchParams.set('appName', mesmileApp.name);
       searchParams.set('workingDir', workingDir);
 
       url.hash = `/standalone-app?${searchParams.toString()}`;
@@ -2707,11 +2707,11 @@ async function appMain() {
     }
   });
 
-  ipcMain.handle('refresh-app', async (_event, gooseApp: GooseApp) => {
+  ipcMain.handle('refresh-app', async (_event, mesmileApp: MesmileApp) => {
     try {
-      const appWindow = appWindows.get(gooseApp.name);
+      const appWindow = appWindows.get(mesmileApp.name);
       if (!appWindow || appWindow.isDestroyed()) {
-        console.log(`App window for '${gooseApp.name}' not found or destroyed, skipping refresh`);
+        console.log(`App window for '${mesmileApp.name}' not found or destroyed, skipping refresh`);
         return;
       }
 

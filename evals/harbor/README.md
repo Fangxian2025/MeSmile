@@ -17,8 +17,8 @@ assistant message / harness step).
 job_name                            model                         rate  compute     in     out  turns     cost  pass/fail/err/tout
 -----------------------------------------------------------------------------------------------------------------------------------
 claude-sonnet46-full                claude-sonnet-4-6            55.1%    20.2h  102.3M    1.2M     3k   $42.83          49/23/1/16
-goose-1.30-sonnet46-full            claude-sonnet-4-6            50.6%    23.7h    2.4M       -     3k        -          45/24/2/18
-goose-sonnet46-full-code-mode       claude-sonnet-4-6            57.3%    22.0h   63.3M    1.1M     3k  $206.43          51/20/2/16
+mesmile-1.30-sonnet46-full            claude-sonnet-4-6            50.6%    23.7h    2.4M       -     3k        -          45/24/2/18
+mesmile-sonnet46-full-code-mode       claude-sonnet-4-6            57.3%    22.0h   63.3M    1.1M     3k  $206.43          51/20/2/16
 nemotron-full                       nemotron-3-nano-30b-a3b       1.1%    21.8h    9.5M    2.2M     1k        -           1/64/2/22
 opencode-sonnet46-full              claude-sonnet-4-6            52.8%    22.2h  111.5M    1.6M     3k   $70.30          47/23/0/19
 pi-sonnet46-full                    claude-sonnet-4-6            47.2%    24.4h  114.4M    1.8M     3k   $74.82          42/25/1/21
@@ -30,7 +30,7 @@ sonnet46-summon-full                claude-sonnet-4-6            55.1%    23.5h 
 
 Quick read:
 
-- `goose-sonnet46-full-code-mode` and `sonnet46-sum_codem` (both run codemode,
+- `mesmile-sonnet46-full-code-mode` and `sonnet46-sum_codem` (both run codemode,
   the latter also enabling summon) lead at **57.3%**.
 - Stock goose (`sonnet46-full`, `developer,todo`) lands at **50.6%**, roughly
   on par with `opencode` (52.8%) and ahead of `pi` (47.2%) on the same model.
@@ -73,7 +73,7 @@ flipped on, runs the recipe, and streams JSON output.
 
 ```bash
 # Pin a specific binary, default everything else
-./evals/harbor/cmd.py run /path/to/goose --job-name my-run
+./evals/harbor/cmd.py run /path/to/mesmile --job-name my-run
 
 # Different model
 ./evals/harbor/cmd.py run /path/to/goose \
@@ -107,7 +107,7 @@ Defaults:
 - concurrency: 4
 - max turns: 100
 - trials: 1
-- installs `libgomp1` in each container (disable with `--no-install-goose-runtime-deps`)
+- installs `libgomp1` in each container (disable with `--no-install-mesmile-runtime-deps`)
 
 Use `--dry-run` to print the generated harbor config without launching.
 
@@ -143,7 +143,7 @@ harbor run -c opencode-sonnet46-full.yaml
 ```
 
 The output lands under `evals/harbor/runs/opencode-sonnet46-full/`, alongside
-goose runs. `cmd.py list / show / compare` treats them identically — they're
+mesmile runs. `cmd.py list / show / compare` treats them identically — they're
 all harbor `TrialResult` JSON under the hood.
 
 For pi specifically you can lift the existing config we used:
@@ -206,7 +206,7 @@ If you run benchmarks on a remote box and want to inspect them locally:
   --jobs sonnet46-full pi-sonnet46-full
 
 # Mirror exactly (delete local runs that aren't on the remote)
-./evals/harbor/cmd.py pull tbench@douwe.com:/home/tbench/work/goose --delete
+./evals/harbor/cmd.py pull tbench@douwe.com:/home/tbench/work/mesmile --delete
 ```
 
 The remote argument is `user@host:/path/to/goose` — `pull` appends
@@ -218,7 +218,7 @@ The remote argument is `user@host:/path/to/goose` — `pull` appends
 # Run two configurations on the remote (in screen / mosh / tmux)
 ssh tbench@douwe.com
 cd /home/tbench/work/goose
-./evals/harbor/cmd.py run ./target/release/goose --job-name baseline
+./evals/harbor/cmd.py run ./target/release/mesmile --job-name baseline
 ./evals/harbor/cmd.py run ./target/release/goose \
   --extensions developer,todo,codemode --job-name codemode
 

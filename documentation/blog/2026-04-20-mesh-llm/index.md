@@ -1,6 +1,6 @@
 ---
 title: "Mesh LLM in goose: routing across models"
-description: "Mesh LLM is now available as a provider setting in goose."
+description: "Mesh LLM is now available as a provider setting in mesmile."
 authors:
     - mic
 ---
@@ -24,6 +24,6 @@ Check out [the project docs](https://docs.anarchai.org/) and the [live public me
 <head>
   <meta property="og:title" content="Mesh LLM in goose: routing across models" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/04/20/mesh-llm" />
-  <meta property="og:description" content="Mesh LLM is now available as a provider setting in goose." />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/04/20/mesh-llm" />
+  <meta property="og:description" content="Mesh LLM is now available as a provider setting in mesmile." />
 </head>

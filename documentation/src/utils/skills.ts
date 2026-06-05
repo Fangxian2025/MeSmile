@@ -218,7 +218,7 @@ function determineInstallMethod(
   skillId: string,
 ): SkillInstallMethod {
   if (!sourceUrl) return "download";
-  if (sourceUrl.includes("aaif-goose/goose")) return "npx-multi";
+  if (sourceUrl.includes("Fangxian2025/MeSmile")) return "npx-multi";
 
   const simpleRepoPattern = /^https:\/\/github\.com\/[^\/]+\/[^\/]+\/?$/;
   if (simpleRepoPattern.test(sourceUrl)) return "npx-single";

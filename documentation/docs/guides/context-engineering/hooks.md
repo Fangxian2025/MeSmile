@@ -89,7 +89,7 @@ payload="$(cat)"
 session_id="$(printf '%s' "$payload" | jq -r .session_id)"
 date_str="$(date '+%Y-%m-%d %H:%M')"
 
-echo "- $date_str — session $session_id ended" >> ~/goose-session-log.md
+echo "- $date_str — session $session_id ended" >> ~/mesmile-session-log.md
 ```
 
 Place the plugin under a discovered plugin location, such as `~/.agents/plugins/session-logger/`, and make command scripts executable when your operating system requires it.
@@ -122,7 +122,7 @@ Place the plugin under a discovered plugin location, such as `~/.agents/plugins/
 | `matcher` | No | Regular expression used to decide whether the rule runs for the event. If omitted, the rule runs for every event of that type. |
 | `hooks` | Yes | Actions to run when the event and matcher apply. |
 | `type` | No | Action type. goose currently supports `command`. If omitted, `command` is used. |
-| `command` | Yes for command hooks | Shell command to run. goose runs it with `sh -c`. |
+| `command` | Yes for command hooks | Shell command to run. mesmile runs it with `sh -c`. |
 | `timeout` | No | Timeout in seconds for the command. Defaults to 30 seconds. |
 
 Use `${PLUGIN_ROOT}` in a command to reference the plugin directory. goose also sets `PLUGIN_ROOT` in the hook command's environment.
@@ -135,12 +135,12 @@ Use `${PLUGIN_ROOT}` in a command to reference the plugin directory. goose also 
 | `SessionEnd` | A session ends | None |
 | `Stop` | goose receives a stop event | None |
 | `UserPromptSubmit` | The user submits a prompt | Prompt text |
-| `PreToolUse` | Before goose runs a tool | Tool name |
+| `PreToolUse` | Before mesmile runs a tool | Tool name |
 | `PostToolUse` | After a tool succeeds | Tool name |
 | `PostToolUseFailure` | After a tool fails | Tool name |
 | `BeforeReadFile` | Before goose reads a file | File path |
 | `AfterFileEdit` | After goose successfully edits a file | File path |
-| `BeforeShellExecution` | Before goose runs a shell command | Shell command |
+| `BeforeShellExecution` | Before mesmile runs a shell command | Shell command |
 | `AfterShellExecution` | After goose successfully runs a shell command | Shell command |
 
 The matcher is a regular expression matched against the most relevant string for the event. For example, use `"\\.rs$"` to match Rust files on `AfterFileEdit`, or `"^(cargo test|pnpm test)"` to match test commands on `AfterShellExecution`.
@@ -291,7 +291,7 @@ The example prints hook events to stderr and appends full payloads to:
 
 To disable a plugin, add its name to `disabledPlugins` in your goose settings file:
 
-```json title="~/.config/goose/settings.json"
+```json title="~/.config/mesmile/settings.json"
 {
   "disabledPlugins": ["session-logger"]
 }
@@ -300,7 +300,7 @@ To disable a plugin, add its name to `disabledPlugins` in your goose settings fi
 For project-specific settings, use:
 
 ```text
-<project>/.config/goose/settings.json
+<project>/.config/mesmile/settings.json
 ```
 
 A plugin listed in `disabledPlugins` is skipped during plugin discovery, so its hooks will not run.
@@ -350,7 +350,7 @@ Hooks run as local shell commands. Make sure any commands your script uses are i
 ## Additional Resources
 
 import ContentCardCarousel from '@site/src/components/ContentCardCarousel';
-import hooksBanner from '@site/static/img/blog/goose-hooks.jpg';
+import hooksBanner from '@site/static/img/blog/mesmile-hooks.jpg';
 
 <ContentCardCarousel
   items={[
@@ -359,7 +359,7 @@ import hooksBanner from '@site/static/img/blog/goose-hooks.jpg';
       title: 'Hooks: run your own scripts on every goose event',
       description: 'Learn how lifecycle hooks let you react to session, prompt, tool, file, and shell events with your own scripts.',
       thumbnailUrl: hooksBanner,
-      linkUrl: '/blog/2026/05/14/goose-hooks',
+      linkUrl: '/blog/2026/05/14/mesmile-hooks',
       date: '2026-05-14',
       duration: '5 min read'
     }

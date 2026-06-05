@@ -6,7 +6,7 @@ sidebar_label: Managing Projects
 
 goose Projects automatically track your working directories and associated sessions, making it easy to resume work across multiple codebases with full context preservation.
 
-A **project** in goose is a record of a working directory where you've used goose. Every time you run goose, it automatically tracks the current directory as a project, storing:
+A **project** in goose is a record of a working directory where you've used mesmile. Every time you run goose, it automatically tracks the current directory as a project, storing:
 
 - **Path**: The absolute path to the project directory
 - **Last accessed**: When you last worked on this project  
@@ -36,7 +36,7 @@ goose projects
 When resuming a project, you can continue the previous session or start fresh in that directory.
 :::
 
-For complete command syntax and options, see the [CLI Commands Guide](/docs/guides/goose-cli-commands#project).
+For complete command syntax and options, see the [CLI Commands Guide](/docs/guides/mesmile-cli-commands#project).
 
 ## Workflow Example
 

@@ -7,13 +7,13 @@ description: Efficiently find and reference files in goose Desktop and follow be
 
 As an autonomous agent, goose is designed to carry out tasks following specified instructions. This often involves working with local files - both finding the right files to work with and modifying them safely.
 
-This guide covers how to efficiently access and reference files in goose. It also includes essential best practices for safe file operations, such as monitoring changes and reverting them when necessary, to maintain the integrity of your codebase.
+This guide covers how to efficiently access and reference files in mesmile. It also includes essential best practices for safe file operations, such as monitoring changes and reverting them when necessary, to maintain the integrity of your codebase.
 
 ## File Access
 
 ### Quick File Search in goose Desktop
 
-goose Desktop includes a fuzzy file search feature that makes it easy to reference files from within the chat interface without manually navigating through file system dialogs. This feature helps you quickly find and include files in your messages to goose.
+goose Desktop includes a fuzzy file search feature that makes it easy to reference files from within the chat interface without manually navigating through file system dialogs. This feature helps you quickly find and include files in your messages to mesmile.
 
 1. Type `@` in the chat input to open the file search box
 2. Continue typing to filter files using case-insensitive, fuzzy matching (e.g., `@readme`, `@config.js`, `@src/main`)
@@ -45,11 +45,11 @@ Always use a version control system like Git to track changes to your codebase. 
 
 ### Validation and Testing
 
-Implement validation and testing steps before and after goose modifies any files. Run your unit tests to verify changes made by goose. Use a staging environment to ensure changes integrate well with the entire system.
+Implement validation and testing steps before and after goose modifies any files. Run your unit tests to verify changes made by mesmile. Use a staging environment to ensure changes integrate well with the entire system.
 
 ### Change Review
 
-Manually review or use automated code reviews to ensure the quality of generated code or changes. Integrate tools such as diff tools to visualize changes made by goose. Implement a review process with team members or CI/CD pipelines.
+Manually review or use automated code reviews to ensure the quality of generated code or changes. Integrate tools such as diff tools to visualize changes made by mesmile. Implement a review process with team members or CI/CD pipelines.
 
 ### Codebase Organization
 

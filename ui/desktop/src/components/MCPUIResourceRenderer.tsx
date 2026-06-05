@@ -142,12 +142,12 @@ export default function MCPUIResourceRenderer({
   useEffect(() => {
     const fetchProxyUrl = async () => {
       try {
-        const gooseApiHost = await window.electron.getGoosedHostPort();
+        const mesmileApiHost = await window.electron.getMesmiledHostPort();
         const secretKey = await window.electron.getSecretKey();
-        if (gooseApiHost && secretKey) {
-          setProxyUrl(`${gooseApiHost}/mcp-ui-proxy?secret=${encodeURIComponent(secretKey)}`);
+        if (mesmileApiHost && secretKey) {
+          setProxyUrl(`${mesmileApiHost}/mcp-ui-proxy?secret=${encodeURIComponent(secretKey)}`);
         } else {
-          console.error('Failed to get goosed host/port or secret key');
+          console.error('Failed to get mesmiled host/port or secret key');
         }
       } catch (error) {
         console.error('Error fetching MCP-UI Proxy URL:', error);
@@ -389,7 +389,7 @@ export default function MCPUIResourceRenderer({
               // iframeRenderData allows us to pass data down to MCP-UIs
               // MCP-UIs might find stuff like host and theme for conditional rendering
               // usage of this is experimental, leaving in place for demos
-              host: 'goose',
+              host: 'mesmile',
               theme: resolvedTheme,
             },
             proxy: proxyUrl, // refer to https://mcpui.dev/guide/client/using-a-proxy

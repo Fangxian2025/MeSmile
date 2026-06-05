@@ -95,14 +95,14 @@ def trial_turns(trial: TrialResult, job_dir: Path) -> int | None:
         if isinstance(steps, list):
             return sum(1 for s in steps if isinstance(s, dict) and s.get("source") == "agent")
 
-    goose_log = trial_dir / "agent" / "goose.txt"
-    if goose_log.is_file():
+    mesmile_log = trial_dir / "agent" / "mesmile.txt"
+    if mesmile_log.is_file():
         # stream-json emits one `message` event per streamed chunk (sharing the
         # same message.id for a single assistant turn). Dedupe by id so a turn
         # that streamed 2000 tokens counts as 1, not 2000.
         seen_ids: set[str] = set()
         anon_chunks = 0
-        for line in goose_log.read_text(errors="replace").splitlines():
+        for line in mesmile_log.read_text(errors="replace").splitlines():
             line = line.strip()
             if not line.startswith("{"):
                 continue
@@ -379,7 +379,7 @@ def cmd_task(args: argparse.Namespace) -> int:
                     for line in lines[-15:]:
                         print(f"    {line}")
             print(f"\nArtifacts in: {trial_dir}")
-            agent_log = trial_dir / "agent" / "goose.txt"
+            agent_log = trial_dir / "agent" / "mesmile.txt"
             if not agent_log.is_file():
                 agent_log = trial_dir / "agent" / "pi.txt"
             if agent_log.is_file():

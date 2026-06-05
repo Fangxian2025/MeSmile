@@ -100,7 +100,7 @@ def write_training_files(training_data, output_dir="/tmp/training"):
     
     return output_path
 
-def create_goose_instructions(training_data, output_file="/tmp/goose_training_instructions.md"):
+def create_mesmile_instructions(training_data, output_file="/tmp/mesmile_training_instructions.md"):
     """
     Create instructions for Goose based on the training data
     """
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     
     if training_data:
         output_dir = write_training_files(training_data)
-        instructions_file = create_goose_instructions(training_data)
+        instructions_file = create_mesmile_instructions(training_data)
         
         print("\n🎯 Training data ready for analysis!")
         print(f"   Training files: {output_dir}")

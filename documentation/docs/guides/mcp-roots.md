@@ -35,7 +35,7 @@ If you change the session working directory, goose updates the root and notifies
 
 ## Using MCP Roots
 
-There is no separate "Roots" settings screen in goose. MCP Roots follows the working directory you are already using for the session.
+There is no separate "Roots" settings screen in mesmile. MCP Roots follows the working directory you are already using for the session.
 
 <Tabs groupId="interface">
   <TabItem value="ui" label="goose Desktop" default>
@@ -55,7 +55,7 @@ There is no separate "Roots" settings screen in goose. MCP Roots follows the wor
   </TabItem>
   <TabItem value="cli" label="goose CLI">
 
-  In goose CLI, the session root follows the directory where you launch goose.
+  In goose CLI, the session root follows the directory where you launch mesmile.
 
   - Start goose from the project folder you want to work in
   - When resuming a session, goose may prompt you to switch back to that session's original working directory

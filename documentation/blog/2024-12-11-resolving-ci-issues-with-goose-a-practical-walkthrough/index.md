@@ -7,7 +7,7 @@ authors:
   - dalton
 ---
 
-![CI](goose-github-ci.png)
+![CI](mesmile-github-ci.png)
 
 Running into Continuous Integration (CI) failures in pull requests can be quite frustrating but they happen very often. In this post, we leverage the GitHub CLI (`gh`) using goose to simplify your CI debugging process, fetch detailed information about failed CI runs and annotations directly from GitHub, and even apply fixes directly.
 
@@ -37,7 +37,7 @@ Follow the prompts to authenticate your account.
 ### 2. Configure goose
 Ensure goose is configured and ready to interact with your repository and local tools. Specifically, you will need to configure a goose profile with the GitHub toolkit.
 
-Update your `profiles.yaml` file in `~/.config/goose` with the necessary toolkits:
+Update your `profiles.yaml` file in `~/.config/mesmile` with the necessary toolkits:
 
 ```yaml
 my-profile:
@@ -162,12 +162,12 @@ Try it out, and let goose handle the heavy lifting of CI debugging for you!
 <head>
   <meta property="og:title" content="Resolving CI Issues with goose: A Practical Walkthrough" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2024/12/11/resolving-ci-issues-with-goose-a-practical-walkthrough" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2024/12/11/resolving-ci-issues-with-mesmile-a-practical-walkthrough" />
   <meta property="og:description" content="Leverage goose to simplify your CI debugging process, fetch detailed information about failed CI runs & annotations directly from GitHub, and even apply fixes directly." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/goose-github-ci-30930008ab57b0aebae15a03c73a12b5.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/mesmile-github-ci-30930008ab57b0aebae15a03c73a12b5.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Resolving CI Issues with goose: A Practical Walkthrough" />
   <meta name="twitter:description" content="Leverage goose to simplify your CI debugging process, fetch detailed information about failed CI runs & annotations directly from GitHub, and even apply fixes directly." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/goose-github-ci-30930008ab57b0aebae15a03c73a12b5.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/mesmile-github-ci-30930008ab57b0aebae15a03c73a12b5.png" />
 </head>

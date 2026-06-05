@@ -5,10 +5,10 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aaif-goose/goose.git"
+    "url": "git+https://github.com/Fangxian2025/MeSmile.git"
   },
   "keywords": [
-    "goose",
+    "mesmile",
     "ai",
     "agent",
     "cli",
@@ -16,7 +16,7 @@
   ],
   "type": "module",
   "bin": {
-    "goose-tui": "dist/tui.js"
+    "mesmile-tui": "dist/tui.js"
   },
   "files": [
     "dist"
@@ -27,7 +27,7 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@aaif/goose-sdk": "workspace:*",
+    "@aaif/mesmile-sdk": "workspace:*",
     "@agentclientprotocol/sdk": "^0.19.0",
     "@inkjs/ui": "^2.0.0",
     "ink": "^6.8.0",

@@ -3,14 +3,14 @@ title: "Private by Default: Built-in Local Inference Models with goose"
 description: "goose now ships with built-in local inference powered by llama.cpp — no server, no API key, no cost. Here's how it works and what to expect."
 authors:
     - adewale
-image: /img/blog/goose-built-in-inference.png
+image: /img/blog/mesmile-built-in-inference.png
 ---
 
-![blog cover](/img/blog/goose-built-in-inference.png)
+![blog cover](/img/blog/mesmile-built-in-inference.png)
 
-You can now run local models with goose directly on your machine. No Ollama, no Docker, no external server — just entirely within goose. We shipped built-in local inference powered by [llama.cpp](https://github.com/ggml-org/llama.cpp), and it's already available today in the desktop app.
+You can now run local models with goose directly on your machine. No Ollama, no Docker, no external server — just entirely within mesmile. We shipped built-in local inference powered by [llama.cpp](https://github.com/ggml-org/llama.cpp), and it's already available today in the desktop app.
 
-This is the completely free, zero-dependency path to using goose. Your code never leaves your machine, there's no API key to manage, and it works offline. Here's what the experience looks like, which models to pick, and where the rough edges still are.
+This is the completely free, zero-dependency path to using mesmile. Your code never leaves your machine, there's no API key to manage, and it works offline. Here's what the experience looks like, which models to pick, and where the rough edges still are.
 
 <!--truncate-->
 
@@ -31,7 +31,7 @@ goose handles the details: GPU offloading, memory management, context window siz
 
 ## What makes this different from Ollama
 
-You might already be familiar with using goose via the [Ollama provider](/blog/2025/03/14/goose-ollama). Both paths run models locally, but the architecture is different:
+You might already be familiar with using goose via the [Ollama provider](/blog/2025/03/14/mesmile-ollama). Both paths run models locally, but the architecture is different:
 
 | | Built-in (llama.cpp) | Ollama |
 |---|---|---|
@@ -86,12 +86,12 @@ There is some cost that comes with choosing to use a local model - the biggest o
 <head>
   <meta property="og:title" content="Private by Default: Built-in Local Inference Models with goose" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/04/24/use-goose-with-built-in-local-inference" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/04/24/use-mesmile-with-built-in-local-inference" />
   <meta property="og:description" content="goose now ships with built-in local inference powered by llama.cpp — no server, no API key, no cost. Here's how it works and what to expect." />
-  <meta property="og:image" content="https://goose-docs.ai/img/blog/goose-built-in-inference.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/img/blog/mesmile-built-in-inference.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Private by Default: Built-in Local Inference Models with goose" />
   <meta name="twitter:description" content="goose now ships with built-in local inference powered by llama.cpp — no server, no API key, no cost. Here's how it works and what to expect." />
-  <meta name="twitter:image" content="https://goose-docs.ai/img/blog/goose-built-in-inference.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/img/blog/mesmile-built-in-inference.png" />
 </head>

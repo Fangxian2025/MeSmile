@@ -2,7 +2,7 @@ version: 1.0.0
 title: Goose Self-Testing Integration Suite
 description: A comprehensive meta-testing recipe where goose tests its own capabilities using its own tools - true first-person integration testing
 author:
-  contact: goose-self-test
+  contact: mesmile-self-test
 
 activities:
   - Initialize test workspace and logging infrastructure
@@ -182,9 +182,9 @@ prompt: |
   This tests the discovery mechanism that lists everything available for loading or delegation.
 
   ### Load Tool - Builtin Skill Test
-  Test loading the builtin `goose-doc-guide` skill:
+  Test loading the builtin `mesmile-doc-guide` skill:
   ```
-  load(source: "goose-doc-guide")
+  load(source: "mesmile-doc-guide")
   ```
   Verify the skill content is returned and can be read. This confirms builtin skills are accessible.
 

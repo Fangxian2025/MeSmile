@@ -1,8 +1,8 @@
 [Desktop Entry]
 Name=Goose
-Exec=/usr/lib/goose/Goose %U
+Exec=/usr/lib/mesmile/MeSmile %U
 Icon=/usr/share/pixmaps/goose.png
 Terminal=false
 Type=Application
 Categories=Development;
-MimeType=x-scheme-handler/goose;
+MimeType=x-scheme-handler/mesmile;

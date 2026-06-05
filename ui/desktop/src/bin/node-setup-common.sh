@@ -29,7 +29,7 @@ elif [ -n "${GOOSE_CONFIG_DIR:-}" ]; then
     log "GOOSE_CONFIG_DIR is deprecated for desktop shims; prefer GOOSE_PATH_ROOT."
     RESOLVED_GOOSE_CONFIG_DIR="${GOOSE_CONFIG_DIR}"
 else
-    RESOLVED_GOOSE_CONFIG_DIR="${HOME}/.config/goose"
+    RESOLVED_GOOSE_CONFIG_DIR="${HOME}/.config/mesmile"
 fi
 MCP_HERMIT_DIR="${RESOLVED_GOOSE_CONFIG_DIR}/mcp-hermit"
 
@@ -125,12 +125,12 @@ log "node: $(which node)"
 log "npx: $(which npx)"
 
 
-log "Checking for GOOSE_NPM_REGISTRY and GOOSE_NPM_CERT environment variables for custom npm registry setup..."
-# Check if GOOSE_NPM_REGISTRY is set and accessible
-if [ -n "${GOOSE_NPM_REGISTRY:-}" ] && curl -s --head --fail "${GOOSE_NPM_REGISTRY}" > /dev/null; then
-    log "Checking custom goose registry availability: ${GOOSE_NPM_REGISTRY}"
-    log "${GOOSE_NPM_REGISTRY} is accessible. Using it for npm registry."
-    export NPM_CONFIG_REGISTRY="${GOOSE_NPM_REGISTRY}"
+log "Checking for MESMILE_NPM_REGISTRY and GOOSE_NPM_CERT environment variables for custom npm registry setup..."
+# Check if MESMILE_NPM_REGISTRY is set and accessible
+if [ -n "${MESMILE_NPM_REGISTRY:-}" ] && curl -s --head --fail "${MESMILE_NPM_REGISTRY}" > /dev/null; then
+    log "Checking custom mesmile registry availability: ${MESMILE_NPM_REGISTRY}"
+    log "${MESMILE_NPM_REGISTRY} is accessible. Using it for npm registry."
+    export NPM_CONFIG_REGISTRY="${MESMILE_NPM_REGISTRY}"
 
     # Check if GOOSE_NPM_CERT is set and accessible
     if [ -n "${GOOSE_NPM_CERT:-}" ] && curl -s --head --fail "${GOOSE_NPM_CERT}" > /dev/null; then
@@ -147,7 +147,7 @@ if [ -n "${GOOSE_NPM_REGISTRY:-}" ] && curl -s --head --fail "${GOOSE_NPM_REGIST
     fi
 
 else
-    log "GOOSE_NPM_REGISTRY is either not set or not accessible. Falling back to default npm registry."
+    log "MESMILE_NPM_REGISTRY is either not set or not accessible. Falling back to default npm registry."
     export NPM_CONFIG_REGISTRY="https://registry.npmjs.org/"
 fi
 

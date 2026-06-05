@@ -674,7 +674,7 @@ export const zDefaultsSaveRequest_unstable = z.object({
 /**
  * Sources that onboarding knows how to discover and import.
  */
-export const zOnboardingImportSourceKind = z.enum(['goose_config', 'claude_desktop']);
+export const zOnboardingImportSourceKind = z.enum(['mesmile_config', 'claude_desktop']);
 
 /**
  * Scan for existing Goose and compatible app data that onboarding can import.
@@ -1149,7 +1149,7 @@ export const zInteractionUpdate = z.object({
 });
 
 /**
- * Discriminated union of goose-specific session update payloads.
+ * Discriminated union of mesmile-specific session update payloads.
  * Variant tag matches ACP's convention (`sessionUpdate: "<snake_case>"`).
  *
  * `discriminator.mapping` is what makes TS codegen (`@hey-api/openapi-ts`)
@@ -1170,7 +1170,7 @@ export const zGooseSessionUpdate = z.union([
 
 /**
  * Goose-custom session update notification — a parallel to ACP's
- * `session/update` carrying goose-specific update variants.
+ * `session/update` carrying mesmile-specific update variants.
  */
 export const zGooseSessionNotification_unstable = z.object({
     sessionId: z.string(),

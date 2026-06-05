@@ -27,13 +27,13 @@ Let's explore how to strike that balance.
 
 ### What is .goosehints?
 
-`.goosehints` is a configuration file that lives in your Goose directory (usually `~/.config/goose/`). It can contain any information that you want Goose to process every time you interact with Goose, providing a foundation for how it interacts with you.
+`.goosehints` is a configuration file that lives in your Goose directory (usually `~/.config/mesmile/`). It can contain any information that you want Goose to process every time you interact with Goose, providing a foundation for how it interacts with you.
 
 You can read more about `.goosehints` in the [Goose documentation](/docs/guides/context-engineering/using-goosehints).
 
 ### What is the Memory Extension?
 
-The [Memory Extension](/docs/mcp/memory-mcp) is a dynamic storage system using the Model Context Protocol that allows you to store and retrieve context on-demand using tags or keywords. It lives in your `~/.goose/memory` directory (local) or `~/.config/goose/memory` (global).
+The [Memory Extension](/docs/mcp/memory-mcp) is a dynamic storage system using the Model Context Protocol that allows you to store and retrieve context on-demand using tags or keywords. It lives in your `~/.goose/memory` directory (local) or `~/.config/mesmile/memory` (global).
 
 Unlike `.goosehints`, which is static and loaded entirely with every request, Memory Extension can be updated and accessed as needed, allowing for more flexible and user-specific configurations.
 
@@ -119,18 +119,18 @@ The first line starts with a hash `#` and a space-separated list of keywords and
 
 Since both the `.goosehints` file and the Memory Extension files are sent with every request, whether to use one or the other really comes down to how you want to manage your context. Since you can create a project-specific `.goosehints` file, you can use it to define project-wide rules and standards that you want to apply consistently across all interactions with Goose. This is useful for defining project-wide coding standards, documentation preferences, or other static rules that you want to apply consistently across all interactions. Meanwhile you can maintain a personal set of standards for writing and coding in your Memory Extension that you can update and change as needed without affecting the project-wide rules.
 
-Share your own `.goosehints` optimization stories in the [Goose community on Discord](http://discord.gg/goose-oss)!
+Share your own `.goosehints` optimization stories in the [Goose community on Discord](http://discord.gg/mesmile-oss)!
 
 <head>
   <meta property="og:title" content="What's in my .goosehints file (and why it probably shouldn't be)" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/06/05/whats-in-my-goosehints-file" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/06/05/whats-in-my-goosehints-file" />
   <meta property="og:description" content="Learn how to optimize your Goose configuration by understanding when to use .goosehints vs Memory Extension for better performance and maintainability." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/blog-banner-7f0e5ed1cf875e64e3ebb3250932baaf.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/blog-banner-7f0e5ed1cf875e64e3ebb3250932baaf.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="What's in my .goosehints file (and why it probably shouldn't be)" />
   <meta name="twitter:description" content="Learn how to optimize your Goose configuration by understanding when to use .goosehints vs Memory Extension for better performance and maintainability." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/blog-banner-7f0e5ed1cf875e64e3ebb3250932baaf.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/blog-banner-7f0e5ed1cf875e64e3ebb3250932baaf.png" />
   <meta name="keywords" content="Goose; .goosehints; Memory Extension MCP; AI configuration; performance optimization; developer productivity; context management; AI assistant; token costs; LLM efficiency" />
 </head>

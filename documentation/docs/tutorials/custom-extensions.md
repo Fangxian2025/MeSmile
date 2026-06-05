@@ -12,12 +12,12 @@ import TabItem from '@theme/TabItem';
 
 goose allows you to extend its functionality by creating your own custom extensions, which are built as MCP servers. These extensions are compatible with goose because it adheres to the [Model Context Protocol (MCP)][mcp-docs]. MCP is an open protocol that standardizes how applications provide context to LLMs. It enables a consistent way to connect LLMs to various data sources and tools, making it ideal for extending functionality in a structured and interoperable way. 
 
-In this guide, we build an MCP server using the [Python SDK for MCP][mcp-python]. We’ll demonstrate how to create an MCP server that reads Wikipedia articles and converts them to Markdown, integrate it as an extension in goose. You can follow a similar process to develop your own custom extensions for goose.
+In this guide, we build an MCP server using the [Python SDK for MCP][mcp-python]. We’ll demonstrate how to create an MCP server that reads Wikipedia articles and converts them to Markdown, integrate it as an extension in mesmile. You can follow a similar process to develop your own custom extensions for mesmile.
 
 You can check out other example servers in the [MCP servers repository][mcp-servers]. MCP SDKs are also available for other common languages, such as [TypeScript][mcp-typescript] and [Kotlin][mcp-kotlin].
 
 :::info
-goose supports Tools, Resources, and Prompts from the [Model Context Protocol](https://modelcontextprotocol.io/). See [`mcp_client.rs`](https://github.com/aaif-goose/goose/blob/main/crates/goose/src/agents/mcp_client.rs) for the supported protocol version and client capabilities.
+goose supports Tools, Resources, and Prompts from the [Model Context Protocol](https://modelcontextprotocol.io/). See [`mcp_client.rs`](https://github.com/Fangxian2025/MeSmile/blob/main/crates/goose/src/agents/mcp_client.rs) for the supported protocol version and client capabilities.
 :::
 
 ---
@@ -318,7 +318,7 @@ uvx mcp-wiki
 
 ## Step 6: Use Your Extension in goose
 
-Once integrated, you can start using your extension in goose. Open the goose chat interface and call your tool as needed.
+Once integrated, you can start using your extension in mesmile. Open the goose chat interface and call your tool as needed.
 
 You can verify that goose has picked up the tools from your custom extension by asking it "what tools do you have?"
 
@@ -328,7 +328,7 @@ Then, you can try asking questions that require using the extension you added.
 
 ![goose Chat - Use custom extension](../assets/guides/custom-extension-chat.png)
 
-🎉 **Congratulations!** You’ve successfully built and integrated a custom MCP server with goose.
+🎉 **Congratulations!** You’ve successfully built and integrated a custom MCP server with mesmile.
 
 ---
 
@@ -348,7 +348,7 @@ goose supports advanced MCP features that can enhance your extensions.
 
 **Getting Started:**
 - Use the `sampling/createMessage` method in your MCP server to request AI assistance
-- [goose's implementation](https://github.com/aaif-goose/goose/blob/main/crates/goose/src/agents/mcp_client.rs) currently supports text and image content types
+- [goose's implementation](https://github.com/Fangxian2025/MeSmile/blob/main/crates/goose/src/agents/mcp_client.rs) currently supports text and image content types
 - goose automatically advertises sampling capability to all MCP servers
 
 **Use Cases:** Document summarization, smart search filtering, code analysis, data insights

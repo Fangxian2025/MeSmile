@@ -7,7 +7,7 @@ description: Comprehensive troubleshooting guide for common goose problems with 
 goose, like any system, may run into occasional issues. This guide provides solutions for common problems.
 
 :::tip Need help with an issue not listed here?
-Our [Discord community](https://discord.gg/goose-oss) is here to help! For the fastest support, consider generating a [diagnostic report](/docs/troubleshooting/diagnostics-and-reporting) - it helps us understand your setup quickly.
+Our [Discord community](https://discord.gg/mesmile-oss) is here to help! For the fastest support, consider generating a [diagnostic report](/docs/troubleshooting/diagnostics-and-reporting) - it helps us understand your setup quickly.
 :::
 
 ### goose Edits Files
@@ -38,7 +38,7 @@ For particularly large or complex tasks, consider breaking them into smaller ses
 
 If you use goose CLI and work with web development projects, you may encounter commands that cause goose to hang indefinitely. Commands like `npm run dev`, `python -m http.server`, or `webpack serve` start development servers that never exit on their own.
 
-You can prevent these issues by customizing your shell to handle these commands differently when goose runs them. See [Customizing Shell Behavior](/docs/guides/environment-variables#customizing-shell-behavior) for details on using the `GOOSE_TERMINAL` environment variable.
+You can prevent these issues by customizing your shell to handle these commands differently when mesmile runs them. See [Customizing Shell Behavior](/docs/guides/environment-variables#customizing-shell-behavior) for details on using the `GOOSE_TERMINAL` environment variable.
 
 ---
 
@@ -52,7 +52,7 @@ This error occurs when the input provided to goose exceeds the maximum token lim
 
 ### Using Ollama Provider
 
-Ollama provides local LLMs, which means you must first [download Ollama and run a model](/docs/getting-started/providers#local-llms) before attempting to use this provider with goose. If you do not have the model downloaded, you'll run into the following error:
+Ollama provides local LLMs, which means you must first [download Ollama and run a model](/docs/getting-started/providers#local-llms) before attempting to use this provider with mesmile. If you do not have the model downloaded, you'll run into the following error:
 
 > ExecutionError("error sending request for url (http://localhost:11434/v1/chat/completions)")
 
@@ -84,11 +84,11 @@ Users may run into an error like the one below when there are issues with their 
 
 ```sh
 Traceback (most recent call last):
-  File "/Users/admin/.local/pipx/venvs/goose-ai/lib/python3.13/site-packages/exchange/providers/utils.py",
+  File "/Users/admin/.local/pipx/venvs/mesmile-ai/lib/python3.13/site-packages/exchange/providers/utils.py",
 line 30, in raise_for_status
     response.raise_for_status()
     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/Users/admin/.local/pipx/venvs/goose-ai/lib/python3.13/site-packages/httpx/_models.py",
+  File "/Users/admin/.local/pipx/venvs/mesmile-ai/lib/python3.13/site-packages/httpx/_models.py",
 line 829, in raise_for_status
     raise HTTPStatusError(message, request=request, response=self)
 httpx.HTTPStatusError: Client error '404 Not Found' for url
@@ -152,13 +152,13 @@ You may need to uninstall goose or clear existing data before re-installing. goo
 
 **Data Locations**
 
-- **Logs and Config**: `~/.config/goose`
+- **Logs and Config**: `~/.config/mesmile`
 - **Application Data**: `~/Library/Application Support/Goose`
 - **Secrets**: macOS Keychain (credential named "goose").
 
 #### Removal Steps
 
-1. Stop any copies of goose running (CLI or GUI)
+1. Stop any copies of mesmile running (CLI or GUI)
 
   - Consider confirming you've stopped them all via Activity Monitor
 
@@ -166,7 +166,7 @@ You may need to uninstall goose or clear existing data before re-installing. goo
 3. Remove data directories:
 
 ```
-rm -rf ~/.config/goose
+rm -rf ~/.config/mesmile
 rm -rf ~/Library/Application\ Support/goose
 ```
 4. Delete the "goose" app from your Applications folder (if using goose Desktop).
@@ -176,19 +176,19 @@ rm -rf ~/Library/Application\ Support/goose
 
 - **Data/Sessions**: `~/.local/share/goose/`
 - **Logs**: `~/.local/state/goose/`
-- **Config**: `~/.config/goose/`
+- **Config**: `~/.config/mesmile/`
 - **Secrets**: System keyring (if available)
 
 #### Removal Steps
 
-- Stop any copies of goose running (CLI or GUI)
+- Stop any copies of mesmile running (CLI or GUI)
 - Clear secrets from your system keyring (if applicable)
 - Remove data directories:
 
 ```
 rm -rf ~/.local/share/goose/
 rm -rf ~/.local/state/goose/
-rm -rf ~/.config/goose/
+rm -rf ~/.config/mesmile/
 ```
 #### Windows
 
@@ -199,7 +199,7 @@ rm -rf ~/.config/goose/
 
 #### Removal Steps
 
-1. Stop any copies of goose running (CLI or GUI)
+1. Stop any copies of mesmile running (CLI or GUI)
 
   - Check Task Manager to confirm all instances are closed
 
@@ -240,7 +240,7 @@ If you still receive keyring errors, use one of the following options:
   Welcome to goose! Let's get you set up with a provider.
     you can rerun this command later to update your configuration
 
-  ┌   goose-configure
+  ┌   mesmile-configure
   │
   ◇  Which model provider should we use?
   │  Google Gemini
@@ -264,7 +264,7 @@ If you still receive keyring errors, use one of the following options:
 
 When the keyring is disabled (or cannot be accessed and goose falls back to file-based secret storage), secrets are stored here:
 
-- macOS/Linux: `~/.config/goose/secrets.yaml`
+- macOS/Linux: `~/.config/mesmile/secrets.yaml`
 - Windows: `%APPDATA%\Block\goose\config\secrets.yaml`
 
 See [Configuration Files](/docs/guides/config-files) for details.
@@ -348,7 +348,7 @@ Blocked malicious package: package-name@1.0.0 (npm). OSV MAL advisories: MAL-202
 Steps to resolve:
 1. **Find an alternative**: Look for similar extensions in the [extensions directory][extensions-directory] or [PulseMCP](https://www.pulsemcp.com/servers)
 2. **Optional verification**: Verify the source of the blocked extension or the package name/publisher
-3. **Report false positives**: If you believe this is an error, please [open an issue](https://github.com/aaif-goose/goose/issues)
+3. **Report false positives**: If you believe this is an error, please [open an issue](https://github.com/Fangxian2025/MeSmile/issues)
 
 This security check only applies to locally-executed external extensions that use PyPI (`uvx`) or NPM (`npx`). The check uses real-time data from the OSV database; if the security service is unavailable, extensions will still install normally.
 
@@ -520,7 +520,7 @@ If you can share a [diagnostic report](/docs/troubleshooting/diagnostics-and-rep
 
 [handling-rate-limits]: /docs/guides/handling-llm-rate-limits-with-goose
 [installation]: /docs/getting-started/installation
-[discord]: https://discord.gg/goose-oss
+[discord]: https://discord.gg/mesmile-oss
 [goosehints]: /docs/guides/context-engineering/using-goosehints
 [configure-llm-provider]: /docs/getting-started/providers
 [extensions-directory]: /extensions

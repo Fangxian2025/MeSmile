@@ -16,8 +16,8 @@ import * as prettier from "prettier";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT = resolve(__dirname, "../..");
-const SCHEMA_PATH = resolve(ROOT, "crates/goose/acp-schema.json");
-const META_PATH = resolve(ROOT, "crates/goose/acp-meta.json");
+const SCHEMA_PATH = resolve(ROOT, "crates/mesmile/acp-schema.json");
+const META_PATH = resolve(ROOT, "crates/mesmile/acp-meta.json");
 const OUTPUT_DIR = resolve(__dirname, "src/generated");
 
 // Export the main function so it can be imported by build-schema.ts
@@ -141,11 +141,11 @@ interface NotificationMeta {
 function methodToHandlerName(method: string): string {
   let methodParts = method.split(/[/_]/).filter((part) => part.length > 0);
   let prefix = "";
-  if (methodParts[0] == "goose" && methodParts[1] == "unstable") {
+  if (methodParts[0] == "mesmile" && methodParts[1] == "unstable") {
     methodParts.shift();
     methodParts.shift();
     prefix = "unstable_";
-  } else if (methodParts[0] == "goose") {
+  } else if (methodParts[0] == "mesmile") {
     methodParts.shift();
   }
   const body = methodParts
@@ -163,7 +163,7 @@ function methodToCamelCase(method: string): string {
   let methodParts = method.split(/[/_]/).filter((part) => part.length > 0);
 
   let suffix: string;
-  if (methodParts[0] == "goose" && methodParts[1] == "unstable") {
+  if (methodParts[0] == "mesmile" && methodParts[1] == "unstable") {
     methodParts.shift();
     methodParts.shift();
     suffix = "_unstable";

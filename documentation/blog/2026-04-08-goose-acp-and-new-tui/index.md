@@ -4,22 +4,22 @@ description: "We're shipping a new TUI, rewriting the desktop app in Tauri, and 
 authors:
     - alexhancock
 featured: true
-image: /img/blog/goose-2-blog-cover.jpg
+image: /img/blog/mesmile-2-blog-cover.jpg
 ---
 
 # goose 2.0 beta - new architecture and clients
 
-![blog cover](/img/blog/goose-2-blog-cover.jpg)
+![blog cover](/img/blog/mesmile-2-blog-cover.jpg)
 
 goose started life in the terminal. The earliest versions were a Python CLI that ran the agent in-process — you typed a message, the model responded, tools executed, and everything happened in a single loop. That simplicity was a strength: it meant anyone with a terminal could start using goose immediately, no app to install, no server to run.
 
-As goose grew, so did the ways people wanted to use it. We shipped an Electron desktop app and suddenly we had two clients with two completely different integration paths. The Rust CLI talked to the agent directly in process, while the desktop app went through `goosed`, a custom REST + SSE server. Every new feature — session management, extension loading, streaming — had to be wired up in both places.
+As goose grew, so did the ways people wanted to use it. We shipped an Electron desktop app and suddenly we had two clients with two completely different integration paths. The Rust CLI talked to the agent directly in process, while the desktop app went through `mesmiled`, a custom REST + SSE server. Every new feature — session management, extension loading, streaming — had to be wired up in both places.
 
 <!--truncate-->
 
 Third-party developers have never been able to easily build their own clients, as they had no standard way to connect at all.
 
-We needed a single protocol that any client could speak to reach the same agent core. For this purpose we have chosen [ACP](https://agentclientprotocol.com/), the Agent Client Protocol, as our new default interface to goose.
+We needed a single protocol that any client could speak to reach the same agent core. For this purpose we have chosen [ACP](https://agentclientprotocol.com/), the Agent Client Protocol, as our new default interface to mesmile.
 
 ## Under the hood: ACP
 
@@ -32,9 +32,9 @@ Here's where things stand:
 | **1 — Stabilize ACP server** | Production-ready server with session persistence, extensions, streaming | ✅ Done |
 | **2 — TypeScript TUI beta** | Feature-complete terminal UI built on the ACP client | 🚧 In progress |
 | **3 — Desktop rewrite to Tauri** | Electron app being replaced with a Tauri-based desktop client on ACP | 🚧 In progress |
-| **4 — Consolidation** | Remove `goosed` and the old Rust CLI; single unified architecture | Planned |
+| **4 — Consolidation** | Remove `mesmiled` and the old Rust CLI; single unified architecture | Planned |
 
-The work is tracked in [#6642](https://github.com/aaif-goose/goose/issues/6642).
+The work is tracked in [#6642](https://github.com/Fangxian2025/MeSmile/issues/6642).
 
 ## The new goose TUI
 
@@ -72,20 +72,20 @@ We will follow up with another post when the desktop is ready for beta testing.
 
 This is all happening in the open. Follow along or jump in:
 
-- **Tracking issue:** [#6642](https://github.com/aaif-goose/goose/issues/6642)
+- **Tracking issue:** [#6642](https://github.com/Fangxian2025/MeSmile/issues/6642)
 - **Try the TUI:** `npx @aaif/goose`
-- **Discord:** Follow along and give feedback in [#goose-2-dev](https://discord.gg/goose-oss).
+- **Discord:** Follow along and give feedback in [#mesmile-2-dev](https://discord.gg/mesmile-oss).
 - **Feedback?** Open an issue or drop a comment on #6642 — we'd love to hear from you.
 
 <head>
   <meta property="og:title" content="goose 2.0 beta - new architecture and clients" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/04/08/goose-acp-and-new-tui" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/04/08/mesmile-acp-and-new-tui" />
   <meta property="og:description" content="We're shipping a new TUI, rewriting the desktop app in Tauri, and unifying everything under ACP." />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="https://goose-docs.ai" />
+  <meta property="twitter:domain" content="https://mesmile-docs.ai" />
   <meta name="twitter:title" content="goose 2.0 beta - new architecture and clients" />
   <meta name="twitter:description" content="We're shipping a new TUI, rewriting the desktop app in Tauri, and unifying everything under ACP." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/goose-2-blog-cover-aaee1526bc905939e34f5766d377a793.jpg" />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/goose-2-blog-cover-aaee1526bc905939e34f5766d377a793.jpg" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/mesmile-2-blog-cover-aaee1526bc905939e34f5766d377a793.jpg" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/mesmile-2-blog-cover-aaee1526bc905939e34f5766d377a793.jpg" />
 </head>

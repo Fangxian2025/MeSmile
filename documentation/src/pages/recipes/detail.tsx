@@ -67,7 +67,7 @@ export default function RecipeDetailPage(): JSX.Element {
       return;
     }
 
-    const command = `goose run --recipe ${recipe?.localPath}`;
+    const command = `mesmile run --recipe ${recipe?.localPath}`;
     navigator.clipboard.writeText(command);
     toast.success("CLI command copied!");
   };
@@ -78,7 +78,7 @@ export default function RecipeDetailPage(): JSX.Element {
       .map(([key, val]) => `${key}=${val}`)
       .join(" ");
 
-    const command = `goose run --recipe ${recipe?.localPath}${
+    const command = `mesmile run --recipe ${recipe?.localPath}${
       filledParams ? ` --params ${filledParams}` : ""
     }`;
 

@@ -37,7 +37,7 @@ Enable the [Summon extension](/docs/mcp/summon-mcp) to allow goose to load and u
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 

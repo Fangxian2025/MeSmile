@@ -404,7 +404,7 @@
   }
 
   /* Goose icon entrance animation */
-  .goose-icon-entrance {
+  .mesmile-icon-entrance {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
@@ -589,7 +589,7 @@ pre:has(> code.bg-inline-code) {
   scrollbar-width: thin;
 }
 
-.assistant:has(+ .user):not(.in-chain) .goose-message {
+.assistant:has(+ .user):not(.in-chain) .mesmile-message {
   padding-bottom: 24px;
 }
 
@@ -674,7 +674,7 @@ pre:has(> code.bg-inline-code) {
 }
 
 /* Goose icon animation to replace framer-motion */
-@keyframes goose-icon-entrance {
+@keyframes mesmile-icon-entrance {
   from {
     opacity: 0;
     transform: scale(0.25) translate(-5px, 5px) rotate(-20deg);
@@ -685,8 +685,8 @@ pre:has(> code.bg-inline-code) {
   }
 }
 
-.goose-icon-animation {
-  animation: goose-icon-entrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+.mesmile-icon-animation {
+  animation: mesmile-icon-entrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   transform-origin: bottom left;
 }
 

@@ -32,7 +32,7 @@ Display the help menu.
 
 **Usage:**
 ```bash
-goose --help
+mesmile --help
 ```
 
 ---
@@ -69,7 +69,7 @@ Check the current goose version you have installed.
 
 **Usage:**
 ```bash
-goose --version
+mesmile --version
 ```
 
 ---
@@ -149,7 +149,7 @@ source ~/.bashrc
 <TabItem value="fish" label="Fish">
 
 ```bash
-goose completion fish > ~/.config/fish/completions/goose.fish
+goose completion fish > ~/.config/fish/completions/mesmile.fish
 ```
 
 Then restart your terminal or run `exec fish`.
@@ -160,12 +160,12 @@ Then restart your terminal or run `exec fish`.
 ```nu
 let autoload_dir = ($nu.user-autoload-dirs | first)
 mkdir $autoload_dir
-goose completion nu | save --force ($autoload_dir | path join "goose.nu")
+goose completion nu | save --force ($autoload_dir | path join "mesmile.nu")
 ```
 
 Then restart Nushell or run:
 ```nu
-source (($nu.user-autoload-dirs | first) | path join "goose.nu")
+source (($nu.user-autoload-dirs | first) | path join "mesmile.nu")
 ```
 
 </TabItem>
@@ -195,7 +195,7 @@ After installing and reloading your shell, test completion by typing `goose ` an
 
 :::info Session Storage Migration
 Starting with version 1.10.0, goose uses a SQLite database (`sessions.db`) instead of individual `.jsonl` files.
-Your existing sessions are automatically imported to the database. Legacy `.jsonl` files remain on disk but are no longer managed by goose.
+Your existing sessions are automatically imported to the database. Legacy `.jsonl` files remain on disk but are no longer managed by mesmile.
 :::
 
 #### session [options]
@@ -208,7 +208,7 @@ Start or resume interactive chat sessions.
 - **`-r, --resume`**: Resume a previous session
 - **`--fork`**: Create a new duplicate session with copied history. Must be used with `--resume`. Provide `--name` or `--session-id` to fork a specific session. Otherwise, forks the most recent session.
 - **`--history`**: Show previous messages when resuming a session
-- **`--container <container_id>`**: Run extensions inside a [Docker container](/docs/tutorials/goose-in-docker#running-extensions-in-docker-containers).
+- **`--container <container_id>`**: Run extensions inside a [Docker container](/docs/tutorials/mesmile-in-docker#running-extensions-in-docker-containers).
 - **`--debug`**: Enable debug mode to output complete tool responses, detailed parameter values, and full file paths
 - **`--max-tool-repetitions <NUMBER>`**: Set the maximum number of times the same tool can be called consecutively with identical parameters. Helps prevent infinite loops.
 - **`--max-turns <NUMBER>`**: Set the maximum number of turns allowed without user input (default: 1000)
@@ -408,7 +408,7 @@ Execute commands from an instruction file or stdin. Check out the [full guide](/
 - **`-n, --name <name>`**: Name for this run session (e.g. `daily-tasks`)
 - **`-r, --resume`**: Resume from a previous run
 - **`--path <PATH>`**: Path for this run session (e.g. `./playground.jsonl`). Used for legacy file-based session storage.
-- **`--container <container_id>`**: Run extensions [inside a Docker container](/docs/tutorials/goose-in-docker#running-extensions-in-docker-containers).
+- **`--container <container_id>`**: Run extensions [inside a Docker container](/docs/tutorials/mesmile-in-docker#running-extensions-in-docker-containers).
 - **`--no-session`**: Run goose commands without creating or storing a session file
 
 **Extension Options:**
@@ -430,31 +430,31 @@ Execute commands from an instruction file or stdin. Check out the [full guide](/
 **Usage:**
 ```bash
 # Run from instruction file
-goose run --instructions plan.md
+mesmile run --instructions plan.md
 
 # Load a recipe with a prompt that goose executes and then exits  
-goose run --recipe recipe.yaml
+mesmile run --recipe recipe.yaml
 
 # Load a recipe and stay in an interactive session
-goose run --recipe recipe.yaml --interactive
+mesmile run --recipe recipe.yaml --interactive
 
 # Load a recipe in debug mode
-goose run --recipe recipe.yaml --debug
+mesmile run --recipe recipe.yaml --debug
 
 # Show recipe details
-goose run --recipe recipe.yaml --explain
+mesmile run --recipe recipe.yaml --explain
 
 # Run a recipe with parameters
-goose run --recipe recipe.yaml --params environment=production --params region=us-west-2
+mesmile run --recipe recipe.yaml --params environment=production --params region=us-west-2
 
 # Run instructions from a file without session storage
-goose run --no-session -i instructions.txt
+mesmile run --no-session -i instructions.txt
 
 # Run with a specified provider and model
-goose run --provider anthropic --model claude-4-sonnet -t "initial prompt"
+mesmile run --provider anthropic --model claude-4-sonnet -t "initial prompt"
 
 # Run with limited turns before prompting user
-goose run --recipe recipe.yaml --max-turns 10
+mesmile run --recipe recipe.yaml --max-turns 10
 ```
 
 ---
@@ -518,10 +518,10 @@ Install and update git-backed plugins that provide skills or other Open Plugins 
 **Usage:**
 ```bash
 # Install a plugin from a git repository
-goose plugin install https://github.com/example/my-goose-plugin.git
+goose plugin install https://github.com/example/my-mesmile-plugin.git
 
 # Install a plugin and enable automatic update checks
-goose plugin install --auto-update https://github.com/example/my-goose-plugin.git
+goose plugin install --auto-update https://github.com/example/my-mesmile-plugin.git
 
 # Update an installed plugin manually
 goose plugin update my-plugin
@@ -641,7 +641,7 @@ Ask goose questions directly from your shell prompt, with command history includ
 
 ### Slash Commands
 
-Once you're in an interactive session (via `goose session` or `goose run --interactive`), you can use these slash commands. All commands support tab completion. Press `/ + <Tab>` to cycle through available commands.
+Once you're in an interactive session (via `goose session` or `mesmile run --interactive`), you can use these slash commands. All commands support tab completion. Press `/ + <Tab>` to cycle through available commands.
 
 **Available Commands:**
 - **`/?` or `/help`** - Display the help menu
@@ -773,7 +773,7 @@ You can use any editor that accepts a file path argument, such as vim, nano, ema
 
   Persists across all sessions unless overridden by the environment variable.
   
-  1. Navigate to the goose [configuration file](/docs/guides/config-files). For example, navigate to `~/.config/goose/config.yaml` on macOS.
+  1. Navigate to the goose [configuration file](/docs/guides/config-files). For example, navigate to `~/.config/mesmile/config.yaml` on macOS.
   2. Add `GOOSE_PROMPT_EDITOR` and set it to your preferred editor:
   
   ```yaml

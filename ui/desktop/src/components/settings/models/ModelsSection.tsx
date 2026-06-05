@@ -54,16 +54,16 @@ export default function ModelsSection({ setView }: ModelsSectionProps) {
         setProvider(providerDisplayName);
       } else {
         // Fallback to original provider lookup
-        const gooseProvider = (await read('GOOSE_PROVIDER', false)) as string;
+        const mesmileProvider = (await read('GOOSE_PROVIDER', false)) as string;
         const providers = await getProviders(true);
-        const providerDetailsList = providers.filter((provider) => provider.name === gooseProvider);
+        const providerDetailsList = providers.filter((provider) => provider.name === mesmileProvider);
 
         if (providerDetailsList.length != 1) {
           toastError({
             title: intl.formatMessage(modelAndProviderMessages.unknownProviderTitle),
             msg: intl.formatMessage(modelAndProviderMessages.unknownProviderMsg),
           });
-          setProvider(gooseProvider);
+          setProvider(mesmileProvider);
         } else {
           const fallbackProviderDisplayName = providerDetailsList[0].metadata.display_name;
           setProvider(fallbackProviderDisplayName);

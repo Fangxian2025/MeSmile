@@ -255,7 +255,7 @@ function CommunitySection() {
         </p>
         <div className={styles.communityGrid}>
           <a
-            href="https://discord.gg/goose-oss"
+            href="https://discord.gg/mesmile-oss"
             target="_blank"
             rel="noopener"
             className={styles.communityCard}
@@ -267,7 +267,7 @@ function CommunitySection() {
             </p>
           </a>
           <a
-            href="https://github.com/aaif-goose/goose"
+            href="https://github.com/Fangxian2025/MeSmile"
             target="_blank"
             rel="noopener"
             className={styles.communityCard}
@@ -320,7 +320,7 @@ function InstallSection() {
             </div>
             <pre className={styles.terminalBody}>
               <code>
-{`curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash`}
+{`curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash`}
               </code>
             </pre>
           </div>

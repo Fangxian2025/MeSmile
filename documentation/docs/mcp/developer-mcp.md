@@ -38,7 +38,7 @@ The Developer extension is already enabled by default when goose is installed.
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 
@@ -171,7 +171,7 @@ Environment variables may contain sensitive values like API keys and tokens (e.g
 
 ## Configuring Access Controls
 
-By default, goose can run system commands with your user privileges and edit any accessible file **without your approval**. This is because goose runs in Autonomous permission mode by default and has access to the Developer extension's shell and file editing tools. While this configuration allows goose to work quickly and independently, there's potential for unexpected outcomes. Understanding the available access control features can help you configure goose to match your comfort level and specific needs.
+By default, goose can run system commands with your user privileges and edit any accessible file **without your approval**. This is because mesmile runs in Autonomous permission mode by default and has access to the Developer extension's shell and file editing tools. While this configuration allows goose to work quickly and independently, there's potential for unexpected outcomes. Understanding the available access control features can help you configure goose to match your comfort level and specific needs.
 
 :::tip
 See the [Quick Setup Example](#quick-setup-example) below for some ways to configure more control over goose's behavior.
@@ -193,7 +193,7 @@ The Developer extension provides these tools:
 
 You can layer multiple controls to match your risk tolerance and workflow:
 
-- **[goose Permission Modes](/docs/guides/managing-tools/goose-permissions)** control when goose asks for approval:
+- **[goose Permission Modes](/docs/guides/managing-tools/mesmile-permissions)** control when goose asks for approval:
 
   | Mode | Description | Use Cases |
   |------|-------------|-----------|
@@ -218,9 +218,9 @@ You might want more control over goose's operations when working with sensitive 
 
 Here's an example configuration that enables oversight:
 
-1. **Set the [permission mode](/docs/guides/managing-tools/goose-permissions)** to Smart Approval or Manual Approval:
+1. **Set the [permission mode](/docs/guides/managing-tools/mesmile-permissions)** to Smart Approval or Manual Approval:
    ```yaml
-   # ~/.config/goose/config.yaml
+   # ~/.config/mesmile/config.yaml
    GOOSE_MODE: smart_approve  # or approve
    ```
 

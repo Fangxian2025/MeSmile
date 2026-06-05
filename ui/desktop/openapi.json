@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "goose-server",
+    "title": "mesmile-server",
     "description": "An AI agent",
     "contact": {
       "name": "AAIF",
@@ -5276,7 +5276,7 @@
           },
           {
             "type": "object",
-            "description": "Built-in extension that is part of the bundled goose MCP server",
+            "description": "Built-in extension that is part of the bundled mesmile MCP server",
             "required": [
               "name",
               "description",
@@ -8241,7 +8241,7 @@
           "extension_data": {
             "$ref": "#/components/schemas/ExtensionData"
           },
-          "goose_mode": {
+          "mesmile_mode": {
             "$ref": "#/components/schemas/GooseMode"
           },
           "id": {
@@ -8518,11 +8518,11 @@
       "Settings": {
         "type": "object",
         "properties": {
-          "goose_model": {
+          "mesmile_model": {
             "type": "string",
             "nullable": true
           },
-          "goose_provider": {
+          "mesmile_provider": {
             "type": "string",
             "nullable": true
           },
@@ -9374,7 +9374,7 @@
           "session_id"
         ],
         "properties": {
-          "goose_mode": {
+          "mesmile_mode": {
             "type": "string",
             "nullable": true
           },

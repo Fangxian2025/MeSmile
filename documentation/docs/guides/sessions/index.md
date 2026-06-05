@@ -11,7 +11,7 @@ import TabItem from '@theme/TabItem';
 
 <h1 className={styles.pageTitle}>Managing Sessions</h1>
 <p className={styles.pageDescription}>
-  Sessions are your continuous interactions with goose. Each session maintains context and conversation history, enabling goose to understand your ongoing work and provide relevant assistance.
+  Sessions are your continuous interactions with mesmile. Each session maintains context and conversation history, enabling goose to understand your ongoing work and provide relevant assistance.
 </p>
 
 <div className={styles.categorySection}>
@@ -40,7 +40,7 @@ import TabItem from '@theme/TabItem';
     <Card
       title="6 Essential Tips for Working with goose"
       description="Learn how focused sessions, step-by-step guidance, and refining your prompts can lead to more productive sessions."
-      link="/blog/2025/03/06/goose-tips"
+      link="/blog/2025/03/06/mesmile-tips"
     />
     <Card
       title="AI Prompting 101: How to Get the Best Responses from Your AI Agent"

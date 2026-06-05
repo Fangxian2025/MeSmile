@@ -48,7 +48,7 @@ goose is compatible with a wide range of LLM providers, allowing you to choose a
 | [Perplexity](https://www.perplexity.ai/)                                    | Chat models with built-in real-time web search grounding. OpenAI-compatible chat completions API at `https://api.perplexity.ai`.                                                                                          | `PERPLEXITY_API_KEY`                                                                                                                                                                |
 | [OVHcloud AI](https://www.ovhcloud.com/en/public-cloud/ai-endpoints/)       | Provides access to open-source models including Qwen, Llama, Mistral, and DeepSeek through AI Endpoints service.                                                       | `OVHCLOUD_API_KEY`                                                                                                                                                                  |
 | [Ramalama](https://ramalama.ai/)                                            | Local model using native [OCI](https://opencontainers.org/) container runtimes, [CNCF](https://www.cncf.io/) tools, and supporting models as OCI artifacts. Ramalama API is a compatible alternative to Ollama and can be used with the goose Ollama provider. Supports Qwen, Llama, DeepSeek, and other open-source models. **Because this provider runs locally, you must first [download and run a model](#local-llms).**  | `OLLAMA_HOST`                                                                                                                                                                       |
-| [Routstr](https://routstr.com/)                                             | OpenAI-compatible aggregator that fronts dozens of upstream providers (Anthropic, OpenAI, Google, DeepSeek, Llama, …) behind a single API. Authenticate with an `sk-...` bearer issued by your Routstr instance — payment is handled outside goose.                                                                                                                                                                       | `ROUTSTR_API_KEY`, `ROUTSTR_HOST` (optional, default `https://api.routstr.com`)                                                                                                     |
+| [Routstr](https://routstr.com/)                                             | OpenAI-compatible aggregator that fronts dozens of upstream providers (Anthropic, OpenAI, Google, DeepSeek, Llama, …) behind a single API. Authenticate with an `sk-...` bearer issued by your Routstr instance — payment is handled outside mesmile.                                                                                                                                                                       | `ROUTSTR_API_KEY`, `ROUTSTR_HOST` (optional, default `https://api.routstr.com`)                                                                                                     |
 | [SaladCloud AI Gateway](https://salad.com/)                                 | OpenAI-compatible access to SaladCloud-hosted open-source models, including Qwen, Gemma, and others.                                                                                                          | `SALAD_CLOUD_API_KEY`                                                                                                                                                              |
 | [Scaleway](https://www.scaleway.com/en/generative-apis/)                    | European cloud offering OpenAI-compatible access to models like Mistral, Qwen, and open-source weights. Ensures data residency and GDPR compliance.                                                                                                                                                                                                                                                                | `SCW_SECRET_KEY`      |
 | [Snowflake](https://docs.snowflake.com/user-guide/snowflake-cortex/aisql#choosing-a-model) | Access the latest models using Snowflake Cortex services, including Claude models. **Requires a Snowflake account and programmatic access token (PAT)**.                                                     | `SNOWFLAKE_HOST`, `SNOWFLAKE_TOKEN`                                                                                                                                                                 |
@@ -59,7 +59,7 @@ goose is compatible with a wide range of LLM providers, allowing you to choose a
 | [xAI](https://x.ai/)                                                        | Access to xAI's Grok models including grok-3, grok-3-mini, and grok-3-fast with 131,072 token context window.                                                                                                            | `XAI_API_KEY`, `XAI_HOST` (optional)                                                                                                                                                |
 
 :::tip Prompt Caching for Claude Models
-goose automatically enables Anthropic's [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) when using Claude models via Anthropic, Amazon Bedrock, Databricks, OpenRouter, and LiteLLM providers. This adds `cache_control` markers to requests, which can reduce costs for longer conversations by caching frequently-used context. See the [provider implementations](https://github.com/aaif-goose/goose/tree/main/crates/goose/src/providers) for technical details.
+goose automatically enables Anthropic's [prompt caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching) when using Claude models via Anthropic, Amazon Bedrock, Databricks, OpenRouter, and LiteLLM providers. This adds `cache_control` markers to requests, which can reduce costs for longer conversations by caching frequently-used context. See the [provider implementations](https://github.com/Fangxian2025/MeSmile/tree/main/crates/goose/src/providers) for technical details.
 :::
 
 ### CLI Providers
@@ -111,7 +111,7 @@ To configure your chosen provider, see available options, or select a model, vis
     We recommend new users start with Agent Router by Tetrate. Tetrate provides access to multiple AI models with built-in rate limiting and automatic failover. 
 
     :::info Free Credits Offer
-    You'll receive $10 in free credits the first time you automatically authenticate with Tetrate through goose. This offer is available to both new and existing Tetrate users.
+    You'll receive $10 in free credits the first time you automatically authenticate with Tetrate through mesmile. This offer is available to both new and existing Tetrate users.
     :::
     1. Choose `Agent Router by Tetrate`. 
     2. goose will open a browser window for you to authenticate with Tetrate, or create a new account if you don't have one already.
@@ -172,7 +172,7 @@ To configure your chosen provider, see available options, or select a model, vis
     2. Select `Configure Providers` from the menu and press `Enter`.
 
        ```
-       ┌   goose-configure 
+       ┌   mesmile-configure 
        │
        ◆  What would you like to configure?
        // highlight-start
@@ -188,7 +188,7 @@ To configure your chosen provider, see available options, or select a model, vis
     3. Choose a model provider and press `Enter`. Use the arrow keys (↑/↓) to move through the options, or start typing to filter the list.
 
        ```
-       ┌   goose-configure 
+       ┌   mesmile-configure 
        │
        ◇  What would you like to configure?
        │  Configure Providers 
@@ -207,7 +207,7 @@ To configure your chosen provider, see available options, or select a model, vis
     4. Enter your API key (and any other configuration details) when prompted.
 
        ```
-       ┌   goose-configure 
+       ┌   mesmile-configure 
        │
        ◇  What would you like to configure?
        │  Configure Providers 
@@ -257,10 +257,10 @@ To configure your chosen provider, see available options, or select a model, vis
   :::
 
   :::tip
-  Set the model for an individual session using the [`run` command](/docs/guides/goose-cli-commands#run-options):
+  Set the model for an individual session using the [`run` command](/docs/guides/mesmile-cli-commands#run-options):
 
   ```bash
-  goose run --model claude-sonnet-4-0 -t "initial prompt"
+  mesmile run --model claude-sonnet-4-0 -t "initial prompt"
   ```
   :::
 
@@ -409,7 +409,7 @@ Custom providers must use OpenAI, Anthropic, or Ollama compatible API formats. T
     2. Select `Custom Providers`. Use the arrow keys (↑/↓) to move through the options.
 
        ```sh
-       ┌   goose-configure 
+       ┌   mesmile-configure 
        │
        ◆  What would you like to configure?
        │  ○ Configure Providers
@@ -426,7 +426,7 @@ Custom providers must use OpenAI, Anthropic, or Ollama compatible API formats. T
     3. Select `Add A Custom Provider`
 
        ```sh
-       ┌   goose-configure 
+       ┌   mesmile-configure 
        │
        ◇  What would you like to configure?
        │  Custom Providers 
@@ -461,7 +461,7 @@ Custom providers must use OpenAI, Anthropic, or Ollama compatible API formats. T
   <TabItem value="config" label="Config File">
 
     First create a JSON file in the `custom_providers` directory:
-    - macOS/Linux: `~/.config/goose/custom_providers/`
+    - macOS/Linux: `~/.config/mesmile/custom_providers/`
     - Windows: `%APPDATA%\Block\goose\config\custom_providers\`
 
     Example `custom_corp_api.json` configuration file:
@@ -529,7 +529,7 @@ Custom providers must use OpenAI, Anthropic, or Ollama compatible API formats. T
     2. Select `Configure Providers` from the menu and press `Enter`.
 
        ```sh
-       ┌   goose-configure 
+       ┌   mesmile-configure 
        │
        ◆  What would you like to configure?
        // highlight-start
@@ -546,7 +546,7 @@ Custom providers must use OpenAI, Anthropic, or Ollama compatible API formats. T
     3. Select the custom provider you want to update and press `Enter`. Use the arrow keys (↑/↓) to move through the options, or start typing to filter the list.
 
        ```sh
-       ┌   goose-configure 
+       ┌   mesmile-configure 
        │
        ◇  What would you like to configure?
        │  Configure Providers 
@@ -571,7 +571,7 @@ Custom providers must use OpenAI, Anthropic, or Ollama compatible API formats. T
   <TabItem value="config" label="Config File">
 
     Open the custom provider configuration file in the `custom_providers` directory:
-    - macOS/Linux: `~/.config/goose/custom_providers/`
+    - macOS/Linux: `~/.config/mesmile/custom_providers/`
     - Windows: `%APPDATA%\Block\goose\config\custom_providers\`
 
     Update the fields you want to change and save your changes.
@@ -604,7 +604,7 @@ Your changes are available in your next goose session.
     2. Select `Custom Providers`. Use the arrow keys (↑/↓) to move through the options.
 
        ```sh
-       ┌   goose-configure 
+       ┌   mesmile-configure 
        │
        ◆  What would you like to configure?
        │  ○ Configure Providers
@@ -621,7 +621,7 @@ Your changes are available in your next goose session.
     3. Select `Remove Custom Provider`.
 
        ```sh
-       ┌   goose-configure 
+       ┌   mesmile-configure 
        │
        ◇  What would you like to configure?
        │  Custom Providers 
@@ -646,7 +646,7 @@ Your changes are available in your next goose session.
     :::
 
     Delete the custom provider configuration file in the `custom_providers` directory:
-    - macOS/Linux: `~/.config/goose/custom_providers/`
+    - macOS/Linux: `~/.config/mesmile/custom_providers/`
     - Windows: `%APPDATA%\Block\goose\config\custom_providers\`
 
   </TabItem>
@@ -672,7 +672,7 @@ Groq offers several open source models that support tool calling, including:
 - **llama-3.3-70b-versatile** - Meta's Llama 3.3 model for versatile applications
 - **llama-3.1-8b-instant** - Meta's Llama 3.1 model for fast inference
 
-For the complete list of supported Groq models, see [groq.json](https://github.com/aaif-goose/goose/blob/main/crates/goose/src/providers/declarative/groq.json).
+For the complete list of supported Groq models, see [groq.json](https://github.com/Fangxian2025/MeSmile/blob/main/crates/goose/src/providers/declarative/groq.json).
 
 To set up Groq with goose, follow these steps:
 
@@ -711,7 +711,7 @@ FuturMix offers models that support tool calling, including:
 - **deepseek-chat** - DeepSeek V3 with 131K context
 - **claude-haiku-4-20250514** - Anthropic Claude Haiku 4 with 200K context
 
-For the complete list of supported FuturMix models, see [futurmix.json](https://github.com/aaif-goose/goose/blob/main/crates/goose/src/providers/declarative/futurmix.json).
+For the complete list of supported FuturMix models, see [futurmix.json](https://github.com/Fangxian2025/MeSmile/blob/main/crates/goose/src/providers/declarative/futurmix.json).
 
 To set up FuturMix with goose, follow these steps:
 
@@ -750,7 +750,7 @@ Novita AI offers many models that support tool calling, including:
 - **deepseek/deepseek-v3.2** - DeepSeek V3.2 with 164K context
 - **google/gemma-4-31b-it** - Google Gemma 4 31B with 262K context
 
-For the complete list of supported Novita AI models, see [novita.json](https://github.com/aaif-goose/goose/blob/main/crates/goose/src/providers/declarative/novita.json).
+For the complete list of supported Novita AI models, see [novita.json](https://github.com/Fangxian2025/MeSmile/blob/main/crates/goose/src/providers/declarative/novita.json).
 
 To set up Novita AI with goose, follow these steps:
 
@@ -787,7 +787,7 @@ Routstr aggregates models from many upstream providers, including:
 - **deepseek-v4-pro** — DeepSeek V4 Pro
 - **gemini-3.1-pro-preview** — gemini-3.1 Pro Preview
 
-`/v1/models` is queried at configure time, so the full catalogue your Routstr instance exposes is available in the model picker. For the static defaults shipped with goose, see [routstr.json](https://github.com/aaif-goose/goose/blob/main/crates/goose/src/providers/declarative/routstr.json).
+`/v1/models` is queried at configure time, so the full catalogue your Routstr instance exposes is available in the model picker. For the static defaults shipped with goose, see [routstr.json](https://github.com/Fangxian2025/MeSmile/blob/main/crates/goose/src/providers/declarative/routstr.json).
 
 To set up Routstr with goose, follow these steps:
 
@@ -844,7 +844,7 @@ To set up Google Gemini with goose, follow these steps:
     5. Enter the Gemini model of your choice.
 
     ```
-    ┌   goose-configure
+    ┌   mesmile-configure
     │
     ◇ What would you like to configure?
     │ Configure Providers
@@ -868,7 +868,7 @@ To set up Google Gemini with goose, follow these steps:
 
 ### Local LLMs
 
-goose is a local AI agent, and by using a local LLM, you keep your data private, maintain full control over your environment, and can work entirely offline without relying on cloud access. However, please note that local LLMs require a bit more set up before you can use one of them with goose.
+goose is a local AI agent, and by using a local LLM, you keep your data private, maintain full control over your environment, and can work entirely offline without relying on cloud access. However, please note that local LLMs require a bit more set up before you can use one of them with mesmile.
 
 :::warning Limited Support for models without tool calling
 goose extensively uses tool calling, so models without it can only do chat completion. If using models without tool calling, all goose [extensions must be disabled](/docs/getting-started/using-extensions#enablingdisabling-extensions).
@@ -900,7 +900,7 @@ Here are some local providers we support:
           4. Choose to `Configure Providers`
 
           ```
-          ┌   goose-configure
+          ┌   mesmile-configure
           │
           ◆  What would you like to configure?
           │  ● Configure Providers (Change provider or update credentials)
@@ -912,7 +912,7 @@ Here are some local providers we support:
           5. Choose `Ollama` as the model provider since Ramalama is API compatible and can use the goose Ollama provider
 
           ```
-          ┌   goose-configure
+          ┌   mesmile-configure
           │
           ◇  What would you like to configure?
           │  Configure Providers
@@ -935,7 +935,7 @@ Here are some local providers we support:
           :::
 
           ```
-          ┌   goose-configure
+          ┌   mesmile-configure
           │
           ◇  What would you like to configure?
           │  Configure Providers
@@ -952,7 +952,7 @@ Here are some local providers we support:
           7. Enter the model you have running
 
           ```
-          ┌   goose-configure
+          ┌   mesmile-configure
           │
           ◇  What would you like to configure?
           │  Configure Providers
@@ -977,7 +977,7 @@ Here are some local providers we support:
 
       </TabItem>
       <TabItem value="deepseek" label="DeepSeek-R1">
-        The native `DeepSeek-r1` model doesn't support tool calling, however, we have a [custom model](https://ollama.com/michaelneale/deepseek-r1-goose) you can use with goose. 
+        The native `DeepSeek-r1` model doesn't support tool calling, however, we have a [custom model](https://ollama.com/michaelneale/deepseek-r1-goose) you can use with mesmile. 
 
         :::warning
         Note that this is a 70B model size and requires a powerful device to run smoothly.
@@ -1000,7 +1000,7 @@ Here are some local providers we support:
         4. Choose to `Configure Providers`
 
         ```
-        ┌   goose-configure 
+        ┌   mesmile-configure 
         │
         ◆  What would you like to configure?
         │  ● Configure Providers (Change provider or update credentials)
@@ -1012,7 +1012,7 @@ Here are some local providers we support:
         5. Choose `Ollama` as the model provider
 
         ```
-        ┌   goose-configure 
+        ┌   mesmile-configure 
         │
         ◇  What would you like to configure?
         │  Configure Providers 
@@ -1031,7 +1031,7 @@ Here are some local providers we support:
         6. Enter the host where your model is running
 
         ```
-        ┌   goose-configure 
+        ┌   mesmile-configure 
         │
         ◇  What would you like to configure?
         │  Configure Providers 
@@ -1047,7 +1047,7 @@ Here are some local providers we support:
         7. Enter the installed model from above
 
         ```
-        ┌   goose-configure 
+        ┌   mesmile-configure 
         │
         ◇  What would you like to configure?
         │  Configure Providers 
@@ -1085,7 +1085,7 @@ Here are some local providers we support:
         4. Choose to `Configure Providers`
 
         ```
-        ┌   goose-configure 
+        ┌   mesmile-configure 
         │
         ◆  What would you like to configure?
         │  ● Configure Providers (Change provider or update credentials)
@@ -1097,7 +1097,7 @@ Here are some local providers we support:
         5. Choose `Ollama` as the model provider
 
         ```
-        ┌   goose-configure 
+        ┌   mesmile-configure 
         │
         ◇  What would you like to configure?
         │  Configure Providers 
@@ -1123,7 +1123,7 @@ Here are some local providers we support:
         :::
 
         ```
-        ┌   goose-configure 
+        ┌   mesmile-configure 
         │
         ◇  What would you like to configure?
         │  Configure Providers 
@@ -1140,7 +1140,7 @@ Here are some local providers we support:
         7. Enter the model you have running
 
         ```
-        ┌   goose-configure 
+        ┌   mesmile-configure 
         │
         ◇  What would you like to configure?
         │  Configure Providers 
@@ -1195,7 +1195,7 @@ Here are some local providers we support:
         4. Enter the model name that matches the model loaded in LM Studio.
 
         ```
-        ┌   goose-configure
+        ┌   mesmile-configure
         │
         ◇  What would you like to configure?
         │  Configure Providers
@@ -1244,7 +1244,7 @@ Here are some local providers we support:
         4. Enter the model name that matches the model loaded in Atomic Chat.
 
         ```
-        ┌   goose-configure
+        ┌   mesmile-configure
         │
         ◇  What would you like to configure?
         │  Configure Providers
@@ -1284,7 +1284,7 @@ Here are some local providers we support:
     5. Choose to `Configure Providers`
 
     ```
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◆  What would you like to configure?
     │  ● Configure Providers (Change provider or update credentials)
@@ -1296,7 +1296,7 @@ Here are some local providers we support:
     6. Choose `OpenAI` as the model provider: 
 
     ```
-    ┌   goose-configure
+    ┌   mesmile-configure
     │
     ◇  What would you like to configure?
     │  Configure Providers
@@ -1312,7 +1312,7 @@ Here are some local providers we support:
     7. Configure Docker Model Runner endpoint as the `OPENAI_HOST`: 
 
     ```
-    ┌   goose-configure
+    ┌   mesmile-configure
     │
     ◇  What would you like to configure?
     │  Configure Providers
@@ -1456,7 +1456,7 @@ Reasoning output can be useful for understanding how the model arrived at its an
 
 ---
 
-If you have any questions or need help with a specific provider, feel free to reach out to us on [Discord](https://discord.gg/goose-oss) or on the [goose repo](https://github.com/aaif-goose/goose).
+If you have any questions or need help with a specific provider, feel free to reach out to us on [Discord](https://discord.gg/mesmile-oss) or on the [goose repo](https://github.com/Fangxian2025/MeSmile).
 
 
 [providers]: /docs/getting-started/providers

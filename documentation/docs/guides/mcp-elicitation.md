@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 
 MCP Elicitation allows goose to pause and ask you for specific information when an extension needs it. Instead of guessing or making assumptions, goose presents a form requesting exactly what's needed to continue.
 
-This feature is automatically enabled in goose. When an extension that supports elicitation needs information from you, a form will appear in your session.
+This feature is automatically enabled in mesmile. When an extension that supports elicitation needs information from you, a form will appear in your session.
 
 :::info
 [MCP Elicitation](https://modelcontextprotocol.io/specification/draft/client/elicitation) is a feature in the Model Context Protocol. goose supports form mode requests.

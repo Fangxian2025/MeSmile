@@ -1335,7 +1335,7 @@ export type Session = {
     conversation?: Conversation | null;
     created_at: string;
     extension_data: ExtensionData;
-    goose_mode?: GooseMode;
+    mesmile_mode?: GooseMode;
     id: string;
     input_tokens?: number | null;
     message_count: number;
@@ -1417,8 +1417,8 @@ export type SetSlashCommandRequest = {
 };
 
 export type Settings = {
-    goose_model?: string | null;
-    goose_provider?: string | null;
+    mesmile_model?: string | null;
+    mesmile_provider?: string | null;
     max_turns?: number | null;
     temperature?: number | null;
 };
@@ -1719,7 +1719,7 @@ export type UpdateSessionNameRequest = {
 };
 
 export type UpdateSessionRequest = {
-    goose_mode?: string | null;
+    mesmile_mode?: string | null;
     session_id: string;
 };
 

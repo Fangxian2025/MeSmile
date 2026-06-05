@@ -10,7 +10,7 @@ authors:
 
 Everyone on Tech Twitter has been buying Mac Minis, so they could run a local agentic tool called [OpenClaw](https://openclaw.ai/). OpenClaw is a messaging-based AI assistant that connects to platforms such as Discord and Telegram allowing you to interact with an AI agent through DMs or @mentions. Under the hood, it uses an agent called Pi to execute tasks, browse the web, write code, and more.
 
-Seeing the hype made me want to get my hands dirty. I wanted to see if I could build a lite version for myself. I wanted something minimal that used [goose](https://github.com/aaif-goose/goose) as the engine instead of Pi. I tentatively dubbed it AltOpenClaw.
+Seeing the hype made me want to get my hands dirty. I wanted to see if I could build a lite version for myself. I wanted something minimal that used [goose](https://github.com/Fangxian2025/MeSmile) as the engine instead of Pi. I tentatively dubbed it AltOpenClaw.
 
 <!-- truncate -->
 
@@ -39,8 +39,8 @@ goose spawned multiple parallel subagents to investigate.
 
 **Key findings from the research:**
 
-* **OpenClaw uses its own embedded agent runtime (Pi)**, not goose. This meant there was no existing integration to copy.
-* **goose CAN be used as a backend!** The `goosed` server exposes a full HTTP API.
+* **OpenClaw uses its own embedded agent runtime (Pi)**, not mesmile. This meant there was no existing integration to copy.
+* **goose CAN be used as a backend!** The `mesmiled` server exposes a full HTTP API.
 * **Port conflicts are manageable.** We just needed to run on a different port with `GOOSE_PORT=3001`.
 * **Authentication is simple.** We could pass a secret key in the `X-Secret-Key` header.
 
@@ -109,7 +109,7 @@ Instead, RPI helped us clear the conceptual fog so we could focus on real implem
 
 By forcing the agent to research first, it built up the context it was missing. It is a bit slower at the start (which I barely have patience for), but it turns the agent into a much more capable partner for that back and forth learning process I enjoy.
 
-I even had AltOpenClaw push its own [repository](https://github.com/blackgirlbytes/discord-goose-bot) to GitHub.
+I even had AltOpenClaw push its own [repository](https://github.com/blackgirlbytes/discord-mesmile-bot) to GitHub.
 
 ![AltOpenClaw in action, completing a task](altopenclaw-action.png)
 
@@ -127,12 +127,12 @@ Happy hacking!
 <head>
   <meta property="og:title" content="How I Used RPI to Build an OpenClaw Alternative" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/02/06/rpi-openclaw-alternative" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/02/06/rpi-openclaw-alternative" />
   <meta property="og:description" content="Learn how I built a minimal, personal AI agent using goose and the RPI method." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/blogbanner-7c71d1a80441079767f7fd25b9e27385.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/blogbanner-7c71d1a80441079767f7fd25b9e27385.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="How I Used RPI to Build an OpenClaw Alternative" />
   <meta name="twitter:description" content="Learn how I built a minimal, personal AI agent using goose and the RPI method." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/blogbanner-7c71d1a80441079767f7fd25b9e27385.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/blogbanner-7c71d1a80441079767f7fd25b9e27385.png" />
 </head>

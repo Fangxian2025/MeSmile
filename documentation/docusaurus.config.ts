@@ -24,7 +24,7 @@ const config: Config = {
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
-  url: "https://goose-docs.ai/",
+  url: "https://mesmile-docs.ai/",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: process.env.TARGET_PATH || "/",
@@ -32,7 +32,7 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "aaif-goose", // Usually your GitHub org/user name.
-  projectName: "goose", // Usually your repo name.
+  projectName: "MeSmile", // Usually your repo name.
 
   onBrokenLinks: "throw",
 
@@ -150,8 +150,8 @@ const config: Config = {
       {
         redirects: [
           {
-            from: "/docs/getting-started/using-goose-free",
-            to: "/docs/getting-started/providers#using-goose-for-free",
+            from: "/docs/getting-started/using-mesmile-free",
+            to: "/docs/getting-started/providers#using-mesmile-for-free",
           },
           {
             from: "/v1/docs/getting-started/providers",
@@ -186,7 +186,7 @@ const config: Config = {
             to: "/docs/mcp/computer-controller-mcp",
           },
           {
-            from: "/docs/guides/managing-goose-sessions",
+            from: "/docs/guides/managing-mesmile-sessions",
             to: "/docs/guides/sessions/session-management",
           },
           {
@@ -194,7 +194,7 @@ const config: Config = {
             to: "/docs/guides/sessions/smart-context-management",
           },
           {
-            from: "/docs/guides/share-goose-sessions",
+            from: "/docs/guides/share-mesmile-sessions",
             to: "/docs/guides/recipes/session-recipes",
           },
           {
@@ -222,8 +222,8 @@ const config: Config = {
             to: "/docs/guides/managing-tools/adjust-tool-output",
           },
           {
-            from: "/docs/guides/goose-in-docker",
-            to: "/docs/tutorials/goose-in-docker",
+            from: "/docs/guides/mesmile-in-docker",
+            to: "/docs/tutorials/mesmile-in-docker",
           },
           {
             from: "/docs/guides/multi-model/creating-plans",
@@ -254,8 +254,8 @@ const config: Config = {
             to: "/docs/guides/context-engineering/prompt-templates",
           },
           {
-            from: "/docs/guides/goose-permissions",
-            to: "/docs/guides/managing-tools/goose-permissions",
+            from: "/docs/guides/mesmile-permissions",
+            to: "/docs/guides/managing-tools/mesmile-permissions",
           },
           {
             from: "/docs/guides/using-goosehints",
@@ -498,12 +498,12 @@ const config: Config = {
         },
 
         {
-          href: "https://discord.gg/goose-oss",
+          href: "https://discord.gg/mesmile-oss",
           label: "Discord",
           position: "right",
         },
         {
-          href: "https://github.com/aaif-goose/goose",
+          href: "https://github.com/Fangxian2025/MeSmile",
           label: "GitHub",
           position: "right",
         },
@@ -533,19 +533,19 @@ const config: Config = {
             },
             {
               label: "Discord",
-              href: "https://discord.gg/goose-oss",
+              href: "https://discord.gg/mesmile-oss",
             },
             {
               label: "YouTube",
-              href: "https://www.youtube.com/@goose-oss",
+              href: "https://www.youtube.com/@mesmile-oss",
             },
             {
               label: "LinkedIn",
-              href: "https://www.linkedin.com/company/goose-oss",
+              href: "https://www.linkedin.com/company/mesmile-oss",
             },
             {
               label: "Twitter / X",
-              href: "https://x.com/goose_oss",
+              href: "https://x.com/mesmile_oss",
             },
             {
               label: "BlueSky",
@@ -566,7 +566,7 @@ const config: Config = {
             },
             {
               label: "GitHub",
-              href: "https://github.com/aaif-goose/goose",
+              href: "https://github.com/Fangxian2025/MeSmile",
             },
           ],
         },
@@ -585,12 +585,12 @@ const config: Config = {
         primaryBrandColor: "#1E1E1E",
       },
       aiChatSettings: {
-        chatSubjectName: "goose",
+        chatSubjectName: "MeSmile",
         botAvatarSrcUrl: "",
         getHelpCallToActions: [
           {
             name: "GitHub",
-            url: "https://github.com/aaif-goose/goose",
+            url: "https://github.com/Fangxian2025/MeSmile",
             icon: {
               builtIn: "FaGithub",
             },
@@ -600,9 +600,9 @@ const config: Config = {
       },
     },
     announcementBar: {
-      id: 'goose-aaif-announcement', // Increment on new announcements to reuse the bar
+      id: 'mesmile-aaif-announcement', // Increment on new announcements to reuse the bar
       content:
-        '✨ goose has moved to the Agentic AI Foundation (AAIF): <a href="/blog/2026/04/07/goose-moves-to-aaif">Learn more</a>! ✨',
+        '✨ goose has moved to the Agentic AI Foundation (AAIF): <a href="/blog/2026/04/07/mesmile-moves-to-aaif">Learn more</a>! ✨',
       backgroundColor: '#20232a',
       textColor: '#fff',
       isCloseable: true,

@@ -3,10 +3,10 @@ title: "Order Lunch Without Leaving Your AI Agent"
 description: "Use the Neighborhood extension in goose to discover nearby restaurants, browse interactive menus, and place a takeout order, all from a simple chat prompt."
 authors:
   - debbie
-image: /img/blog/lunch-with-goose.png
+image: /img/blog/lunch-with-mesmile.png
 ---
 
-![Ba'al Falafel salads menu in goose showing Couscous Salad, Red Cabbage Salad, and Beets Apple Salad with photos and prices](/img/blog/lunch-with-goose.png)
+![Ba'al Falafel salads menu in goose showing Couscous Salad, Red Cabbage Salad, and Beets Apple Salad with photos and prices](/img/blog/lunch-with-mesmile.png)
 
 If you're anything like me, deciding what to eat for lunch is harder than it should be. Now add dietary restrictions on top of that (I'm coeliac so have to eat gluten-free) and suddenly finding a restaurant becomes a whole research project. Searching menus, cross-referencing reviews, checking if that one sandwich actually has gluten in it... it's exhausting.
 
@@ -27,7 +27,7 @@ You'll see it right away: *Discover nearby restaurants, browse menus, and place 
 Once installed, make sure the extension is enabled in your current chat session. You can check this by clicking the extensions icon in the chat and toggling Neighborhood on.
 
 :::tip Quick Install
-[Install the Neighborhood extension](goose://extension?type=streamable_http&url=https%3A%2F%2Fconnect.squareup.com%2Fv2%2Fmcp%2Fneighborhood&id=neighborhood&name=Neighborhood&description=Discover%20nearby%20restaurants%2C%20browse%20menus%2C%20and%20place%20takeout%20orders%20through%20natural%20conversation.) directly in goose Desktop, or use `goose configure` in the CLI to add a Remote Extension (Streamable HTTP) with the endpoint `https://connect.squareup.com/v2/mcp/neighborhood`.
+[Install the Neighborhood extension](mesmile://extension?type=streamable_http&url=https%3A%2F%2Fconnect.squareup.com%2Fv2%2Fmcp%2Fneighborhood&id=neighborhood&name=Neighborhood&description=Discover%20nearby%20restaurants%2C%20browse%20menus%2C%20and%20place%20takeout%20orders%20through%20natural%20conversation.) directly in goose Desktop, or use `goose configure` in the CLI to add a Remote Extension (Streamable HTTP) with the endpoint `https://connect.squareup.com/v2/mcp/neighborhood`.
 :::
 
 ## Finding restaurants that actually work for you
@@ -66,7 +66,7 @@ I could click on **Salads** to see the Couscous Salad, Red Cabbage Salad, and Be
 
 ![Homemade drinks tab showing Mint Lemonade, Ginger Lemonade, and Watermelon Basil with photos and prices](neighborhood-drinks.png)
 
-This is not a stripped-down text menu. This is a real, visual, interactive experience powered by an MCP App rendering inside goose.
+This is not a stripped-down text menu. This is a real, visual, interactive experience powered by an MCP App rendering inside mesmile.
 
 Meanwhile, goose is also helping me decide. It reminded me that for my gluten-free, light lunch, the **salads** (Tzatziki, Shepherd, Beets Apple, Red Cabbage, Grilled Zucchini) and **sides** like hummus, roasted cauliflower, and baba ghanoush are my best bets. It even warned me to steer clear of anything with pita, couscous, bulgur, or filo pastry. Helpful and honest.
 
@@ -113,7 +113,7 @@ The Neighborhood extension is a perfect example of what MCP servers can do when 
 
 Ready to order lunch with goose? Here's how to get started:
 
-1. **Install the Neighborhood extension**, [one-click install](goose://extension?type=streamable_http&url=https%3A%2F%2Fconnect.squareup.com%2Fv2%2Fmcp%2Fneighborhood&id=neighborhood&name=Neighborhood&description=Discover%20nearby%20restaurants%2C%20browse%20menus%2C%20and%20place%20takeout%20orders%20through%20natural%20conversation.) for goose Desktop, or add it via `goose configure` in the CLI
+1. **Install the Neighborhood extension**, [one-click install](mesmile://extension?type=streamable_http&url=https%3A%2F%2Fconnect.squareup.com%2Fv2%2Fmcp%2Fneighborhood&id=neighborhood&name=Neighborhood&description=Discover%20nearby%20restaurants%2C%20browse%20menus%2C%20and%20place%20takeout%20orders%20through%20natural%20conversation.) for goose Desktop, or add it via `goose configure` in the CLI
 2. **Tell goose where you are and what you're in the mood for**, include dietary needs, what you're doing later, or any other context
 3. **Browse the menus**, click through the interactive restaurant cards and menu tabs
 4. **Build your order**, just tell goose what you want in plain English
@@ -137,12 +137,12 @@ See the entire flow in action:
 <head>
   <meta property="og:title" content="Order Lunch Without Leaving Your AI Agent" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/02/25/order-lunch-with-goose" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/02/25/order-lunch-with-goose" />
   <meta property="og:description" content="Use the Neighborhood extension in goose to discover nearby restaurants, browse interactive menus, and place a takeout order, all from a simple chat prompt." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/banner-2d9dbe53ddf9f459a8c5f6615af8333b.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/banner-2d9dbe53ddf9f459a8c5f6615af8333b.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Order Lunch Without Leaving Your AI Agent" />
   <meta name="twitter:description" content="Use the Neighborhood extension in goose to discover nearby restaurants, browse interactive menus, and place a takeout order, all from a simple chat prompt." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/banner-2d9dbe53ddf9f459a8c5f6615af8333b.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/banner-2d9dbe53ddf9f459a8c5f6615af8333b.png" />
 </head>

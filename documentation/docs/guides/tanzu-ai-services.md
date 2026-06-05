@@ -66,13 +66,13 @@ cf services
 Create a service key to generate API credentials:
 
 ```sh
-cf create-service-key my-qwen-coder my-goose-key --wait
+cf create-service-key my-qwen-coder my-mesmile-key --wait
 ```
 
 Then retrieve the credentials:
 
 ```sh
-cf service-key my-qwen-coder my-goose-key
+cf service-key my-qwen-coder my-mesmile-key
 ```
 
 ### Single-Model Plan Output
@@ -239,6 +239,6 @@ Ensure the model name matches exactly (including the prefix, e.g., `Qwen/Qwen3-C
 To remove a service instance and its keys:
 
 ```sh
-cf delete-service-key my-qwen-coder my-goose-key -f
+cf delete-service-key my-qwen-coder my-mesmile-key -f
 cf delete-service my-qwen-coder -f
 ```

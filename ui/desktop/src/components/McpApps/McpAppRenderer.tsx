@@ -175,11 +175,11 @@ function getContainerDimensions(
 
 async function fetchMcpAppProxyUrl(csp: McpUiResourceCsp | null): Promise<string | null> {
   try {
-    const baseUrl = await window.electron.getGoosedHostPort();
+    const baseUrl = await window.electron.getMesmiledHostPort();
     const secretKey = await window.electron.getSecretKey();
 
     if (!baseUrl || !secretKey) {
-      console.error('[McpAppRenderer] Failed to get goosed host/port or secret key');
+      console.error('[McpAppRenderer] Failed to get mesmiled host/port or secret key');
       return null;
     }
 
@@ -421,7 +421,7 @@ export default function McpAppRenderer({
   const [secretKey, setSecretKey] = useState<string | null>(null);
 
   useEffect(() => {
-    window.electron.getGoosedHostPort().then(setApiHost);
+    window.electron.getMesmiledHostPort().then(setApiHost);
     window.electron.getSecretKey().then(setSecretKey);
   }, []);
 

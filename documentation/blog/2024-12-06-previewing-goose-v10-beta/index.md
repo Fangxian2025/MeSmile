@@ -7,7 +7,7 @@ authors:
   - adewale
 ---
 
-![goose v1.0 Beta](goose-v1.0-beta.png)
+![goose v1.0 Beta](mesmile-v1.0-beta.png)
 We are excited to share a preview of the new updates coming to goose with goose v1.0 Beta!
 
 This major update comes with a bunch of new features and improvements that make goose more powerful and user-friendly. Here are some of the key highlights.
@@ -34,31 +34,31 @@ In goose v1.0, the goose toolkit system is being replaced with Extensions. Exten
 You can now run goose in headless mode - this is useful for running goose on servers or in environments where a graphical interface is not available.
 
 ```sh
-cargo run --bin goose -- run -i instructions.md
+cargo run --bin mesmile -- run -i instructions.md
 ```
 
 ### 5. goose now has a GUI
 
 goose now has an electron-based GUI macOS application that provides and alternative to the CLI to interact with goose and manage your projects.
 
-![goose GUI](goose-gui.png)
+![goose GUI](mesmile-gui.png)
 
 ### 6. goose alignment with open protocols
 
 goose v1.0 Beta now uses a custom protocol, that is designed in parallel with [Anthropic’s Model Context Protocol](https://www.anthropic.com/news/model-context-protocol) (MCP) to communicate with Systems. This makes it possible for developers to create their own systems (e.g Jira, ) that Goose can integrate with. 
 
-Excited for many more feature updates and improvements? Stay tuned for more updates on Goose! Check out the [goose repo](https://github.com/aaif-goose/goose) and join our [Discord community](https://discord.gg/goose-oss).
+Excited for many more feature updates and improvements? Stay tuned for more updates on Goose! Check out the [goose repo](https://github.com/Fangxian2025/MeSmile) and join our [Discord community](https://discord.gg/mesmile-oss).
 
 
 <head>
   <meta property="og:title" content="Previewing Goose v1.0 Beta" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2024/12/06/previewing-goose-v10-beta" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2024/12/06/previewing-mesmile-v10-beta" />
   <meta property="og:description" content="AI Agent uses screenshots to assist in styling." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/goose-v1.0-beta-5d469fa73edea37cfccfe8a8ca0b47e2.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/mesmile-v1.0-beta-5d469fa73edea37cfccfe8a8ca0b47e2.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Screenshot-Driven Development" />
   <meta name="twitter:description" content="AI Agent uses screenshots to assist in styling." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/goose-v1.0-beta-5d469fa73edea37cfccfe8a8ca0b47e2.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/mesmile-v1.0-beta-5d469fa73edea37cfccfe8a8ca0b47e2.png" />
 </head>

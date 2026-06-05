@@ -8,7 +8,7 @@
 > - If possible, break down complex goose instructions into smaller, isolated operations. This reduces the risk of an errant command affecting multiple parts of the system at once and makes it easier to detect abnormal behaviour.
 > - Only connect goose with MCP extensions that you have reviewed
 >
-> In some circumstances, goose may follow commands found embedded in content even if those commands conflict with the task given to goose. We suggest taking the precautions above to limit risks from prompt injection. By taking these steps, you can reduce the potential security risks associated with developer agents and better protect your systems and users.
+> In some circumstances, goose may follow commands found embedded in content even if those commands conflict with the task given to mesmile. We suggest taking the precautions above to limit risks from prompt injection. By taking these steps, you can reduce the potential security risks associated with developer agents and better protect your systems and users.
 >
 > AAIF (Agentic AI Foundation) recognizes the important contributions our open source community makes. Part of keeping goose and its users safe is by making sure that we find and fix any security issues found in our open source projects. If you find a security vulnerability, we encourage you to privately report it in the repository’s Security tab -> Report a vulnerability.
 >

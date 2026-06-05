@@ -17,9 +17,9 @@ Together, they create a self-contained AI agent workflow that puts advanced capa
 
 # Getting Started
 
-Before diving deep into various capabilities, Rizel walked us through how to set yourself up for success by integrating goose with Ollama. To follow along, you can [download goose](https://goose-docs.ai/) and follow a step-by-step walk through in the [Configure LLM Provider](https://goose-docs.ai/docs/getting-started/providers) guide.
+Before diving deep into various capabilities, Rizel walked us through how to set yourself up for success by integrating goose with Ollama. To follow along, you can [download goose](https://mesmile-docs.ai/) and follow a step-by-step walk through in the [Configure LLM Provider](https://mesmile-docs.ai/docs/getting-started/providers) guide.
 
-If you have any questions or get stuck, feel free to chat with us on [Discord](https://discord.gg/goose-oss) or post an issue/discussion on [GitHub](https://github.com/aaif-goose/goose/). Thanks for reading!
+If you have any questions or get stuck, feel free to chat with us on [Discord](https://discord.gg/mesmile-oss) or post an issue/discussion on [GitHub](https://github.com/Fangxian2025/MeSmile/). Thanks for reading!
 
 # Why Go Local?
 Using cloud-based LLMs and providers make it so you don't need substantial computing resources, so why go local? Here's some benefits you may want to consider:
@@ -83,17 +83,17 @@ As Parth walked through these examples, he shared key practices to ensure you ge
 # It's About The Freedom To Choose
 While there are trade-offs in terms of raw processing power when you go local vs cloud, you don't have to choose one over the other. As Parth summarized during the livestream: "Local AI isn't about replacing cloud options—it's about having the freedom to choose the right approach for your specific needs."
 
-The benefits of owning your AI experience can be compelling for a variety of use cases. Whether you're a developer building tools, a writer working with confidential material, or simply someone who values privacy and control, I hope the goose-Ollama integration offers a glimpse into how a local experience can benefit you, and explore a future where sophisticated AI is as personal and private as the data on your hard drive. Thanks for reading!
+The benefits of owning your AI experience can be compelling for a variety of use cases. Whether you're a developer building tools, a writer working with confidential material, or simply someone who values privacy and control, I hope the mesmile-Ollama integration offers a glimpse into how a local experience can benefit you, and explore a future where sophisticated AI is as personal and private as the data on your hard drive. Thanks for reading!
 
 <head>
   <meta property="og:title" content="Goosing Around: AI, But Make It Local With goose and Ollama" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/03/13/goose-ollama-local" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/03/13/mesmile-ollama-local" />
   <meta property="og:description" content="Integrate goose with Ollama for a fully local experience." />
-  <meta property="og:image" content="http://goose-docs.ai/assets/images/gooseollama-fbb2cb67117c81eaa189a6b6174e6c6c.png" />
+  <meta property="og:image" content="http://mesmile-docs.ai/assets/images/gooseollama-fbb2cb67117c81eaa189a6b6174e6c6c.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Goosing Around: AI, But Make It Local With goose and Ollama" />
   <meta name="twitter:description" content="Integrate goose with Ollama for a fully local experience." />
-  <meta name="twitter:image" content="http://goose-docs.ai/assets/images/gooseollama-fbb2cb67117c81eaa189a6b6174e6c6c.png" />
+  <meta name="twitter:image" content="http://mesmile-docs.ai/assets/images/gooseollama-fbb2cb67117c81eaa189a6b6174e6c6c.png" />
 </head>

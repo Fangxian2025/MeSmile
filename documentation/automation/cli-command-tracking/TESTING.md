@@ -93,7 +93,7 @@ Generate human-readable documentation:
 cd output
 
 # Run synthesis recipe
-goose run --recipe ../recipes/synthesize-cli-changes.yaml
+mesmile run --recipe ../recipes/synthesize-cli-changes.yaml
 
 # Check output
 ls -lh cli-changes.md
@@ -115,10 +115,10 @@ Update the actual documentation:
 cd output
 
 # Set path to documentation file
-export CLI_COMMANDS_PATH=/path/to/goose/documentation/docs/guides/goose-cli-commands.md
+export CLI_COMMANDS_PATH=/path/to/goose/documentation/docs/guides/mesmile-cli-commands.md
 
 # Run update recipe
-goose run --recipe ../recipes/update-cli-commands.yaml
+mesmile run --recipe ../recipes/update-cli-commands.yaml
 
 # Check outputs
 ls -lh update-summary.md
@@ -136,7 +136,7 @@ Run the complete end-to-end pipeline:
 cd /path/to/cli-command-tracking
 
 # Set documentation path (optional - only needed for update step)
-export CLI_COMMANDS_PATH=/path/to/goose/documentation/docs/guides/goose-cli-commands.md
+export CLI_COMMANDS_PATH=/path/to/goose/documentation/docs/guides/mesmile-cli-commands.md
 
 # Run pipeline
 ./scripts/run-pipeline.sh v1.14.0 v1.15.0
@@ -220,10 +220,10 @@ To validate the automation works correctly, test with versions that have known C
 cd /path/to/goose
 
 # Check git history for CLI changes
-git log --oneline --all -- crates/goose-cli/src/cli.rs | head -20
+git log --oneline --all -- crates/mesmile-cli/src/cli.rs | head -20
 
 # Look for commits that added/removed/modified commands
-git show <commit-hash>:crates/goose-cli/src/cli.rs | grep "enum Command" -A 30
+git show <commit-hash>:crates/mesmile-cli/src/cli.rs | grep "enum Command" -A 30
 ```
 
 ### Test Case: New Command Added
@@ -301,7 +301,7 @@ Before considering the automation complete:
 
 ### Keychain Access (macOS)
 
-On macOS, running `goose --help` or `goose --version` may prompt for keychain access. This happens because goose tries to access stored credentials on startup.
+On macOS, running `mesmile --help` or `mesmile --version` may prompt for keychain access. This happens because goose tries to access stored credentials on startup.
 
 **Local workaround:** Allow the keychain access when prompted.
 
@@ -318,8 +318,8 @@ Some old versions may have different dependencies:
 git tag | grep v1.14.0
 
 # Try building manually
-git worktree add /tmp/goose-test v1.14.0
-cd /tmp/goose-test
+git worktree add /tmp/mesmile-test v1.14.0
+cd /tmp/mesmile-test
 cargo build --release
 ```
 

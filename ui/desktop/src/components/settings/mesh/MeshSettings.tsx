@@ -486,7 +486,7 @@ export const MeshSettings = () => {
           </Button>
 
           <p className="text-xs text-text-muted">
-            When you start the mesh, keep goose running to stay connected.
+            When you start the mesh, keep mesmile running to stay connected.
           </p>
         </div>
       )}
@@ -590,7 +590,7 @@ export const MeshSettings = () => {
           )}
 
           <p className="text-xs text-text-muted">
-            Keep goose running to stay connected to the mesh.
+            Keep mesmile running to stay connected to the mesh.
           </p>
 
           {/* Actions row */}

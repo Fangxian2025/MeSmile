@@ -29,7 +29,7 @@ MCP Apps bring interactive interfaces to goose through the official [MCP Apps sp
 
 ### Launching Apps in Standalone Windows
 
-Some MCP Apps can be launched in their own windows, allowing you to jump straight to the interface without sending messages to goose.
+Some MCP Apps can be launched in their own windows, allowing you to jump straight to the interface without sending messages to mesmile.
 
 1. Click the <PanelLeft className="inline" size={16} /> button in the top-left to open the sidebar
 2. Click `Apps` in the sidebar
@@ -73,11 +73,11 @@ If needed, you can just ask goose whether the UI can be loaded in the chat windo
 
 ## MCP-UI
 
-MCP-UI is an earlier specification for interactive UIs that renders content embedded in your chat. While MCP Apps is now the recommended approach, MCP-UI extensions continue to work in goose.
+MCP-UI is an earlier specification for interactive UIs that renders content embedded in your chat. While MCP Apps is now the recommended approach, MCP-UI extensions continue to work in mesmile.
 
 ### Try It Out
 
-See how interactive responses work in goose. For this exercise, we'll add an extension that connects to [MCP-UI Demos](https://mcp-aharvard.netlify.app/) provided by Andrew Harvard.
+See how interactive responses work in mesmile. For this exercise, we'll add an extension that connects to [MCP-UI Demos](https://mcp-aharvard.netlify.app/) provided by Andrew Harvard.
 
   <Tabs groupId="interface">
     <TabItem value="ui" label="goose Desktop" default>

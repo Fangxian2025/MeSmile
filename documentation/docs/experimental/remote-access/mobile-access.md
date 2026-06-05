@@ -27,7 +27,7 @@ Mobile access connects your iOS device to goose Desktop through a secure tunnel.
 ## Setup
 
 ### Install the App
-1. Install the **goose AI** app on your iOS mobile device from the [App Store](https://apps.apple.com/app/goose-ai/id6752889295)
+1. Install the **goose AI** app on your iOS mobile device from the [App Store](https://apps.apple.com/app/mesmile-ai/id6752889295)
 
 :::tip App Store QR Code
 Follow the steps below to open the `Mobile App` section, then click "scan QR code" in the info box for quick access to the App Store.
@@ -63,7 +63,7 @@ The mobile app gives you full access to goose:
 ## Additional Resources
 
 import ContentCardCarousel from '@site/src/components/ContentCardCarousel';
-import mobileShots from '@site/blog/2025-12-19-goose-mobile-terminal/mobile_shots.png';
+import mobileShots from '@site/blog/2025-12-19-mesmile-mobile-terminal/mobile_shots.png';
 
 <ContentCardCarousel
   items={[
@@ -72,7 +72,7 @@ import mobileShots from '@site/blog/2025-12-19-goose-mobile-terminal/mobile_shot
       title: 'goose Mobile Access and Native Terminal Support',
       description: 'Learn about two new ways to use goose: iOS app for mobile access and native terminal support with seamless session continuity.',
       thumbnailUrl: mobileShots,
-      linkUrl: '/blog/2025/12/19/goose-mobile-terminal',
+      linkUrl: '/blog/2025/12/19/mesmile-mobile-terminal',
       date: '2025-12-19',
       duration: '4 min read'
     }

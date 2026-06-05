@@ -35,7 +35,7 @@ The goose CLI and desktop apps are under active and continuous development. To g
         goose update
         ```
 
-        Additional [options](/docs/guides/goose-cli-commands#update-options):
+        Additional [options](/docs/guides/mesmile-cli-commands#update-options):
         
         ```sh
         # Update to latest canary (development) version
@@ -48,13 +48,13 @@ The goose CLI and desktop apps are under active and continuous development. To g
         Or you can run the [installation](/docs/getting-started/installation) script again:
 
         ```sh
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | CONFIGURE=false bash
         ```
 
         To check your current goose version, use the following command:
 
         ```sh
-        goose --version
+        mesmile --version
         ```
       </TabItem>
     </Tabs>
@@ -82,7 +82,7 @@ The goose CLI and desktop apps are under active and continuous development. To g
         goose update
         ```
 
-        Additional [options](/docs/guides/goose-cli-commands#update-options):
+        Additional [options](/docs/guides/mesmile-cli-commands#update-options):
         
         ```sh
         # Update to latest canary (development) version
@@ -95,13 +95,13 @@ The goose CLI and desktop apps are under active and continuous development. To g
         Or you can run the [installation](/docs/getting-started/installation) script again:
 
         ```sh
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | CONFIGURE=false bash
         ```
 
         To check your current goose version, use the following command:
 
         ```sh
-        goose --version
+        mesmile --version
         ```
       </TabItem>
     </Tabs>
@@ -126,7 +126,7 @@ The goose CLI and desktop apps are under active and continuous development. To g
         goose update
         ```
 
-        Additional [options](/docs/guides/goose-cli-commands#update-options):
+        Additional [options](/docs/guides/mesmile-cli-commands#update-options):
         
         ```sh
         # Update to latest canary (development) version
@@ -139,13 +139,13 @@ The goose CLI and desktop apps are under active and continuous development. To g
         Or you can run the [installation](/docs/getting-started/installation) script again in **Git Bash**, **MSYS2**, or **PowerShell** to update the goose CLI natively on Windows:
 
         ```bash
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | CONFIGURE=false bash
         ```
         
         To check your current goose version, use the following command:
 
         ```sh
-        goose --version
+        mesmile --version
         ```        
 
         <details>
@@ -154,7 +154,7 @@ The goose CLI and desktop apps are under active and continuous development. To g
         To update your WSL installation, use `goose update` or run the installation script again via WSL:
 
         ```sh
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | CONFIGURE=false bash
         ```
 
        </details>

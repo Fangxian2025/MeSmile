@@ -27,7 +27,7 @@ prompt: |
 You can run it from the command line using:
 
 ```sh
-goose run --recipe trip.yaml
+mesmile run --recipe trip.yaml
 ```
 
 ## Extensions
@@ -76,7 +76,7 @@ parameters:
 Recipes use a template system that lets you insert variables like `{{ destination }}` which get filled in with the actual values you provide. Once you've updated the prompt with the right details, you can run your new recipe like this to get a plan for a 14 day trip to Africa:
 
 ```sh
-goose run --recipe trip.yaml --params destination=Africa --params duration=14
+mesmile run --recipe trip.yaml --params destination=Africa --params duration=14
 ```
 
 
@@ -88,14 +88,14 @@ You can also specify which AI provider and model to use for a specific recipe:
 
 ```yaml
 settings:
-  goose_provider: "anthropic"
-  goose_model: "claude-sonnet-4-20250514"
+  mesmile_provider: "anthropic"
+  mesmile_model: "claude-sonnet-4-20250514"
   temperature: 0.8
 ```
 
 The available settings are:
-- `goose_provider`: The AI provider (e.g., "anthropic", "openai")
-- `goose_model`: The specific model name
+- `mesmile_provider`: The AI provider (e.g., "anthropic", "openai")
+- `mesmile_model`: The specific model name
 - `temperature`: Controls creativity/randomness (0.0-1.0, higher = more creative)
 
 These settings will override your default goose configuration when this recipe runs.

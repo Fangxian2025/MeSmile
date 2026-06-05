@@ -50,7 +50,7 @@ Where are you on the AI adoption ladder?
 |-------|-------|-------------|
 | 1-2 | Chatbot Curious | Basic web chatbots, occasional use |
 | 3-4 | IDE Integrated | Copilot, chat in your editor |
-| 5 | Agent Autonomous | CLI tools like goose running independently |
+| 5 | Agent Autonomous | CLI tools like mesmile running independently |
 | 6-8 | Multi-Agent Master | Orchestrating multiple AI agents, agentic workflows |
 
 ### Dimension 2: DOK Level (Question Depth)
@@ -200,7 +200,7 @@ Install the skill:
 npx skills add https://github.com/block/agent-skills --skill rp-why
 ```
 
-Make sure you have the built-in [Skills extension](/docs/mcp/skills-mcp/) enabled in goose.
+Make sure you have the built-in [Skills extension](/docs/mcp/skills-mcp/) enabled in mesmile.
 
 ### Step 1: Initialize Your Baseline
 
@@ -259,12 +259,12 @@ A: Yes! The output is designed to be shareable. Screenshot or copy the quadrant 
 <head>
   <meta property="og:title" content="Level Up Your AI Game with rp-why" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/02/06/rp-why-skill" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/02/06/rp-why-skill" />
   <meta property="og:description" content="A goose skill that measures the cognitive complexity of your AI collaboration using the Gas Town × DOK framework." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/rp-why-banner-d3fdd6f674e8e308169e30efe6379735.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/rp-why-banner-d3fdd6f674e8e308169e30efe6379735.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="aaif-goose.github.io" />
+  <meta property="twitter:domain" content="aaif-mesmile.github.io" />
   <meta name="twitter:title" content="Level Up Your AI Game with rp-why" />
   <meta name="twitter:description" content="A goose skill that measures the cognitive complexity of your AI collaboration using the Gas Town × DOK framework." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/rp-why-banner-d3fdd6f674e8e308169e30efe6379735.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/rp-why-banner-d3fdd6f674e8e308169e30efe6379735.png" />
 </head>

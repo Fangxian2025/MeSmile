@@ -14,13 +14,13 @@
 #   RALPH_REVIEWER_MODEL  - Model for review phase (prompts if not set)
 #   RALPH_REVIEWER_PROVIDER - Provider for review phase (prompts if not set)
 #   RALPH_MAX_ITERATIONS  - Max iterations (default: 10)
-#   RALPH_RECIPE_DIR      - Recipe directory (default: ~/.config/goose/recipes)
+#   RALPH_RECIPE_DIR      - Recipe directory (default: ~/.config/mesmile/recipes)
 #
 
 set -e
 
 INPUT="$1"
-RECIPE_DIR="${RALPH_RECIPE_DIR:-$HOME/.config/goose/recipes}"
+RECIPE_DIR="${RALPH_RECIPE_DIR:-$HOME/.config/mesmile/recipes}"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -168,7 +168,7 @@ for i in $(seq 1 "$MAX_ITERATIONS"); do
     echo ""
     echo -e "${YELLOW}▶ WORK PHASE${NC}"
     
-    GOOSE_PROVIDER="$WORKER_PROVIDER" GOOSE_MODEL="$WORKER_MODEL" goose run --recipe "$RECIPE_DIR/ralph-work.yaml" || {
+    GOOSE_PROVIDER="$WORKER_PROVIDER" GOOSE_MODEL="$WORKER_MODEL" mesmile run --recipe "$RECIPE_DIR/ralph-work.yaml" || {
         echo -e "${RED}✗ WORK PHASE FAILED${NC}"
         exit 1
     }
@@ -183,7 +183,7 @@ for i in $(seq 1 "$MAX_ITERATIONS"); do
     echo ""
     echo -e "${YELLOW}▶ REVIEW PHASE${NC}"
     
-    GOOSE_PROVIDER="$REVIEWER_PROVIDER" GOOSE_MODEL="$REVIEWER_MODEL" goose run --recipe "$RECIPE_DIR/ralph-review.yaml" || {
+    GOOSE_PROVIDER="$REVIEWER_PROVIDER" GOOSE_MODEL="$REVIEWER_MODEL" mesmile run --recipe "$RECIPE_DIR/ralph-review.yaml" || {
         echo -e "${RED}✗ REVIEW PHASE FAILED${NC}"
         exit 1
     }

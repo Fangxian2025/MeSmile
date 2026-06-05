@@ -21,7 +21,7 @@ just release-binary           # release + openapi
 ```bash
 cargo test                   # all tests
 cargo test -p goose          # specific crate
-cargo test --package goose --test mcp_integration_test
+cargo test --package mesmile --test mcp_integration_test
 just record-mcp-tests        # record MCP
 ```
 
@@ -47,12 +47,12 @@ git commit -s                # required for DCO sign-off
 ```
 crates/
 ├── goose              # core logic
-├── goose-acp-macros   # ACP proc macros
-├── goose-cli          # CLI entry
-├── goose-server       # backend (binary: goosed)
-├── goose-mcp          # MCP extensions
-├── goose-test         # test utilities
-└── goose-test-support # test helpers
+├── mesmile-acp-macros   # ACP proc macros
+├── mesmile-cli          # CLI entry
+├── mesmile-server       # backend (binary: mesmiled)
+├── mesmile-mcp          # MCP extensions
+├── mesmile-test         # test utilities
+└── mesmile-test-support # test helpers
 
 evals/open-model-gym/  # benchmarking / evals
 ui/desktop/            # Electron app
@@ -76,10 +76,10 @@ ui/desktop/            # Electron app
 ## Rules
 
 - Test: Prefer tests/ folder, e.g. crates/goose/tests/
-- Test: When adding features, update goose-self-test.yaml, rebuild, then run `goose run --recipe goose-self-test.yaml` to validate
+- Test: When adding features, update mesmile-self-test.yaml, rebuild, then run `mesmile run --recipe mesmile-self-test.yaml` to validate
 - Error: Use anyhow::Result
 - Provider: Implement Provider trait see providers/base.rs
-- MCP: Extensions in crates/goose-mcp/
+- MCP: Extensions in crates/mesmile-mcp/
 - Server: Changes need just generate-openapi
 
 ## Code Quality
@@ -120,7 +120,7 @@ remaining space for dynamic text.
 - Never: Comment self-evident operations (`// Initialize`, `// Return result`), getters/setters, constructors, or standard Rust idioms
 
 ## Entry Points
-- CLI: crates/goose-cli/src/main.rs
-- Server: crates/goose-server/src/main.rs
+- CLI: crates/mesmile-cli/src/main.rs
+- Server: crates/mesmile-server/src/main.rs
 - UI: ui/desktop/src/main.ts
 - Agent: crates/goose/src/agents/agent.rs

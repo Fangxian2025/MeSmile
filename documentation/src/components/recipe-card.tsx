@@ -33,7 +33,7 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
       setShowParamPrompt(true);
       return;
     }
-    const command = `goose run --recipe documentation/src/pages/recipes/data/recipes/${recipe.id}.yaml`;
+    const command = `mesmile run --recipe documentation/src/pages/recipes/data/recipes/${recipe.id}.yaml`;
     navigator.clipboard.writeText(command);
     toast.success("CLI command copied!");
   };
@@ -42,7 +42,7 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
     const filledParams = Object.entries(paramValues)
       .map(([key, val]) => `${key}=${val}`)
       .join(" ");
-    const command = `goose run --recipe documentation/src/pages/recipes/data/recipes/${recipe.id}.yaml --params ${filledParams}`;
+    const command = `mesmile run --recipe documentation/src/pages/recipes/data/recipes/${recipe.id}.yaml --params ${filledParams}`;
     navigator.clipboard.writeText(command);
     setShowParamPrompt(false);
     toast.success("CLI command copied with params!");

@@ -3,7 +3,7 @@
 Community Stars Analysis Script for aaif-goose/goose repository
 
 # TODO: Update BLOCK_ORGS, is_block_employee(), and team categorization logic
-# for the AAIF org structure after the transfer from block/goose.
+# for the AAIF org structure after the transfer from block/mesmile.
 
 This script analyzes GitHub contributor statistics and generates rankings for:
 - Top 5 Community All-Stars (External contributors)
@@ -102,7 +102,7 @@ def load_team_lists():
             sys.exit(1)
 
     # Parse the team lists
-    goose_maintainers = set()
+    mesmile_maintainers = set()
     block_non_goose = set()
     external_goose = set()
     bots = set()
@@ -115,7 +115,7 @@ def load_team_lists():
         if not line or line.startswith("#"):
             # Check for section headers in comments
             if "# Goose Maintainers" in line:
-                current_section = "goose_maintainers"
+                current_section = "mesmile_maintainers"
             elif "# Block, non-goose" in line:
                 current_section = "block_non_goose"
             elif "# External, goose" in line:
@@ -126,16 +126,16 @@ def load_team_lists():
 
         # Add username to appropriate set (lowercase for case-insensitive matching)
         username = line.lower()
-        if current_section == "goose_maintainers":
-            goose_maintainers.add(username)
+        if current_section == "mesmile_maintainers":
+            mesmile_maintainers.add(username)
         elif current_section == "block_non_goose":
-            block_non_goose.add(username)
+            block_non_mesmile.add(username)
         elif current_section == "external_goose":
-            external_goose.add(username)
+            external_mesmile.add(username)
         elif current_section == "bots":
             bots.add(username)
 
-    return goose_maintainers, block_non_goose, external_goose, bots
+    return mesmile_maintainers, block_non_goose, external_goose, bots
 
 
 def parse_date_range(date_input):
@@ -201,7 +201,7 @@ def main():
         sys.exit(1)
 
     # Load team lists
-    goose_maintainers, block_non_goose, external_goose, bots = load_team_lists()
+    mesmile_maintainers, block_non_goose, external_goose, bots = load_team_lists()
 
     # Load GitHub data
     github_data_file = "/tmp/github_contributors.json"
@@ -305,7 +305,7 @@ def main():
         # Skip excluded categories (case-insensitive matching)
         if (
             username_lower in bots
-            or username_lower in goose_maintainers
+            or username_lower in mesmile_maintainers
             or username_lower in external_goose
         ):
             continue

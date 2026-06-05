@@ -26,8 +26,8 @@ DOC_PATTERNS = [
 CORE_PATHS = [
     "crates/goose/src/agents/",
     "crates/goose/src/providers/",
-    "crates/goose-server/",
-    "crates/goose-cli/",
+    "crates/mesmile-server/",
+    "crates/mesmile-cli/",
     "crates/goose/src/session",
     "crates/goose/src/permission",
 ]

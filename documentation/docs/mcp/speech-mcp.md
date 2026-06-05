@@ -4,7 +4,7 @@ description: Add Speech MCP Server as a goose Extension
 unlisted: true
 ---
 
-Unlist per https://github.com/aaif-goose/goose/issues/5431
+Unlist per https://github.com/Fangxian2025/MeSmile/issues/5431
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -23,7 +23,7 @@ This tutorial covers how to add the [Speech MCP Server](https://github.com/Kvadr
 :::tip Quick Install
 <Tabs groupId="interface">
   <TabItem value="ui" label="goose Desktop" default>
-  [Launch the installer](goose://extension?cmd=uvx&arg=-p&arg=3.10.14&arg=speech-mcp@latest&id=speech_mcp&name=Speech%20Interface&description=Voice%20interaction%20with%20audio%20visualization%20for%20goose)
+  [Launch the installer](mesmile://extension?cmd=uvx&arg=-p&arg=3.10.14&arg=speech-mcp@latest&id=speech_mcp&name=Speech%20Interface&description=Voice%20interaction%20with%20audio%20visualization%20for%20goose)
   </TabItem>
   <TabItem value="cli" label="goose CLI">
   **Command**
@@ -60,7 +60,7 @@ Before adding this extension, make sure [PortAudio](https://github.com/GoogleClo
 
   2. Choose to add a `Command-line Extension`
   ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -76,7 +76,7 @@ Before adding this extension, make sure [PortAudio](https://github.com/GoogleClo
 
   3. Give your extension a name
   ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -93,7 +93,7 @@ Before adding this extension, make sure [PortAudio](https://github.com/GoogleClo
 
   4. Enter the command
   ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -113,7 +113,7 @@ Before adding this extension, make sure [PortAudio](https://github.com/GoogleClo
 
   5. Enter the number of seconds goose should wait for actions to complete before timing out. Default is 300s
    ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -136,7 +136,7 @@ Before adding this extension, make sure [PortAudio](https://github.com/GoogleClo
 
   6. Choose to add a description. If you select "Yes" here, you will be prompted to enter a description for the extension.
    ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 
@@ -162,7 +162,7 @@ Before adding this extension, make sure [PortAudio](https://github.com/GoogleClo
 
   7. Choose No when asked to add environment variables
    ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  Add Extension (Connect to a new extension) 

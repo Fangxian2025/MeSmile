@@ -6,7 +6,7 @@ description: $100K grants for open source devs building the future of agentic AI
 import Link from "@docusaurus/Link";
 import { Button } from "@site/src/components/ui/button";
 
-![](/img/goose-grant-program.png)
+![](/img/mesmile-grant-program.png)
 
 # goose grant program
 
@@ -98,17 +98,17 @@ Anyone. We welcome individuals, working on their own or in small teams, as long 
   </Link>
 <br/>
 
-If you have additional questions, feel free to reach out in [Discord](https://discord.com/channels/1287729918100246654/1397943505216868444) in the #goose-grants forum.
+If you have additional questions, feel free to reach out in [Discord](https://discord.com/channels/1287729918100246654/1397943505216868444) in the #mesmile-grants forum.
 
 <head>
   <meta property="og:title" content="goose grant program" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/grants" />
+  <meta property="og:url" content="https://mesmile-docs.ai/grants" />
   <meta property="og:description" content="$100K grants for open source devs building the future of agentic AI." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/goose-grant-program-3ede164a454d9f29e779108c63773416.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/mesmile-grant-program-3ede164a454d9f29e779108c63773416.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="goose grant program" />
   <meta name="twitter:description" content="$100K grants for open source devs building the future of agentic AI." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/goose-grant-program-3ede164a454d9f29e779108c63773416.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/mesmile-grant-program-3ede164a454d9f29e779108c63773416.png" />
 </head>

@@ -35,7 +35,7 @@ The diagnostics feature creates a comprehensive troubleshooting bundle that incl
     :::
   </TabItem>
   <TabItem value="cli" label="goose CLI">
-    Use the session diagnostics command to generate a troubleshooting bundle. For complete details and all available options, see the [CLI Commands guide](/docs/guides/goose-cli-commands#session-diagnostics-options).
+    Use the session diagnostics command to generate a troubleshooting bundle. For complete details and all available options, see the [CLI Commands guide](/docs/guides/mesmile-cli-commands#session-diagnostics-options).
 
     ```sh
     # Generate diagnostics for a specific session
@@ -70,8 +70,8 @@ The diagnostics ZIP file contains several folders:
 ```
 diagnostics_abc123def.zip
 ├── logs/
-│   ├── goose-2024-01-15.jsonl
-│   ├── goose-2024-01-14.jsonl
+│   ├── mesmile-2024-01-15.jsonl
+│   ├── mesmile-2024-01-14.jsonl
 │   └── ...
 ├── session.json          # Your session messages
 ├── config.yaml          # Configuration files (if they exist)
@@ -111,14 +111,14 @@ The bug report feature opens a structured GitHub issue template to help you prov
     For CLI users, navigate directly to the GitHub repository:
 
     ```
-    https://github.com/aaif-goose/goose/issues/new?template=bug_report.md
+    https://github.com/Fangxian2025/MeSmile/issues/new?template=bug_report.md
     ```
   </TabItem>
 </Tabs>
 
 ## Feature Requests
 
-The feature request system helps you suggest improvements and new functionality for goose.
+The feature request system helps you suggest improvements and new functionality for mesmile.
 
 ### Submitting Feature Requests
 
@@ -135,7 +135,7 @@ The feature request system helps you suggest improvements and new functionality 
     Navigate directly to the GitHub repository:
 
     ```
-    https://github.com/aaif-goose/goose/issues/new?template=feature_request.md
+    https://github.com/Fangxian2025/MeSmile/issues/new?template=feature_request.md
     ```
   </TabItem>
 </Tabs>

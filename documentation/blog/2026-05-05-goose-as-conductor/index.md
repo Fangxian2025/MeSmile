@@ -3,10 +3,10 @@ title: "Orchestrate complex workflows across multiple agents with goose"
 description: "Use goose to coordinate multi-agent workflows — decompose complex tasks, delegate to specialized agents in parallel, and synthesize the results."
 authors:
   - adewale
-image: /img/blog/goose-conductor.png
+image: /img/blog/mesmile-conductor.png
 ---
 
-![goose orchestrating multiple agents like a conductor](/img/blog/goose-conductor.png)
+![goose orchestrating multiple agents like a conductor](/img/blog/mesmile-conductor.png)
 
 A lot of people prompt their agents one task at a time — "do this, now do that, now do the next thing." It works, but it's slow. Many people also want their agents doing many things at once: researching while coding, reviewing while testing, writing docs while refactoring.
 
@@ -111,12 +111,12 @@ For reusable workflows, check out the [subrecipes in parallel tutorial](/docs/tu
 <head>
   <meta property="og:title" content="Orchestrate Complex Workflows Across Multiple Agents with goose" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/05/05/goose-as-conductor" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/05/05/mesmile-as-conductor" />
   <meta property="og:description" content="Use goose to coordinate multi-agent workflows — decompose complex tasks, delegate to specialized agents in parallel, and synthesize the results." />
-  <meta property="og:image" content="http://goose-docs.ai/assets/images/goose-conductor-c380f287a96196276ac7cb0a652e390c.png" />
+  <meta property="og:image" content="http://mesmile-docs.ai/assets/images/mesmile-conductor-c380f287a96196276ac7cb0a652e390c.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Orchestrate Complex Workflows Across Multiple Agents with goose" />
   <meta name="twitter:description" content="Use goose to coordinate multi-agent workflows — decompose complex tasks, delegate to specialized agents in parallel, and synthesize the results." />
-  <meta name="twitter:image" content="http://goose-docs.ai/assets/images/goose-conductor-c380f287a96196276ac7cb0a652e390c.png" />
+  <meta name="twitter:image" content="http://mesmile-docs.ai/assets/images/mesmile-conductor-c380f287a96196276ac7cb0a652e390c.png" />
 </head>

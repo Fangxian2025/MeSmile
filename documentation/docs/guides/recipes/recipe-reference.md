@@ -525,8 +525,8 @@ The `settings` field allows you to configure the AI model and provider settings 
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `goose_provider` | String | - | The AI provider to use (e.g., "anthropic", "openai") |
-| `goose_model` | String | - | The specific model name to use |
+| `mesmile_provider` | String | - | The AI provider to use (e.g., "anthropic", "openai") |
+| `mesmile_model` | String | - | The specific model name to use |
 | `temperature` | Number | - | The temperature setting for the model (typically 0.0-1.0) |
 | `max_turns` | Number | - | Maximum number of turns for subagent tasks created by this recipe |
 
@@ -546,16 +546,16 @@ The `max_turns` setting controls how many iterations an agent can perform before
 
 ```yaml
 settings:
-  goose_provider: "anthropic"
-  goose_model: "claude-sonnet-4-20250514"
+  mesmile_provider: "anthropic"
+  mesmile_model: "claude-sonnet-4-20250514"
   temperature: 0.7
   max_turns: 50
 ```
 
 ```yaml
 settings:
-  goose_provider: "openai"
-  goose_model: "gpt-4o"
+  mesmile_provider: "openai"
+  mesmile_model: "gpt-4o"
   temperature: 0.3
 ```
 
@@ -779,7 +779,7 @@ Built-in template parameters are automatically supported and don't need to be de
 
 ## Validation Rules
 
-Validation rules from [`validate_recipe.rs`](https://github.com/aaif-goose/goose/blob/main/crates/goose/src/recipe/validate_recipe.rs) are enforced when loading recipes and used by the [`goose recipe validate`](/docs/guides/goose-cli-commands#recipe) subcommand:
+Validation rules from [`validate_recipe.rs`](https://github.com/Fangxian2025/MeSmile/blob/main/crates/goose/src/recipe/validate_recipe.rs) are enforced when loading recipes and used by the [`goose recipe validate`](/docs/guides/mesmile-cli-commands#recipe) subcommand:
 
 ### Recipe-Level Validation
 
@@ -844,8 +844,8 @@ extensions:
     description: "Query codesearch directly from goose"
 
 settings:
-  goose_provider: "anthropic"
-  goose_model: "claude-sonnet-4-20250514"
+  mesmile_provider: "anthropic"
+  mesmile_model: "claude-sonnet-4-20250514"
   temperature: 0.7
   max_turns: 100
 
@@ -924,8 +924,8 @@ response:
     }
   ],
   "settings": {
-    "goose_provider": "anthropic",
-    "goose_model": "claude-sonnet-4-20250514",
+    "mesmile_provider": "anthropic",
+    "mesmile_model": "claude-sonnet-4-20250514",
     "temperature": 0.7,
     "max_turns": 100
   },

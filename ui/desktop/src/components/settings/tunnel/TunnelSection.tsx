@@ -49,7 +49,7 @@ const i18n = defineMessages({
   },
   previewDescription: {
     id: 'tunnelSection.previewDescription',
-    defaultMessage: 'Enable remote access to goose from mobile devices using secure tunneling.',
+    defaultMessage: 'Enable remote access to MeSmile from mobile devices using secure tunneling.',
   },
   getIosApp: {
     id: 'tunnelSection.getIosApp',
@@ -97,7 +97,7 @@ const i18n = defineMessages({
   },
   qrCodeInstructions: {
     id: 'tunnelSection.qrCodeInstructions',
-    defaultMessage: 'Scan this QR code with the goose mobile app. Do not share this code with anyone else as it is for your personal access.',
+    defaultMessage: 'Scan this QR code with the MeSmile mobile app. Do not share this code with anyone else as it is for your personal access.',
   },
   connectionDetails: {
     id: 'tunnelSection.connectionDetails',
@@ -117,11 +117,11 @@ const i18n = defineMessages({
   },
   downloadIosApp: {
     id: 'tunnelSection.downloadIosApp',
-    defaultMessage: 'Download goose iOS App',
+    defaultMessage: 'Download MeSmile iOS App',
   },
   appStoreQrInstructions: {
     id: 'tunnelSection.appStoreQrInstructions',
-    defaultMessage: 'Scan this QR code with your iPhone camera to install the goose mobile app from the App Store',
+    defaultMessage: 'Scan this QR code with your iPhone camera to install the MeSmile mobile app from the App Store',
   },
   openInAppStore: {
     id: 'tunnelSection.openInAppStore',
@@ -141,7 +141,7 @@ const i18n = defineMessages({
   },
 });
 
-const IOS_APP_STORE_URL = 'https://apps.apple.com/us/app/goose-ai/id6752889295';
+const IOS_APP_STORE_URL = 'https://apps.apple.com/us/app/mesmile-ai/id6752889295';
 
 const STATUS_MESSAGE_KEYS = {
   idle: 'statusIdle',
@@ -241,7 +241,7 @@ export default function TunnelSection() {
       secret: tunnelInfo.secret,
     });
     const urlEncodedConfig = encodeURIComponent(configJson);
-    return `goosechat://configure?data=${urlEncodedConfig}`;
+    return `mesmilechat://configure?data=${urlEncodedConfig}`;
   };
 
   if (tunnelInfo.state === 'disabled') {

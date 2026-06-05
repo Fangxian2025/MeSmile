@@ -25,7 +25,7 @@ You can run goose directly within GitHub Actions. Follow these steps to set up y
 <details>
    <summary>Copy the GitHub Workflow</summary>
    
-   ```yaml title="goose.yml"
+   ```yaml title="mesmile.yml"
 
 
 name: goose
@@ -45,7 +45,7 @@ env:
    GH_TOKEN: ${{ github.token }}
 
 jobs:
-   goose-comment:
+   mesmile-comment:
       name: goose Comment
       runs-on: ubuntu-latest
       steps:
@@ -68,14 +68,14 @@ jobs:
          - name: Install goose CLI
            run: |
               mkdir -p /home/runner/.local/bin
-              curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh \
+              curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh \
                 | GOOSE_VERSION=REPLACE_WITH_VERSION CONFIGURE=false GOOSE_BIN_DIR=/home/runner/.local/bin bash
               echo "/home/runner/.local/bin" >> $GITHUB_PATH
 
          - name: Configure goose
            run: |
-              mkdir -p ~/.config/goose
-              cat <<EOF > ~/.config/goose/config.yaml
+              mkdir -p ~/.config/mesmile
+              cat <<EOF > ~/.config/mesmile/config.yaml
               GOOSE_PROVIDER: REPLACE_WITH_PROVIDER
               GOOSE_MODEL: REPLACE_WITH_MODEL
               keyring: false
@@ -98,11 +98,11 @@ jobs:
 
          - name: Run goose and filter output
            run: |
-              goose run --instructions instructions.txt | \
+              mesmile run --instructions instructions.txt | \
               # Remove ANSI color codes
               sed -E 's/\x1B\[[0-9;]*[mK]//g' | \
               # Remove session/logging lines
-              grep -v "logging to /home/runner/.config/goose/sessions/" | \
+              grep -v "logging to /home/runner/.config/mesmile/sessions/" | \
               grep -v "^starting session" | \
               grep -v "^Closing session" | \
               # Trim trailing whitespace
@@ -121,7 +121,7 @@ jobs:
 
 ### 1. Create the Workflow File
 
-Create a new file in your repository at `.github/workflows/goose.yml`. This will contain your GitHub Actions workflow.
+Create a new file in your repository at `.github/workflows/mesmile.yml`. This will contain your GitHub Actions workflow.
 
 ### 2. Define the Workflow Triggers and Permissions
 
@@ -158,14 +158,14 @@ steps:
     - name: Install goose CLI
       run: |
           mkdir -p /home/runner/.local/bin
-          curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh \
+          curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh \
             | GOOSE_VERSION=REPLACE_WITH_VERSION CONFIGURE=false GOOSE_BIN_DIR=/home/runner/.local/bin bash
           echo "/home/runner/.local/bin" >> $GITHUB_PATH
 
     - name: Configure goose
       run: |
-          mkdir -p ~/.config/goose
-          cat <<EOF > ~/.config/goose/config.yaml
+          mkdir -p ~/.config/mesmile
+          cat <<EOF > ~/.config/mesmile/config.yaml
           GOOSE_PROVIDER: REPLACE_WITH_PROVIDER
           GOOSE_MODEL: REPLACE_WITH_MODEL
           keyring: false
@@ -187,7 +187,7 @@ Replace `REPLACE_WITH_VERSION`, `REPLACE_WITH_PROVIDER`, and `REPLACE_WITH_MODEL
 
 ### 4. Gather PR Changes and Prepare Instructions
 
-This step extracts pull request details and formats them into structured instructions for goose.
+This step extracts pull request details and formats them into structured instructions for mesmile.
 
 ```yaml
     - name: Create instructions for goose
@@ -210,11 +210,11 @@ Now, run goose with the formatted instructions and clean the output by removing 
 ```yaml
     - name: Run goose and filter output
       run: |
-          goose run --instructions instructions.txt | \
+          mesmile run --instructions instructions.txt | \
             # Remove ANSI color codes
             sed -E 's/\x1B\[[0-9;]*[mK]//g' | \
             # Remove session/logging lines
-            grep -v "logging to /home/runner/.config/goose/sessions/" | \
+            grep -v "logging to /home/runner/.config/mesmile/sessions/" | \
             grep -v "^starting session" | \
             grep -v "^Closing session" | \
             # Trim trailing whitespace

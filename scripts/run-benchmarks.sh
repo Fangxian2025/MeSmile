@@ -107,14 +107,14 @@ if [ "$DEBUG_MODE" = true ]; then
     GOOSE_CMD="./target/debug/goose"
     echo "Using debug binary: $GOOSE_CMD"
   else
-    echo "Warning: Debug binary not found at ./target/debug/goose. Falling back to system-installed goose."
+    echo "Warning: Debug binary not found at ./target/debug/mesmile. Falling back to system-installed mesmile."
   fi
 else
   if [ -f "./target/release/goose" ]; then
     GOOSE_CMD="./target/release/goose"
     echo "Using release binary: $GOOSE_CMD"
   else
-    echo "Warning: Release binary not found at ./target/release/goose. Falling back to system-installed goose."
+    echo "Warning: Release binary not found at ./target/release/mesmile. Falling back to system-installed mesmile."
   fi
 fi
 

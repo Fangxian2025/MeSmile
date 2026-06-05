@@ -673,7 +673,7 @@ export type OnboardingImportScanRequest_unstable = {
 /**
  * Sources that onboarding knows how to discover and import.
  */
-export type OnboardingImportSourceKind = 'goose_config' | 'claude_desktop';
+export type OnboardingImportSourceKind = 'mesmile_config' | 'claude_desktop';
 
 export type OnboardingImportScanResponse_unstable = {
     candidates: Array<OnboardingImportCandidate>;
@@ -1098,7 +1098,7 @@ export type DictationModelSelectRequest_unstable = {
 
 /**
  * Goose-custom session update notification — a parallel to ACP's
- * `session/update` carrying goose-specific update variants.
+ * `session/update` carrying mesmile-specific update variants.
  */
 export type GooseSessionNotification_unstable = {
     sessionId: string;
@@ -1106,7 +1106,7 @@ export type GooseSessionNotification_unstable = {
 };
 
 /**
- * Discriminated union of goose-specific session update payloads.
+ * Discriminated union of mesmile-specific session update payloads.
  * Variant tag matches ACP's convention (`sessionUpdate: "<snake_case>"`).
  *
  * `discriminator.mapping` is what makes TS codegen (`@hey-api/openapi-ts`)

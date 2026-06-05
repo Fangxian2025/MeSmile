@@ -32,17 +32,17 @@ function handleIntlError(err: { code: string; message?: string }) {
 }
 
 (async () => {
-  // Check if we're in the launcher view (doesn't need goosed connection)
+  // Check if we're in the launcher view (doesn't need mesmiled connection)
   const isLauncher = window.location.hash === '#/launcher';
 
   if (!isLauncher) {
-    const gooseApiHost = await window.electron.getGoosedHostPort();
-    if (gooseApiHost === null) {
-      window.alert('failed to start goose backend process');
+    const mesmileApiHost = await window.electron.getMesmiledHostPort();
+    if (mesmileApiHost === null) {
+      window.alert('failed to start mesmile backend process');
       return;
     }
     client.setConfig({
-      baseUrl: gooseApiHost,
+      baseUrl: mesmileApiHost,
       headers: {
         'Content-Type': 'application/json',
         'X-Secret-Key': await window.electron.getSecretKey(),

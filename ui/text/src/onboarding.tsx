@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Box, Text, useInput, useStdout } from "ink";
 import { TextInput, PasswordInput } from "@inkjs/ui";
-import type { GooseClient, ProviderInventoryEntryDto } from "@aaif/goose-sdk";
+import type { GooseClient, ProviderInventoryEntryDto } from "@aaif/mesmile-sdk";
 import {
   CRANBERRY,
   TEAL,
@@ -269,7 +269,7 @@ export const ProviderSelector = React.memo(function ProviderSelector({
       <Box marginTop={1} />
       <Box justifyContent="center" marginBottom={1}>
         <Text color={TEXT_PRIMARY} bold>
-          {title ?? "◆ Welcome to goose ◆"}
+          {title ?? "◆ Welcome to MeSmile ◆"}
         </Text>
       </Box>
       <Box justifyContent="center" marginBottom={2}>
@@ -583,7 +583,7 @@ export default function Onboarding({
   useEffect(() => {
     (async () => {
       try {
-        const resp = await client.goose.providersList_unstable({
+        const resp = await client.mesmile.providersList_unstable({
           providerIds: [],
         });
         const sorted = [...resp.entries].sort((a, b) => {
@@ -608,7 +608,7 @@ export default function Onboarding({
     ) => {
       setPhase("saving");
       try {
-        await client.goose.providersConfigSave_unstable({
+        await client.mesmile.providersConfigSave_unstable({
           providerId: provider.providerId,
           fields: Object.entries(values).map(([key, value]) => ({
             key,

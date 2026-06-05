@@ -46,7 +46,7 @@ The `x-mlflow-experiment-id` header specifies which MLflow experiment to log tra
 
 ```bash
 pip install mlflow
-mlflow experiments create --experiment-name "goose-traces"
+mlflow experiments create --experiment-name "mesmile-traces"
 # Use the returned experiment ID in the header
 ```
 
@@ -68,10 +68,10 @@ goose session
 
 Open the MLflow UI at `http://localhost:5000` and navigate to the **Traces** tab to see detailed traces of your goose session, including LLM calls, tool executions, and token usage.
 
-![goose trace in MLflow](../assets/guides/mlflow-goose-tracing.png)
+![goose trace in MLflow](../assets/guides/mlflow-mesmile-tracing.png)
 
 ## Learn more
 
 - [MLflow Tracing documentation](https://mlflow.org/docs/latest/genai/tracing/)
 - [MLflow OpenTelemetry integration](https://mlflow.org/docs/latest/genai/tracing/app-instrumentation/opentelemetry.html)
-- [MLflow goose integration guide](https://mlflow.org/docs/latest/genai/tracing/integrations/listing/goose.html)
+- [MLflow goose integration guide](https://mlflow.org/docs/latest/genai/tracing/integrations/listing/mesmile.html)

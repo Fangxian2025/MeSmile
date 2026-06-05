@@ -18,7 +18,7 @@
         rust = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
         
         # Read package metadata from Cargo.toml
-        cargoToml = builtins.fromTOML (builtins.readFile ./crates/goose-cli/Cargo.toml);
+        cargoToml = builtins.fromTOML (builtins.readFile ./crates/mesmile-cli/Cargo.toml);
         workspaceToml = builtins.fromTOML (builtins.readFile ./Cargo.toml);
         
         commonInputs = [
@@ -82,7 +82,7 @@
           ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin darwinInputs;
 
           # Build only the CLI package
-          cargoBuildFlags = [ "--package" "goose-cli" ];
+          cargoBuildFlags = [ "--package" "mesmile-cli" ];
           
           # Enable tests with proper environment
           # Tests need writable HOME and XDG directories for config/cache access
@@ -95,8 +95,8 @@
             export XDG_CACHE_HOME=$HOME/.cache
             mkdir -p $XDG_CONFIG_HOME $XDG_DATA_HOME $XDG_STATE_HOME $XDG_CACHE_HOME
             
-            # Run tests for goose-cli package only
-            cargo test --package goose-cli --release
+            # Run tests for mesmile-cli package only
+            cargo test --package mesmile-cli --release
           '';
 
           meta = with pkgs.lib; {
@@ -130,8 +130,8 @@
             echo "Commands:"
             echo "  nix build           - Build goose CLI"
             echo "  nix run             - Run goose CLI"
-            echo "  cargo build -p goose-cli - Build with cargo"
-            echo "  cargo run -p goose-cli   - Run with cargo"
+            echo "  cargo build -p mesmile-cli - Build with cargo"
+            echo "  cargo run -p mesmile-cli   - Run with cargo"
           '';
         };
       }

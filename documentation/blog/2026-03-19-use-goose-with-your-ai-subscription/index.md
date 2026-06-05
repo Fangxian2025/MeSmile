@@ -14,7 +14,7 @@ Gemini now works via OAuth — just sign in with your Google account. At the tim
 
 ## Why subscriptions?
 
-Well you can use what you already pay for. Obviously! and sessions and so on are still in goose. 
+Well you can use what you already pay for. Obviously! and sessions and so on are still in mesmile. 
 ACP gives a deeper connection to these agents than using the CLI as providers. In this world - you can think of this as a stack of agents: 
 goose plugs into gemini via ACP (and other things, clients could plug in to goose!) but gemini (and also claude code) also act as an agent loop somewhat. 
 With ACP you are using the tools that are (mostly) in the underlying agent. Codex, however, is a full power LLM api, so you can use extensions natively in goose for that one.

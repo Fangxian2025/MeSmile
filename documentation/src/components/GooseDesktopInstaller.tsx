@@ -43,7 +43,7 @@ export default function GooseDesktopInstaller({
   // Determine extension type with backward compatibility
   const extensionType = type || (command ? 'stdio' : url ? 'http' : 'stdio');
   
-  // Build the goose:// URL
+  // Build the mesmile:// URL
   const buildGooseUrl = () => {
     let urlParts = [];
     
@@ -75,7 +75,7 @@ export default function GooseDesktopInstaller({
       `${paramName}=${encodeURIComponent(`${envVar.name}=${envVar.label}`)}`
     ));
     
-    return `goose://extension?${urlParts.join('&')}`;
+    return `mesmile://extension?${urlParts.join('&')}`;
   };
 
   // Generate step 3 content (only if needed)

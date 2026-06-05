@@ -4,7 +4,7 @@ Automated pipeline for detecting and documenting CLI command changes between goo
 
 ## Overview
 
-This automation keeps the [CLI Commands Guide](https://goose-docs.ai/docs/guides/goose-cli-commands) synchronized with code changes by:
+This automation keeps the [CLI Commands Guide](https://mesmile-docs.ai/docs/guides/mesmile-cli-commands) synchronized with code changes by:
 
 1. **Extracting** CLI structure from goose binary using `--help` output (deterministic)
 2. **Detecting** changes between versions (deterministic diff)
@@ -42,10 +42,10 @@ python3 scripts/diff-cli-structures.py output/old-cli-structure.json \
                                        > output/cli-changes.json
 
 # 3. Generate human-readable change documentation
-cd output && goose run --recipe ../recipes/synthesize-cli-changes.yaml
+cd output && mesmile run --recipe ../recipes/synthesize-cli-changes.yaml
 
-# 4. Update goose-cli-commands.md
-cd output && goose run --recipe ../recipes/update-cli-commands.yaml
+# 4. Update mesmile-cli-commands.md
+cd output && mesmile run --recipe ../recipes/update-cli-commands.yaml
 ```
 
 ### Version Detection
@@ -96,7 +96,7 @@ The automation uses a **hybrid approach**: deterministic scripts for data extrac
 ├─────────────────────────────────────────────────────────────────┤
 │  update-cli-commands.yaml                                        │
 │  ↓                                                               │
-│  goose-cli-commands.md (updated) + update-summary.md             │
+│  mesmile-cli-commands.md (updated) + update-summary.md             │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -138,7 +138,7 @@ All stages communicate via JSON/Markdown files in the `output/` directory:
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `GOOSE_REPO` | Yes (local) | - | Path to goose repository root |
-| `CLI_COMMANDS_PATH` | No | `$GOOSE_REPO/documentation/docs/guides/goose-cli-commands.md` | Full path to target doc file |
+| `CLI_COMMANDS_PATH` | No | `$GOOSE_REPO/documentation/docs/guides/mesmile-cli-commands.md` | Full path to target doc file |
 | `RELEASE_TAG` | No | - | Used by GitHub Actions to specify the new version |
 
 **Example:**
@@ -238,7 +238,7 @@ Analyzes detected changes and generates human-readable documentation.
 **Usage:**
 ```bash
 cd output
-goose run --recipe ../recipes/synthesize-cli-changes.yaml
+mesmile run --recipe ../recipes/synthesize-cli-changes.yaml
 ```
 
 ### `update-cli-commands.yaml`
@@ -247,17 +247,17 @@ Updates the CLI Commands Guide based on synthesized changes.
 
 **Inputs:**
 - `output/cli-changes.md` - Change documentation from synthesis recipe
-- `goose-cli-commands.md` - Target documentation file (path from `CLI_COMMANDS_PATH` or `GOOSE_REPO` env var)
+- `mesmile-cli-commands.md` - Target documentation file (path from `CLI_COMMANDS_PATH` or `GOOSE_REPO` env var)
 
 **Outputs:**
-- Updated `goose-cli-commands.md` with changes applied
+- Updated `mesmile-cli-commands.md` with changes applied
 - `output/update-summary.md` - Summary of changes for review
 
 **Usage:**
 ```bash
-export CLI_COMMANDS_PATH=/path/to/goose-cli-commands.md
+export CLI_COMMANDS_PATH=/path/to/mesmile-cli-commands.md
 cd output
-goose run --recipe ../recipes/update-cli-commands.yaml
+mesmile run --recipe ../recipes/update-cli-commands.yaml
 ```
 
 ## Directory Structure
@@ -294,7 +294,7 @@ The automation runs via `.github/workflows/docs-update-cli-ref.yml`:
 
 - **Trigger**: Automatically on new releases, or manually for testing
 - **Process**: Builds goose for both versions, extracts CLI structures, detects changes, updates documentation
-- **Output**: Creates a PR with updated `goose-cli-commands.md` if changes detected
+- **Output**: Creates a PR with updated `mesmile-cli-commands.md` if changes detected
 - **Testing**: See [TESTING.md](./TESTING.md) for detailed testing instructions
 
 ## What Gets Tracked
@@ -333,4 +333,4 @@ When modifying the automation:
 
 - [TESTING.md](./TESTING.md) - How to test the GitHub Actions workflow
 - [Automation Overview](../README.md) - All automation projects
-- [CLI Commands Guide](../../docs/guides/goose-cli-commands.md) - Target documentation
+- [CLI Commands Guide](../../docs/guides/mesmile-cli-commands.md) - Target documentation

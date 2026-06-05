@@ -79,7 +79,7 @@ export default function SkillsPage() {
           return skill.tags?.some((tag) => values.includes(tag)) ?? false;
         }
         if (group === "Source") {
-          // Use isCommunity field from manifest (true if author is not "goose")
+          // Use isCommunity field from manifest (true if author is not "MeSmile")
           const isCommunity = skill.isCommunity ?? false;
           if (values.includes("community")) return isCommunity;
           return true;

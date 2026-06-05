@@ -33,7 +33,7 @@ This tutorial covers enabling and using the Memory MCP Server, which is a built-
 
   2. Choose to `Toggle Extensions`
   ```sh
-  ┌   goose-configure 
+  ┌   mesmile-configure 
   │
   ◇  What would you like to configure?
   │  Toggle Extensions 
@@ -55,7 +55,7 @@ Memories are stored as files on disk in one of two locations:
 | Scope | Path | When to use |
 |-------|------|-------------|
 | Local (project) | `.goose/memory/` in your working directory | Project-specific preferences and configs |
-| Global (user) | `~/.config/goose/memory/` | Preferences that apply across all projects |
+| Global (user) | `~/.config/mesmile/memory/` | Preferences that apply across all projects |
 
 goose loads all saved memories at the start of a session and includes them in every prompt sent to the LLM.
 
@@ -76,7 +76,7 @@ With the Memory extension, you’re not just storing static notes, you’re teac
 Later, you can ask:
 > _utilizing our MCP server knowledge help me build an MCP server._ 
 
-goose will recall everything you’ve saved as long as you instruct it to remember. This makes it easier to have consistent results when working with goose.
+goose will recall everything you’ve saved as long as you instruct it to remember. This makes it easier to have consistent results when working with mesmile.
 
 For large or detailed instructions, store them in files and instruct goose to reference those files:
 

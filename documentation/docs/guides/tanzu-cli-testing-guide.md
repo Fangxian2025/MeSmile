@@ -10,7 +10,7 @@
 **macOS:**
 ```bash
 # If built from source:
-export GOOSE_CLI=~/claude/goose-fork/target/release/goose
+export GOOSE_CLI=~/claude/mesmile-fork/target/release/goose
 
 # Verify:
 $GOOSE_CLI --version
@@ -22,7 +22,7 @@ $GOOSE_CLI --version
 export GOOSE_CLI=/usr/bin/goose
 
 # If built from source:
-export GOOSE_CLI=~/goose-fork/target/release/goose
+export GOOSE_CLI=~/mesmile-fork/target/release/goose
 
 # Verify:
 $GOOSE_CLI --version
@@ -124,7 +124,7 @@ goose session
 4. Select the single model
 5. Start a new session, verify it works
 
-**Expected:** Both plans work without needing to restart goose.
+**Expected:** Both plans work without needing to restart mesmile.
 
 ## Quick Curl Verification
 

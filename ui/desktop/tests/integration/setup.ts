@@ -1,7 +1,7 @@
 /**
- * Integration test setup for testing the goosed binary via the TypeScript API client.
+ * Integration test setup for testing the mesmiled binary via the TypeScript API client.
  *
- * This test suite spawns a real goosed process and issues requests via the
+ * This test suite spawns a real mesmiled process and issues requests via the
  * auto-generated API client.
  */
 
@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import type { Client } from '../../src/api/client';
-import { startGoosed as startGoosedBase, checkServerStatus, type Logger } from '../../src/goosed';
+import { startGoosed as startGoosedBase, checkServerStatus, type Logger } from '../../src/mesmiled';
 import { expect } from 'vitest';
 
 function stringifyResponse(response: Response) {
@@ -54,7 +54,7 @@ export async function setupGoosed({
   pathOverride?: string;
   configYaml?: string;
 }): Promise<GoosedTestContext> {
-  const tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'goose-app-root-'));
+  const tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'mesmile-app-root-'));
 
   if (configYaml) {
     await fs.promises.mkdir(path.join(tempDir, 'config'), { recursive: true });
@@ -64,13 +64,13 @@ export async function setupGoosed({
   const testLogger: Logger = {
     info: (...args) => {
       if (process.env.DEBUG) {
-        console.log('[goosed]', ...args);
+        console.log('[mesmiled]', ...args);
       }
     },
-    error: (...args) => console.error('[goosed]', ...args),
+    error: (...args) => console.error('[mesmiled]', ...args),
   };
 
-  // Accept self-signed TLS certs from the local goosed server.
+  // Accept self-signed TLS certs from the local mesmiled server.
   // In Electron this is handled by setCertificateVerifyProc, but integration
   // tests run in plain Node.js where fetch rejects self-signed certs.
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -85,7 +85,7 @@ export async function setupGoosed({
 
   const {
     baseUrl,
-    process: goosedProcess,
+    process: mesmiledProcess,
     client,
     cleanup: baseCleanup,
     errorLog,
@@ -95,8 +95,8 @@ export async function setupGoosed({
     logger: testLogger,
   });
 
-  if (!goosedProcess) {
-    throw new Error('Expected goosed process to be started, but got external backend');
+  if (!mesmiledProcess) {
+    throw new Error('Expected mesmiled process to be started, but got external backend');
   }
 
   const cleanup = async (): Promise<void> => {
@@ -126,14 +126,14 @@ export async function setupGoosed({
   if (!serverReady) {
     await cleanup();
     console.error('Server stderr:', errorLog.join('\n'));
-    throw new Error('Failed to start goosed');
+    throw new Error('Failed to start mesmiled');
   }
 
   return {
     client,
     baseUrl,
     secretKey: TEST_SECRET_KEY,
-    process: goosedProcess,
+    process: mesmiledProcess,
     cleanup,
   };
 }

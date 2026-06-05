@@ -69,7 +69,7 @@ These are real edges. The protocol is young. The direction is right.
 
 Goose currently has separate code paths for its desktop app, CLI, and ACP server. That's converging. The goose daemon is transitioning to ACP as its protocol, so every frontend becomes a thin ACP client talking to the same backend. Provider selection and config changes happen over ACP custom requests instead of per-frontend logic.
 
-On the provider side, adding a new ACP agent to goose today means writing a Rust file. Declarative ACP providers would replace those files with JSON configs, making it possible to add agents without recompiling goose. Combined with native support for the [ACP Agent Registry](https://github.com/agentclientprotocol/registry), goose could discover and offer new agents as they appear in the registry, no release required.
+On the provider side, adding a new ACP agent to goose today means writing a Rust file. Declarative ACP providers would replace those files with JSON configs, making it possible to add agents without recompiling mesmile. Combined with native support for the [ACP Agent Registry](https://github.com/agentclientprotocol/registry), goose could discover and offer new agents as they appear in the registry, no release required.
 
 ## Try It
 
@@ -81,19 +81,19 @@ Pick the UI you like. Pick the agent you like. They don't have to be the same th
 
 - [ACP clients guide](/docs/guides/acp-clients)
 - [ACP providers guide](/docs/guides/acp-providers)
-- [Goose on GitHub](https://github.com/aaif-goose/goose)
-- [Discord community](https://discord.gg/goose-oss)
+- [Goose on GitHub](https://github.com/Fangxian2025/MeSmile)
+- [Discord community](https://discord.gg/mesmile-oss)
 
 <head>
   <meta property="og:title" content="How to Break Up with Your Agent" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2026/04/08/how-to-break-up-with-your-agent" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/04/08/how-to-break-up-with-your-agent" />
   <meta property="og:description" content="ACP lets you keep your favorite editor but swap the AI agent, or keep your agent but use it from any editor. Here's what actually works today in Goose." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="block.github.io/goose" />
   <meta name="twitter:title" content="How to Break Up with Your Agent" />
   <meta name="twitter:description" content="ACP lets you keep your favorite editor but swap the AI agent, or keep your agent but use it from any editor. Here's what actually works today in Goose." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/header-f8e0e7e5dfa082ad8d33c0fdf84163d4.png" />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/header-f8e0e7e5dfa082ad8d33c0fdf84163d4.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/header-f8e0e7e5dfa082ad8d33c0fdf84163d4.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/header-f8e0e7e5dfa082ad8d33c0fdf84163d4.png" />
   
 </head>

@@ -10,7 +10,7 @@ Remember that saying, "it’s not what you ask, but **how you ask**"?
 
 When I first started working with goose as an AI agent, I was convinced there had to be one ‘best' prompting style. I spent so much time trying to figure out which one was superior, but the more I used goose, the more I realized that couldn't be further from the truth. There isn’t one _right_  way to prompt AI, but there are better approaches depending on what your end goal is.
 
-So, let’s go through **which prompt style works best for your specific needs**, and how you can use them to vibe code a little better with goose.
+So, let’s go through **which prompt style works best for your specific needs**, and how you can use them to vibe code a little better with mesmile.
 
 <!--truncate-->
 
@@ -150,12 +150,12 @@ goose is here to make your life easier, so the next time you open up a session, 
 <head>
   <meta property="og:title" content="AI Prompting 101: How to Get the Best Responses from Your AI Agent" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/03/13/better-ai-prompting" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/03/13/better-ai-prompting" />
   <meta property="og:description" content="How to prompt and vibe code your way to better responses." />
-  <meta property="og:image" content="http://goose-docs.ai/assets/images/prompt-078b12695f95c4f0eac3861a8a2611ef.png" />
+  <meta property="og:image" content="http://mesmile-docs.ai/assets/images/prompt-078b12695f95c4f0eac3861a8a2611ef.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="AI Prompting 101: How to Get the Best Responses from Your AI Agent" />
   <meta name="twitter:description" content="How to prompt and vibe code your way to better responses." />
-  <meta name="twitter:image" content="http://goose-docs.ai/assets/images/prompt-078b12695f95c4f0eac3861a8a2611ef.png" />
+  <meta name="twitter:image" content="http://mesmile-docs.ai/assets/images/prompt-078b12695f95c4f0eac3861a8a2611ef.png" />
 </head>

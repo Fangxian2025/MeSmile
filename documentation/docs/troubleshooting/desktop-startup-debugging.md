@@ -19,7 +19,7 @@ Typical locations:
 The files are named like:
 
 ```text
-goosed-startup-2026-04-21T01-24-03.149Z-23416.json
+mesmiled-startup-2026-04-21T01-24-03.149Z-23416.json
 ```
 
 If several files exist, use the newest one.
@@ -28,11 +28,11 @@ If several files exist, use the newest one.
 
 When reporting a desktop startup failure, share:
 
-- the newest `goosed-startup-*.json`
+- the newest `mesmiled-startup-*.json`
 - your goose version
 - your operating system and version
 
-For Windows native crashes, also attach the Windows crash report for `goosed.exe` if available.
+For Windows native crashes, also attach the Windows crash report for `mesmiled.exe` if available.
 
 Common places to find the Windows crash report:
 
@@ -42,14 +42,14 @@ Common places to find the Windows crash report:
   - `%LOCALAPPDATA%\Microsoft\Windows\WER\ReportArchive\`
   - `%LOCALAPPDATA%\Microsoft\Windows\WER\ReportQueue\`
 
-Look for a `Report.wer` related to `goosed.exe`.
+Look for a `Report.wer` related to `mesmiled.exe`.
 
 If you are filing a GitHub issue or asking for support, this is usually enough:
 
-- the newest `goosed-startup-*.json`
+- the newest `mesmiled-startup-*.json`
 - your goose version
 - your operating system and version
-- on Windows, `Report.wer` for `goosed.exe` if Windows created one
+- on Windows, `Report.wer` for `mesmiled.exe` if Windows created one
 
 ## What The Startup Log Contains
 

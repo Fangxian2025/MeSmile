@@ -46,11 +46,11 @@ Test the AI recipes:
 ```bash
 # Generate change documentation
 cd output
-goose run --recipe ../recipes/synthesize-validation-changes.yaml
+mesmile run --recipe ../recipes/synthesize-validation-changes.yaml
 
 # Update recipe-reference.md
 export RECIPE_REF_PATH=/path/to/recipe-reference.md
-goose run --recipe ../recipes/update-recipe-reference.yaml
+mesmile run --recipe ../recipes/update-recipe-reference.yaml
 ```
 
 ## GitHub Actions Testing
@@ -198,7 +198,7 @@ For detailed debugging:
 ### goose CLI installation fails
 
 - Workflow installs from current repository
-- Ensure `crates/goose-cli` builds successfully
+- Ensure `crates/mesmile-cli` builds successfully
 - Check Rust toolchain installation
 
 ### PR creation fails

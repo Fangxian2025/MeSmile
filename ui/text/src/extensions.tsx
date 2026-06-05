@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Box, Text, useInput, useStdout } from "ink";
 import { TextInput } from "@inkjs/ui";
-import type { GooseClient } from "@aaif/goose-sdk";
+import type { GooseClient } from "@aaif/mesmile-sdk";
 import {
   CRANBERRY,
   GOLD,
@@ -122,8 +122,8 @@ export default function ExtensionsManager({
     setPhase("loading");
     try {
       const [configResp, sessionResp] = await Promise.all([
-        client.goose.configExtensionsList_unstable({}),
-        client.goose.sessionExtensionsList_unstable({ sessionId }),
+        client.mesmile.configExtensionsList_unstable({}),
+        client.mesmile.sessionExtensionsList_unstable({ sessionId }),
       ]);
 
       const allExtensions = (configResp.extensions as unknown[]).filter(
@@ -170,12 +170,12 @@ export default function ExtensionsManager({
     if (!sel) return;
     withSaving(async () => {
       if (sel.enabled) {
-        await client.goose.sessionExtensionsRemove_unstable({
+        await client.mesmile.sessionExtensionsRemove_unstable({
           sessionId,
           name: sel.name,
         });
       } else {
-        await client.goose.sessionExtensionsAdd_unstable({
+        await client.mesmile.sessionExtensionsAdd_unstable({
           sessionId,
           config: sel as any,
         });
@@ -187,12 +187,12 @@ export default function ExtensionsManager({
     (description: string) => {
       const config = buildConfig(addType, addValue, addName, description);
       withSaving(async () => {
-        await client.goose.configExtensionsAdd_unstable({
+        await client.mesmile.configExtensionsAdd_unstable({
           name: config.name,
           extensionConfig: config as any,
           enabled: true,
         });
-        await client.goose.sessionExtensionsAdd_unstable({
+        await client.mesmile.sessionExtensionsAdd_unstable({
           sessionId,
           config: config as any,
         });

@@ -74,7 +74,7 @@ This means I can have a longer session before the model's performance begins to 
 
 ## The Value of Code Mode
 
-This exercise cleared up a few misconceptions I had about Code Mode's behavior in goose.
+This exercise cleared up a few misconceptions I had about Code Mode's behavior in mesmile.
 
 * **I thought it would make tasks execute faster:** Code Mode doesn't necessarily speed up task execution; in fact, I noticed additional round-trips because the LLM has to discover tools and write JavaScript before it can act.
 * **I thought it was for every task:** If you are only using one or two tools, the overhead of writing and executing code might actually be more work than just calling the tool directly.
@@ -95,26 +95,26 @@ Therefore, it doesn't make sense for me to use Code Mode when:
 
 The cool part is Code Mode is only getting better. The team is currently refining Code Mode following its release in goose v1.17.0 (December 2025):
 
-- [Better UX](https://github.com/aaif-goose/goose/pull/6205) - showing what tools are being called instead of raw JavaScript
-- [Better reliability](https://github.com/aaif-goose/goose/pull/6177) - improving type signatures so LLMs get the code right the first time
-- [More capabilities](https://github.com/aaif-goose/goose/pull/6160) - enabling subagents to work inside Code Mode
+- [Better UX](https://github.com/Fangxian2025/MeSmile/pull/6205) - showing what tools are being called instead of raw JavaScript
+- [Better reliability](https://github.com/Fangxian2025/MeSmile/pull/6177) - improving type signatures so LLMs get the code right the first time
+- [More capabilities](https://github.com/Fangxian2025/MeSmile/pull/6160) - enabling subagents to work inside Code Mode
 
 Code Mode helps us take a step forward in building agents that can scale to handle all your tools without falling apart. I love seeing how MCP is evolving, and I can't wait for the day I tell my children that agents weren't always this limitless and that we actually used to have to ration our tools just to get a simple task done.
 
 ---
 
-*Ready to try Code Mode? Enable the "Code Mode" extension in [goose](/docs/quickstart) v1.17.0 or later. Join our [Discord](https://discord.gg/goose-oss) to share your experience!*
+*Ready to try Code Mode? Enable the "Code Mode" extension in [goose](/docs/quickstart) v1.17.0 or later. Join our [Discord](https://discord.gg/mesmile-oss) to share your experience!*
 
 <head>
   <meta property="og:title" content="Code Mode Doesn't Replace MCP (Here's What It Actually Does)" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/12/21/code-mode-doesnt-replace-mcp" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/12/21/code-mode-doesnt-replace-mcp" />
   <meta property="og:description" content="Code Mode isn't killing MCP. It makes it better. A practical look at how Code Mode works with MCP to solve tool bloat and performance issues in agents." />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/header-image-c7b1f3556c63058f53eeb740bdaffa3b.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/header-image-c7b1f3556c63058f53eeb740bdaffa3b.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Code Mode Doesn't Replace MCP (Here's What It Actually Does)" />
   <meta name="twitter:description" content="Code Mode isn't killing MCP. It makes it better. A practical look at how Code Mode works with MCP to solve tool bloat and performance issues in agents." />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/header-image-c7b1f3556c63058f53eeb740bdaffa3b.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/header-image-c7b1f3556c63058f53eeb740bdaffa3b.png" />
   <meta name="keywords" content="goose, MCP, Model Context Protocol, Code Mode, AI agents, extensions, tool bloat, context window, JavaScript, developer tools" />
 </head>

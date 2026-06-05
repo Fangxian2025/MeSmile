@@ -18,7 +18,7 @@ import styles from '@site/src/components/Card/styles.module.css';
     <Card 
       title="goose Permissions"
       description="Choose how much autonomy goose has when using tools, editing files, and taking action in a session."
-      link="/docs/guides/managing-tools/goose-permissions"
+      link="/docs/guides/managing-tools/mesmile-permissions"
     />
     <Card 
       title="Tool Permissions"

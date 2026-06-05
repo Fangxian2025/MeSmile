@@ -1,7 +1,7 @@
 /**
- * Integration tests for the goosed binary using the TypeScript API client.
+ * Integration tests for the mesmiled binary using the TypeScript API client.
  *
- * These tests spawn a real goosed process and issue requests via the
+ * These tests spawn a real mesmiled process and issue requests via the
  * auto-generated API client to verify the server is working correctly.
  */
 
@@ -44,7 +44,7 @@ function getUserPath(): string[] {
   }
 }
 
-describe('goosed API integration tests', () => {
+describe('mesmiled API integration tests', () => {
   let ctx: GoosedTestContext;
 
   beforeAll(async () => {
@@ -112,7 +112,7 @@ extensions:
       const session = startResponse.data!;
       expect(session.id).toBeDefined();
       expect(session.name).toBeDefined();
-      expect(session.goose_mode).toBe('auto');
+      expect(session.mesmile_mode).toBe('auto');
 
       const getResponse = await getSession({
         client: ctx.client,
@@ -133,7 +133,7 @@ extensions:
       expect(Array.isArray(sessionsResponse.data!.sessions)).toBe(true);
     });
 
-    it('should persist goose_mode on the session', async () => {
+    it('should persist mesmile_mode on the session', async () => {
       await upsertConfig({
         client: ctx.client,
         body: { key: 'GOOSE_MODE', value: 'approve', is_secret: false },
@@ -145,14 +145,14 @@ extensions:
           body: { working_dir: os.tmpdir() },
         });
         expect(startResponse.response).toBeOkResponse();
-        expect(startResponse.data!.goose_mode).toBe('approve');
+        expect(startResponse.data!.mesmile_mode).toBe('approve');
 
         const getResponse = await getSession({
           client: ctx.client,
           path: { session_id: startResponse.data!.id },
         });
         expect(getResponse.response).toBeOkResponse();
-        expect(getResponse.data!.goose_mode).toBe('approve');
+        expect(getResponse.data!.mesmile_mode).toBe('approve');
       } finally {
         // Restore default so subsequent tests don't inherit approve mode
         await upsertConfig({
@@ -162,7 +162,7 @@ extensions:
       }
     });
 
-    it('should update goose_mode on an active session via /agent/update_session', async () => {
+    it('should update mesmile_mode on an active session via /agent/update_session', async () => {
       const startResponse = await startAgent({
         client: ctx.client,
         body: { working_dir: os.tmpdir() },
@@ -172,7 +172,7 @@ extensions:
 
       const updateResponse = await updateSession({
         client: ctx.client,
-        body: { session_id: sessionId, goose_mode: 'approve' },
+        body: { session_id: sessionId, mesmile_mode: 'approve' },
       });
       expect(updateResponse.response).toBeOkResponse();
 
@@ -181,10 +181,10 @@ extensions:
         path: { session_id: sessionId },
       });
       expect(getResponse.response).toBeOkResponse();
-      expect(getResponse.data!.goose_mode).toBe('approve');
+      expect(getResponse.data!.mesmile_mode).toBe('approve');
     });
 
-    it('should preserve goose_mode after provider swap via /agent/update_provider', async (testContext) => {
+    it('should preserve mesmile_mode after provider swap via /agent/update_provider', async (testContext) => {
       const configResponse = await readConfig({
         client: ctx.client,
         body: { key: 'GOOSE_PROVIDER', is_secret: false },
@@ -210,7 +210,7 @@ extensions:
 
       const updateResponse = await updateSession({
         client: ctx.client,
-        body: { session_id: sessionId, goose_mode: 'approve' },
+        body: { session_id: sessionId, mesmile_mode: 'approve' },
       });
       expect(updateResponse.response).toBeOkResponse();
 
@@ -229,7 +229,7 @@ extensions:
         path: { session_id: sessionId },
       });
       expect(getResponse.response).toBeOkResponse();
-      expect(getResponse.data!.goose_mode).toBe('approve');
+      expect(getResponse.data!.mesmile_mode).toBe('approve');
     });
   });
 

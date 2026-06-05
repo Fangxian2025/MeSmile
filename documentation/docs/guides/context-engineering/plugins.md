@@ -120,7 +120,7 @@ Installed and manually placed user plugins use the same user plugins directory. 
 Install a plugin from a git repository with:
 
 ```bash
-goose plugin install https://github.com/example/my-goose-plugin.git
+goose plugin install https://github.com/example/my-mesmile-plugin.git
 ```
 
 The install command clones the repository, detects the plugin format, copies it into the plugins directory, and reports the imported components.
@@ -129,7 +129,7 @@ Example output:
 
 ```text
 ✓ Installed open-plugins plugin 'my-plugin' (1.0.0)
-  Source: https://github.com/example/my-goose-plugin.git
+  Source: https://github.com/example/my-mesmile-plugin.git
   Location: /Users/you/.agents/plugins/my-plugin
   Imported skills:
     - my-plugin:review
@@ -141,7 +141,7 @@ Example output:
 To let goose check a plugin for updates automatically, install it with `--auto-update`:
 
 ```bash
-goose plugin install --auto-update https://github.com/example/my-goose-plugin.git
+goose plugin install --auto-update https://github.com/example/my-mesmile-plugin.git
 ```
 
 When auto-update is enabled, goose checks that plugin for updates before plugin skills are loaded. Auto-update checks are rate-limited, so goose does not clone the repository on every session start.
@@ -172,7 +172,7 @@ The update command fetches the plugin from its original git source, replaces the
 
 To disable a plugin globally, add its name to `disabledPlugins` in your user goose settings file:
 
-```json title="~/.config/goose/settings.json"
+```json title="~/.config/mesmile/settings.json"
 {
   "disabledPlugins": ["my-plugin"]
 }
@@ -181,13 +181,13 @@ To disable a plugin globally, add its name to `disabledPlugins` in your user goo
 For project-specific settings, use:
 
 ```text
-<project>/.config/goose/settings.json
+<project>/.config/mesmile/settings.json
 ```
 
 For local-only project settings that should not be shared with teammates, use:
 
 ```text
-<project>/.config/goose/settings.local.json
+<project>/.config/mesmile/settings.local.json
 ```
 
 A disabled plugin is skipped during plugin discovery, so its skills are not loaded and its hooks do not run.
@@ -198,12 +198,12 @@ goose supports these plugin formats:
 
 | Format | Common files | Notes |
 |---|---|---|
-| Open Plugins | `plugin.json`, `.plugin/plugin.json`, `.goose-plugin/plugin.json`, `skills/`, `hooks/hooks.json` | Supports Open Plugins skills and hooks. |
+| Open Plugins | `plugin.json`, `.plugin/plugin.json`, `.mesmile-plugin/plugin.json`, `skills/`, `hooks/hooks.json` | Supports Open Plugins skills and hooks. |
 | Gemini extensions | `gemini-extension.json`, `skills/` | Supports skills from Gemini-style extension repositories. |
 
 For Open Plugins, imported skill names are namespaced with the plugin name, such as `my-plugin:review`. Use that full name when explicitly loading a plugin-provided skill. Gemini extension skills keep the skill name from `SKILL.md`; goose does not prefix them with the extension name.
 
-Open Plugins can use `plugin.json` at the plugin root, `.plugin/plugin.json`, or `.goose-plugin/plugin.json`. Hook-only Open Plugins can be discovered from `hooks/hooks.json`; if no manifest is present, goose infers the plugin name from the source or directory name.
+Open Plugins can use `plugin.json` at the plugin root, `.plugin/plugin.json`, or `.mesmile-plugin/plugin.json`. Hook-only Open Plugins can be discovered from `hooks/hooks.json`; if no manifest is present, goose infers the plugin name from the source or directory name.
 
 ## When to Use Plugins, Skills, or Hooks
 

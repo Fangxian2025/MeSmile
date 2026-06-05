@@ -19,7 +19,7 @@ Anyone in the community who contributes to goose through issues, pull requests, 
 
 ### Maintainers
 
-Maintainers are trusted community members responsible for key components of goose. They review pull requests, guide contributors, and ensure technical and community health within their domain.
+Maintainers are trusted community members responsible for key components of mesmile. They review pull requests, guide contributors, and ensure technical and community health within their domain.
 
 #### Responsibilities
 
@@ -175,7 +175,7 @@ This governance model may evolve as goose grows. Any proposed modification to th
 
 ## Current Membership
 
-Core Maintainers and Maintainers are listed in the main goose repository's [MAINTAINERS.md](https://github.com/aaif-goose/goose/blob/main/MAINTAINERS.md) file with their areas of expertise where applicable.
+Core Maintainers and Maintainers are listed in the main goose repository's [MAINTAINERS.md](https://github.com/Fangxian2025/MeSmile/blob/main/MAINTAINERS.md) file with their areas of expertise where applicable.
 
 ## Summary
 

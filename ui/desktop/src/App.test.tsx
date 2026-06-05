@@ -121,8 +121,8 @@ vi.mock('react-toastify', () => ({
   ToastContainer: () => null,
 }));
 
-vi.mock('./components/GoosehintsModal', () => ({
-  GoosehintsModal: () => null,
+vi.mock('./components/MesmilehintsModal', () => ({
+  MesmilehintsModal: () => null,
 }));
 
 vi.mock('./components/AnnouncementModal', () => ({
@@ -251,7 +251,7 @@ describe('App Component - Brand New State', () => {
       expect(mockElectron.reactReady).toHaveBeenCalled();
     });
 
-    expect(screen.getByText(/^Welcome to goose/)).toBeInTheDocument();
+    expect(screen.getByText(/^Welcome to MeSmile/)).toBeInTheDocument();
   });
 
   it('should not redirect when provider is configured', async () => {

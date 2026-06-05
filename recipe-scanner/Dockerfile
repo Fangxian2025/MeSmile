@@ -73,9 +73,9 @@ RUN useradd -m -u 1000 scanner && \
     mkdir -p /home/scanner/.local/share/goose && \
     mkdir -p /output && \
     mkdir -p /tmp/goose && \
-    mkdir -p /tmp/goose_home && \
+    mkdir -p /tmp/mesmile_home && \
     mkdir -p /tmp/training && \
-    chown -R scanner:scanner /home/scanner /output /tmp/goose /tmp/goose_home /tmp/training
+    chown -R scanner:scanner /home/scanner /output /tmp/goose /tmp/mesmile_home /tmp/training
 
 # Set capabilities on tcpdump to allow non-root network capture
 RUN setcap cap_net_raw,cap_net_admin=eip /usr/bin/tcpdump

@@ -46,7 +46,7 @@ To change your usage data collection preference:
     4. Your current telemetry status is shown. Select `Yes` to enable anonymous usage data collection or `No` to disable it.
     
     ```sh
-    ┌   goose-configure 
+    ┌   mesmile-configure 
     │
     ◇  What would you like to configure?
     │  goose settings 
@@ -60,7 +60,7 @@ To change your usage data collection preference:
     │  Yes 
     │
     └  Telemetry enabled - thank you for helping improve goose!
-    └  Configuration saved successfully to /Users/julesv/.config/goose/config.yaml
+    └  Configuration saved successfully to /Users/julesv/.config/mesmile/config.yaml
     ```
   </TabItem>
 </Tabs>

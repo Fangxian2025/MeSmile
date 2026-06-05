@@ -5,10 +5,10 @@ authors:
     - mic
 ---
 
-![local AI agent](goose-qwen-local.png)
+![local AI agent](mesmile-qwen-local.png)
 
 
-A couple of weeks back, [Qwen 3](https://qwenlm.github.io/blog/qwen3/) launched with a raft of capabilities and sizes. This model showed promise and even in very compact form, such as 8B parameters and 4bit quantization, was able to do tool calling successfully with goose. Even multi turn tool calling. 
+A couple of weeks back, [Qwen 3](https://qwenlm.github.io/blog/qwen3/) launched with a raft of capabilities and sizes. This model showed promise and even in very compact form, such as 8B parameters and 4bit quantization, was able to do tool calling successfully with mesmile. Even multi turn tool calling. 
 
 I haven't seen this work at such a scaled down model so far, so this is really impressive and bodes well for both this model, but also future open weight models both large and small.  I would expect the Qwen3 larger models work quite well on various tasks but even this small one I found useful.
 
@@ -23,7 +23,7 @@ For some time I have had a little helper function in my `~/.zshrc` file for comm
 command_not_found_handler() {
   local cmd="$*"
   echo "🪿:"
-  goose run -t "can you try to run this command please: $cmd"
+  mesmile run -t "can you try to run this command please: $cmd"
 }
 ```
 
@@ -36,7 +36,7 @@ With Qwen3 + Ollama running all locally with goose, it worked well enough I swit
 command_not_found_handler() {
   local cmd="$*"
   echo "🪿:"
-  GOOSE_PROVIDER=ollama GOOSE_MODEL=michaelneale/qwen3 goose run -t "can you try to run this command please: $cmd"
+  GOOSE_PROVIDER=ollama GOOSE_MODEL=michaelneale/qwen3 mesmile run -t "can you try to run this command please: $cmd"
 }
 ```
 
@@ -60,13 +60,13 @@ It would be interesting to try the larger models if, you have access to hardware
 <head>
   <meta property="og:title" content="Goose and Qwen3 for Local Execution" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/05/12/local-goose-qwen3" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/05/12/local-mesmile-qwen3" />
   <meta property="og:description" content="Run AI commands locally with Goose and Qwen3 for fast, offline tool execution" />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/goose-qwen-local-62d07cd240ff65cb99a6ef41a2c851a5.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/mesmile-qwen-local-62d07cd240ff65cb99a6ef41a2c851a5.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Goose and Qwen3 for Local Execution" />
   <meta name="twitter:description" content="Run AI commands locally with Goose and Qwen3 for fast, offline tool execution" />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/goose-qwen-local-62d07cd240ff65cb99a6ef41a2c851a5.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/mesmile-qwen-local-62d07cd240ff65cb99a6ef41a2c851a5.png" />
 </head>
 

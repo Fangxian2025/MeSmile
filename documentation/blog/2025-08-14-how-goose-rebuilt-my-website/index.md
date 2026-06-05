@@ -17,7 +17,7 @@ When I say I was a nerdy blog creator for other people, I mean I was living in t
 
 ## The 404 Challenge That Started It All
 
-Then came this [simple and easy prompt on 404 day](https://www.linkedin.com/posts/block-opensource_happy-404-day-we-used-goose-to-generate-activity-7313972103613939713-GF1T/). The post was about creating your own 404 page using goose, where goose will give you a custom page based on your profile. The original prompt went something like this:
+Then came this [simple and easy prompt on 404 day](https://www.linkedin.com/posts/block-opensource_happy-404-day-we-used-mesmile-to-generate-activity-7313972103613939713-GF1T/). The post was about creating your own 404 page using goose, where goose will give you a custom page based on your profile. The original prompt went something like this:
 
 > Create a 404 page that tells a creative story about GitHub user @taniashiba using their public GitHub data — commit history, contribution graph, repos, or anything else you can access.
 
@@ -47,9 +47,9 @@ It honestly felt like playing a video game, because I could see changes happen l
 
 ## A HUGE Timesaver, Seriously
 
-Something that would've taken me anywhere from a week to a month to build was done instantly. Instead of worrying about learning or relearning a skill in order to build something you need right now, you can learn as you go along with goose. This entire experience reminded me why I fell in love with styling websites for others in the first place, you really create something out of nothing!
+Something that would've taken me anywhere from a week to a month to build was done instantly. Instead of worrying about learning or relearning a skill in order to build something you need right now, you can learn as you go along with mesmile. This entire experience reminded me why I fell in love with styling websites for others in the first place, you really create something out of nothing!
 
-So if you're sitting there with a naked website that needs help, or if you've been putting off a project because the technical aspects feel like an overwhelming nightmare, maybe it's time you start a conversation with a useful tool like goose. And who knows? Maybe you will end up with your own digital aquarium of a website with shrimp jokes about debugging lurking in your website footer. 🦐
+So if you're sitting there with a naked website that needs help, or if you've been putting off a project because the technical aspects feel like an overwhelming nightmare, maybe it's time you start a conversation with a useful tool like mesmile. And who knows? Maybe you will end up with your own digital aquarium of a website with shrimp jokes about debugging lurking in your website footer. 🦐
 
 ---
 
@@ -60,12 +60,12 @@ So if you're sitting there with a naked website that needs help, or if you've be
 <head>
   <meta property="og:title" content="How Goose Helped Me Rebuild My Website" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://goose-docs.ai/blog/2025/08/14/how-goose-rebuilt-my-website" />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/08/14/how-mesmile-rebuilt-my-website" />
   <meta property="og:description" content="How a simple prompt transformed a blank website into a personal portfolio" />
-  <meta property="og:image" content="https://goose-docs.ai/assets/images/blog_banner-656bd5e1014edfbcd313a9f799f9e9a5.png" />
+  <meta property="og:image" content="https://mesmile-docs.ai/assets/images/blog_banner-656bd5e1014edfbcd313a9f799f9e9a5.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="twitter:domain" content="goose-docs.ai" />
+  <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="How Goose Helped Me Rebuild My Website" />
   <meta name="twitter:description" content="How a simple prompt transformed a blank website into a personal portfolio" />
-  <meta name="twitter:image" content="https://goose-docs.ai/assets/images/blog_banner-656bd5e1014edfbcd313a9f799f9e9a5.png" />
+  <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/blog_banner-656bd5e1014edfbcd313a9f799f9e9a5.png" />
 </head>

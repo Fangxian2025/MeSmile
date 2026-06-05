@@ -82,7 +82,7 @@ const i18n = defineMessages({
   },
   shareSessionDescription: {
     id: 'sessionHistory.shareModal.description',
-    defaultMessage: 'Share this session link to give others a read only view of your goose chat.',
+    defaultMessage: 'Share this session link to give others a read only view of your MeSmile chat.',
   },
   copy: {
     id: 'sessionHistory.copy',
@@ -249,7 +249,7 @@ const SessionHistoryView: React.FC<SessionHistoryViewProps> = ({
         session.total_tokens || 0
       );
 
-      const shareableLink = `goose://sessions/${shareToken}`;
+      const shareableLink = `mesmile://sessions/${shareToken}`;
       setShareLink(shareableLink);
       setIsShareModalOpen(true);
     } catch (error) {

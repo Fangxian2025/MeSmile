@@ -20,13 +20,13 @@ goose's architecture is designed for extensibility. Organizations can create "re
 │                        User Interfaces                          │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
 │  │  CLI        │  │  Desktop    │  │  Your Custom UI         │  │
-│  │  (goose-cli)│  │  (Electron) │  │  (web, mobile, etc.)    │  │
+│  │  (mesmile-cli)│  │  (Electron) │  │  (web, mobile, etc.)    │  │
 │  └──────┬──────┘  └──────┬──────┘  └────────────┬────────────┘  │
 └─────────┼────────────────┼──────────────────────┼───────────────┘
           │                │                      │
           ▼                ▼                      ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    goose-server (goosed)                        │
+│                    mesmile-server (mesmiled)                        │
 │         REST API for all goose functionality                    │
 └─────────────────────────────────────────────────────────────────┘
           │
@@ -49,7 +49,7 @@ goose's architecture is designed for extensibility. Organizations can create "re
 | Bundle custom MCP extensions | `config.yaml` extensions section, `ui/desktop/src/built-in-extensions.json`, `ui/desktop/src/components/settings/extensions/bundled-extensions.json` | Medium |
 | Modify system prompts | `crates/goose/src/prompts/` | Low |
 | Customize desktop branding | `ui/desktop/` (icons, names, colors) | Medium |
-| Build a new UI (web, mobile) | Integrate with `goose-server` REST API | High |
+| Build a new UI (web, mobile) | Integrate with `mesmile-server` REST API | High |
 | Create guided workflows | Recipes (YAML-based task definitions) | Low |
 | Build complex multi-step workflows | Recipes with sub-recipes and subagents | Medium |
 
@@ -58,7 +58,7 @@ goose's architecture is designed for extensibility. Organizations can create "re
 ### 1. Fork and Clone
 
 ```bash
-git clone https://github.com/YOUR_ORG/goose.git
+git clone https://github.com/YOUR_ORG/mesmile.git
 cd goose
 ```
 
@@ -154,7 +154,7 @@ GOOSE_MODEL: claude-sonnet-4-20250514
 2. **Inject secrets at install time** or via your MDM/configuration management:
 
 ```bash
-# Secrets are stored in system keyring or ~/.config/goose/secrets.yaml
+# Secrets are stored in system keyring or ~/.config/mesmile/secrets.yaml
 # if GOOSE_DISABLE_KEYRING=1
 goose configure set-secret ANTHROPIC_API_KEY "your-corporate-key"
 ```
@@ -165,7 +165,7 @@ goose configure set-secret ANTHROPIC_API_KEY "your-corporate-key"
 
 - Secret storage: `crates/goose/src/config/base.rs` (SecretStorage enum)
 - Keyring integration: Uses system keyring by default, file-based fallback available
-- Config file location: `~/.config/goose/config.yaml`
+- Config file location: `~/.config/mesmile/config.yaml`
 
 ---
 
@@ -230,7 +230,7 @@ extensions:
 ### Technical Details
 
 - Extension types: `crates/goose/src/agents/extension.rs` (ExtensionConfig enum)
-- Built-in MCP servers: `crates/goose-mcp/`
+- Built-in MCP servers: `crates/mesmile-mcp/`
 - Extension loading: `crates/goose/src/agents/extension_manager.rs`
 
 ---
@@ -283,7 +283,7 @@ Example:
 
 ```bash
 export GITHUB_OWNER="your-org"
-export GITHUB_REPO="your-goose-fork"
+export GITHUB_REPO="your-mesmile-fork"
 export GOOSE_BUNDLE_NAME="InsightStream-goose"
 ```
 
@@ -306,13 +306,13 @@ export GOOSE_BUNDLE_NAME="InsightStream-goose"
 
 goose provides two integration options for building custom UIs:
 
-### Option 1: REST API (goose-server)
+### Option 1: REST API (mesmile-server)
 
-Use goose-server for HTTP-based integrations (web apps, simple clients):
+Use mesmile-server for HTTP-based integrations (web apps, simple clients):
 
 ```bash
 # Start the server
-./target/release/goosed
+./target/release/mesmiled
 
 # API available at http://localhost:3000
 ```
@@ -352,7 +352,7 @@ ACP provides:
 goose acp --with-builtin developer,memory
 
 # Or programmatically
-cargo run -p goose-cli -- acp --with-builtin developer
+cargo run -p mesmile-cli -- acp --with-builtin developer
 ```
 
 **Key ACP methods**:
@@ -410,14 +410,14 @@ For the full ACP specification, see the [Agent Client Protocol documentation](ht
 
 ### Technical Details
 
-**REST API (goose-server)**:
-- Server implementation: `crates/goose-server/src/routes/`
+**REST API (mesmile-server)**:
+- Server implementation: `crates/mesmile-server/src/routes/`
 - OpenAPI generation: `just generate-openapi`
 - API client example: `ui/desktop/src/api/` (generated TypeScript client)
 
 **ACP**:
 - ACP server implementation: `crates/goose/src/acp/server.rs`
-- CLI integration: `crates/goose-cli/src/cli.rs` (Command::Acp)
+- CLI integration: `crates/mesmile-cli/src/cli.rs` (Command::Acp)
 - Protocol library: `agent-client-protocol` crate (Rust implementation of ACP)
 - Test client example: `test_acp_client.py`
 
@@ -461,8 +461,8 @@ activities:
   - "Find precedents for..."
 
 settings:
-  goose_provider: anthropic
-  goose_model: claude-sonnet-4-20250514
+  mesmile_provider: anthropic
+  mesmile_model: claude-sonnet-4-20250514
 ```
 
 2. **Customize the UI** to show only relevant features and use domain-appropriate language.
@@ -483,7 +483,7 @@ settings:
 
 ### Option 1: Declarative Provider (No Code)
 
-Create a JSON file in `~/.config/goose/custom_providers/` or bundle in your distribution:
+Create a JSON file in `~/.config/mesmile/custom_providers/` or bundle in your distribution:
 
 ```json
 {

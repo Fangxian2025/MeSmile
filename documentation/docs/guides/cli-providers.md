@@ -129,7 +129,7 @@ The Gemini CLI provider integrates with Google's [Gemini CLI tool](https://ai.go
    Or configure through the goose CLI using `goose configure`:
 
    ```bash
-   ┌   goose-configure 
+   ┌   mesmile-configure 
    │
    ◇  What would you like to configure?
    │  Configure Providers 
@@ -167,7 +167,7 @@ The Gemini CLI provider integrates with Google's [Gemini CLI tool](https://ai.go
    Or configure through the goose CLI using `goose configure`:
 
    ```bash
-   ┌   goose-configure
+   ┌   mesmile-configure
    │
    ◇  What would you like to configure?
    │  Configure Providers
@@ -202,7 +202,7 @@ The Gemini CLI provider integrates with Google's [Gemini CLI tool](https://ai.go
    Or configure through the goose CLI using `goose configure`:
 
    ```bash
-   ┌   goose-configure
+   ┌   mesmile-configure
    │
    ◇  What would you like to configure?
    │  Configure Providers
@@ -236,7 +236,7 @@ The Gemini CLI provider integrates with Google's [Gemini CLI tool](https://ai.go
    Or configure through the goose CLI using `goose configure`:
 
    ```bash
-   ┌   goose-configure 
+   ┌   mesmile-configure 
    │
    ◇  What would you like to configure?
    │  Configure Providers 

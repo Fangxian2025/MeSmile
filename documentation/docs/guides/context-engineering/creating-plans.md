@@ -65,7 +65,7 @@ goose Version:
   Version:          1.0.18
 
 goose Locations:
-  Config file:      /Users/alincoln/.config/goose/config.yaml
+  Config file:      /Users/alincoln/.config/mesmile/config.yaml
   Sessions dir:     /Users/alincoln/.local/share/goose/sessions
   Logs dir:         /Users/alincoln/.local/state/goose/logs
 
@@ -153,7 +153,7 @@ Let's return to the home construction example. While the plan includes hiring an
 ```
 - **Architectural Design**: Hire an architect to design the house, ensuring it meets your space requirements and is energy efficient. Consider factors like natural lighting, insulation, and window placement.
 ```
-If you exit plan mode while reviewing your construction plan, you can always resume it to continue working with goose. 
+If you exit plan mode while reviewing your construction plan, you can always resume it to continue working with mesmile. 
 
 ```
 ( O)> /plan hire an architect

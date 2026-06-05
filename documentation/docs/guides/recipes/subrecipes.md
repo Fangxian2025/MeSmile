@@ -53,7 +53,7 @@ This Code Review Pipeline example shows a main recipe that uses two subrecipes t
 
 **Usage:**
 ```bash
-goose run --recipe code-review-pipeline.yaml --params repository_path=/path/to/repo
+mesmile run --recipe code-review-pipeline.yaml --params repository_path=/path/to/repo
 ```
 
 **Main Recipe:**
@@ -169,7 +169,7 @@ This Smart Project Analyzer example shows conditional logic that chooses between
 
 **Usage:**
 ```bash
-goose run --recipe smart-analyzer.yaml --params repository_path=/path/to/project
+mesmile run --recipe smart-analyzer.yaml --params repository_path=/path/to/project
 ```
 
 **Main Recipe:**
@@ -302,7 +302,7 @@ This Travel Planner example shows how subrecipes can receive parameters from con
 
 **Usage:**
 ```bash
-goose run --recipe travel-planner.yaml
+mesmile run --recipe travel-planner.yaml
 ```
 
 **Main Recipe:**

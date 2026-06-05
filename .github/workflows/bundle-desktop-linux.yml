@@ -119,7 +119,7 @@ jobs:
         with:
           key: linux-${{ matrix.build-on }}-${{ matrix.variant }}
 
-      - name: Build goosed binary
+      - name: Build mesmiled binary
         env:
           RUST_LOG: debug
           RUST_BACKTRACE: 1
@@ -132,15 +132,15 @@ jobs:
             FEATURE_ARGS=(--features vulkan)
           fi
 
-          cargo build --release --target ${TARGET} -p goose-server "${FEATURE_ARGS[@]}"
+          cargo build --release --target ${TARGET} -p mesmile-server "${FEATURE_ARGS[@]}"
 
       - name: Copy binaries into Electron folder
         run: |
           echo "Copying binaries to ui/desktop/src/bin/"
           export TARGET="x86_64-unknown-linux-gnu"
           mkdir -p ui/desktop/src/bin
-          cp target/$TARGET/release/goosed ui/desktop/src/bin/
-          chmod +x ui/desktop/src/bin/goosed
+          cp target/$TARGET/release/mesmiled ui/desktop/src/bin/
+          chmod +x ui/desktop/src/bin/mesmiled
           ls -la ui/desktop/src/bin/
 
       - name: Cache pnpm dependencies
@@ -163,7 +163,7 @@ jobs:
 
       - name: Build Linux packages
         env:
-          GOOSE_DESKTOP_LINUX_VARIANT: ${{ matrix.variant }}
+          MESMILE_DESKTOP_LINUX_VARIANT: ${{ matrix.variant }}
         run: |
           source ./bin/activate-hermit
           cd ui/desktop
@@ -200,7 +200,7 @@ jobs:
         if: matrix.variant == 'standard'
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
         with:
-          name: Goose-linux-x64-deb
+          name: MeSmile-linux-x64-deb
           path: ui/desktop/out/make/deb/x64/*.deb
           if-no-files-found: error
 
@@ -208,7 +208,7 @@ jobs:
         if: matrix.variant == 'vulkan'
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
         with:
-          name: Goose-linux-x64-vulkan-deb
+          name: MeSmile-linux-x64-vulkan-deb
           path: ui/desktop/out/make/deb/x64/*-vulkan.deb
           if-no-files-found: error
 
@@ -216,7 +216,7 @@ jobs:
         if: matrix.variant == 'standard'
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
         with:
-          name: Goose-linux-x64-rpm
+          name: MeSmile-linux-x64-rpm
           path: ui/desktop/out/make/rpm/x64/*.rpm
           if-no-files-found: error
 
@@ -224,7 +224,7 @@ jobs:
         if: matrix.variant == 'vulkan'
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
         with:
-          name: Goose-linux-x64-vulkan-rpm
+          name: MeSmile-linux-x64-vulkan-rpm
           path: ui/desktop/out/make/rpm/x64/*-vulkan.rpm
           if-no-files-found: error
 
@@ -232,7 +232,7 @@ jobs:
         if: matrix.variant == 'standard'
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
         with:
-          name: Goose-linux-x64-flatpak
+          name: MeSmile-linux-x64-flatpak
           path: ui/desktop/out/make/flatpak/x86_64/*.flatpak
           if-no-files-found: error
 
@@ -240,6 +240,6 @@ jobs:
         if: matrix.variant == 'vulkan'
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
         with:
-          name: Goose-linux-x64-vulkan-flatpak
+          name: MeSmile-linux-x64-vulkan-flatpak
           path: ui/desktop/out/make/flatpak/x86_64/*-vulkan.flatpak
           if-no-files-found: error

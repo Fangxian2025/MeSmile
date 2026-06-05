@@ -25,7 +25,7 @@ PROVIDER_SECRETS = {
     "openrouter": ["OPENROUTER_API_KEY"],
 }
 
-CONTAINER_GOOSE_PATH_ROOT = "/installed-agent/goose-profile"
+CONTAINER_GOOSE_PATH_ROOT = "/installed-agent/mesmile-profile"
 CONTAINER_CONFIG_PATH = f"{CONTAINER_GOOSE_PATH_ROOT}/config/config.yaml"
 CONTAINER_RECIPE_PATH = "/installed-agent/harbor-recipe.yaml"
 CONTAINER_CA_BUNDLE_PATH = "/installed-agent/ca-certificates.crt"
@@ -46,22 +46,22 @@ class GooseBinaryAgent(Goose):
     def __init__(
         self,
         *args,
-        goose_binary: str,
+        mesmile_binary: str,
         config_yaml: str,
         extension_entries: list[dict[str, str]],
-        install_goose_runtime_deps: bool = False,
+        install_mesmile_runtime_deps: bool = False,
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
-        self.goose_binary = Path(goose_binary).expanduser().resolve()
+        self.mesmile_binary = Path(mesmile_binary).expanduser().resolve()
         self.config_yaml = config_yaml
         self.extension_entries = extension_entries
-        self.install_goose_runtime_deps = install_goose_runtime_deps
+        self.install_mesmile_runtime_deps = install_mesmile_runtime_deps
         self.ca_bundle_env_path: str | None = None
 
     @staticmethod
     def name() -> str:
-        return "goose-binary"
+        return "mesmile-binary"
 
     def get_version_command(self) -> str | None:
         return "/installed-agent/goose --version"
@@ -121,12 +121,12 @@ class GooseBinaryAgent(Goose):
         )
         self.ca_bundle_env_path = CONTAINER_CA_BUNDLE_PATH
 
-    async def _install_goose_runtime_deps(self, environment: BaseEnvironment) -> None:
+    async def _install_mesmile_runtime_deps(self, environment: BaseEnvironment) -> None:
         await self.exec_as_root(
             environment,
             command=(
                 "command -v apt-get >/dev/null 2>&1 || "
-                "(echo 'install_goose_runtime_deps requires apt-get in the task container' >&2; exit 1); "
+                "(echo 'install_mesmile_runtime_deps requires apt-get in the task container' >&2; exit 1); "
                 "apt-get update && "
                 "DEBIAN_FRONTEND=noninteractive apt-get install -y libgomp1"
             ),
@@ -151,13 +151,13 @@ class GooseBinaryAgent(Goose):
         )
 
     async def install(self, environment: BaseEnvironment) -> None:
-        if not self.goose_binary.is_file():
-            raise FileNotFoundError(f"Goose binary does not exist: {self.goose_binary}")
+        if not self.mesmile_binary.is_file():
+            raise FileNotFoundError(f"Goose binary does not exist: {self.mesmile_binary}")
 
-        await environment.upload_file(self.goose_binary, "/installed-agent/goose")
+        await environment.upload_file(self.mesmile_binary, "/installed-agent/goose")
         await self.exec_as_root(environment, command="chmod 755 /installed-agent/goose")
-        if self.install_goose_runtime_deps:
-            await self._install_goose_runtime_deps(environment)
+        if self.install_mesmile_runtime_deps:
+            await self._install_mesmile_runtime_deps(environment)
         await self._ensure_ca_bundle(environment)
 
         config_dir = f"{CONTAINER_GOOSE_PATH_ROOT}/config"
@@ -228,14 +228,14 @@ class GooseBinaryAgent(Goose):
                 f"goose run --recipe {shlex.quote(CONTAINER_RECIPE_PATH)} "
                 "--output-format stream-json "
                 + ((cli_flags + " ") if cli_flags else "")
-                + "2>&1 | stdbuf -oL tee /logs/agent/goose.txt"
+                + "2>&1 | stdbuf -oL tee /logs/agent/mesmile.txt"
             ),
             env=env,
         )
-        self._raise_on_fatal_goose_notification()
+        self._raise_on_fatal_mesmile_notification()
 
-    def _raise_on_fatal_goose_notification(self) -> None:
-        log_path = self.logs_dir / "goose.txt"
+    def _raise_on_fatal_mesmile_notification(self) -> None:
+        log_path = self.logs_dir / "mesmile.txt"
         if not log_path.is_file():
             return
         log_text = log_path.read_text(errors="replace")
@@ -286,7 +286,7 @@ class GooseBinaryAgent(Goose):
 
     def populate_context_post_run(self, context: AgentContext) -> None:
         super().populate_context_post_run(context)
-        txt_path = self.logs_dir / "goose.txt"
+        txt_path = self.logs_dir / "mesmile.txt"
         if not txt_path.exists():
             return
         log_text = txt_path.read_text()

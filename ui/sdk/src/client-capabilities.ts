@@ -1,7 +1,7 @@
 import type { GooseMcpHostCapabilities } from "./mcp-apps.js";
 
 export interface GooseClientCapabilitiesMeta {
-  goose?: {
+  mesmile?: {
     mcpHostCapabilities?: GooseMcpHostCapabilities;
     customNotifications?: boolean;
   };

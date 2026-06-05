@@ -101,12 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateInstallLink(server) {
         if (server.is_builtin) {
             const queryParams = [
-                'cmd=goosed',
+                'cmd=mesmiled',
                 'arg=mcp',
                 `arg=${encodeURIComponent(server.id)}`,
                 `description=${encodeURIComponent(server.id)}`
             ].join('&');
-            return `goose://extension?${queryParams}`;
+            return `mesmile://extension?${queryParams}`;
         }
 
         // Handle the case where the command is a URL
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ),
             ].join("&");
         
-            return `goose://extension?${queryParams}`;
+            return `mesmile://extension?${queryParams}`;
         }
 
         const parts = server.command.split(" ");
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ),
         ].join("&");
 
-        return `goose://extension?${queryParams}`;
+        return `mesmile://extension?${queryParams}`;
     }
 
     function displayGeneratedLink(link) {
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         id: "example-extension",
         name: "Example Extension",
         description: "An example Goose extension",
-        command: "npx @gooseai/example-extension",
+        command: "npx @mesmileai/example-extension",
         environmentVariables: [
             {
                 name: "API_KEY",

@@ -78,8 +78,8 @@ You can turn your current goose session into a reusable recipe that includes the
    activities:                    # Example prompts to display in the Desktop app
    - $activities
    settings:                      # Additional settings
-     goose_provider: $provider    # Provider to use for this recipe
-     goose_model: $model          # Specific model to use for this recipe
+     mesmile_provider: $provider    # Provider to use for this recipe
+     mesmile_model: $model          # Specific model to use for this recipe
      temperature: $temperature    # Model temperature setting for this recipe (0.0 to 1.0)
    retry:                         # Automated retry logic with success validation
      max_retries: $max_retries    # Maximum number of retry attempts
@@ -126,8 +126,8 @@ You can turn your current goose session into a reusable recipe that includes the
    - "Check test coverage against {{ test_coverage }}% requirement"
    - "Verify {{ style_guide }} compliance"
    settings:                     
-     goose_provider: "anthropic"   
-     goose_model: "claude-3-7-sonnet-latest"          
+     mesmile_provider: "anthropic"   
+     mesmile_model: "claude-3-7-sonnet-latest"          
      temperature: 0.7 
    parameters:
    - key: project_name
@@ -162,7 +162,7 @@ You can turn your current goose session into a reusable recipe that includes the
 
 
   <TabItem value="generator" label="Recipe Generator">
-    Use the online [Recipe Generator](https://goose-docs.ai/recipe-generator) tool to create a recipe. First choose your preferred format:
+    Use the online [Recipe Generator](https://mesmile-docs.ai/recipe-generator) tool to create a recipe. First choose your preferred format:
 
     - **URL Format**: Generates a shareable link that opens a session in goose Desktop
     - **YAML Format**: Generates YAML content that you can save to file and then run in goose CLI
@@ -283,7 +283,7 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
        You'll see the following prompts:
 
        ```sh
-       ┌  goose-configure 
+       ┌  mesmile-configure 
        │
        ◆  What would you like to configure?
        │  ○ Configure Providers 
@@ -306,7 +306,7 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
        │  ● goose recipe github repo (goose will pull recipes from this repo if not found locally.)
        // highlight-end
        └  
-       ┌  goose-configure 
+       ┌  mesmile-configure 
        │
        ◇  What would you like to configure?
        │  goose settings 
@@ -314,9 +314,9 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
        ◇  What setting would you like to configure?
        │  goose recipe github repo 
        │
-       ◆  Enter your goose recipe GitHub repo (owner/repo): eg: my_org/goose-recipes
+       ◆  Enter your goose recipe GitHub repo (owner/repo): eg: my_org/mesmile-recipes
        // highlight-start
-       │  squareup/goose-recipes (default)
+       │  squareup/mesmile-recipes (default)
        // highlight-end
        └  
        ```
@@ -326,7 +326,7 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
      <TabItem value="config" label="Using config file">
 
        Add to your config file:
-       ```yaml title="~/.config/goose/config.yaml"
+       ```yaml title="~/.config/mesmile/config.yaml"
        GOOSE_RECIPE_GITHUB_REPO: "owner/repo"
        ```
 
@@ -338,20 +338,20 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
    <Tabs groupId="interface">
      <TabItem value="local" label="Local Recipe" default>
 
-       **Basic Usage** - Run once and exit (see [run options](/docs/guides/goose-cli-commands#run-options) and [recipe commands](/docs/guides/goose-cli-commands#recipe) for more):
+       **Basic Usage** - Run once and exit (see [run options](/docs/guides/mesmile-cli-commands#run-options) and [recipe commands](/docs/guides/mesmile-cli-commands#recipe) for more):
        ```sh
        # Using recipe file in current directory or [`GOOSE_RECIPE_PATH`](/docs/guides/environment-variables#recipe-configuration) directories
-       goose run --recipe recipe.yaml
+       mesmile run --recipe recipe.yaml
 
        # Using full path
-       goose run --recipe ./recipes/my-recipe.yaml
+       mesmile run --recipe ./recipes/my-recipe.yaml
        ```
 
-       **Preview Recipe** - Use the [`explain`](/docs/guides/goose-cli-commands#run-options) command to view details before running:
+       **Preview Recipe** - Use the [`explain`](/docs/guides/mesmile-cli-commands#run-options) command to view details before running:
  
        **Interactive Mode** - Start an interactive session:
        ```sh
-       goose run --recipe recipe.yaml --interactive
+       mesmile run --recipe recipe.yaml --interactive
        ```
        The interactive mode will prompt for required values:
        ```sh
@@ -362,11 +362,11 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
        │ PEP8
        ```
 
-       **With Parameters** - Supply parameter values when running recipes. See the [`run` command documentation](/docs/guides/goose-cli-commands#run-options) for detailed examples and options.
+       **With Parameters** - Supply parameter values when running recipes. See the [`run` command documentation](/docs/guides/mesmile-cli-commands#run-options) for detailed examples and options.
 
        Basic example:
        ```sh
-       goose run --recipe recipe.yaml --params language=Python
+       mesmile run --recipe recipe.yaml --params language=Python
        ```
 
        **Slash Command** - Enter a [custom slash command](/docs/guides/context-engineering/slash-commands) in any goose chat session
@@ -377,10 +377,10 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
 
        Once you've configured your GitHub repository, you can run recipes by name:
 
-       **Basic Usage** - Run recipes from your configured repo using the recipe name that matches its directory (see [run options](/docs/guides/goose-cli-commands#run-options) and [recipe commands](/docs/guides/goose-cli-commands#recipe) for more):
+       **Basic Usage** - Run recipes from your configured repo using the recipe name that matches its directory (see [run options](/docs/guides/mesmile-cli-commands#run-options) and [recipe commands](/docs/guides/mesmile-cli-commands#recipe) for more):
 
        ```sh
-       goose run --recipe recipe-name
+       mesmile run --recipe recipe-name
        ```
 
        For example, if your repository structure is:
@@ -394,14 +394,14 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
        
        You would run the following command to run the code review recipe:
        ```sh
-       goose run --recipe code-review
+       mesmile run --recipe code-review
        ```
 
-      **Preview Recipe** - Use the [`explain`](/docs/guides/goose-cli-commands#run-options) command to view details before running:
+      **Preview Recipe** - Use the [`explain`](/docs/guides/mesmile-cli-commands#run-options) command to view details before running:
 
        **Interactive Mode** - With parameter prompts:
        ```sh
-       goose run --recipe code-review --interactive
+       mesmile run --recipe code-review --interactive
        ```
        The interactive mode will prompt for required values:
        ```sh
@@ -412,7 +412,7 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
        │ Python
        ```
 
-       **With Parameters** - Supply parameter values when running recipes. See the [`run` command documentation](/docs/guides/goose-cli-commands#run-options) for detailed examples and options.
+       **With Parameters** - Supply parameter values when running recipes. See the [`run` command documentation](/docs/guides/mesmile-cli-commands#run-options) for detailed examples and options.
 
      </TabItem>
    </Tabs>
@@ -444,7 +444,7 @@ You can customize how goose generates recipes by editing the `recipe.md` [prompt
    ```
 
    :::info
-   If you want to validate a recipe you just created, you need to [exit the session](/docs/guides/sessions/session-management#exit-session) before running the [`validate` subcommand](/docs/guides/goose-cli-commands#recipe).
+   If you want to validate a recipe you just created, you need to [exit the session](/docs/guides/sessions/session-management#exit-session) before running the [`validate` subcommand](/docs/guides/mesmile-cli-commands#recipe).
    :::
 
    Recipe validation can be useful for:
@@ -510,7 +510,7 @@ You can share a recipe with Desktop or CLI users by sending the recipe file dire
 
   Exporting or copying recipe content is only available through the Desktop, but you can copy local recipe files directly.
 
-  CLI users can run a shared recipe file using `goose run --recipe <FILE>` or open it directly in goose Desktop with `goose recipe open <FILE>`. See the [CLI Commands guide](/docs/guides/goose-cli-commands#recipe) for details.
+  CLI users can run a shared recipe file using `mesmile run --recipe <FILE>` or open it directly in goose Desktop with `goose recipe open <FILE>`. See the [CLI Commands guide](/docs/guides/mesmile-cli-commands#recipe) for details.
 
   </TabItem>
 </Tabs>
@@ -522,7 +522,7 @@ Automate goose recipes by running them on a schedule. When creating a schedule, 
 - **Name**: A descriptive name for the schedule
 - **Source**: The recipe to run
 - **Execution mode**: Whether the recipe runs in the background (no window, results saved) or foreground (opens window if goose Desktop is running, otherwise runs in background)
-- **Frequency and time**: When to run the recipe (e.g. every 20 minutes, weekly at 10 AM on Friday). Your selection is converted into a [cron expression](https://en.wikipedia.org/wiki/Cron#Cron_expression) used by goose.
+- **Frequency and time**: When to run the recipe (e.g. every 20 minutes, weekly at 10 AM on Friday). Your selection is converted into a [cron expression](https://en.wikipedia.org/wiki/Cron#Cron_expression) used by mesmile.
 
 **Schedule from Recipe Library:**
 
@@ -561,7 +561,7 @@ At the bottom of the `Schedule Details` page you can view the list of sessions c
   ```
   You can use either a 5, 6, or 7-digit cron expression for full scheduling precision, following the format "seconds minutes hours day-of-month month day-of-week year".
 
-  See the [`schedule` command documentation](/docs/guides/goose-cli-commands.md#schedule) for detailed examples and options.
+  See the [`schedule` command documentation](/docs/guides/mesmile-cli-commands.md#schedule) for detailed examples and options.
 </TabItem>
 </Tabs>
 
@@ -668,7 +668,7 @@ response:
 **Example automation usage:**
 ```bash
 # Run recipe and extract JSON output
-goose run --recipe analysis.yaml --params project_path=./src > output.log
+mesmile run --recipe analysis.yaml --params project_path=./src > output.log
 RESULT=$(tail -n 1 output.log)
 echo "Analysis Status: $(echo $RESULT | jq -r '.build_status')"
 echo "Issues Found: $(echo $RESULT | jq -r '.tests_failed')"

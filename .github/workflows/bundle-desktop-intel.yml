@@ -73,11 +73,11 @@ jobs:
           key: intel-macos-deployment-target-12
 
 
-      - name: Build goose-server for Intel macOS (x86_64)
+      - name: Build mesmile-server for Intel macOS (x86_64)
         run: |
           source ./bin/activate-hermit
           rustup target add x86_64-apple-darwin
-          cargo build --release -p goose-server --target x86_64-apple-darwin
+          cargo build --release -p mesmile-server --target x86_64-apple-darwin
 
 
 
@@ -97,7 +97,7 @@ jobs:
 
       - name: Copy binaries into Electron folder
         run: |
-          cp target/x86_64-apple-darwin/release/goosed ui/desktop/src/bin/goosed
+          cp target/x86_64-apple-darwin/release/mesmiled ui/desktop/src/bin/mesmiled
 
       - name: Cache pnpm dependencies
         uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7  # v5.0.2
@@ -170,26 +170,26 @@ jobs:
       - name: Upload Desktop artifact
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
         with:
-          name: Goose-darwin-x64
-          path: ui/desktop/out/Goose-darwin-x64/Goose_intel_mac.zip
+          name: MeSmile-darwin-x64
+          path: ui/desktop/out/MeSmile-darwin-x64/MeSmile_intel_mac.zip
 
       - name: Quick launch test (macOS)
         if: ${{ inputs.quick_test }}
         run: |
           # Ensure no quarantine attributes (if needed)
-          xattr -cr "ui/desktop/out/Goose-darwin-x64/Goose.app"
-          echo "Opening Goose.app..."
-          open -g "ui/desktop/out/Goose-darwin-x64/Goose.app"
+          xattr -cr "ui/desktop/out/MeSmile-darwin-x64/MeSmile.app"
+          echo "Opening MeSmile.app..."
+          open -g "ui/desktop/out/MeSmile-darwin-x64/MeSmile.app"
 
           # Give the app a few seconds to start and write logs
           sleep 5
 
           # Check if it's running
-          if pgrep -f "Goose.app/Contents/MacOS/Goose" > /dev/null; then
+          if pgrep -f "MeSmile.app/Contents/MacOS/MeSmile" > /dev/null; then
             echo "App appears to be running."
           else
             echo "App did not stay open. Possible crash or startup error."
             exit 1
           fi
           # Kill the app to clean up
-          pkill -f "Goose.app/Contents/MacOS/Goose"
+          pkill -f "MeSmile.app/Contents/MacOS/MeSmile"

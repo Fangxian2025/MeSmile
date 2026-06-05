@@ -46,7 +46,7 @@ Let's begin 🚀
         Run the following command to install goose:
 
         ```sh
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash
         ```
       </TabItem>
     </Tabs>
@@ -71,7 +71,7 @@ Let's begin 🚀
         Run the following command to install the goose CLI on Linux:
 
         ```sh
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash
         ```   
       </TabItem>
     </Tabs>
@@ -93,7 +93,7 @@ Let's begin 🚀
         Run the following command in **Git Bash**, **MSYS2**, or **PowerShell** to install the goose CLI natively on Windows:
 
         ```bash
-        curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | bash
+        curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash
         ```
         
         Learn about prerequisites in the [installation guide](/docs/getting-started/installation).
@@ -124,7 +124,7 @@ goose works with [supported LLM providers](/docs/getting-started/providers) that
   goose will open a browser for you to authenticate with Tetrate, or create a new account if you don't have one already. When you return to the goose desktop app, you're ready to begin your first session.
       
   :::info Free Credits Offer
-  You'll receive $10 in free credits the first time you automatically authenticate with Tetrate through goose. This offer is available to both new and existing Tetrate users.
+  You'll receive $10 in free credits the first time you automatically authenticate with Tetrate through mesmile. This offer is available to both new and existing Tetrate users.
   :::
     
   </TabItem>
@@ -138,7 +138,7 @@ goose works with [supported LLM providers](/docs/getting-started/providers) that
   2. Select `Configure Providers` from the menu and press Enter.
 
     ```
-   ┌   goose-configure 
+   ┌   mesmile-configure 
    │
    ◆  What would you like to configure?
    │  ● Configure Providers (Change provider or update credentials)
@@ -151,7 +151,7 @@ goose works with [supported LLM providers](/docs/getting-started/providers) that
    3. Choose a model provider. For this quickstart, select `Tetrate Agent Router Service` and press Enter. Tetrate provides access to multiple AI models with built-in rate limiting and automatic failover. For information about other providers, see [Configure LLM Provider](/docs/getting-started/providers).
 
    ```
-   ┌   goose-configure 
+   ┌   mesmile-configure 
    │
    ◇  What would you like to configure?
    │  Configure Providers 
@@ -169,13 +169,13 @@ goose works with [supported LLM providers](/docs/getting-started/providers) that
    └  
    ```
     :::info Free Credits Offer
-    You'll receive $10 in free credits the first time you automatically authenticate with Tetrate through goose. This offer is available to both new and existing Tetrate users.
+    You'll receive $10 in free credits the first time you automatically authenticate with Tetrate through mesmile. This offer is available to both new and existing Tetrate users.
     :::
 
    4. Enter your API key (and any other configuration details) when prompted.
 
    ```
-   ┌   goose-configure 
+   ┌   mesmile-configure 
    │
    ◇  What would you like to configure?
    │  Configure Providers 
@@ -215,7 +215,7 @@ goose works with [supported LLM providers](/docs/getting-started/providers) that
 </Tabs>
 
 ## Start Session
-Sessions are single, continuous conversations between you and goose. Let's start one.
+Sessions are single, continuous conversations between you and mesmile. Let's start one.
 
 <Tabs groupId="interface">
     <TabItem value="ui" label="goose Desktop" default>
@@ -224,7 +224,7 @@ Sessions are single, continuous conversations between you and goose. Let's start
         Type your questions, tasks, or instructions directly into the input field, and goose will immediately get to work.
     </TabItem>
     <TabItem value="cli" label="goose CLI">
-        1. Make an empty directory (e.g. `goose-demo`) and navigate to that directory from the terminal.
+        1. Make an empty directory (e.g. `mesmile-demo`) and navigate to that directory from the terminal.
         2. To start a new session, run:
         ```sh
         goose session
@@ -267,7 +267,7 @@ While you're able to manually navigate to your working directory and open the HT
         ```
         3. Choose `Add Extension` > `Built-in Extension` > `Computer Controller`, and set the timeout to 300s. This extension enables webscraping, file caching, and automations.
         ```
-        ┌   goose-configure
+        ┌   mesmile-configure
         │
         ◇  What would you like to configure?
         │  Add Extension
