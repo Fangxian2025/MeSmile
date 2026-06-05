@@ -1,0 +1,148 @@
+name: Build and Release MeSmile CLI
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Create a GitHub Release'
+        type: boolean
+        default: false
+
+jobs:
+  build-cli:
+    name: Build CLI for ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: macOS-ARM64
+            os: macos-latest
+            target: aarch64-apple-darwin
+            ext: ''
+          
+          - name: macOS-x64
+            os: macos-15-intel
+            target: x86_64-apple-darwin
+            ext: ''
+
+          - name: Linux-x64
+            os: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            ext: ''
+
+          - name: Windows-x64
+            os: windows-latest
+            target: x86_64-pc-windows-msvc
+            ext: '.exe'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+
+      - name: Setup Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@46268bd060767258de96ed93c1251119784f2ab6 # v1.16.1
+
+      - name: Add target
+        run: rustup target add ${{ matrix.config.target }}
+
+      - name: Install dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libssl-dev libdbus-1-dev libxcb1-dev cmake
+
+      - name: Cache Cargo artifacts
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4  # v2.9.1
+
+      - name: Build
+        run: cargo build --release --target ${{ matrix.config.target }} -p mesmile-cli
+
+      - name: Package (macOS/Linux)
+        if: runner.os != 'Windows'
+        run: |
+          mkdir -p release-pkg
+          cp target/${{ matrix.config.target }}/release/mesmile${{ matrix.config.ext }} release-pkg/
+          cd release-pkg
+          tar -czf ../mesmile-${{ matrix.config.target }}.tar.gz mesmile${{ matrix.config.ext }}
+          echo "ASSET=mesmile-${{ matrix.config.target }}.tar.gz" >> $GITHUB_ENV
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path release-pkg -Force
+          Copy-Item "target/${{ matrix.config.target }}/release/mesmile${{ matrix.config.ext }}" -Destination release-pkg/
+          Compress-Archive -Path release-pkg/mesmile.exe -DestinationPath mesmile-${{ matrix.config.target }}.zip
+          echo "ASSET=mesmile-${{ matrix.config.target }}.zip" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f  # v6.0.0
+        with:
+          name: mesmile-${{ matrix.config.name }}
+          path: ${{ env.ASSET }}
+          retention-days: 7
+
+  create-release:
+    name: Create GitHub Release
+    needs: build-cli
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.create_release == 'true' || startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Get version
+        id: version
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          else
+            echo "VERSION=v1.0.0" >> $GITHUB_ENV
+          fi
+
+      - name: Create Release
+        uses: softprops/action-gh-release@c95fe6059399686bdb0f4ee5bf3b5f4476e2b402  # v2.2.1
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: "MeSmile ${{ env.VERSION }}"
+          body: |
+            ## MeSmile CLI - ${{ env.VERSION }}
+            
+            Your open source AI agent, forked from Goose.
+            
+            ### Installation
+            
+            **macOS:**
+            ```bash
+            curl -L https://github.com/Fangxian2025/MeSmile/releases/download/${{ env.VERSION }}/mesmile-aarch64-apple-darwin.tar.gz -o mesmile.tar.gz
+            tar -xzf mesmile.tar.gz
+            ./mesmile
+            ```
+            
+            **Linux:**
+            ```bash
+            curl -L https://github.com/Fangxian2025/MeSmile/releases/download/${{ env.VERSION }}/mesmile-x86_64-unknown-linux-gnu.tar.gz -o mesmile.tar.gz
+            tar -xzf mesmile.tar.gz
+            ./mesmile
+            ```
+            
+            **Windows:**
+            Download `mesmile-x86_64-pc-windows-msvc.zip` and extract.
+          draft: false
+          prerelease: false
+          files: |
+            artifacts/**/*
