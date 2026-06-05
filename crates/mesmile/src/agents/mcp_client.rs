@@ -322,7 +322,7 @@ impl ClientHandler for GooseClient {
         let system_prompt = params
             .system_prompt
             .as_deref()
-            .unwrap_or("You are a general-purpose AI agent called goose");
+            .unwrap_or("You are a general-purpose AI agent called MeSmile");
 
         let model_config = provider.get_model_config();
         let (response, usage) = provider
@@ -1069,7 +1069,7 @@ mod tests {
                 host_info: Some(GooseMcpHostInfo {
                     explicit_extensions: true,
                     extensions: ExtensionCapabilities::new(),
-                    client_name: Some("goose2".to_string()),
+                    client_name: Some("MeSmile2".to_string()),
                     client_version: Some("0.1.0".to_string()),
                 }),
             },
@@ -1100,7 +1100,7 @@ mod tests {
                 host_info: Some(GooseMcpHostInfo {
                     explicit_extensions: true,
                     extensions: default_mcp_apps_ui_extensions(),
-                    client_name: Some("goose2".to_string()),
+                    client_name: Some("MeSmile2".to_string()),
                     client_version: Some("0.1.0".to_string()),
                 }),
             },
@@ -1128,7 +1128,7 @@ mod tests {
                 host_info: Some(GooseMcpHostInfo {
                     explicit_extensions: false,
                     extensions: ExtensionCapabilities::new(),
-                    client_name: Some("goose2".to_string()),
+                    client_name: Some("MeSmile2".to_string()),
                     client_version: Some("0.1.0".to_string()),
                 }),
             },

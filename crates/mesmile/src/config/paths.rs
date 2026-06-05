@@ -16,14 +16,14 @@ impl Paths {
             }
         } else {
             // NOTE: "Block" is kept here for backwards compatibility with existing
-            // user config/data directories (e.g. ~/Library/Application Support/Block/goose/).
+            // user config/data directories (e.g. ~/Library/Application Support/Fangxian2025/MeSmile/).
             // Changing this would orphan existing installations.
             let strategy = choose_app_strategy(AppStrategyArgs {
                 top_level_domain: "Block".to_string(),
                 author: "Block".to_string(),
-                app_name: "goose".to_string(),
+                app_name: "MeSmile".to_string(),
             })
-            .expect("goose requires a home dir");
+            .expect("MeSmile requires a home dir");
 
             match dir_type {
                 DirType::Config => strategy.config_dir(),

@@ -15,7 +15,7 @@ use agent_client_protocol::schema::{
 };
 use agent_client_protocol::{Agent, Client, ConnectionTo};
 use async_trait::async_trait;
-use goose::config::PermissionManager;
+use mesmile::config::PermissionManager;
 use mesmile_test_support::{ExpectedSessionId, IgnoreSessionId};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;

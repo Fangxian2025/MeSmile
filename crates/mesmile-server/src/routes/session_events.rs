@@ -11,9 +11,9 @@ use axum::{
 };
 use bytes::Bytes;
 use futures::{stream::StreamExt, Stream};
-use goose::agents::{AgentEvent, SessionConfig};
-use goose::conversation::message::Message;
-use goose::conversation::Conversation;
+use mesmile::agents::{AgentEvent, SessionConfig};
+use mesmile::conversation::message::Message;
+use mesmile::conversation::Conversation;
 use serde::{Deserialize, Serialize};
 use std::{
     convert::Infallible,
@@ -322,17 +322,17 @@ pub async fn session_reply(
     let is_elicitation_response = user_message.content.iter().any(|c| {
         matches!(
             c,
-            goose::conversation::message::MessageContent::ActionRequired(ar)
+            mesmile::conversation::message::MessageContent::ActionRequired(ar)
                 if matches!(
                     ar.data,
-                    goose::conversation::message::ActionRequiredData::ElicitationResponse { .. }
+                    mesmile::conversation::message::ActionRequiredData::ElicitationResponse { .. }
                 )
         )
     });
 
     if is_elicitation_response {
         let agent = state.get_agent_for_route(session_id.clone()).await?;
-        let session_config = goose::agents::types::SessionConfig {
+        let session_config = mesmile::agents::types::SessionConfig {
             id: session_id.clone(),
             schedule_id: session_data.schedule_id.clone(),
             max_turns: None,

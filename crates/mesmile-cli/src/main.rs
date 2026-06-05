@@ -22,8 +22,8 @@ async fn run() -> Result<()> {
     let result = cli().await;
 
     #[cfg(feature = "otel")]
-    if goose::otel::otlp::is_otlp_initialized() {
-        goose::otel::otlp::shutdown_otlp();
+    if mesmile::otel::otlp::is_otlp_initialized() {
+        mesmile::otel::otlp::shutdown_otlp();
     }
 
     result

@@ -3,10 +3,10 @@ use crate::state;
 use anyhow::Result;
 use axum::middleware;
 use axum_server::Handle;
-use goose::acp::server_factory::{AcpServer, AcpServerFactoryConfig};
-use goose::acp::transport::create_acp_router;
-use goose::agents::GoosePlatform;
-use goose::config::paths::Paths;
+use mesmile::acp::server_factory::{AcpServer, AcpServerFactoryConfig};
+use mesmile::acp::transport::create_acp_router;
+use mesmile::agents::GoosePlatform;
+use mesmile::config::paths::Paths;
 use mesmile_server::auth::{check_acp_token, check_token};
 #[cfg(any(feature = "rustls-tls", feature = "native-tls"))]
 use mesmile_server::tls::setup_tls;
@@ -47,7 +47,7 @@ pub async fn run() -> Result<()> {
     boot_marker("main entered");
     crate::logging::setup_logging(Some("mesmiled"))?;
 
-    goose::security::set_security_defaults();
+    mesmile::security::set_security_defaults();
 
     let settings = configuration::Settings::new()?;
 
@@ -69,8 +69,8 @@ pub async fn run() -> Result<()> {
         .allow_methods(Any)
         .allow_headers(Any);
 
-    // TODO(acp-migration): When ui/desktop launches `goose serve` directly,
-    // move any mesmiled-only ACP setup into the goose serve path before deleting
+    // TODO(acp-migration): When ui/desktop launches `mesmile serve` directly,
+    // move any mesmiled-only ACP setup into the mesmile serve path before deleting
     // this bridge. In particular, verify everything ACP currently gets from
     // mesmiled startup/AppState initialization, including builtin extension
     // registration and the desktop platform identity.
@@ -157,8 +157,8 @@ pub async fn run() -> Result<()> {
     }
 
     #[cfg(feature = "otel")]
-    if goose::otel::otlp::is_otlp_initialized() {
-        goose::otel::otlp::shutdown_otlp();
+    if mesmile::otel::otlp::is_otlp_initialized() {
+        mesmile::otel::otlp::shutdown_otlp();
     }
 
     info!("server shutdown complete");

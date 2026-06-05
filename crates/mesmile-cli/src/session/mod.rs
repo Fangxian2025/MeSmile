@@ -12,7 +12,7 @@ mod thinking;
 use crate::session::task_execution_display::{
     format_task_execution_notification, TASK_EXECUTION_NOTIFICATION_TYPE,
 };
-use goose::conversation::Conversation;
+use mesmile::conversation::Conversation;
 use std::io::Write;
 use std::str::FromStr;
 use tokio::signal::ctrl_c;
@@ -21,29 +21,29 @@ use tokio_util::task::AbortOnDropHandle;
 pub use self::export::message_to_markdown;
 pub use builder::{build_session, SessionBuilderConfig};
 use console::Color;
-use goose::agents::AgentEvent;
-use goose::agents::SUBAGENT_TOOL_REQUEST_TYPE;
-use goose::permission::permission_confirmation::PrincipalType;
-use goose::permission::Permission;
-use goose::permission::PermissionConfirmation;
-use goose::providers::base::Provider;
-use goose::utils::safe_truncate;
+use mesmile::agents::AgentEvent;
+use mesmile::agents::SUBAGENT_TOOL_REQUEST_TYPE;
+use mesmile::permission::permission_confirmation::PrincipalType;
+use mesmile::permission::Permission;
+use mesmile::permission::PermissionConfirmation;
+use mesmile::providers::base::Provider;
+use mesmile::utils::safe_truncate;
 
 use anyhow::{Context, Result};
 use completion::GooseCompleter;
-use goose::agents::extension::{Envs, ExtensionConfig, PLATFORM_EXTENSIONS};
-use goose::agents::types::RetryConfig;
-use goose::agents::{Agent, SessionConfig, COMPACT_TRIGGERS};
-use goose::config::extensions::name_to_key;
-use goose::config::{Config, GooseMode};
+use mesmile::agents::extension::{Envs, ExtensionConfig, PLATFORM_EXTENSIONS};
+use mesmile::agents::types::RetryConfig;
+use mesmile::agents::{Agent, SessionConfig, COMPACT_TRIGGERS};
+use mesmile::config::extensions::name_to_key;
+use mesmile::config::{Config, GooseMode};
 use input::InputResult;
 use rmcp::model::PromptMessage;
 use rmcp::model::ServerNotification;
 use rmcp::model::{ErrorCode, ErrorData};
 use strum::VariantNames;
 
-use goose::config::paths::Paths;
-use goose::conversation::message::{ActionRequiredData, Message, MessageContent};
+use mesmile::config::paths::Paths;
+use mesmile::conversation::message::{ActionRequiredData, Message, MessageContent};
 use rustyline::EditMode;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -281,7 +281,7 @@ impl CliSession {
     /// Parse a stdio extension command string into an ExtensionConfig
     /// Format: "ENV1=val1 ENV2=val2 command args..."
     pub fn parse_stdio_extension(extension_command: &str) -> Result<ExtensionConfig> {
-        let mut parts = goose::utils::split_command_args(extension_command)?;
+        let mut parts = mesmile::utils::split_command_args(extension_command)?;
         let mut envs = HashMap::new();
 
         while let Some(part) = parts.first() {
@@ -310,8 +310,8 @@ impl CliSession {
             args: parts,
             envs: Envs::new(envs),
             env_keys: Vec::new(),
-            description: goose::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
-            timeout: Some(goose::config::DEFAULT_EXTENSION_TIMEOUT),
+            description: mesmile::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+            timeout: Some(mesmile::config::DEFAULT_EXTENSION_TIMEOUT),
             bundled: None,
             available_tools: Vec::new(),
         })
@@ -345,7 +345,7 @@ impl CliSession {
             envs: Envs::new(HashMap::new()),
             env_keys: Vec::new(),
             headers: HashMap::new(),
-            description: goose::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+            description: mesmile::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
             timeout: Some(timeout),
             socket: None,
             bundled: None,
@@ -402,7 +402,7 @@ impl CliSession {
     pub async fn add_streamable_http_extension(&mut self, extension_url: String) -> Result<()> {
         let config = Self::parse_streamable_http_extension(
             &extension_url,
-            goose::config::DEFAULT_EXTENSION_TIMEOUT,
+            mesmile::config::DEFAULT_EXTENSION_TIMEOUT,
         );
         self.add_and_persist_extensions(vec![config]).await
     }
@@ -479,13 +479,13 @@ impl CliSession {
     /// Start an interactive session, optionally with an initial message
     pub async fn interactive(&mut self, prompt: Option<String>) -> Result<()> {
         self.agent
-            .emit_hook(goose::hooks::HookEvent::SessionStart, &self.session_id)
+            .emit_hook(mesmile::hooks::HookEvent::SessionStart, &self.session_id)
             .await;
 
         let result = self.run_interactive(prompt).await;
 
         self.agent
-            .emit_hook(goose::hooks::HookEvent::SessionEnd, &self.session_id)
+            .emit_hook(mesmile::hooks::HookEvent::SessionEnd, &self.session_id)
             .await;
 
         if result.is_ok() {
@@ -658,7 +658,7 @@ impl CliSession {
                     None => {
                         output::render_error(
                             "No editor found. Set one with:\n  \
-                                 goose configure set mesmile_prompt_editor \"vim\"\n  \
+                                 mesmile configure set mesmile_prompt_editor \"vim\"\n  \
                                  or set $VISUAL or $EDITOR in your shell.",
                         );
                     }
@@ -849,7 +849,7 @@ impl CliSession {
 
         let extensions = self.agent.get_extension_configs().await;
         let new_provider =
-            goose::providers::create(&current_provider_name, new_model_config, extensions)
+            mesmile::providers::create(&current_provider_name, new_model_config, extensions)
                 .await
                 .map_err(|e| anyhow::anyhow!("Failed to create provider: {e}"))?;
 
@@ -972,8 +972,8 @@ impl CliSession {
 
     async fn handle_list_skills(&mut self) -> Result<()> {
         use comfy_table::{presets, Cell, ContentArrangement, Table};
-        use goose::custom_requests::SourceType;
-        use goose::skills::list_installed_skills;
+        use mesmile::custom_requests::SourceType;
+        use mesmile::skills::list_installed_skills;
         let cwd = std::env::current_dir().unwrap_or_default();
         let skills = list_installed_skills(Some(&cwd));
 
@@ -1081,7 +1081,7 @@ impl CliSession {
                 if should_act {
                     output::render_act_on_plan();
                     self.run_mode = RunMode::Normal;
-                    // set goose mode: auto if that isn't already the case
+                    // set MeSmile mode: auto if that isn't already the case
                     let config = Config::global();
                     let curr_mesmile_mode = config.get_mesmile_mode().unwrap_or_default();
                     if curr_mesmile_mode != GooseMode::Auto {
@@ -1099,7 +1099,7 @@ impl CliSession {
                         .await?;
                     output::hide_thinking();
 
-                    // Reset run & goose mode
+                    // Reset run & MeSmile mode
                     if curr_mesmile_mode != GooseMode::Auto {
                         config.set_mesmile_mode(curr_mesmile_mode)?;
                     }
@@ -1122,14 +1122,14 @@ impl CliSession {
     /// Process a single message and exit
     pub async fn headless(&mut self, prompt: String) -> Result<()> {
         self.agent
-            .emit_hook(goose::hooks::HookEvent::SessionStart, &self.session_id)
+            .emit_hook(mesmile::hooks::HookEvent::SessionStart, &self.session_id)
             .await;
         let message = Message::user().with_text(&prompt);
         let result = self
             .process_message(message, CancellationToken::default(), false)
             .await;
         self.agent
-            .emit_hook(goose::hooks::HookEvent::SessionEnd, &self.session_id)
+            .emit_hook(mesmile::hooks::HookEvent::SessionEnd, &self.session_id)
             .await;
         result?;
         Ok(())
@@ -1534,7 +1534,7 @@ impl CliSession {
         println!();
     }
 
-    pub async fn get_session(&self) -> Result<goose::session::Session> {
+    pub async fn get_session(&self) -> Result<mesmile::session::Session> {
         self.agent
             .config
             .session_manager
@@ -1671,7 +1671,7 @@ impl CliSession {
     /// * `Result<PathBuf, String>` - The path the recipe was saved to or an error message
     fn save_recipe(
         &self,
-        recipe: &goose::recipe::Recipe,
+        recipe: &mesmile::recipe::Recipe,
         filepath_str: &str,
     ) -> anyhow::Result<PathBuf> {
         let path_buf = PathBuf::from(filepath_str);
@@ -2091,11 +2091,11 @@ fn handle_agent_error(e: &anyhow::Error, is_stream_json_mode: bool) {
         });
     }
 
-    if e.downcast_ref::<goose::providers::errors::ProviderError>()
+    if e.downcast_ref::<mesmile::providers::errors::ProviderError>()
         .map(|provider_error| {
             matches!(
                 provider_error,
-                goose::providers::errors::ProviderError::ContextLengthExceeded(_)
+                mesmile::providers::errors::ProviderError::ContextLengthExceeded(_)
             )
         })
         .unwrap_or(false)
@@ -2116,8 +2116,8 @@ fn handle_agent_error(e: &anyhow::Error, is_stream_json_mode: bool) {
 }
 
 async fn get_reasoner() -> Result<Arc<dyn Provider>, anyhow::Error> {
-    use goose::model::ModelConfig;
-    use goose::providers::create;
+    use mesmile::model::ModelConfig;
+    use mesmile::providers::create;
 
     let config = Config::global();
 
@@ -2128,7 +2128,7 @@ async fn get_reasoner() -> Result<Arc<dyn Provider>, anyhow::Error> {
         println!("WARNING: GOOSE_PLANNER_PROVIDER not found. Using default provider...");
         config
             .get_mesmile_provider()
-            .expect("No provider configured. Run 'goose configure' first")
+            .expect("No provider configured. Run 'mesmile configure' first")
     };
 
     // Try planner-specific model first, fall back to default model
@@ -2138,12 +2138,12 @@ async fn get_reasoner() -> Result<Arc<dyn Provider>, anyhow::Error> {
         println!("WARNING: GOOSE_PLANNER_MODEL not found. Using default model...");
         config
             .get_mesmile_model()
-            .expect("No model configured. Run 'goose configure' first")
+            .expect("No model configured. Run 'mesmile configure' first")
     };
 
     let model_config =
         ModelConfig::new_with_context_env(model, &provider, Some("GOOSE_PLANNER_CONTEXT_LIMIT"))?;
-    let extensions = goose::config::extensions::get_enabled_extensions_with_config(config);
+    let extensions = mesmile::config::extensions::get_enabled_extensions_with_config(config);
     let reasoner = create(&provider, model_config, extensions).await?;
 
     Ok(reasoner)
@@ -2165,9 +2165,9 @@ fn format_elapsed_time(duration: std::time::Duration) -> String {
 fn build_switched_model_config(
     provider_name: &str,
     model_name: &str,
-    current_model_config: &goose::model::ModelConfig,
-) -> Result<goose::model::ModelConfig> {
-    goose::model::ModelConfig::new(model_name)
+    current_model_config: &mesmile::model::ModelConfig,
+) -> Result<mesmile::model::ModelConfig> {
+    mesmile::model::ModelConfig::new(model_name)
         .map(|config| {
             config
                 .with_canonical_limits(provider_name)
@@ -2181,8 +2181,8 @@ fn build_switched_model_config(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use goose::agents::extension::Envs;
-    use goose::config::ExtensionConfig;
+    use mesmile::agents::extension::Envs;
+    use mesmile::config::ExtensionConfig;
     use std::collections::HashMap;
     use std::time::Duration;
     use test_case::test_case;
@@ -2261,8 +2261,8 @@ mod tests {
             args: vec![],
             envs: Envs::default(),
             env_keys: vec![],
-            description: goose::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
-            timeout: Some(goose::config::DEFAULT_EXTENSION_TIMEOUT),
+            description: mesmile::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+            timeout: Some(mesmile::config::DEFAULT_EXTENSION_TIMEOUT),
             bundled: None,
             available_tools: vec![],
         }
@@ -2276,8 +2276,8 @@ mod tests {
             args: vec!["-y".into(), "@modelcontextprotocol/server-everything".into()],
             envs: Envs::new([("MY_SECRET".into(), "s3cret".into())].into()),
             env_keys: vec![],
-            description: goose::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
-            timeout: Some(goose::config::DEFAULT_EXTENSION_TIMEOUT),
+            description: mesmile::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+            timeout: Some(mesmile::config::DEFAULT_EXTENSION_TIMEOUT),
             bundled: None,
             available_tools: vec![],
         }
@@ -2291,8 +2291,8 @@ mod tests {
             args: vec!["-classpath".into(), "/path/with spaces/lib.jar".into(), "Main".into()],
             envs: Envs::default(),
             env_keys: vec![],
-            description: goose::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
-            timeout: Some(goose::config::DEFAULT_EXTENSION_TIMEOUT),
+            description: mesmile::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+            timeout: Some(mesmile::config::DEFAULT_EXTENSION_TIMEOUT),
             bundled: None,
             available_tools: vec![],
         }
@@ -2317,7 +2317,7 @@ mod tests {
             ("GOOSE_TOOLSHIM_OLLAMA_MODEL", None::<&str>),
         ]);
 
-        let current_model_config = goose::model::ModelConfig {
+        let current_model_config = mesmile::model::ModelConfig {
             model_name: "gpt-4o".to_string(),
             context_limit: Some(128_000),
             temperature: Some(0.25),
@@ -2334,7 +2334,7 @@ mod tests {
 
         let switched =
             build_switched_model_config("openai", "gpt-5.4", &current_model_config).unwrap();
-        let expected = goose::model::ModelConfig::new_or_fail("gpt-5.4")
+        let expected = mesmile::model::ModelConfig::new_or_fail("gpt-5.4")
             .with_canonical_limits("openai")
             .with_temperature(Some(0.25))
             .with_toolshim(true)
@@ -2362,11 +2362,11 @@ mod tests {
         ]);
 
         let current =
-            goose::model::ModelConfig::new_or_fail("gpt-5.4-high").with_canonical_limits("openai");
+            mesmile::model::ModelConfig::new_or_fail("gpt-5.4-high").with_canonical_limits("openai");
         assert_eq!(current.model_name, "gpt-5.4");
         assert_eq!(
             current.thinking_effort(),
-            Some(goose::model::ThinkingEffort::High)
+            Some(mesmile::model::ThinkingEffort::High)
         );
 
         let switched = build_switched_model_config("openai", "gpt-5.4", &current).unwrap();
@@ -2378,18 +2378,18 @@ mod tests {
     #[test]
     fn test_split_command_args_windows_paths() {
         assert_eq!(
-            goose::utils::split_command_args(r"C:\tools\mcp.exe --arg value").unwrap(),
+            mesmile::utils::split_command_args(r"C:\tools\mcp.exe --arg value").unwrap(),
             vec![r"C:\tools\mcp.exe", "--arg", "value"]
         );
         assert_eq!(
-            goose::utils::split_command_args(r#""C:\Program Files\server\mcp.exe" --arg"#).unwrap(),
+            mesmile::utils::split_command_args(r#""C:\Program Files\server\mcp.exe" --arg"#).unwrap(),
             vec![r"C:\Program Files\server\mcp.exe", "--arg"]
         );
     }
 
     #[test]
     fn test_split_command_args_unmatched_quote() {
-        assert!(goose::utils::split_command_args(r#""unmatched"#).is_err());
+        assert!(mesmile::utils::split_command_args(r#""unmatched"#).is_err());
     }
 
     #[test_case(
@@ -2400,7 +2400,7 @@ mod tests {
             envs: Envs::default(),
             env_keys: vec![],
             headers: HashMap::new(),
-            description: goose::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+            description: mesmile::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
             timeout: Some(300),
             socket: None,
             bundled: None,
@@ -2416,7 +2416,7 @@ mod tests {
             envs: Envs::default(),
             env_keys: vec![],
             headers: HashMap::new(),
-            description: goose::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+            description: mesmile::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
             timeout: Some(300),
             socket: None,
             bundled: None,
@@ -2432,7 +2432,7 @@ mod tests {
             envs: Envs::default(),
             env_keys: vec![],
             headers: HashMap::new(),
-            description: goose::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+            description: mesmile::config::DEFAULT_EXTENSION_DESCRIPTION.to_string(),
             timeout: Some(300),
             socket: None,
             bundled: None,

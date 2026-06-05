@@ -7,10 +7,10 @@ use common_tests::fixtures::{
     run_test, send_custom, Connection, PermissionDecision, Session, SessionData,
     TestConnectionConfig,
 };
-use goose::acp::server::AcpProviderFactory;
-use goose::model::ModelConfig;
-use goose::providers::base::{MessageStream, Provider};
-use goose::providers::errors::ProviderError;
+use mesmile::acp::server::AcpProviderFactory;
+use mesmile::model::ModelConfig;
+use mesmile::providers::base::{MessageStream, Provider};
+use mesmile::providers::errors::ProviderError;
 use mesmile_test_support::{EnforceSessionId, IgnoreSessionId};
 use serial_test::serial;
 use std::path::PathBuf;
@@ -25,10 +25,10 @@ static ACP_CONFIG_ROOT: LazyLock<tempfile::TempDir> =
 
 fn write_acp_global_config(contents: &str) -> PathBuf {
     std::env::set_var("GOOSE_PATH_ROOT", ACP_CONFIG_ROOT.path());
-    let config_dir = goose::config::paths::Paths::config_dir();
+    let config_dir = mesmile::config::paths::Paths::config_dir();
     std::fs::create_dir_all(&config_dir).unwrap();
     std::fs::write(
-        config_dir.join(goose::config::base::CONFIG_YAML_NAME),
+        config_dir.join(mesmile::config::base::CONFIG_YAML_NAME),
         contents,
     )
     .unwrap();
@@ -53,7 +53,7 @@ impl Provider for MockProvider {
         _model_config: &ModelConfig,
         _session_id: &str,
         _system: &str,
-        _messages: &[goose::conversation::message::Message],
+        _messages: &[mesmile::conversation::message::Message],
         _tools: &[rmcp::model::Tool],
     ) -> Result<MessageStream, ProviderError> {
         unimplemented!()
@@ -105,7 +105,7 @@ fn test_custom_get_tools() {
 
         let result = send_custom(
             conn.cx(),
-            "_goose/unstable/tools/list",
+            "_mesmile/unstable/tools/list",
             serde_json::json!({ "sessionId": session_id }),
         )
         .await;
@@ -127,7 +127,7 @@ fn test_custom_get_extensions() {
 
         let result = send_custom(
             conn.cx(),
-            "_goose/unstable/config/extensions/list",
+            "_mesmile/unstable/config/extensions/list",
             serde_json::json!({}),
         )
         .await;
@@ -155,7 +155,7 @@ fn test_custom_list_builtin_skill_sources() {
 
         let response = send_custom(
             conn.cx(),
-            "_goose/unstable/sources/list",
+            "_mesmile/unstable/sources/list",
             serde_json::json!({ "type": "builtinSkill" }),
         )
         .await
@@ -191,7 +191,7 @@ fn test_custom_provider_inventory_includes_metadata() {
 
         let response = send_custom(
             conn.cx(),
-            "_goose/unstable/providers/list",
+            "_mesmile/unstable/providers/list",
             serde_json::json!({}),
         )
         .await
@@ -231,7 +231,7 @@ fn test_custom_preferences_read_save_remove() {
 
         let response = send_custom(
             conn.cx(),
-            "_goose/unstable/preferences/read",
+            "_mesmile/unstable/preferences/read",
             serde_json::json!({
                 "keys": [
                     "autoCompactThreshold",
@@ -253,7 +253,7 @@ fn test_custom_preferences_read_save_remove() {
 
         send_custom(
             conn.cx(),
-            "_goose/unstable/preferences/save",
+            "_mesmile/unstable/preferences/save",
             serde_json::json!({
                 "values": [
                     { "key": "voiceDictationProvider", "value": "__disabled__" },
@@ -266,7 +266,7 @@ fn test_custom_preferences_read_save_remove() {
 
         send_custom(
             conn.cx(),
-            "_goose/unstable/preferences/remove",
+            "_mesmile/unstable/preferences/remove",
             serde_json::json!({
                 "keys": ["voiceDictationProvider"],
             }),
@@ -276,7 +276,7 @@ fn test_custom_preferences_read_save_remove() {
 
         let response = send_custom(
             conn.cx(),
-            "_goose/unstable/preferences/read",
+            "_mesmile/unstable/preferences/read",
             serde_json::json!({
                 "keys": ["voiceDictationProvider", "voiceDictationPreferredMic"],
             }),
@@ -320,13 +320,13 @@ fn test_custom_preferences_save_rejects_invalid_values() {
         ];
 
         for payload in invalid_payloads {
-            let result = send_custom(conn.cx(), "_goose/unstable/preferences/save", payload).await;
+            let result = send_custom(conn.cx(), "_mesmile/unstable/preferences/save", payload).await;
             assert!(result.is_err(), "expected invalid params error");
         }
 
         let result = send_custom(
             conn.cx(),
-            "_goose/unstable/preferences/save",
+            "_mesmile/unstable/preferences/save",
             serde_json::json!({
                 "values": [
                     { "key": "voiceDictationPreferredMic", "value": "mic-1" },
@@ -339,7 +339,7 @@ fn test_custom_preferences_save_rejects_invalid_values() {
 
         let response = send_custom(
             conn.cx(),
-            "_goose/unstable/preferences/read",
+            "_mesmile/unstable/preferences/read",
             serde_json::json!({
                 "keys": ["voiceDictationPreferredMic"],
             }),
@@ -372,7 +372,7 @@ fn test_custom_defaults_read() {
 
         let response = send_custom(
             conn.cx(),
-            "_goose/unstable/defaults/read",
+            "_mesmile/unstable/defaults/read",
             serde_json::json!({}),
         )
         .await
@@ -408,7 +408,7 @@ fn test_custom_dictation_secret_save_delete() {
 
         send_custom(
             conn.cx(),
-            "_goose/unstable/dictation/secret/save",
+            "_mesmile/unstable/dictation/secret/save",
             serde_json::json!({
                 "provider": "groq",
                 "value": "groq-key",
@@ -419,7 +419,7 @@ fn test_custom_dictation_secret_save_delete() {
 
         let config = send_custom(
             conn.cx(),
-            "_goose/unstable/dictation/config",
+            "_mesmile/unstable/dictation/config",
             serde_json::json!({}),
         )
         .await
@@ -433,7 +433,7 @@ fn test_custom_dictation_secret_save_delete() {
 
         let provider_config_result = send_custom(
             conn.cx(),
-            "_goose/unstable/dictation/secret/save",
+            "_mesmile/unstable/dictation/secret/save",
             serde_json::json!({
                 "provider": "openai",
                 "value": "openai-key",
@@ -447,7 +447,7 @@ fn test_custom_dictation_secret_save_delete() {
 
         let unknown_result = send_custom(
             conn.cx(),
-            "_goose/unstable/dictation/secret/save",
+            "_mesmile/unstable/dictation/secret/save",
             serde_json::json!({
                 "provider": "unknown",
                 "value": "key",
@@ -461,7 +461,7 @@ fn test_custom_dictation_secret_save_delete() {
 
         send_custom(
             conn.cx(),
-            "_goose/unstable/dictation/secret/delete",
+            "_mesmile/unstable/dictation/secret/delete",
             serde_json::json!({
                 "provider": "groq",
             }),
@@ -471,7 +471,7 @@ fn test_custom_dictation_secret_save_delete() {
 
         let config = send_custom(
             conn.cx(),
-            "_goose/unstable/dictation/config",
+            "_mesmile/unstable/dictation/config",
             serde_json::json!({}),
         )
         .await
@@ -494,12 +494,12 @@ fn test_raw_config_and_secret_methods_are_removed() {
         let conn = AcpServerConnection::new(TestConnectionConfig::default(), openai).await;
 
         for method in [
-            "_goose/config/read",
-            "_goose/config/upsert",
-            "_goose/config/remove",
-            "_goose/secret/check",
-            "_goose/secret/upsert",
-            "_goose/secret/remove",
+            "_mesmile/config/read",
+            "_mesmile/config/upsert",
+            "_mesmile/config/remove",
+            "_mesmile/secret/check",
+            "_mesmile/secret/upsert",
+            "_mesmile/secret/remove",
         ] {
             let result = send_custom(conn.cx(), method, serde_json::json!({})).await;
             assert!(result.is_err(), "{method} should be removed");
@@ -641,7 +641,7 @@ fn test_custom_provider_supported_models_lists_raw_provider_models() {
 
         let response = send_custom(
             conn.cx(),
-            "_goose/unstable/providers/supported-models/list",
+            "_mesmile/unstable/providers/supported-models/list",
             serde_json::json!({ "providerId": "openai" }),
         )
         .await

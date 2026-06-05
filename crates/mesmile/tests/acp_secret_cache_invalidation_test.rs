@@ -4,13 +4,13 @@ mod common_tests;
 
 use common_tests::fixtures::server::AcpServerConnection;
 use common_tests::fixtures::{run_test, send_custom, Connection, TestConnectionConfig};
-use goose::config::paths::Paths;
-use goose::config::{Config, ConfigError};
-use goose::model::ModelConfig;
-use goose::providers::base::{MessageStream, Provider};
-use goose::providers::errors::ProviderError;
-use goose::providers::inventory::ProviderInventoryService;
-use goose::session::session_manager::SessionStorage;
+use mesmile::config::paths::Paths;
+use mesmile::config::{Config, ConfigError};
+use mesmile::model::ModelConfig;
+use mesmile::providers::base::{MessageStream, Provider};
+use mesmile::providers::errors::ProviderError;
+use mesmile::providers::inventory::ProviderInventoryService;
+use mesmile::session::session_manager::SessionStorage;
 use mesmile_test_support::EnforceSessionId;
 use serial_test::serial;
 use std::sync::Arc;
@@ -31,7 +31,7 @@ impl Provider for MockProvider {
         _model_config: &ModelConfig,
         _session_id: &str,
         _system: &str,
-        _messages: &[goose::conversation::message::Message],
+        _messages: &[mesmile::conversation::message::Message],
         _tools: &[rmcp::model::Tool],
     ) -> Result<MessageStream, ProviderError> {
         unimplemented!()
@@ -46,7 +46,7 @@ impl Provider for MockProvider {
     }
 }
 
-fn mock_provider_factory() -> goose::acp::server::AcpProviderFactory {
+fn mock_provider_factory() -> mesmile::acp::server::AcpProviderFactory {
     Arc::new(|provider_name, model_config, _extensions, _working_dir| {
         Box::pin(async move {
             Ok(Arc::new(MockProvider {
@@ -60,7 +60,7 @@ fn mock_provider_factory() -> goose::acp::server::AcpProviderFactory {
 fn write_config(config_dir: &std::path::Path) {
     std::fs::create_dir_all(config_dir).unwrap();
     std::fs::write(
-        config_dir.join(goose::config::base::CONFIG_YAML_NAME),
+        config_dir.join(mesmile::config::base::CONFIG_YAML_NAME),
         "GOOSE_MODEL: gpt-4o\nGOOSE_PROVIDER: openai\nGOOSE_DISABLE_KEYRING: true\n",
     )
     .unwrap();
@@ -113,7 +113,7 @@ fn acp_secret_mutations_and_inventory_refresh_invalidate_global_secret_cache() {
         write_secrets(&config_dir, "GROQ_API_KEY: fresh-key\n");
         send_custom(
             conn.cx(),
-            "_goose/unstable/dictation/secret/save",
+            "_mesmile/unstable/dictation/secret/save",
             serde_json::json!({
                 "provider": "groq",
                 "value": "fresh-key",
@@ -133,7 +133,7 @@ fn acp_secret_mutations_and_inventory_refresh_invalidate_global_secret_cache() {
         write_secrets(&config_dir, "{}\n");
         send_custom(
             conn.cx(),
-            "_goose/unstable/dictation/secret/delete",
+            "_mesmile/unstable/dictation/secret/delete",
             serde_json::json!({
                 "provider": "groq",
             }),
@@ -151,7 +151,7 @@ fn acp_secret_mutations_and_inventory_refresh_invalidate_global_secret_cache() {
 
         let save_provider_config = send_custom(
             conn.cx(),
-            "_goose/unstable/providers/config/save",
+            "_mesmile/unstable/providers/config/save",
             serde_json::json!({
                 "providerId": "xai",
                 "fields": [
@@ -199,7 +199,7 @@ fn acp_secret_mutations_and_inventory_refresh_invalidate_global_secret_cache() {
 
         let read_provider_config = send_custom(
             conn.cx(),
-            "_goose/unstable/providers/config/read",
+            "_mesmile/unstable/providers/config/read",
             serde_json::json!({
                 "providerId": "xai",
             }),
@@ -223,7 +223,7 @@ fn acp_secret_mutations_and_inventory_refresh_invalidate_global_secret_cache() {
 
         let delete_provider_config = send_custom(
             conn.cx(),
-            "_goose/unstable/providers/config/delete",
+            "_mesmile/unstable/providers/config/delete",
             serde_json::json!({
                 "providerId": "xai",
             }),
@@ -255,7 +255,7 @@ fn acp_secret_mutations_and_inventory_refresh_invalidate_global_secret_cache() {
 
         let refresh = send_custom(
             conn.cx(),
-            "_goose/unstable/providers/inventory/refresh",
+            "_mesmile/unstable/providers/inventory/refresh",
             serde_json::json!({
                 "providerIds": ["anthropic"],
             }),

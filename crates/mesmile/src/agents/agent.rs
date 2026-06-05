@@ -66,7 +66,7 @@ use tracing::{debug, error, info, instrument, warn};
 
 const DEFAULT_MAX_TURNS: u32 = 1000;
 const DEFAULT_STOP_HOOK_BLOCK_CAP: u32 = 8;
-const COMPACTION_THINKING_TEXT: &str = "goose is compacting the conversation...";
+const COMPACTION_THINKING_TEXT: &str = "MeSmile is compacting the conversation...";
 const DEFAULT_FRONTEND_INSTRUCTIONS: &str = "The following tools are provided directly by the frontend and will be executed by the frontend when called.";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -1686,7 +1686,7 @@ impl Agent {
             .count();
 
         let working_dir = session.working_dir.clone();
-        let reply_stream_span = tracing::info_span!(target: "goose::agents::agent", "reply_stream", trace_output = tracing::field::Empty, session.id = %session_config.id);
+        let reply_stream_span = tracing::info_span!(target: "mesmile::agents::agent", "reply_stream", trace_output = tracing::field::Empty, session.id = %session_config.id);
         let inner = Box::pin(async_stream::try_stream! {
             let mut turns_taken = 0u32;
             let max_turns = session_config.max_turns.unwrap_or_else(|| {
@@ -2867,7 +2867,7 @@ impl Agent {
         let config = Config::global();
         let provider_name: String = config
             .get_mesmile_provider()
-            .expect("No provider configured. Run 'goose configure' first");
+            .expect("No provider configured. Run 'mesmile configure' first");
 
         let settings = Settings {
             mesmile_provider: Some(provider_name.clone()),

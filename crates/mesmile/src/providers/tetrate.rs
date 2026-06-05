@@ -56,7 +56,7 @@ impl TetrateProvider {
         let auth = AuthMethod::BearerToken(api_key);
         let api_client = ApiClient::new(host, auth)?
             .with_header("HTTP-Referer", "https://mesmile-docs.ai")?
-            .with_header("X-Title", "goose")?;
+            .with_header("X-Title", "MeSmile")?;
 
         Ok(Self {
             api_client,

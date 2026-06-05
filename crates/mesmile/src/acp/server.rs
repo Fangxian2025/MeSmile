@@ -145,7 +145,7 @@ impl<T, E: std::fmt::Display> ResultExt<T> for Result<T, E> {
     }
 }
 
-pub(super) const DEFAULT_PROVIDER_ID: &str = "goose";
+pub(super) const DEFAULT_PROVIDER_ID: &str = "MeSmile";
 pub(super) const DEFAULT_PROVIDER_LABEL: &str = "Goose (Default)";
 const PROVIDER_CONFIG_STATUS_CHECK_CONCURRENCY: usize = 16;
 
@@ -2277,7 +2277,7 @@ impl GooseAcpAgent {
             .agent_capabilities(capabilities)
             .auth_methods(vec![AuthMethod::Agent(
                 AuthMethodAgent::new("mesmile-provider", "Configure Provider")
-                    .description("Run `goose configure` to set up your AI provider and API key"),
+                    .description("Run `mesmile configure` to set up your AI provider and API key"),
             )]))
     }
 
@@ -2549,7 +2549,7 @@ impl GooseAcpAgent {
             }
             // Standard ACP notification — emitted alongside the custom one for
             // backwards compatibility. Remove once all known clients have
-            // migrated to `_goose/unstable/session/update`.
+            // migrated to `_mesmile/unstable/session/update`.
             cx.send_notification(SessionNotification::new(
                 args.session_id.clone(),
                 SessionUpdate::UsageUpdate(updates.standard),

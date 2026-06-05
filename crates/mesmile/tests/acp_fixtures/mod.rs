@@ -10,16 +10,16 @@ use agent_client_protocol::schema::{
 };
 use async_trait::async_trait;
 use fs_err as fs;
-use goose::acp::server::{serve, AcpProviderFactory, GooseAcpAgent, GooseAcpAgentOptions};
-pub use goose::acp::{map_permission_response, PermissionDecision};
-use goose::agents::GoosePlatform;
-use goose::builtin_extension::register_builtin_extensions;
-use goose::config::paths::Paths;
-use goose::config::{GooseMode, PermissionManager};
-use goose::providers::api_client::{ApiClient, AuthMethod as ApiAuthMethod};
-use goose::providers::base::Provider;
-use goose::providers::openai::OpenAiProvider;
-use goose::session_context::SESSION_ID_HEADER;
+use mesmile::acp::server::{serve, AcpProviderFactory, GooseAcpAgent, GooseAcpAgentOptions};
+pub use mesmile::acp::{map_permission_response, PermissionDecision};
+use mesmile::agents::GoosePlatform;
+use mesmile::builtin_extension::register_builtin_extensions;
+use mesmile::config::paths::Paths;
+use mesmile::config::{GooseMode, PermissionManager};
+use mesmile::providers::api_client::{ApiClient, AuthMethod as ApiAuthMethod};
+use mesmile::providers::base::Provider;
+use mesmile::providers::openai::OpenAiProvider;
+use mesmile::session_context::SESSION_ID_HEADER;
 use mesmile_test_support::{ExpectedSessionId, TEST_MODEL};
 use std::collections::VecDeque;
 use std::future::Future;
@@ -44,7 +44,7 @@ fn write_global_test_config(config_path: &Path, openai_base_url: &str) {
 
     let global_config_dir = Paths::config_dir();
     fs::create_dir_all(&global_config_dir).unwrap();
-    let global_config_path = global_config_dir.join(goose::config::base::CONFIG_YAML_NAME);
+    let global_config_path = global_config_dir.join(mesmile::config::base::CONFIG_YAML_NAME);
     fs::write(&global_config_path, serde_yaml::to_string(&config).unwrap()).unwrap();
 }
 
@@ -181,7 +181,7 @@ pub async fn spawn_acp_server_in_process(
     fs::create_dir_all(data_root).unwrap();
     // TODO: Paths::in_state_dir is global, ignoring per-test data_root
     fs::create_dir_all(Paths::in_state_dir("logs")).unwrap();
-    let config_path = data_root.join(goose::config::base::CONFIG_YAML_NAME);
+    let config_path = data_root.join(mesmile::config::base::CONFIG_YAML_NAME);
     if !config_path.exists() {
         fs::write(
             &config_path,

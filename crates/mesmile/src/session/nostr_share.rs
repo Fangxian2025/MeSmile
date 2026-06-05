@@ -176,7 +176,7 @@ where
             "mesmile-session-{}",
             uuid::Uuid::now_v7()
         )))
-        .tag(Tag::parse(["client", "goose"])?)
+        .tag(Tag::parse(["client", "MeSmile"])?)
         .sign_with_keys(&publish_keys)?;
 
     publisher.publish(event.clone(), &relays).await?;
@@ -246,7 +246,7 @@ pub fn build_deeplink(nevent: &str, decryption_key: &str) -> String {
 
 pub fn parse_deeplink(deeplink: &str) -> Result<ParsedShareLink> {
     let parsed = url::Url::parse(deeplink).context("Invalid Goose session share link")?;
-    if parsed.scheme() != "goose"
+    if parsed.scheme() != "mesmile"
         || parsed.host_str() != Some("sessions")
         || parsed.path() != "/nostr"
     {

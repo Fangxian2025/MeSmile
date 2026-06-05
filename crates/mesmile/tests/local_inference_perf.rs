@@ -2,7 +2,7 @@
 //!
 //! These tests require a downloaded GGUF model and are ignored by default.
 //! Download a model first:
-//!   goose local-models download bartowski/Llama-3.2-1B-Instruct-GGUF:Q4_K_M
+//!   mesmile local-models download bartowski/Llama-3.2-1B-Instruct-GGUF:Q4_K_M
 //!
 //! Run with the default model:
 //!   cargo test -p goose --test local_inference_perf -- --ignored --nocapture
@@ -10,9 +10,9 @@
 //! Run with a specific model:
 //!   TEST_MODEL="bartowski/Qwen_Qwen3-32B-GGUF:Q4_K_M" cargo test -p goose --test local_inference_perf -- --ignored --nocapture
 
-use goose::conversation::message::Message;
-use goose::model::ModelConfig;
-use goose::providers::create;
+use mesmile::conversation::message::Message;
+use mesmile::model::ModelConfig;
+use mesmile::providers::create;
 use std::time::Instant;
 
 const DEFAULT_TEST_MODEL: &str = "bartowski/Llama-3.2-1B-Instruct-GGUF:Q4_K_M";

@@ -143,14 +143,14 @@ fn user_settings_path() -> Option<PathBuf> {
         return Some(
             PathBuf::from(test_root)
                 .join(".config")
-                .join("goose")
+                .join("mesmile")
                 .join("settings.json"),
         );
     }
     Some(
         dirs::home_dir()?
             .join(".config")
-            .join("goose")
+            .join("mesmile")
             .join("settings.json"),
     )
 }
@@ -161,7 +161,7 @@ fn project_settings_path(project_root: &Path, local: bool) -> PathBuf {
     } else {
         "settings.json"
     };
-    project_root.join(".config").join("goose").join(file)
+    project_root.join(".config").join("mesmile").join(file)
 }
 
 fn read_settings(path: &Path) -> anyhow::Result<Option<PluginSettings>> {
@@ -217,7 +217,7 @@ mod tests {
         write_plugin_dir(&project.join(".agents").join("plugins"), "demo");
 
         write_settings(
-            &project.join(".config").join("goose"),
+            &project.join(".config").join("mesmile"),
             r#"{"disabledPlugins":["demo"]}"#,
         );
 
@@ -233,7 +233,7 @@ mod tests {
         write_plugin_dir(&project.join(".agents").join("plugins"), "other");
 
         write_settings(
-            &project.join(".config").join("goose"),
+            &project.join(".config").join("mesmile"),
             r#"{"enabledPlugins":["demo"]}"#,
         );
 
@@ -250,11 +250,11 @@ mod tests {
         write_plugin_dir(&project.join(".agents").join("plugins"), "demo");
 
         write_settings(
-            &project.join(".config").join("goose"),
+            &project.join(".config").join("mesmile"),
             r#"{"disabledPlugins":["demo"]}"#,
         );
         write_local_settings(
-            &project.join(".config").join("goose"),
+            &project.join(".config").join("mesmile"),
             r#"{"enabledPlugins":["demo"]}"#,
         );
 
@@ -274,12 +274,12 @@ mod tests {
 
         let fake_home = tempfile::tempdir().unwrap();
         write_settings(
-            &fake_home.path().join(".config").join("goose"),
+            &fake_home.path().join(".config").join("mesmile"),
             r#"{"disabledPlugins":["demo"]}"#,
         );
 
         write_settings(
-            &project.join(".config").join("goose"),
+            &project.join(".config").join("mesmile"),
             r#"{"enabledPlugins":["demo"]}"#,
         );
 

@@ -15,7 +15,7 @@
 pub use mesmile_sdk_types::{custom_notifications, custom_requests};
 
 #[cfg(feature = "uniffi")]
-uniffi::setup_scaffolding!("aaif_goose");
+uniffi::setup_scaffolding!("fangxian2025_mesmile");
 
 #[cfg(feature = "uniffi")]
 pub mod bindings;

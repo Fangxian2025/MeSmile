@@ -1,15 +1,15 @@
 use anstream::println;
 use bat::WrappingMode;
 use console::{measure_text_width, style, Color, Term};
-use goose::config::Config;
-use goose::conversation::message::{
+use mesmile::config::Config;
+use mesmile::conversation::message::{
     ActionRequiredData, Message, MessageContent, SystemNotificationContent, SystemNotificationType,
     ToolRequest, ToolResponse,
 };
-use goose::providers::canonical::maybe_get_canonical_model;
+use mesmile::providers::canonical::maybe_get_canonical_model;
 #[cfg(target_os = "windows")]
-use goose::subprocess::SubprocessExt;
-use goose::utils::safe_truncate;
+use mesmile::subprocess::SubprocessExt;
+use mesmile::utils::safe_truncate;
 use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
 use rmcp::model::{CallToolRequestParams, JsonObject, PromptArgument};
 use serde_json::Value;
@@ -1345,7 +1345,7 @@ pub fn display_session_info(
     println!(
         "  {}  {}",
         style("   L L").white(),
-        style("   goose is ready").white()
+        style("   MeSmile is ready").white()
     );
 }
 

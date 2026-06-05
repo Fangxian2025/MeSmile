@@ -34,7 +34,7 @@ impl ProviderDef for CodexAcpProvider {
         .with_setup_steps(vec![
             "Install the ACP adapter: `npm install -g @zed-industries/codex-acp`",
             "Run `codex` once to authenticate with your OpenAI account",
-            "Add to your goose config file (`~/.config/mesmile/config.yaml` on macOS/Linux):\n  GOOSE_PROVIDER: codex-acp\n  GOOSE_MODEL: current\n  codex-acp_configured: true",
+            "Add to your MeSmile config file (`~/.config/mesmile/config.yaml` on macOS/Linux):\n  GOOSE_PROVIDER: codex-acp\n  GOOSE_MODEL: current\n  codex-acp_configured: true",
             "Restart goose for changes to take effect",
         ])
     }
@@ -61,7 +61,7 @@ impl ProviderDef for CodexAcpProvider {
             let mesmile_mode = config.get_mesmile_mode().unwrap_or(GooseMode::Auto);
             let mcp_servers = extension_configs_to_mcp_servers(&extensions);
 
-            // fixed goose mode via -c overrides until session/set-mode works
+            // fixed MeSmile mode via -c overrides until session/set-mode works
             let (approval_policy, sandbox_mode) = map_mesmile_mode(mesmile_mode);
             let mut args = vec![
                 "-c".to_string(),

@@ -9,10 +9,10 @@
 ///
 use anyhow::{Context, Result};
 use clap::Parser;
-use goose::providers::canonical::{
+use mesmile::providers::canonical::{
     canonical_name, CanonicalModel, CanonicalModelRegistry, Limit, Modalities, Modality, Pricing,
 };
-use goose::providers::{canonical::ModelMapping, create_with_named_model};
+use mesmile::providers::{canonical::ModelMapping, create_with_named_model};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::{BTreeMap, BTreeSet, HashMap};

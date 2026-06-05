@@ -2,9 +2,9 @@ use anyhow::{anyhow, Context, Result};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-const TUI_NPM_SPEC_ENV: &str = "GOOSE_TUI_NPM_SPEC";
+const TUI_NPM_SPEC_ENV: &str = "MESMILE_TUI_NPM_SPEC";
 const TUI_REL_PATH: &str = "ui/text/dist/tui.js";
-const DEFAULT_NPM_SPEC: &str = "@aaif/goose@latest";
+const DEFAULT_NPM_SPEC: &str = "@fangxian2025/mesmile@latest";
 const NPM_BIN_NAME: &str = "mesmile-tui";
 
 enum TuiSource {
@@ -69,10 +69,10 @@ pub fn handle_tui(args: Vec<String>) -> Result<()> {
     let source = resolve_source();
 
     let mesmile_binary = std::env::current_exe()
-        .context("could not determine current goose executable to expose as GOOSE_BINARY")?;
+        .context("could not determine current goose executable to expose as MESMILE_BINARY")?;
 
     let mut cmd = build_command(&source, &args)?;
-    cmd.env("GOOSE_BINARY", &mesmile_binary);
+    cmd.env("MESMILE_BINARY", &mesmile_binary);
 
     let descriptor = match &source {
         TuiSource::LocalScript(p) => format!("node {}", p.display()),

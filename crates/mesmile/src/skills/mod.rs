@@ -192,7 +192,7 @@ fn inferred_discoverable_skill_root(path: &Path) -> Option<PathBuf> {
             == Some("skills")
             && matches!(
                 parent.file_name().and_then(|name| name.to_str()),
-                Some(".goose") | Some(".claude") | Some(".agents")
+                Some(".mesmile") | Some(".claude") | Some(".agents")
             );
         is_project_skills_root.then(|| ancestor.to_path_buf())
     })
@@ -293,7 +293,7 @@ pub fn all_skill_dirs(working_dir: Option<&Path>) -> Vec<(PathBuf, bool)> {
 
     if let Some(wd) = working_dir {
         dirs.push((wd.join(".agents").join("skills"), false));
-        dirs.push((wd.join(".goose").join("skills"), false));
+        dirs.push((wd.join(".mesmile").join("skills"), false));
         dirs.push((wd.join(".claude").join("skills"), false));
     }
 

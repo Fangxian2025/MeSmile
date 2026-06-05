@@ -164,7 +164,7 @@ fn build_authorize_url(pkce: &PkceChallenge, state: &str, nonce: &str) -> Result
     let redirect = redirect_uri();
     // `plan=generic` opts the consent screen into xAI's generic OAuth plan
     // tier; without it, accounts.x.ai rejects loopback OAuth from
-    // non-allowlisted clients. `referrer=goose` lets xAI attribute
+    // non-allowlisted clients. `referrer=MeSmile` lets xAI attribute
     // mesmile-originated logins.
     let params = [
         ("response_type", "code"),
@@ -176,7 +176,7 @@ fn build_authorize_url(pkce: &PkceChallenge, state: &str, nonce: &str) -> Result
         ("state", state),
         ("nonce", nonce),
         ("plan", "generic"),
-        ("referrer", "goose"),
+        ("referrer", "MeSmile"),
     ];
     let query = serde_urlencoded::to_string(params)?;
     Ok(format!("{}?{}", AUTHORIZE_URL, query))
@@ -336,7 +336,7 @@ async fn poll_device_code_token(device: &DeviceCodeResponse) -> Result<TokenResp
             }
             Some("expired_token") => {
                 return Err(anyhow!(
-                    "xAI device code expired - please re-run goose configure"
+                    "xAI device code expired - please re-run mesmile configure"
                 ));
             }
             other => {
@@ -852,7 +852,7 @@ mod tests {
         assert!(url.contains("state=state-fixture"));
         assert!(url.contains("nonce=nonce-fixture"));
         assert!(url.contains("plan=generic"));
-        assert!(url.contains("referrer=goose"));
+        assert!(url.contains("referrer=MeSmile"));
         assert!(url.contains("scope=openid"));
         assert!(url.contains("offline_access"));
         assert!(url.contains("grok-cli%3Aaccess"));

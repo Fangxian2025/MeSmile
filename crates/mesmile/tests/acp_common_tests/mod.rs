@@ -13,9 +13,9 @@ use fixtures::{
     Session, SessionData, TerminalCall, TerminalFixture, TestConnectionConfig,
 };
 use fs_err as fs;
-use goose::acp::server::AcpProviderFactory;
-use goose::config::base::CONFIG_YAML_NAME;
-use goose::config::GooseMode;
+use mesmile::acp::server::AcpProviderFactory;
+use mesmile::config::base::CONFIG_YAML_NAME;
+use mesmile::config::GooseMode;
 use mesmile_test_support::{McpFixture, FAKE_CODE, TEST_IMAGE_B64, TEST_MODEL};
 use sqlx::sqlite::SqlitePoolOptions;
 use std::sync::Arc;
@@ -901,7 +901,7 @@ pub async fn run_new_session_returns_initial_config<C: Connection>() {
 
 pub async fn run_new_session_uses_current_config_mode<C: Connection>() {
     let temp_dir = tempfile::tempdir().unwrap();
-    let config_path = temp_dir.path().join(goose::config::base::CONFIG_YAML_NAME);
+    let config_path = temp_dir.path().join(mesmile::config::base::CONFIG_YAML_NAME);
     fs::write(
         &config_path,
         format!("GOOSE_MODEL: {TEST_MODEL}\nGOOSE_PROVIDER: openai\nGOOSE_MODE: approve\n"),
@@ -919,7 +919,7 @@ pub async fn run_new_session_uses_current_config_mode<C: Connection>() {
     let mut conn = C::new(config, openai).await;
 
     let global_config_path =
-        goose::config::paths::Paths::config_dir().join(goose::config::base::CONFIG_YAML_NAME);
+        mesmile::config::paths::Paths::config_dir().join(mesmile::config::base::CONFIG_YAML_NAME);
     fs::write(
         &global_config_path,
         format!("GOOSE_MODEL: {TEST_MODEL}\nGOOSE_PROVIDER: openai\nGOOSE_MODE: auto\n"),

@@ -1,11 +1,11 @@
 use dotenvy::dotenv;
 use futures::StreamExt;
-use goose::agents::{Agent, AgentEvent, ExtensionConfig, SessionConfig};
-use goose::config::{GooseMode, DEFAULT_EXTENSION_DESCRIPTION, DEFAULT_EXTENSION_TIMEOUT};
-use goose::conversation::message::Message;
-use goose::providers::create_with_named_model;
-use goose::providers::databricks::DATABRICKS_DEFAULT_MODEL;
-use goose::session::session_manager::SessionType;
+use mesmile::agents::{Agent, AgentEvent, ExtensionConfig, SessionConfig};
+use mesmile::config::{GooseMode, DEFAULT_EXTENSION_DESCRIPTION, DEFAULT_EXTENSION_TIMEOUT};
+use mesmile::conversation::message::Message;
+use mesmile::providers::create_with_named_model;
+use mesmile::providers::databricks::DATABRICKS_DEFAULT_MODEL;
+use mesmile::session::session_manager::SessionType;
 use std::path::PathBuf;
 
 #[tokio::main]

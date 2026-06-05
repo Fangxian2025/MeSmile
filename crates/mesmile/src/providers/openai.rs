@@ -135,7 +135,7 @@ impl OpenAiProvider {
         //   1. OPENAI_HOST env var — session override (deprecated but still
         //      honoured so that `OPENAI_HOST=… goose` keeps working)
         //   2. OPENAI_BASE_URL (env or config) — ecosystem-standard
-        //   3. OPENAI_HOST from config file — persisted by `goose configure`
+        //   3. OPENAI_HOST from config file — persisted by `mesmile configure`
         //   4. Default "https://api.openai.com"
         //
         // OPENAI_BASE_URL is parsed into host + query params + a flag
@@ -321,7 +321,7 @@ impl OpenAiProvider {
                     ConfigError::NotFound(_) => {
                         if config.requires_auth {
                             anyhow::bail!(
-                                "Required API key {} is not set. Configure it via `goose configure` or set the {} environment variable.",
+                                "Required API key {} is not set. Configure it via `mesmile configure` or set the {} environment variable.",
                                 config.api_key_env,
                                 config.api_key_env
                             );

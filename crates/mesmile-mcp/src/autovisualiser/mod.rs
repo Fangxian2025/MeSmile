@@ -704,7 +704,7 @@ impl ServerHandler for AutoVisualiserRouter {
 impl AutoVisualiserRouter {
     pub fn new() -> Self {
         // choose_app_strategy().cache_dir()
-        // - macOS/Linux: ~/.cache/goose/autovisualiser/
+        // - macOS/Linux: ~/.cache/mesmile/autovisualiser/
         // - Windows:     ~\AppData\Local\Block\goose\cache\autovisualiser\
         let cache_dir = choose_app_strategy(crate::APP_STRATEGY.clone())
             .unwrap()

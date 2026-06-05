@@ -1,4 +1,4 @@
-//! Importers for non-goose session formats.
+//! Importers for non-mesmile session formats.
 //!
 //! Goose's native session export is a JSON-serialized [`crate::session::Session`].
 //! These submodules let users also import sessions exported by other coding
@@ -21,7 +21,7 @@ pub mod pi;
 /// Detected import source format.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ImportFormat {
-    /// Native goose session export — a JSON object representing a `Session`.
+    /// Native mesmile session export — a JSON object representing a `Session`.
     Goose,
     /// Claude Code `.jsonl` transcript (one JSON object per line, no header).
     ClaudeCode,

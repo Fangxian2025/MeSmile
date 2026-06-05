@@ -64,7 +64,7 @@ fn binary_name() -> &'static str {
 fn sha256_hex(data: &[u8]) -> String {
     let mut hasher = Sha256::new();
     hasher.update(data);
-    goose::utils::bytes_to_hex(hasher.finalize())
+    mesmile::utils::bytes_to_hex(hasher.finalize())
 }
 
 #[derive(serde::Deserialize)]
@@ -207,7 +207,7 @@ async fn verify_provenance(archive_data: &[u8], tag: &str) -> Result<bool> {
     ))
 }
 
-/// Update the goose binary to the latest release.
+/// Update the MeSmile binary to the latest release.
 ///
 /// Downloads the platform-appropriate archive from GitHub releases, verifies
 /// its SLSA provenance via Sigstore, extracts it with path-traversal
@@ -275,20 +275,20 @@ pub async fn update(canary: bool, reconfigure: bool) -> Result<()> {
         copy_dlls(&extracted_binary, &current_exe)?;
 
         if provenance_verified {
-            println!("goose updated successfully (verified with Sigstore SLSA provenance).");
+            println!("mesmile updated successfully (verified with Sigstore SLSA provenance).");
         } else {
-            println!("goose updated successfully.");
+            println!("mesmile updated successfully.");
         }
 
         // --- Reconfigure if requested -------------------------------------------
         if reconfigure {
-            println!("Running goose configure...");
+            println!("Running mesmile configure...");
             let status = Command::new(current_exe)
                 .arg("configure")
                 .status()
-                .context("Failed to run goose configure")?;
+                .context("Failed to run mesmile configure")?;
             if !status.success() {
-                eprintln!("Warning: goose configure exited with {status}");
+                eprintln!("Warning: mesmile configure exited with {status}");
             }
         }
 
@@ -451,7 +451,7 @@ fn replace_binary(new_binary: &Path, current_exe: &Path) -> Result<()> {
         if old_exe.exists() {
             fs::remove_file(&old_exe).with_context(|| {
                 format!(
-                    "Failed to remove old backup {}. Is another goose process running?",
+                    "Failed to remove old backup {}. Is another MeSmile process running?",
                     old_exe.display()
                 )
             })?;
@@ -695,7 +695,7 @@ mod tests {
             writer
                 .start_file("mesmile-package/mesmile.exe", options)
                 .unwrap();
-            writer.write_all(b"fake goose binary").unwrap();
+            writer.write_all(b"fake MeSmile binary").unwrap();
             writer
                 .start_file("mesmile-package/libtest.dll", options)
                 .unwrap();
@@ -709,7 +709,7 @@ mod tests {
         assert!(binary.is_some());
 
         let content = fs::read_to_string(binary.unwrap()).unwrap();
-        assert_eq!(content, "fake goose binary");
+        assert_eq!(content, "fake MeSmile binary");
 
         // DLL should be in mesmile-package too
         assert!(tmp.path().join("mesmile-package/libtest.dll").exists());
@@ -782,7 +782,7 @@ mod tests {
             let encoder = BzEncoder::new(&mut builder_buf, Compression::default());
             let mut builder = tar::Builder::new(encoder);
 
-            let data = b"goose binary content";
+            let data = b"MeSmile binary content";
             let mut header = tar::Header::new_gnu();
             header.set_size(data.len() as u64);
             header.set_mode(0o755);
@@ -799,7 +799,7 @@ mod tests {
         assert!(extracted.exists());
         assert_eq!(
             fs::read_to_string(extracted).unwrap(),
-            "goose binary content"
+            "MeSmile binary content"
         );
     }
 

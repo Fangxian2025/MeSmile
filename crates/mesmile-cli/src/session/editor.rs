@@ -1,5 +1,5 @@
 use anyhow::Result;
-use goose::config::Config;
+use mesmile::config::Config;
 use std::fs;
 use std::io::Read;
 use std::path::PathBuf;

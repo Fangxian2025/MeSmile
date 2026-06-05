@@ -19,7 +19,7 @@ use once_cell::sync::Lazy;
 
 pub use ext_manager::MANAGE_EXTENSIONS_TOOL_NAME_COMPLETE;
 
-// These are used by integration tests in crates/goose/tests/
+// These are used by integration tests in crates/mesmile/tests/
 #[allow(unused_imports)]
 pub use ext_manager::MANAGE_EXTENSIONS_TOOL_NAME;
 #[allow(unused_imports)]
@@ -49,7 +49,7 @@ pub static PLATFORM_EXTENSIONS: Lazy<HashMap<&'static str, PlatformExtensionDef>
                 name: todo::EXTENSION_NAME,
                 display_name: "Todo",
                 description:
-                    "Enable a todo list for goose so it can keep track of what it is doing",
+                    "Enable a todo list for MeSmile so it can keep track of what it is doing",
                 default_enabled: true,
                 unprefixed_tools: false,
                 hidden: false,

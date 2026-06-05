@@ -3,7 +3,7 @@
 //! [`crate::sources`] so all source-style files share one YAML pipeline.
 //!
 //! User-facing CRUD lives in `crate::sources` for parity with skills and
-//! projects; `goose review` consumes [`Check`] and [`discover`] directly.
+//! projects; `mesmile review` consumes [`Check`] and [`discover`] directly.
 
 use crate::sources::parse_frontmatter;
 use anyhow::{anyhow, bail, Context, Result};
@@ -15,7 +15,7 @@ use std::path::{Path, PathBuf};
 
 /// Default maximum number of turns a check subagent may take.
 ///
-/// Mirrors `goose::agents::subagent_task_config::DEFAULT_SUBAGENT_MAX_TURNS`,
+/// Mirrors `mesmile::agents::subagent_task_config::DEFAULT_SUBAGENT_MAX_TURNS`,
 /// duplicated here to keep the checks module self-contained for parsing.
 pub const DEFAULT_CHECK_TURN_LIMIT: usize = 25;
 
@@ -411,7 +411,7 @@ fn read_checks_dir(dir: &Path, scope_dir: &str, mode: LoadMode) -> Result<Vec<Ch
             Err(e) => match mode {
                 LoadMode::Strict => return Err(e),
                 LoadMode::Lenient => {
-                    eprintln!("goose review: skipping {}: {e}", path.display());
+                    eprintln!("mesmile review: skipping {}: {e}", path.display());
                 }
             },
         }

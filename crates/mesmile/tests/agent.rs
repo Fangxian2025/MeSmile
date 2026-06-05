@@ -2,8 +2,8 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use futures::StreamExt;
-use goose::agents::{Agent, AgentEvent, GoosePlatform};
-use goose::config::extensions::{set_extension, ExtensionEntry};
+use mesmile::agents::{Agent, AgentEvent, GoosePlatform};
+use mesmile::config::extensions::{set_extension, ExtensionEntry};
 
 #[cfg(test)]
 mod tests {
@@ -14,13 +14,13 @@ mod tests {
         use super::*;
         use async_trait::async_trait;
         use chrono::{DateTime, Utc};
-        use goose::agents::platform_tools::PLATFORM_MANAGE_SCHEDULE_TOOL_NAME;
-        use goose::agents::AgentConfig;
-        use goose::config::permission::PermissionManager;
-        use goose::config::GooseMode;
-        use goose::scheduler::{ScheduledJob, SchedulerError};
-        use goose::scheduler_trait::SchedulerTrait;
-        use goose::session::{Session, SessionManager};
+        use mesmile::agents::platform_tools::PLATFORM_MANAGE_SCHEDULE_TOOL_NAME;
+        use mesmile::agents::AgentConfig;
+        use mesmile::config::permission::PermissionManager;
+        use mesmile::config::GooseMode;
+        use mesmile::scheduler::{ScheduledJob, SchedulerError};
+        use mesmile::scheduler_trait::SchedulerTrait;
+        use mesmile::session::{Session, SessionManager};
         use std::path::PathBuf;
         use std::sync::Arc;
         use tempfile::TempDir;
@@ -261,11 +261,11 @@ mod tests {
     #[cfg(test)]
     mod retry_tests {
         use super::*;
-        use goose::agents::types::{RetryConfig, SuccessCheck};
+        use mesmile::agents::types::{RetryConfig, SuccessCheck};
 
         #[tokio::test]
         async fn test_retry_success_check_execution() -> Result<()> {
-            use goose::agents::retry::execute_success_checks;
+            use mesmile::agents::retry::execute_success_checks;
 
             let retry_config = RetryConfig {
                 max_retries: 3,
@@ -339,16 +339,16 @@ mod tests {
     mod max_turns_tests {
         use super::*;
         use async_trait::async_trait;
-        use goose::agents::SessionConfig;
-        use goose::config::GooseMode;
-        use goose::conversation::message::{Message, MessageContent};
-        use goose::model::ModelConfig;
-        use goose::providers::base::{
+        use mesmile::agents::SessionConfig;
+        use mesmile::config::GooseMode;
+        use mesmile::conversation::message::{Message, MessageContent};
+        use mesmile::model::ModelConfig;
+        use mesmile::providers::base::{
             stream_from_single_message, MessageStream, Provider, ProviderDef, ProviderMetadata,
             ProviderUsage, Usage,
         };
-        use goose::providers::errors::ProviderError;
-        use goose::session::session_manager::SessionType;
+        use mesmile::providers::errors::ProviderError;
+        use mesmile::session::session_manager::SessionType;
         use rmcp::model::{CallToolRequestParams, Tool};
         use rmcp::object;
         use std::path::PathBuf;
@@ -380,7 +380,7 @@ mod tests {
 
             fn from_env(
                 _model: ModelConfig,
-                _extensions: Vec<goose::config::ExtensionConfig>,
+                _extensions: Vec<mesmile::config::ExtensionConfig>,
             ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
                 Box::pin(async { Ok(Self::new()) })
             }
@@ -453,12 +453,12 @@ mod tests {
                         if let Some(MessageContent::ActionRequired(action)) =
                             response.content.first()
                         {
-                            if let goose::conversation::message::ActionRequiredData::ToolConfirmation { id, .. } = &action.data {
+                            if let mesmile::conversation::message::ActionRequiredData::ToolConfirmation { id, .. } = &action.data {
                                 agent.handle_confirmation(
                                     id.clone(),
-                                    goose::permission::PermissionConfirmation {
-                                        principal_type: goose::permission::permission_confirmation::PrincipalType::Tool,
-                                        permission: goose::permission::Permission::AllowOnce,
+                                    mesmile::permission::PermissionConfirmation {
+                                        principal_type: mesmile::permission::permission_confirmation::PrincipalType::Tool,
+                                        permission: mesmile::permission::Permission::AllowOnce,
                                     }
                                 ).await;
                             }
@@ -499,17 +499,17 @@ mod tests {
     mod tool_pair_summarization_tests {
         use super::*;
         use async_trait::async_trait;
-        use goose::agents::SessionConfig;
-        use goose::config::base::Config;
-        use goose::config::GooseMode;
-        use goose::conversation::message::Message;
-        use goose::model::ModelConfig;
-        use goose::providers::base::{
+        use mesmile::agents::SessionConfig;
+        use mesmile::config::base::Config;
+        use mesmile::config::GooseMode;
+        use mesmile::conversation::message::Message;
+        use mesmile::model::ModelConfig;
+        use mesmile::providers::base::{
             stream_from_single_message, MessageStream, Provider, ProviderDef, ProviderMetadata,
             ProviderUsage, Usage,
         };
-        use goose::providers::errors::ProviderError;
-        use goose::session::session_manager::SessionType;
+        use mesmile::providers::errors::ProviderError;
+        use mesmile::session::session_manager::SessionType;
         use rmcp::model::{AnnotateAble, CallToolRequestParams, CallToolResult, RawContent, Tool};
         use std::path::PathBuf;
         use std::sync::atomic::{AtomicUsize, Ordering};
@@ -549,7 +549,7 @@ mod tests {
 
             fn from_env(
                 _model: ModelConfig,
-                _extensions: Vec<goose::config::ExtensionConfig>,
+                _extensions: Vec<mesmile::config::ExtensionConfig>,
             ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
                 Box::pin(async { Ok(Self::new()) })
             }
@@ -754,17 +754,17 @@ mod tests {
     #[cfg(test)]
     mod extension_manager_tests {
         use super::*;
-        use goose::agents::extension::ExtensionConfig;
-        use goose::agents::platform_extensions::{
+        use mesmile::agents::extension::ExtensionConfig;
+        use mesmile::agents::platform_extensions::{
             MANAGE_EXTENSIONS_TOOL_NAME, SEARCH_AVAILABLE_EXTENSIONS_TOOL_NAME,
         };
-        use goose::agents::AgentConfig;
-        use goose::config::permission::PermissionManager;
-        use goose::config::GooseMode;
-        use goose::session::SessionManager;
+        use mesmile::agents::AgentConfig;
+        use mesmile::config::permission::PermissionManager;
+        use mesmile::config::GooseMode;
+        use mesmile::session::SessionManager;
 
         async fn setup_agent_with_extension_manager() -> (Agent, String) {
-            use goose::session::session_manager::SessionType;
+            use mesmile::session::session_manager::SessionType;
 
             // Add the TODO extension to the config so it can be discovered by search_available_extensions
             // Set it as disabled initially so tests can enable it
@@ -852,17 +852,17 @@ mod tests {
     mod streaming_persistence_tests {
         use super::*;
         use async_trait::async_trait;
-        use goose::agents::{AgentConfig, SessionConfig};
-        use goose::config::permission::PermissionManager;
-        use goose::config::GooseMode;
-        use goose::conversation::message::Message;
-        use goose::model::ModelConfig;
-        use goose::providers::base::{
+        use mesmile::agents::{AgentConfig, SessionConfig};
+        use mesmile::config::permission::PermissionManager;
+        use mesmile::config::GooseMode;
+        use mesmile::conversation::message::Message;
+        use mesmile::model::ModelConfig;
+        use mesmile::providers::base::{
             MessageStream, Provider, ProviderDef, ProviderMetadata, ProviderUsage, Usage,
         };
-        use goose::providers::errors::ProviderError;
-        use goose::session::session_manager::SessionType;
-        use goose::session::SessionManager;
+        use mesmile::providers::errors::ProviderError;
+        use mesmile::session::session_manager::SessionType;
+        use mesmile::session::SessionManager;
         use rmcp::model::{CallToolRequestParams, Role, Tool};
         use rmcp::object;
         use std::path::PathBuf;
@@ -902,7 +902,7 @@ mod tests {
 
             fn from_env(
                 _model: ModelConfig,
-                _extensions: Vec<goose::config::ExtensionConfig>,
+                _extensions: Vec<mesmile::config::ExtensionConfig>,
             ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
                 unimplemented!()
             }
@@ -1123,19 +1123,19 @@ mod tests {
     mod goal_checking_tests {
         use super::*;
         use async_trait::async_trait;
-        use goose::agents::AgentConfig;
-        use goose::agents::SessionConfig;
-        use goose::config::permission::PermissionManager;
-        use goose::config::GooseMode;
-        use goose::conversation::message::Message;
-        use goose::model::ModelConfig;
-        use goose::providers::base::{
+        use mesmile::agents::AgentConfig;
+        use mesmile::agents::SessionConfig;
+        use mesmile::config::permission::PermissionManager;
+        use mesmile::config::GooseMode;
+        use mesmile::conversation::message::Message;
+        use mesmile::model::ModelConfig;
+        use mesmile::providers::base::{
             stream_from_single_message, MessageStream, Provider, ProviderDef, ProviderMetadata,
             ProviderUsage, Usage,
         };
-        use goose::providers::errors::ProviderError;
-        use goose::session::session_manager::SessionType;
-        use goose::session::SessionManager;
+        use mesmile::providers::errors::ProviderError;
+        use mesmile::session::session_manager::SessionType;
+        use mesmile::session::SessionManager;
         use rmcp::model::Tool;
         use std::path::PathBuf;
         use std::sync::atomic::{AtomicU32, Ordering};
@@ -1172,7 +1172,7 @@ mod tests {
 
             fn from_env(
                 _model: ModelConfig,
-                _extensions: Vec<goose::config::ExtensionConfig>,
+                _extensions: Vec<mesmile::config::ExtensionConfig>,
             ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
                 Box::pin(async { Ok(Self::new()) })
             }
@@ -1392,17 +1392,17 @@ mod tests {
     mod cumulative_token_tests {
         use super::*;
         use async_trait::async_trait;
-        use goose::agents::{AgentConfig, SessionConfig};
-        use goose::config::permission::PermissionManager;
-        use goose::config::GooseMode;
-        use goose::conversation::message::Message;
-        use goose::model::ModelConfig;
-        use goose::providers::base::{
+        use mesmile::agents::{AgentConfig, SessionConfig};
+        use mesmile::config::permission::PermissionManager;
+        use mesmile::config::GooseMode;
+        use mesmile::conversation::message::Message;
+        use mesmile::model::ModelConfig;
+        use mesmile::providers::base::{
             stream_from_single_message, MessageStream, Provider, ProviderUsage, Usage,
         };
-        use goose::providers::errors::ProviderError;
-        use goose::session::session_manager::SessionType;
-        use goose::session::SessionManager;
+        use mesmile::providers::errors::ProviderError;
+        use mesmile::session::session_manager::SessionType;
+        use mesmile::session::SessionManager;
         use rmcp::model::Tool;
         use std::path::PathBuf;
         use std::sync::Arc;
@@ -1506,11 +1506,11 @@ mod tests {
 
     mod frontend_extension_tests {
         use super::*;
-        use goose::agents::{AgentConfig, ExtensionConfig};
-        use goose::config::permission::PermissionManager;
-        use goose::config::GooseMode;
-        use goose::session::session_manager::SessionType;
-        use goose::session::{
+        use mesmile::agents::{AgentConfig, ExtensionConfig};
+        use mesmile::config::permission::PermissionManager;
+        use mesmile::config::GooseMode;
+        use mesmile::session::session_manager::SessionType;
+        use mesmile::session::{
             EnabledExtensionsState, ExtensionData, ExtensionState, SessionManager,
         };
         use rmcp::model::Tool;

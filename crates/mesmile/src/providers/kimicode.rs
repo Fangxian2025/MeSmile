@@ -359,7 +359,7 @@ impl ProviderDef for KimiCodeProvider {
             )],
         )
         .with_setup_steps(vec![
-            "Run `goose configure` and select 'Kimi Code'",
+            "Run `mesmile configure` and select 'Kimi Code'",
             "A browser window will open — log in to kimi.com and enter the displayed code",
             "Once authorized, Goose will save your token automatically",
         ])

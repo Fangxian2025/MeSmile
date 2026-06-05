@@ -1,5 +1,5 @@
-use goose::acp::custom_notifications::custom_notification_schemas;
-use goose::acp::server::GooseAcpAgent;
+use mesmile::acp::custom_notifications::custom_notification_schemas;
+use mesmile::acp::server::GooseAcpAgent;
 use schemars::SchemaGenerator;
 use serde_json::{json, Map, Value};
 use std::collections::{BTreeSet, HashMap};
@@ -282,7 +282,7 @@ fn main() {
 }
 
 fn is_unstable_method(method: &str) -> bool {
-    method.contains("_goose/unstable")
+    method.contains("_mesmile/unstable")
 }
 
 fn generated_type_name(name: &str, unstable_type_names: &BTreeSet<String>) -> String {

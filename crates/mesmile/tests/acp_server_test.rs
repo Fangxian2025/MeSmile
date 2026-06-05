@@ -19,9 +19,9 @@ use common_tests::{
     run_prompt_model_mismatch, run_prompt_skill, run_session_name_update_notification,
     run_shell_terminal_false, run_shell_terminal_true,
 };
-use goose::config::GooseMode;
-use goose::conversation::message::Message;
-use goose::session::{SessionManager, SessionType};
+use mesmile::config::GooseMode;
+use mesmile::conversation::message::Message;
+use mesmile::session::{SessionManager, SessionType};
 use std::path::Path;
 
 tests_config_option_set_error!(AcpServerConnection);

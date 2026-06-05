@@ -312,7 +312,7 @@ impl GooseAcpAgent {
         _req: ElicitationRespondRequest,
     ) -> Result<EmptyResponse, agent_client_protocol::Error> {
         Err(agent_client_protocol::Error::invalid_params()
-            .data("_goose/unstable/elicitation/respond must be handled by the connection-scoped dispatcher"))
+            .data("_mesmile/unstable/elicitation/respond must be handled by the connection-scoped dispatcher"))
     }
 
     #[custom_method(UpdateSessionProjectRequest)]

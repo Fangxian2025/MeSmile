@@ -515,7 +515,7 @@ fn build_authorize_url(redirect_uri: &str, pkce: &PkceChallenge, state: &str) ->
         ("id_token_add_organizations", "true"),
         ("codex_cli_simplified_flow", "true"),
         ("state", state),
-        ("originator", "goose"),
+        ("originator", "MeSmile"),
     ];
     let query = serde_urlencoded::to_string(params)?;
     Ok(format!("{}/oauth/authorize?{}", ISSUER, query))

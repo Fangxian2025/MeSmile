@@ -27,7 +27,7 @@ static LOGGER_PROVIDER: Mutex<Option<SdkLoggerProvider>> = Mutex::new(None);
 static GRPC_PROTOCOL_WARNING_EMITTED: std::sync::Once = std::sync::Once::new();
 
 /// One-shot stderr warning when `OTEL_EXPORTER_OTLP_PROTOCOL=grpc` is set
-/// in an environment where goose was built without the `grpc-tonic`
+/// in an environment where MeSmile was built without the `grpc-tonic`
 /// transport feature. Using `tracing::warn!` here would race the OTel
 /// subscriber that is being initialized; eprintln keeps it visible
 /// regardless of subscriber state.
@@ -130,7 +130,7 @@ pub fn signal_exporter(signal: &str) -> Option<ExporterType> {
     }
 }
 
-/// Promotes goose config-file OTel settings to env vars before exporter build.
+/// Promotes MeSmile config-file OTel settings to env vars before exporter build.
 pub fn promote_config_to_env(config: &crate::config::Config) {
     if env::var("OTEL_EXPORTER_OTLP_ENDPOINT").is_err() {
         if let Ok(endpoint) = config.get_param::<String>("otel_exporter_otlp_endpoint") {
@@ -200,7 +200,7 @@ fn create_otlp_tracing_layer() -> OtlpResult<OtlpTracingLayer> {
         ExporterType::Otlp => {
             if !signal_protocol_is_http("traces") {
                 warn_grpc_protocol_skipped_once();
-                return Err("OTLP traces protocol is grpc but goose was built without grpc-tonic; skipping traces exporter".into());
+                return Err("OTLP traces protocol is grpc but MeSmile was built without grpc-tonic; skipping traces exporter".into());
             }
             let exporter = opentelemetry_otlp::SpanExporter::builder()
                 .with_http()
@@ -248,7 +248,7 @@ fn create_otlp_metrics_layer() -> OtlpResult<OtlpMetricsLayer> {
         ExporterType::Otlp => {
             if !signal_protocol_is_http("metrics") {
                 warn_grpc_protocol_skipped_once();
-                return Err("OTLP metrics protocol is grpc but goose was built without grpc-tonic; skipping metrics exporter".into());
+                return Err("OTLP metrics protocol is grpc but MeSmile was built without grpc-tonic; skipping metrics exporter".into());
             }
             let exporter = opentelemetry_otlp::MetricExporter::builder()
                 .with_http()
@@ -283,7 +283,7 @@ fn create_otlp_logs_layer() -> OtlpResult<OtlpLogsLayer> {
         ExporterType::Otlp => {
             if !signal_protocol_is_http("logs") {
                 warn_grpc_protocol_skipped_once();
-                return Err("OTLP logs protocol is grpc but goose was built without grpc-tonic; skipping logs exporter".into());
+                return Err("OTLP logs protocol is grpc but MeSmile was built without grpc-tonic; skipping logs exporter".into());
             }
             let exporter = opentelemetry_otlp::LogExporter::builder()
                 .with_http()
@@ -338,7 +338,7 @@ fn create_otlp_tracing_filter() -> FilterFn<impl Fn(&Metadata<'_>) -> bool> {
 
         if metadata.level() == &Level::DEBUG {
             let target = metadata.target();
-            if target.starts_with("goose::")
+            if target.starts_with("mesmile::")
                 || target.starts_with("opentelemetry")
                 || target.starts_with("tracing_opentelemetry")
             {
@@ -362,8 +362,8 @@ fn create_otlp_metrics_filter() -> FilterFn<impl Fn(&Metadata<'_>) -> bool> {
 
         if metadata.level() == &Level::DEBUG {
             let target = metadata.target();
-            if target.starts_with("goose::telemetry")
-                || target.starts_with("goose::metrics")
+            if target.starts_with("mesmile::telemetry")
+                || target.starts_with("mesmile::metrics")
                 || target.contains("metric")
             {
                 return true;

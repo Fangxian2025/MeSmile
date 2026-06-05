@@ -2,13 +2,13 @@ use anyhow::Result;
 use clap::{Args, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, Shell as ClapShell};
 use clap_complete_nushell::Nushell as ClapNushell;
-use goose::agents::GoosePlatform;
-use goose::builtin_extension::register_builtin_extensions;
-use goose::config::{Config, GooseMode};
+use mesmile::agents::GoosePlatform;
+use mesmile::builtin_extension::register_builtin_extensions;
+use mesmile::config::{Config, GooseMode};
 #[cfg(feature = "telemetry")]
-use goose::posthog::get_telemetry_choice;
-use goose::recipe::Recipe;
-use goose::source_roots::SourceRoot;
+use mesmile::posthog::get_telemetry_choice;
+use mesmile::recipe::Recipe;
+use mesmile::source_roots::SourceRoot;
 use mesmile_mcp::mcp_server_runner::{serve, McpCommand};
 use mesmile_mcp::{AutoVisualiserRouter, ComputerControllerServer, MemoryServer, TutorialServer};
 
@@ -33,9 +33,9 @@ use crate::commands::skills::handle_skills_list;
 use crate::recipes::extract_from_cli::extract_recipe_info_from_cli;
 use crate::recipes::recipe::{explain_recipe, render_recipe_as_yaml};
 use crate::session::{build_session, SessionBuilderConfig};
-use goose::agents::Container;
-use goose::session::session_manager::SessionType;
-use goose::session::SessionManager;
+use mesmile::agents::Container;
+use mesmile::session::session_manager::SessionType;
+use mesmile::session::SessionManager;
 use std::io::Read;
 use std::path::PathBuf;
 use tracing::warn;
@@ -52,7 +52,7 @@ fn generate_serve_secret_key() -> String {
 }
 
 #[derive(Parser)]
-#[command(name = "goose", author, version, display_name = "", about, long_about = None)]
+#[command(name = "mesmile", author, version, display_name = "", about, long_about = None)]
 pub struct Cli {
     #[command(subcommand)]
     command: Option<Command>,
@@ -119,7 +119,7 @@ pub struct SessionOptions {
         long = "container",
         value_name = "CONTAINER_ID",
         help = "Docker container ID to run extensions inside",
-        long_help = "Run extensions (stdio and built-in) inside the specified container. The extension must exist in the container. For built-in extensions, goose must be installed inside the container."
+        long_help = "Run extensions (stdio and built-in) inside the specified container. The extension must exist in the container. For built-in extensions, mesmile must be installed inside the container."
     )]
     pub container: Option<String>,
 }
@@ -132,7 +132,7 @@ pub struct StreamableHttpOptions {
 
 fn parse_streamable_http_extension(input: &str) -> Result<StreamableHttpOptions, String> {
     let mut input_iter = input.split_whitespace();
-    let (mut url, mut timeout) = (String::new(), goose::config::DEFAULT_EXTENSION_TIMEOUT);
+    let (mut url, mut timeout) = (String::new(), mesmile::config::DEFAULT_EXTENSION_TIMEOUT);
 
     if let Some(url_str) = input_iter.next() {
         url.push_str(url_str);
@@ -182,7 +182,7 @@ pub struct ExtensionOptions {
         long = "with-builtin",
         value_name = "NAME",
         help = "Add builtin extensions by name (e.g., 'developer' or multiple: 'developer,github')",
-        long_help = "Add one or more builtin extensions that are bundled with goose by specifying their names, comma-separated",
+        long_help = "Add one or more builtin extensions that are bundled with mesmile by specifying their names, comma-separated",
         value_delimiter = ','
     )]
     pub builtins: Vec<String>,
@@ -213,7 +213,7 @@ pub struct InputOptions {
         short = 't',
         long = "text",
         value_name = "TEXT",
-        help = "Input text to provide to goose directly",
+        help = "Input text to provide to mesmile directly",
         long_help = "Input text containing commands for mesmile. Use this in lieu of the instructions argument.",
         conflicts_with = "instructions",
         conflicts_with = "recipe"
@@ -564,7 +564,7 @@ enum SessionCommand {
     )]
     Import {
         #[arg(
-            help = "Path to a goose session export, a Claude Code, Codex, or Pi .jsonl transcript, or a mesmile://sessions/nostr share link"
+            help = "Path to a mesmile session export, a Claude Code, Codex, or Pi .jsonl transcript, or a mesmile://sessions/nostr share link"
         )]
         input: String,
 
@@ -706,8 +706,8 @@ enum PluginCommand {
 
 #[derive(Subcommand)]
 enum SkillsCommand {
-    /// List all skills available to the goose agent
-    #[command(about = "List all skills available to the goose agent")]
+    /// List all skills available to the mesmile agent
+    #[command(about = "List all skills available to the mesmile agent")]
     List,
 }
 
@@ -779,12 +779,12 @@ enum RecipeCommand {
 
 #[derive(Subcommand)]
 enum Command {
-    /// Configure goose settings
-    #[command(about = "Configure goose settings")]
+    /// Configure mesmile settings
+    #[command(about = "Configure mesmile settings")]
     Configure {},
 
-    /// Display goose configuration information
-    #[command(about = "Display goose information")]
+    /// Display mesmile configuration information
+    #[command(about = "Display mesmile information")]
     Info {
         /// Show verbose information including current configuration
         #[arg(short, long, help = "Show verbose information including config.yaml")]
@@ -797,7 +797,7 @@ enum Command {
     Doctor {},
 
     /// Manage system prompts and behaviors
-    #[command(about = "Run one of the mcp servers bundled with goose")]
+    #[command(about = "Run one of the mcp servers bundled with mesmile")]
     Mcp {
         #[arg(value_parser = clap::value_parser!(McpCommand))]
         server: McpCommand,
@@ -811,7 +811,7 @@ enum Command {
             long = "with-builtin",
             value_name = "NAME",
             help = "Add builtin extensions by name (e.g., 'developer' or multiple: 'developer,github')",
-            long_help = "Add one or more builtin extensions that are bundled with goose by specifying their names, comma-separated",
+            long_help = "Add one or more builtin extensions that are bundled with mesmile by specifying their names, comma-separated",
             value_delimiter = ','
         )]
         builtins: Vec<String>,
@@ -830,7 +830,7 @@ enum Command {
             long = "with-builtin",
             value_name = "NAME",
             help = "Add builtin extensions by name (e.g., 'developer' or multiple: 'developer,github')",
-            long_help = "Add one or more builtin extensions that are bundled with goose by specifying their names, comma-separated",
+            long_help = "Add one or more builtin extensions that are bundled with mesmile by specifying their names, comma-separated",
             value_delimiter = ',',
             action = clap::ArgAction::Append
         )]
@@ -953,16 +953,16 @@ enum Command {
         command: GatewayCommand,
     },
 
-    /// Update the goose CLI version
+    /// Update the MeSmile CLI version
     #[cfg(feature = "update")]
-    #[command(about = "Update the goose CLI version")]
+    #[command(about = "Update the MeSmile CLI version")]
     Update {
         /// Update to canary version
         #[arg(
             short,
             long,
             help = "Update to canary version",
-            long_help = "Update to the latest canary version of the goose CLI, otherwise updates to the latest stable version."
+            long_help = "Update to the latest canary version of the MeSmile CLI, otherwise updates to the latest stable version."
         )]
         canary: bool,
 
@@ -973,15 +973,15 @@ enum Command {
 
     /// Terminal-integrated session (one session per terminal)
     #[command(
-        about = "Terminal-integrated goose session",
-        long_about = "Runs a goose session tied to your terminal window.\n\
+        about = "Terminal-integrated mesmile session",
+        long_about = "Runs a mesmile session tied to your terminal window.\n\
                       Each terminal maintains its own persistent session that resumes automatically.\n\n\
                       Setup:\n  \
-                        eval \"$(goose term init zsh)\"  # zsh/bash\n  \
-                        let init = ($nu.cache-dir | path join \"mesmile-term-init.nu\"); ^goose term init nu | save --force $init; source $init\n\n\
+                        eval \"$(mesmile term init zsh)\"  # zsh/bash\n  \
+                        let init = ($nu.cache-dir | path join \"mesmile-term-init.nu\"); ^mesmile term init nu | save --force $init; source $init\n\n\
                       Usage:\n  \
-                        goose term run \"list files in this directory\"\n  \
-                        @goose \"create a python script\"  # using alias\n  \
+                        mesmile term run \"list files in this directory\"\n  \
+                        @MeSmile \"create a python script\"  # using alias\n  \
                         @g \"quick question\"  # short alias"
     )]
     Term {
@@ -989,18 +989,18 @@ enum Command {
         command: TermCommand,
     },
 
-    /// Launch the goose terminal UI (TUI)
+    /// Launch the mesmile terminal UI (TUI)
     #[cfg(feature = "tui")]
     #[command(
-        about = "Launch the goose terminal UI",
-        long_about = "Launch the goose terminal UI (the @aaif/goose npm package).\n\
+        about = "Launch the mesmile terminal UI",
+        long_about = "Launch the mesmile terminal UI (the @fangxian2025/mesmile npm package).\n\
                       \n\
                       Resolution order:\n  \
-                      1. GOOSE_TUI_SCRIPT, if set to an existing dist/tui.js\n  \
+                      1. MESMILE_TUI_SCRIPT, if set to an existing dist/tui.js\n  \
                       2. A local checkout's ui/text/dist/tui.js (dev workflow)\n  \
                       3. `npx --yes --package <spec> -- mesmile-tui` (deployed installs)\n\
                       \n\
-                      Override the npm spec via GOOSE_TUI_NPM_SPEC (default: @aaif/goose@latest).\n\
+                      Override the npm spec via MESMILE_TUI_NPM_SPEC (default: @fangxian2025/mesmile@latest).\n\
                       Local script mode requires `node` on PATH; npx mode requires `npx` on PATH.\n\
                       Any extra arguments are passed through to the TUI."
     )]
@@ -1080,7 +1080,7 @@ enum Command {
         /// Disable the Rust-driven parallel orchestrator and fall back to
         /// the single-prompt path that asks the main agent to delegate
         /// each check via `delegate(... async: true ...)`. The default
-        /// orchestrator dispatches one `goose run` subprocess per check
+        /// orchestrator dispatches one `mesmile run` subprocess per check
         /// (capped at 4 concurrent), bounding wall-clock to the slowest
         /// single check rather than waiting on the model to issue
         /// dispatches.
@@ -1179,17 +1179,17 @@ enum TermCommand {
     #[command(
         about = "Print shell initialization script",
         long_about = "Prints shell configuration to set up terminal-integrated sessions.\n\
-                      Each terminal gets a persistent goose session that automatically resumes.\n\n\
+                      Each terminal gets a persistent mesmile session that automatically resumes.\n\n\
                       Setup:\n  \
-                        echo 'eval \"$(goose term init zsh)\"' >> ~/.zshrc\n  \
+                        echo 'eval \"$(mesmile term init zsh)\"' >> ~/.zshrc\n  \
                         source ~/.zshrc\n\n\
                         Nushell:\n  \
                         let init = ($nu.cache-dir | path join \"mesmile-term-init.nu\")\n  \
-                        ^goose term init nu | save --force $init\n  \
+                        ^mesmile term init nu | save --force $init\n  \
                         source $init\n\n\
                       With --default (anything typed that isn't a command goes to goose):\n  \
-                        echo 'eval \"$(goose term init zsh --default)\"' >> ~/.zshrc\n  \
-                        ^goose term init nu --default | save --force $init"
+                        echo 'eval \"$(mesmile term init zsh --default)\"' >> ~/.zshrc\n  \
+                        ^mesmile term init nu --default | save --force $init"
     )]
     Init {
         /// Shell type (bash, zsh, fish, nu, powershell)
@@ -1220,8 +1220,8 @@ enum TermCommand {
         about = "Run a prompt in the terminal session",
         long_about = "Run a prompt in the terminal-integrated session.\n\n\
                       Examples:\n  \
-                        goose term run list files in this directory\n  \
-                        @goose list files  # using alias\n  \
+                        mesmile term run list files in this directory\n  \
+                        @MeSmile list files  # using alias\n  \
                         @g why did that fail  # short alias"
     )]
     Run {
@@ -1321,9 +1321,9 @@ async fn handle_mcp_command(server: McpCommand) -> Result<()> {
 }
 
 async fn handle_serve_command(host: String, port: u16, builtins: Vec<String>) -> Result<()> {
-    use goose::acp::server_factory::{AcpServer, AcpServerFactoryConfig};
-    use goose::acp::transport::create_router;
-    use goose::config::paths::Paths;
+    use mesmile::acp::server_factory::{AcpServer, AcpServerFactoryConfig};
+    use mesmile::acp::transport::create_router;
+    use mesmile::config::paths::Paths;
     use std::net::SocketAddr;
     use std::sync::Arc;
     use tracing::info;
@@ -1599,7 +1599,7 @@ fn parse_run_input(
         (Some(file), _, _) => {
             let contents = std::fs::read_to_string(file).unwrap_or_else(|err| {
                 eprintln!(
-                    "Instruction file not found — did you mean to use goose run --text?\n{}",
+                    "Instruction file not found — did you mean to use mesmile run --text?\n{}",
                     err
                 );
                 std::process::exit(1);
@@ -1628,7 +1628,7 @@ fn parse_run_input(
             let recipe_version = crate::recipes::search_recipe::load_recipe_file(recipe_name)
                 .ok()
                 .and_then(|rf| {
-                    goose::recipe::template_recipe::parse_recipe_content(
+                    mesmile::recipe::template_recipe::parse_recipe_content(
                         &rf.content,
                         Some(rf.parent_dir.display().to_string()),
                     )
@@ -1843,8 +1843,8 @@ async fn handle_term_subcommand(command: TermCommand) -> Result<()> {
 
 #[cfg(feature = "local-inference")]
 async fn handle_local_models_command(command: LocalModelsCommand) -> Result<()> {
-    use goose::providers::local_inference::hf_models;
-    use goose::providers::local_inference::local_model_registry::{
+    use mesmile::providers::local_inference::hf_models;
+    use mesmile::providers::local_inference::local_model_registry::{
         get_registry, mmproj_local_path, model_id_from_repo, LocalModelEntry,
     };
 
@@ -1875,7 +1875,7 @@ async fn handle_local_models_command(command: LocalModelsCommand) -> Result<()> 
                     println!("  {} — {}", file.quantization, size);
                 }
                 println!(
-                    "  Download: goose local-models download {}:<quantization>",
+                    "  Download: mesmile local-models download {}:<quantization>",
                     model.repo_id
                 );
             }
@@ -1894,7 +1894,7 @@ async fn handle_local_models_command(command: LocalModelsCommand) -> Result<()> 
             let file = resolved.files.into_iter().next().unwrap();
             let model_id = model_id_from_repo(&repo_id, &file.quantization);
             let local_path =
-                goose::config::paths::Paths::in_data_dir("models").join(&file.filename);
+                mesmile::config::paths::Paths::in_data_dir("models").join(&file.filename);
             let mmproj_path = mmproj
                 .as_ref()
                 .map(|mmproj| mmproj_local_path(&repo_id, &mmproj.filename));
@@ -1943,8 +1943,8 @@ async fn handle_local_models_command(command: LocalModelsCommand) -> Result<()> 
             }
 
             // Download
-            let manager = goose::download_manager::get_download_manager();
-            let hf_token = goose::providers::huggingface_auth::resolve_token_async()
+            let manager = mesmile::download_manager::get_download_manager();
+            let hf_token = mesmile::providers::huggingface_auth::resolve_token_async()
                 .await
                 .ok()
                 .flatten();
@@ -1962,7 +1962,7 @@ async fn handle_local_models_command(command: LocalModelsCommand) -> Result<()> 
             loop {
                 if let Some(progress) = manager.get_progress(&format!("{}-model", model_id)) {
                     match progress.status {
-                        goose::download_manager::DownloadStatus::Downloading => {
+                        mesmile::download_manager::DownloadStatus::Downloading => {
                             print!(
                                 "\r  {:.1}% ({:.0}MB / {:.0}MB)",
                                 progress.progress_percent,
@@ -1972,15 +1972,15 @@ async fn handle_local_models_command(command: LocalModelsCommand) -> Result<()> 
                             use std::io::Write;
                             std::io::stdout().flush().ok();
                         }
-                        goose::download_manager::DownloadStatus::Completed => {
+                        mesmile::download_manager::DownloadStatus::Completed => {
                             println!("\nDownloaded: {}", model_id);
                             break;
                         }
-                        goose::download_manager::DownloadStatus::Failed => {
+                        mesmile::download_manager::DownloadStatus::Failed => {
                             let err = progress.error.unwrap_or_default();
                             anyhow::bail!("Download failed: {}", err);
                         }
-                        goose::download_manager::DownloadStatus::Cancelled => {
+                        mesmile::download_manager::DownloadStatus::Cancelled => {
                             println!("\nDownload cancelled.");
                             break;
                         }
@@ -2096,7 +2096,7 @@ pub async fn cli() -> anyhow::Result<()> {
         Some(Command::Doctor {}) => crate::commands::doctor::handle_doctor().await,
         Some(Command::Info { verbose, check }) => handle_info(verbose, check).await,
         Some(Command::Mcp { server }) => handle_mcp_command(server).await,
-        Some(Command::Acp { builtins }) => goose::acp::server::run(builtins).await,
+        Some(Command::Acp { builtins }) => mesmile::acp::server::run(builtins).await,
         Some(Command::Serve {
             host,
             port,
@@ -2210,7 +2210,7 @@ pub async fn cli() -> anyhow::Result<()> {
             .await
         }
         Some(Command::ValidateExtensions { file }) => {
-            use goose::agents::validate_extensions::validate_bundled_extensions;
+            use mesmile::agents::validate_extensions::validate_bundled_extensions;
             match validate_bundled_extensions(&file) {
                 Ok(msg) => {
                     println!("{msg}");
@@ -2266,7 +2266,7 @@ mod tests {
         init.write_long_help(&mut buffer).expect("write help");
 
         let help = String::from_utf8(buffer).expect("utf8");
-        assert!(help.contains("goose term init nu"));
+        assert!(help.contains("mesmile term init nu"));
         assert!(help.contains("Supported for zsh, bash, and nu"));
     }
 

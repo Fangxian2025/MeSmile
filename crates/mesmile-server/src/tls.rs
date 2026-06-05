@@ -1,4 +1,4 @@
-//! TLS configuration for the goose server.
+//! TLS configuration for the MeSmile server.
 //!
 //! Two TLS backends are supported for the HTTPS listener via `axum-server`:
 //!
@@ -12,7 +12,7 @@
 //!   the server listener always uses OpenSSL when this feature is active.
 
 use anyhow::{bail, Result};
-use goose::config::paths::Paths;
+use mesmile::config::paths::Paths;
 use rcgen::{CertificateParams, DnType, KeyPair, SanType};
 use std::path::Path;
 

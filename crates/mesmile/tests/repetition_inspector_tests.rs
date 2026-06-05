@@ -1,4 +1,4 @@
-use goose::tool_monitor::RepetitionInspector;
+use mesmile::tool_monitor::RepetitionInspector;
 use rmcp::model::CallToolRequestParams;
 use rmcp::object;
 

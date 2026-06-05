@@ -5,7 +5,7 @@
 //!
 //! # Prerequisites
 //!
-//! You must have goose built and a provider configured (`goose configure`).
+//! You must have goose built and a provider configured (`mesmile configure`).
 //!
 //! # Usage
 //!
@@ -13,7 +13,7 @@
 //! cargo run -p mesmile-sdk --example acp_client -- "What is 2 + 2?"
 //! ```
 //!
-//! Or with a custom goose binary path:
+//! Or with a custom MeSmile binary path:
 //!
 //! ```bash
 //! cargo run -p mesmile-sdk --example acp_client -- --mesmile-bin ./target/debug/goose "Explain Rust's ownership model in one sentence"

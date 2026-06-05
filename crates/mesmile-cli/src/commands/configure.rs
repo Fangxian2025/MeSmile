@@ -1,31 +1,31 @@
 use crate::recipes::github_recipe::GOOSE_RECIPE_GITHUB_REPO_CONFIG_KEY;
 use cliclack::spinner;
 use console::style;
-use goose::agents::extension::{ToolInfo, PLATFORM_EXTENSIONS};
-use goose::agents::extension_manager::get_parameter_names;
-use goose::agents::Agent;
-use goose::agents::{extension::Envs, ExtensionConfig};
-use goose::config::declarative_providers::{
+use mesmile::agents::extension::{ToolInfo, PLATFORM_EXTENSIONS};
+use mesmile::agents::extension_manager::get_parameter_names;
+use mesmile::agents::Agent;
+use mesmile::agents::{extension::Envs, ExtensionConfig};
+use mesmile::config::declarative_providers::{
     create_custom_provider, remove_custom_provider, CreateCustomProviderParams,
 };
-use goose::config::extensions::{
+use mesmile::config::extensions::{
     get_all_extension_names, get_all_extensions, get_enabled_extensions, get_extension_by_name,
     name_to_key, remove_extension, set_extension, set_extension_enabled,
 };
-use goose::config::paths::Paths;
-use goose::config::permission::PermissionLevel;
-use goose::config::signup_tetrate::TetrateAuth;
-use goose::config::{
+use mesmile::config::paths::Paths;
+use mesmile::config::permission::PermissionLevel;
+use mesmile::config::signup_tetrate::TetrateAuth;
+use mesmile::config::{
     configure_tetrate, Config, ConfigError, ExperimentManager, ExtensionEntry, GooseMode,
     PermissionManager,
 };
-use goose::model::ModelConfig;
+use mesmile::model::ModelConfig;
 #[cfg(feature = "telemetry")]
-use goose::posthog::{get_telemetry_choice, TELEMETRY_ENABLED_KEY};
-use goose::providers::base::ConfigKey;
-use goose::providers::provider_test::test_provider_configuration;
-use goose::providers::{create, providers, retry_operation, RetryConfig};
-use goose::session::SessionType;
+use mesmile::posthog::{get_telemetry_choice, TELEMETRY_ENABLED_KEY};
+use mesmile::providers::base::ConfigKey;
+use mesmile::providers::provider_test::test_provider_configuration;
+use mesmile::providers::{create, providers, retry_operation, RetryConfig};
+use mesmile::session::SessionType;
 use serde_json::Value;
 use std::collections::HashMap;
 use std::io::IsTerminal;
@@ -37,8 +37,8 @@ const MULTISELECT_VISIBILITY_HINT: &str = "<";
 pub async fn handle_configure() -> anyhow::Result<()> {
     if !std::io::stdin().is_terminal() {
         anyhow::bail!(
-            "goose configure requires an interactive terminal.\n\
-             If you installed via 'curl ... | bash', run 'goose configure' separately after installation."
+            "mesmile configure requires an interactive terminal.\n\
+             If you installed via 'curl ... | bash', run 'mesmile configure' separately after installation."
         );
     }
 
@@ -64,7 +64,7 @@ pub fn configure_telemetry_consent_dialog() -> anyhow::Result<bool> {
     );
     println!(
         "{}",
-        style("This helps us understand how goose is used and identify areas for improvement.")
+        style("This helps us understand how MeSmile is used and identify areas for improvement.")
             .dim()
     );
     println!();
@@ -94,7 +94,7 @@ pub fn configure_telemetry_consent_dialog() -> anyhow::Result<bool> {
     );
     println!(
         "{}",
-        style("or any personal data. You can change this anytime with 'goose configure'.").dim()
+        style("or any personal data. You can change this anytime with 'mesmile configure'.").dim()
     );
     println!();
 
@@ -179,7 +179,7 @@ async fn handle_manual_provider_setup(config: &Config) {
             println!(
                 "\n  {}: Run '{}' again to adjust your config or add extensions",
                 style("Tip").green().italic(),
-                style("goose configure").cyan()
+                style("mesmile configure").cyan()
             );
             set_extension(ExtensionEntry {
                 enabled: true,
@@ -191,7 +191,7 @@ async fn handle_manual_provider_setup(config: &Config) {
             println!(
                 "\n  {}: We did not save your config, inspect your credentials\n   and run '{}' again to ensure goose can connect",
                 style("Warning").yellow().italic(),
-                style("goose configure").cyan()
+                style("mesmile configure").cyan()
             );
         }
         Err(e) => {
@@ -208,7 +208,7 @@ fn print_manual_config_error(e: &anyhow::Error) {
                 "\n  {} Required configuration key '{}' not found \n  Please provide this value and run '{}' again",
                 style("Error").red().italic(),
                 key,
-                style("goose configure").cyan()
+                style("mesmile configure").cyan()
             );
         }
         Some(ConfigError::KeyringError(msg)) => {
@@ -219,7 +219,7 @@ fn print_manual_config_error(e: &anyhow::Error) {
                 "\n  {} Invalid configuration value: {} \n  Please check your input and run '{}' again",
                 style("Error").red().italic(),
                 msg,
-                style("goose configure").cyan()
+                style("mesmile configure").cyan()
             );
         }
         Some(ConfigError::FileError(err)) => {
@@ -227,7 +227,7 @@ fn print_manual_config_error(e: &anyhow::Error) {
                 "\n  {} Failed to access config file: {} \n  Please check file permissions and run '{}' again",
                 style("Error").red().italic(),
                 err,
-                style("goose configure").cyan()
+                style("mesmile configure").cyan()
             );
         }
         Some(ConfigError::DirectoryError(msg)) => {
@@ -235,7 +235,7 @@ fn print_manual_config_error(e: &anyhow::Error) {
                 "\n  {} Failed to access config directory: {} \n  Please check directory permissions and run '{}' again",
                 style("Error").red().italic(),
                 msg,
-                style("goose configure").cyan()
+                style("mesmile configure").cyan()
             );
         }
         _ => {
@@ -243,7 +243,7 @@ fn print_manual_config_error(e: &anyhow::Error) {
                 "\n  {} {} \n  We did not save your config, inspect your credentials\n   and run '{}' again to ensure goose can connect",
                 style("Error").red().italic(),
                 e,
-                style("goose configure").cyan()
+                style("mesmile configure").cyan()
             );
         }
     }
@@ -255,7 +255,7 @@ fn print_keyring_error(msg: &str) {
         "\n  {} Failed to access secure storage (keyring): {} \n  Please check your system keychain and run '{}' again. \n  If your system is unable to use the keyring, please try setting secret key(s) via environment variables.",
         style("Error").red().italic(),
         msg,
-        style("goose configure").cyan()
+        style("mesmile configure").cyan()
     );
 }
 
@@ -265,7 +265,7 @@ fn print_keyring_error(msg: &str) {
         "\n  {} Failed to access Windows Credential Manager: {} \n  Please check Windows Credential Manager and run '{}' again. \n  If your system is unable to use the Credential Manager, please try setting secret key(s) via environment variables.",
         style("Error").red().italic(),
         msg,
-        style("goose configure").cyan()
+        style("mesmile configure").cyan()
     );
 }
 
@@ -275,7 +275,7 @@ fn print_keyring_error(msg: &str) {
         "\n  {} Failed to access secure storage: {} \n  Please check your system's secure storage and run '{}' again. \n  If your system is unable to use secure storage, please try setting secret key(s) via environment variables.",
         style("Error").red().italic(),
         msg,
-        style("goose configure").cyan()
+        style("mesmile configure").cyan()
     );
 }
 
@@ -316,7 +316,7 @@ async fn handle_existing_config() -> anyhow::Result<()> {
         .item(
             "settings",
             "goose settings",
-            "Set the goose mode, Tool Output, Tool Permissions, Experiment, goose recipe github repo and more",
+            "Set the MeSmile mode, Tool Output, Tool Permissions, Experiment, goose recipe github repo and more",
         )
         .interact()?;
 
@@ -446,7 +446,7 @@ fn interactive_model_search(models: &[String]) -> anyhow::Result<String> {
 
 fn select_model_from_list(
     models: &[String],
-    provider_meta: &goose::providers::base::ProviderMetadata,
+    provider_meta: &mesmile::providers::base::ProviderMetadata,
 ) -> anyhow::Result<String> {
     const MAX_MODELS: usize = 10;
     const UNLISTED_MODEL_KEY: &str = "__unlisted__";
@@ -520,7 +520,7 @@ fn select_model_from_list(
 }
 
 fn prompt_unlisted_model(
-    provider_meta: &goose::providers::base::ProviderMetadata,
+    provider_meta: &mesmile::providers::base::ProviderMetadata,
 ) -> anyhow::Result<String> {
     let model: String = cliclack::input("Enter the model name:")
         .placeholder(&provider_meta.default_model)
@@ -765,7 +765,7 @@ pub async fn configure_provider_dialog() -> anyhow::Result<bool> {
     {
         let supports_thinking = match temp_provider.fetch_model_info(&model).await {
             Ok(model_info) => model_info.reasoning,
-            Err(_) => goose::model::ModelConfig::new(&model)
+            Err(_) => mesmile::model::ModelConfig::new(&model)
                 .map(|c| c.is_reasoning_model())
                 .unwrap_or(false),
         };
@@ -795,7 +795,7 @@ pub async fn configure_provider_dialog() -> anyhow::Result<bool> {
     match test_provider_configuration(provider_name, &model, toolshim_enabled, toolshim_model).await
     {
         Ok(()) => {
-            goose::config::set_active_provider(config, provider_name, &model)?;
+            mesmile::config::set_active_provider(config, provider_name, &model)?;
             print_config_file_saved()?;
             Ok(true)
         }
@@ -814,7 +814,7 @@ pub async fn configure_provider_dialog() -> anyhow::Result<bool> {
 /// Configure extensions that can be used with goose
 /// Dialog for toggling which extensions are enabled/disabled
 pub fn toggle_extensions_dialog() -> anyhow::Result<()> {
-    for warning in goose::config::get_warnings() {
+    for warning in mesmile::config::get_warnings() {
         eprintln!("{}", style(format!("Warning: {}", warning)).yellow());
     }
 
@@ -877,7 +877,7 @@ pub fn toggle_extensions_dialog() -> anyhow::Result<()> {
 fn prompt_extension_timeout() -> anyhow::Result<u64> {
     Ok(
         cliclack::input("Please set the timeout for this tool (in secs):")
-            .placeholder(&goose::config::DEFAULT_EXTENSION_TIMEOUT.to_string())
+            .placeholder(&mesmile::config::DEFAULT_EXTENSION_TIMEOUT.to_string())
             .validate(|input: &String| match input.parse::<u64>() {
                 Ok(_) => Ok(()),
                 Err(_) => Err("Please enter a valid timeout"),
@@ -1059,7 +1059,7 @@ fn configure_stdio_extension() -> anyhow::Result<()> {
 
     let timeout = prompt_extension_timeout()?;
 
-    let mut parts = goose::utils::split_command_args(&command_str)?;
+    let mut parts = mesmile::utils::split_command_args(&command_str)?;
     let cmd = if parts.is_empty() {
         String::new()
     } else {
@@ -1164,7 +1164,7 @@ pub fn configure_extensions_dialog() -> anyhow::Result<()> {
 }
 
 pub fn remove_extension_dialog() -> anyhow::Result<()> {
-    for warning in goose::config::get_warnings() {
+    for warning in mesmile::config::get_warnings() {
         eprintln!("{}", style(format!("Warning: {}", warning)).yellow());
     }
 
@@ -1228,8 +1228,8 @@ pub async fn configure_settings_dialog() -> anyhow::Result<()> {
     #[allow(unused_mut)]
     let mut setting_select = cliclack::select("What setting would you like to configure?").item(
         "mesmile_mode",
-        "goose mode",
-        "Configure goose mode",
+        "MeSmile mode",
+        "Configure MeSmile mode",
     );
     #[cfg(feature = "telemetry")]
     {
@@ -1321,7 +1321,7 @@ pub fn configure_mesmile_mode_dialog() -> anyhow::Result<()> {
         );
     }
 
-    let mode = cliclack::select("Which goose mode would you like to configure?")
+    let mode = cliclack::select("Which MeSmile mode would you like to configure?")
         .item(
             GooseMode::Auto,
             "Auto Mode",
@@ -1749,9 +1749,9 @@ pub fn configure_max_turns_dialog() -> anyhow::Result<()> {
 
 /// Handle OpenRouter authentication
 pub async fn handle_openrouter_auth() -> anyhow::Result<()> {
-    use goose::config::{configure_openrouter, signup_openrouter::OpenRouterAuth};
-    use goose::conversation::message::Message;
-    use goose::providers::create;
+    use mesmile::config::{configure_openrouter, signup_openrouter::OpenRouterAuth};
+    use mesmile::conversation::message::Message;
+    use mesmile::providers::create;
 
     // Use the OpenRouter authentication flow
     let mut auth_flow = OpenRouterAuth::new()?;
@@ -1771,7 +1771,7 @@ pub async fn handle_openrouter_auth() -> anyhow::Result<()> {
     // Test configuration - get the model that was configured
     println!("\nTesting configuration...");
     let configured_model: String = config.get_mesmile_model()?;
-    let model_config = match goose::model::ModelConfig::new(&configured_model) {
+    let model_config = match mesmile::model::ModelConfig::new(&configured_model) {
         Ok(config) => config.with_canonical_limits("openrouter"),
         Err(e) => {
             eprintln!("⚠️  Invalid model configuration: {}", e);
@@ -1809,7 +1809,7 @@ pub async fn handle_openrouter_auth() -> anyhow::Result<()> {
                             config: ExtensionConfig::Platform {
                                 name: "developer".to_string(),
                                 description: "Developer extension".to_string(),
-                                display_name: Some(goose::config::DEFAULT_DISPLAY_NAME.to_string()),
+                                display_name: Some(mesmile::config::DEFAULT_DISPLAY_NAME.to_string()),
                                 bundled: Some(true),
                                 available_tools: Vec::new(),
                             },
@@ -1852,7 +1852,7 @@ pub async fn handle_tetrate_auth() -> anyhow::Result<()> {
     // Test configuration
     println!("\nTesting configuration...");
     let configured_model: String = config.get_mesmile_model()?;
-    let model_config = match goose::model::ModelConfig::new(&configured_model) {
+    let model_config = match mesmile::model::ModelConfig::new(&configured_model) {
         Ok(config) => config.with_canonical_limits("tetrate"),
         Err(e) => {
             eprintln!("⚠️  Invalid model configuration: {}", e);
@@ -1880,7 +1880,7 @@ pub async fn handle_tetrate_auth() -> anyhow::Result<()> {
                             config: ExtensionConfig::Platform {
                                 name: "developer".to_string(),
                                 description: "Developer extension".to_string(),
-                                display_name: Some(goose::config::DEFAULT_DISPLAY_NAME.to_string()),
+                                display_name: Some(mesmile::config::DEFAULT_DISPLAY_NAME.to_string()),
                                 bundled: Some(true),
                                 available_tools: Vec::new(),
                             },
@@ -2073,9 +2073,9 @@ fn add_provider() -> anyhow::Result<()> {
 }
 
 async fn remove_provider() -> anyhow::Result<()> {
-    let custom_providers_dir = goose::config::declarative_providers::custom_providers_dir();
+    let custom_providers_dir = mesmile::config::declarative_providers::custom_providers_dir();
     let custom_providers = if custom_providers_dir.exists() {
-        goose::config::declarative_providers::load_custom_providers(&custom_providers_dir)?
+        mesmile::config::declarative_providers::load_custom_providers(&custom_providers_dir)?
     } else {
         Vec::new()
     };
@@ -2096,7 +2096,7 @@ async fn remove_provider() -> anyhow::Result<()> {
         .interact()?;
 
     // Clean up provider-specific cache files (e.g., OAuth tokens) before removing config
-    if let Err(e) = goose::providers::cleanup_provider(selected_id).await {
+    if let Err(e) = mesmile::providers::cleanup_provider(selected_id).await {
         tracing::warn!("Failed to clean up provider cache: {}", e);
     }
 

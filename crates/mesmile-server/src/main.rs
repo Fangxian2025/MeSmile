@@ -12,7 +12,7 @@ use std::path::PathBuf;
 use std::{backtrace::Backtrace, panic::PanicHookInfo};
 
 use clap::{Parser, Subcommand};
-use goose::agents::validate_extensions;
+use mesmile::agents::validate_extensions;
 use mesmile_mcp::{
     mcp_server_runner::{serve, McpCommand},
     AutoVisualiserRouter, ComputerControllerServer, MemoryServer, TutorialServer,

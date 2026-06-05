@@ -1,14 +1,14 @@
-use goose::agents::extension::Envs;
-use goose::agents::extension::ToolInfo;
-use goose::agents::ExtensionConfig;
-use goose::config::permission::PermissionLevel;
-use goose::config::ExtensionEntry;
-use goose::conversation::Conversation;
-use goose::download_manager::{DownloadProgress, DownloadStatus};
-use goose::model::{ModelConfig, ThinkingEffort};
-use goose::permission::permission_confirmation::{Permission, PrincipalType};
-use goose::providers::base::{ConfigKey, ModelInfo, ProviderMetadata, ProviderType};
-use goose::session::{Session, SessionInsights, SessionType, SystemInfo};
+use mesmile::agents::extension::Envs;
+use mesmile::agents::extension::ToolInfo;
+use mesmile::agents::ExtensionConfig;
+use mesmile::config::permission::PermissionLevel;
+use mesmile::config::ExtensionEntry;
+use mesmile::conversation::Conversation;
+use mesmile::download_manager::{DownloadProgress, DownloadStatus};
+use mesmile::model::{ModelConfig, ThinkingEffort};
+use mesmile::permission::permission_confirmation::{Permission, PrincipalType};
+use mesmile::providers::base::{ConfigKey, ModelInfo, ProviderMetadata, ProviderType};
+use mesmile::session::{Session, SessionInsights, SessionType, SystemInfo};
 use rmcp::model::{
     Annotations, Content, EmbeddedResource, Icon, IconTheme, ImageContent, JsonObject,
     RawAudioContent, RawContent, RawEmbeddedResource, RawImageContent, RawResource, RawTextContent,
@@ -16,10 +16,10 @@ use rmcp::model::{
 };
 use utoipa::{OpenApi, ToSchema};
 
-use goose::config::declarative_providers::{
+use mesmile::config::declarative_providers::{
     DeclarativeProviderConfig, EnvVarConfig, LoadedProvider, ProviderEngine,
 };
-use goose::conversation::message::{
+use mesmile::conversation::message::{
     ActionRequired, ActionRequiredData, FrontendToolRequest, InferenceMetadata, Message,
     MessageContent, MessageMetadata, RedactedThinkingContent, SystemNotificationContent,
     SystemNotificationType, ThinkingContent, TokenState, ToolConfirmationRequest, ToolRequest,
@@ -502,10 +502,10 @@ derive_utoipa!(IconTheme as IconThemeSchema);
         super::routes::config_management::ToolPermission,
         super::routes::config_management::UpsertPermissionsQuery,
         super::routes::config_management::UpdateCustomProviderRequest,
-        goose::providers::catalog::ProviderCatalogEntry,
-        goose::providers::catalog::ProviderTemplate,
-        goose::providers::catalog::ModelTemplate,
-        goose::providers::catalog::ModelCapabilities,
+        mesmile::providers::catalog::ProviderCatalogEntry,
+        mesmile::providers::catalog::ProviderTemplate,
+        mesmile::providers::catalog::ModelTemplate,
+        mesmile::providers::catalog::ModelCapabilities,
         super::routes::config_management::CreateCustomProviderResponse,
         super::routes::config_management::CheckProviderRequest,
         super::routes::config_management::SetProviderRequest,
@@ -515,7 +515,7 @@ derive_utoipa!(IconTheme as IconThemeSchema);
         super::routes::prompts::PromptsListResponse,
         super::routes::prompts::PromptContentResponse,
         super::routes::prompts::SavePromptRequest,
-        goose::prompt_template::Template,
+        mesmile::prompt_template::Template,
         super::routes::action_required::ConfirmToolActionRequest,
         super::routes::reply::ChatRequest,
         super::routes::session_events::SessionReplyRequest,
@@ -585,19 +585,19 @@ derive_utoipa!(IconTheme as IconThemeSchema);
         ThinkingEffort,
         super::routes::config_management::ProviderModelInfoQuery,
         Session,
-        goose::config::mesmile_mode::GooseMode,
+        mesmile::config::mesmile_mode::GooseMode,
         SessionInsights,
         SessionType,
         SystemInfo,
         Conversation,
         IconSchema,
         IconThemeSchema,
-        goose::session::extension_data::ExtensionData,
+        mesmile::session::extension_data::ExtensionData,
         super::routes::schedule::CreateScheduleRequest,
         super::routes::schedule::UpdateScheduleRequest,
         super::routes::schedule::KillJobResponse,
         super::routes::schedule::InspectJobResponse,
-        goose::scheduler::ScheduledJob,
+        mesmile::scheduler::ScheduledJob,
         super::routes::schedule::RunNowResponse,
         super::routes::schedule::ListSchedulesResponse,
         super::routes::schedule::SessionsQuery,
@@ -622,16 +622,16 @@ derive_utoipa!(IconTheme as IconThemeSchema);
         super::routes::recipe::ParseRecipeResponse,
         super::routes::recipe::RecipeToYamlRequest,
         super::routes::recipe::RecipeToYamlResponse,
-        goose::recipe::Recipe,
-        goose::recipe::Author,
-        goose::recipe::Settings,
-        goose::recipe::RecipeParameter,
-        goose::recipe::RecipeParameterInputType,
-        goose::recipe::RecipeParameterRequirement,
-        goose::recipe::Response,
-        goose::recipe::SubRecipe,
-        goose::agents::types::RetryConfig,
-        goose::agents::types::SuccessCheck,
+        mesmile::recipe::Recipe,
+        mesmile::recipe::Author,
+        mesmile::recipe::Settings,
+        mesmile::recipe::RecipeParameter,
+        mesmile::recipe::RecipeParameterInputType,
+        mesmile::recipe::RecipeParameterRequirement,
+        mesmile::recipe::Response,
+        mesmile::recipe::SubRecipe,
+        mesmile::agents::types::RetryConfig,
+        mesmile::agents::types::SuccessCheck,
         super::routes::agent::UpdateProviderRequest,
         super::routes::agent::UpdateSessionRequest,
         super::routes::agent::GetToolsQuery,
@@ -654,21 +654,21 @@ derive_utoipa!(IconTheme as IconThemeSchema);
         super::routes::agent::RemoveExtensionRequest,
         super::routes::agent::ResumeAgentResponse,
         super::routes::agent::RestartAgentResponse,
-        goose::agents::ExtensionLoadResult,
+        mesmile::agents::ExtensionLoadResult,
         super::routes::setup::SetupResponse,
         super::tunnel::TunnelInfo,
         super::tunnel::TunnelState,
         super::routes::telemetry::TelemetryEventRequest,
-        goose::mesmile_apps::GooseApp,
-        goose::mesmile_apps::WindowProps,
-        goose::mesmile_apps::McpAppResource,
-        goose::mesmile_apps::CspMetadata,
-        goose::mesmile_apps::PermissionsMetadata,
-        goose::mesmile_apps::UiMetadata,
-        goose::mesmile_apps::ResourceMetadata,
+        mesmile::mesmile_apps::GooseApp,
+        mesmile::mesmile_apps::WindowProps,
+        mesmile::mesmile_apps::McpAppResource,
+        mesmile::mesmile_apps::CspMetadata,
+        mesmile::mesmile_apps::PermissionsMetadata,
+        mesmile::mesmile_apps::UiMetadata,
+        mesmile::mesmile_apps::ResourceMetadata,
         super::routes::dictation::TranscribeRequest,
         super::routes::dictation::TranscribeResponse,
-        goose::dictation::providers::DictationProvider,
+        mesmile::dictation::providers::DictationProvider,
         super::routes::dictation::DictationProviderStatus,
         super::routes::features::FeaturesResponse,
         DownloadProgress,
@@ -703,14 +703,14 @@ pub struct ApiDoc;
         super::routes::local_inference::LocalModelResponse,
         super::routes::local_inference::ModelDownloadStatus,
         super::routes::local_inference::DownloadModelRequest,
-        goose::providers::local_inference::hf_models::HfModelInfo,
-        goose::providers::local_inference::hf_models::HfGgufFile,
-        goose::providers::local_inference::hf_models::HfQuantVariant,
+        mesmile::providers::local_inference::hf_models::HfModelInfo,
+        mesmile::providers::local_inference::hf_models::HfGgufFile,
+        mesmile::providers::local_inference::hf_models::HfQuantVariant,
         super::routes::local_inference::RepoVariantsResponse,
-        goose::providers::local_inference::local_model_registry::ModelSettings,
-        goose::providers::local_inference::local_model_registry::ChatTemplate,
-        goose::providers::local_inference::local_model_registry::SamplingConfig,
-        goose::providers::local_inference::local_model_registry::ToolCallingMode,
+        mesmile::providers::local_inference::local_model_registry::ModelSettings,
+        mesmile::providers::local_inference::local_model_registry::ChatTemplate,
+        mesmile::providers::local_inference::local_model_registry::SamplingConfig,
+        mesmile::providers::local_inference::local_model_registry::ToolCallingMode,
     ))
 )]
 pub struct LocalInferenceApiDoc;

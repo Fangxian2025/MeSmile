@@ -1,10 +1,10 @@
-//! Generate manpages for the goose CLI.
+//! Generate manpages for the MeSmile CLI.
 //!
 //! This binary generates ROFF-formatted manpages from the clap CLI definitions.
 //! Manpages are an essential part of the Linux/Unix ecosystem, providing users with
 //! offline documentation accessible via the `man` command (e.g., `man goose`).
 //!
-//! When goose is packaged for Linux distributions (deb, rpm, etc.), the generated
+//! When MeSmile is packaged for Linux distributions (deb, rpm, etc.), the generated
 //! manpages should be installed to `/usr/share/man/man1/` so users can access help
 //! without an internet connection, following Unix conventions that have existed
 //! since the 1970s.

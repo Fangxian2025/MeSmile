@@ -5,14 +5,14 @@ use std::process::Command;
 
 use crate::session::{build_session, SessionBuilderConfig};
 
-use goose::checks::{discover, DiscoveredReview};
+use mesmile::checks::{discover, DiscoveredReview};
 
 use super::orchestrator::{
     emit_findings, run_checks_in_parallel, run_main_pass_in_parallel, Severity,
 };
 use super::prompt::{build_review_prompt, DEFAULT_REVIEW_PROMPT};
 
-/// Options for `goose review`.
+/// Options for `mesmile review`.
 #[derive(Debug, Clone, Default)]
 pub struct ReviewOptions {
     /// Diff range to review (e.g. `main...HEAD`). When `None`, falls back to
@@ -68,7 +68,7 @@ pub struct ReviewOptions {
     pub severity: String,
 }
 
-/// Entry point for the `goose review` subcommand.
+/// Entry point for the `mesmile review` subcommand.
 pub async fn handle_review(opts: ReviewOptions) -> Result<()> {
     let repo_root = find_repo_root().context("not inside a git repository")?;
 
@@ -104,7 +104,7 @@ pub async fn handle_review(opts: ReviewOptions) -> Result<()> {
     }
 
     if diff.trim().is_empty() {
-        eprintln!("goose review: no changes to review");
+        eprintln!("mesmile review: no changes to review");
         return Ok(());
     }
 
@@ -197,7 +197,7 @@ pub async fn handle_review(opts: ReviewOptions) -> Result<()> {
             if !opts.quiet {
                 let suppressed = total_seen.saturating_sub(total_emitted);
                 eprintln!(
-                    "goose review: emitted {total_emitted} finding(s) from {} check(s) ({suppressed} hidden below severity={:?})",
+                    "mesmile review: emitted {total_emitted} finding(s) from {} check(s) ({suppressed} hidden below severity={:?})",
                     discovered.checks.len(),
                     min_sev
                 );
@@ -246,13 +246,13 @@ pub async fn handle_review(opts: ReviewOptions) -> Result<()> {
         let main_pass_label = if opts.checks_only { "skipped" } else { "ran" };
         if suppressed == 0 {
             eprintln!(
-                "goose review: orchestrator emitted {total_emitted} finding(s) from {} check(s) (main: {main_pass_label}, {} finding(s))",
+                "mesmile review: orchestrator emitted {total_emitted} finding(s) from {} check(s) (main: {main_pass_label}, {} finding(s))",
                 discovered.checks.len(),
                 main_findings.len()
             );
         } else {
             eprintln!(
-                "goose review: orchestrator emitted {total_emitted} finding(s) from {} check(s) (main: {main_pass_label}, {} finding(s); {suppressed} hidden below severity={:?})",
+                "mesmile review: orchestrator emitted {total_emitted} finding(s) from {} check(s) (main: {main_pass_label}, {} finding(s); {suppressed} hidden below severity={:?})",
                 discovered.checks.len(),
                 main_findings.len(),
                 min_sev
@@ -297,10 +297,10 @@ fn prepend_instructions(base_prompt: &str, instructions: Option<&str>) -> String
 
 fn print_discovered_summary(d: &DiscoveredReview) {
     if d.checks.is_empty() {
-        eprintln!("goose review: no checks or REVIEW.md rules discovered");
+        eprintln!("mesmile review: no checks or REVIEW.md rules discovered");
         return;
     }
-    eprintln!("goose review: discovered {} check(s):", d.checks.len());
+    eprintln!("mesmile review: discovered {} check(s):", d.checks.len());
     for c in &d.checks {
         let scope = if c.scope_dir.is_empty() {
             "<root>"
@@ -488,7 +488,7 @@ fn synthesize_untracked_diff(repo_root: &Path, paths: &[String]) -> Result<Strin
 }
 
 /// Convert repo-relative `touched` paths into paths relative to
-/// `discovery_root` so [`goose::checks::discover`] doesn't double-
+/// `discovery_root` so [`mesmile::checks::discover`] doesn't double-
 /// prefix `<scope>/api/...` when `--check-scope` points at a subtree.
 /// Files outside the scope are dropped — they cannot affect any
 /// scoped check inside `discovery_root`.
@@ -518,7 +518,7 @@ fn rebase_touched_to_scope(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use goose::checks::Check;
+    use mesmile::checks::Check;
     use std::path::PathBuf;
 
     fn ck(name: &str) -> Check {

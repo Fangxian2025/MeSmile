@@ -92,7 +92,7 @@ impl MemoryServer {
              This extension stores and retrieves categorized information with tagging support.
 
              Storage:
-             - Local: .goose/memory/ (project-specific)
+             - Local: .mesmile/memory/ (project-specific)
              - Global: ~/.config/mesmile/memory/ (user-wide)
 
              Save proactively when users share preferences, project configurations, workflow patterns,
@@ -166,7 +166,7 @@ impl MemoryServer {
                 .cloned()
                 .or_else(|| std::env::current_dir().ok())
                 .unwrap_or_else(|| PathBuf::from("."));
-            local_base.join(".goose").join("memory")
+            local_base.join(".mesmile").join("memory")
         };
         base_dir.join(format!("{}.txt", category))
     }
@@ -183,7 +183,7 @@ impl MemoryServer {
                 .cloned()
                 .or_else(|| std::env::current_dir().ok())
                 .unwrap_or_else(|| PathBuf::from("."));
-            local_base.join(".goose").join("memory")
+            local_base.join(".mesmile").join("memory")
         };
         let mut memories = HashMap::new();
         if base_dir.exists() {
@@ -323,7 +323,7 @@ impl MemoryServer {
                 .cloned()
                 .or_else(|| std::env::current_dir().ok())
                 .unwrap_or_else(|| PathBuf::from("."));
-            local_base.join(".goose").join("memory")
+            local_base.join(".mesmile").join("memory")
         };
         if base_dir.exists() {
             fs::remove_dir_all(&base_dir)?;
@@ -483,7 +483,7 @@ mod tests {
             global_memory_dir: memory_base.join("global"),
         };
 
-        let local_memory_dir = working_dir.join(".goose").join("memory");
+        let local_memory_dir = working_dir.join(".mesmile").join("memory");
 
         assert!(!router.global_memory_dir.exists());
         assert!(!local_memory_dir.exists());
@@ -592,7 +592,7 @@ mod tests {
             global_memory_dir: memory_base.join("global"),
         };
 
-        let local_memory_dir = working_dir.join(".goose").join("memory");
+        let local_memory_dir = working_dir.join(".mesmile").join("memory");
         assert!(!local_memory_dir.exists());
 
         router

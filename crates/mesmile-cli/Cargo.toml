@@ -12,7 +12,7 @@ description.workspace = true
 workspace = true
 
 [[bin]]
-name = "goose"
+name = "mesmile-cli"
 path = "src/main.rs"
 
 [[bin]]
@@ -21,7 +21,7 @@ path = "src/bin/generate_manpages.rs"
 
 [dependencies]
 clap_mangen = { version = "0.3", default-features = false }
-goose = { path = "../goose", default-features = false }
+mesmile = { path = "../mesmile", default-features = false }
 mesmile-mcp = { path = "../mesmile-mcp", default-features = false }
 rmcp = { workspace = true }
 clap = { workspace = true }
@@ -82,15 +82,15 @@ default = [
     "system-keyring",
     "update",
 ]
-code-mode = ["goose/code-mode"]
-local-inference = ["goose/local-inference"]
-aws-providers = ["goose/aws-providers"]
-cuda = ["goose/cuda", "local-inference"]
-vulkan = ["goose/vulkan", "local-inference"]
-telemetry = ["goose/telemetry"]
-nostr = ["goose/nostr"]
-otel = ["goose/otel"]
-system-keyring = ["goose/system-keyring"]
+code-mode = ["mesmile/code-mode"]
+local-inference = ["mesmile/local-inference"]
+aws-providers = ["mesmile/aws-providers"]
+cuda = ["mesmile/cuda", "local-inference"]
+vulkan = ["mesmile/vulkan", "local-inference"]
+telemetry = ["mesmile/telemetry"]
+nostr = ["mesmile/nostr"]
+otel = ["mesmile/otel"]
+system-keyring = ["mesmile/system-keyring"]
 tui = []
 update = ["dep:sigstore-verify"]
 portable-default = ["rustls-tls", "aws-providers", "telemetry", "otel", "tui"]
@@ -99,13 +99,13 @@ disable-update = []
 rustls-tls = [
     "reqwest/rustls",
     "sigstore-verify?/rustls",
-    "goose/rustls-tls",
+    "mesmile/rustls-tls",
     "mesmile-mcp/rustls-tls",
 ]
 native-tls = [
     "reqwest/native-tls",
     "sigstore-verify?/native-tls",
-    "goose/native-tls",
+    "mesmile/native-tls",
     "mesmile-mcp/native-tls",
 ]
 

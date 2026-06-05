@@ -1,4 +1,4 @@
-use goose::config::GooseMode;
+use mesmile::config::GooseMode;
 use rustyline::completion::{Completer, FilenameCompleter, Pair};
 use rustyline::highlight::{CmdKind, Highlighter};
 use rustyline::hint::Hinter;
@@ -10,7 +10,7 @@ use strum::VariantNames;
 
 use super::{CompletionCache, HintStatus};
 
-/// Completer for goose CLI commands
+/// Completer for MeSmile CLI commands
 pub struct GooseCompleter {
     pub completion_cache: Arc<std::sync::RwLock<CompletionCache>>,
     filename_completer: FilenameCompleter,
@@ -123,7 +123,7 @@ impl GooseCompleter {
 
     /// Complete skill names for the /skills command
     fn complete_skill_names(&self, line: &str) -> Result<(usize, Vec<Pair>)> {
-        use goose::skills::list_installed_skills;
+        use mesmile::skills::list_installed_skills;
 
         let cwd = std::env::current_dir().unwrap_or_default();
         let skills = list_installed_skills(Some(&cwd));

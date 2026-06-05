@@ -1,8 +1,8 @@
 use anyhow::Result;
 use dotenvy::dotenv;
-use goose::conversation::message::Message;
-use goose::providers::create_with_named_model;
-use goose::providers::databricks::DATABRICKS_DEFAULT_MODEL;
+use mesmile::conversation::message::Message;
+use mesmile::providers::create_with_named_model;
+use mesmile::providers::databricks::DATABRICKS_DEFAULT_MODEL;
 
 #[tokio::main]
 async fn main() -> Result<()> {

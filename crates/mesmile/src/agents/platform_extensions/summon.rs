@@ -228,7 +228,7 @@ pub fn discover_filesystem_sources(working_dir: &Path) -> Vec<SourceEntry> {
 
     let local_recipe_dirs: Vec<PathBuf> = vec![
         working_dir.to_path_buf(),
-        working_dir.join(".goose/recipes"),
+        working_dir.join(".mesmile/recipes"),
         working_dir.join(".agents/recipes"),
     ];
 
@@ -241,7 +241,7 @@ pub fn discover_filesystem_sources(working_dir: &Path) -> Vec<SourceEntry> {
         })
         .chain(
             [
-                home.as_ref().map(|h| h.join(".goose/recipes")),
+                home.as_ref().map(|h| h.join(".mesmile/recipes")),
                 Some(config.join("recipes")),
                 home.as_ref().map(|h| h.join(".agents/recipes")),
             ]
@@ -251,13 +251,13 @@ pub fn discover_filesystem_sources(working_dir: &Path) -> Vec<SourceEntry> {
         .collect();
 
     let local_agent_dirs: Vec<PathBuf> = vec![
-        working_dir.join(".goose/agents"),
+        working_dir.join(".mesmile/agents"),
         working_dir.join(".claude/agents"),
         working_dir.join(".agents/agents"),
     ];
 
     let global_agent_dirs: Vec<PathBuf> = [
-        home.as_ref().map(|h| h.join(".goose/agents")),
+        home.as_ref().map(|h| h.join(".mesmile/agents")),
         home.as_ref().map(|h| h.join(".agents/agents")),
         Some(config.join("agents")),
         home.as_ref().map(|h| h.join(".claude/agents")),
@@ -1886,7 +1886,7 @@ You review code."#;
     async fn test_discover_recipes_and_agents() {
         let temp_dir = TempDir::new().unwrap();
 
-        let recipes = temp_dir.path().join(".goose/recipes");
+        let recipes = temp_dir.path().join(".mesmile/recipes");
         fs::create_dir_all(&recipes).unwrap();
         fs::write(
             recipes.join("deploy.yaml"),
@@ -1894,7 +1894,7 @@ You review code."#;
         )
         .unwrap();
 
-        let agents = temp_dir.path().join(".goose/agents");
+        let agents = temp_dir.path().join(".mesmile/agents");
         fs::create_dir_all(&agents).unwrap();
         fs::write(
             agents.join("reviewer.md"),
@@ -1924,7 +1924,7 @@ You review code."#;
     async fn test_recipe_deduplication_local_wins() {
         let temp_dir = TempDir::new().unwrap();
 
-        let local = temp_dir.path().join(".goose/recipes");
+        let local = temp_dir.path().join(".mesmile/recipes");
         fs::create_dir_all(&local).unwrap();
         fs::write(
             local.join("deploy.yaml"),
@@ -1951,7 +1951,7 @@ You review code."#;
     async fn test_load_recipe_source() {
         let temp_dir = TempDir::new().unwrap();
 
-        let recipes = temp_dir.path().join(".goose/recipes");
+        let recipes = temp_dir.path().join(".mesmile/recipes");
         fs::create_dir_all(&recipes).unwrap();
         fs::write(
             recipes.join("deploy.yaml"),
@@ -1975,7 +1975,7 @@ You review code."#;
     async fn test_load_agent_source() {
         let temp_dir = TempDir::new().unwrap();
 
-        let agents = temp_dir.path().join(".goose/agents");
+        let agents = temp_dir.path().join(".mesmile/agents");
         fs::create_dir_all(&agents).unwrap();
         fs::write(
             agents.join("reviewer.md"),
@@ -1999,7 +1999,7 @@ You review code."#;
     async fn test_load_nonexistent_source_suggests_similar() {
         let temp_dir = TempDir::new().unwrap();
 
-        let recipes = temp_dir.path().join(".goose/recipes");
+        let recipes = temp_dir.path().join(".mesmile/recipes");
         fs::create_dir_all(&recipes).unwrap();
         fs::write(
             recipes.join("deploy.yaml"),

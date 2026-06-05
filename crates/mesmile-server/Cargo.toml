@@ -22,15 +22,15 @@ default = [
     "rustls-tls",
     "system-keyring",
 ]
-code-mode = ["goose/code-mode"]
-local-inference = ["goose/local-inference"]
-aws-providers = ["goose/aws-providers"]
-cuda = ["goose/cuda", "local-inference"]
-vulkan = ["goose/vulkan", "local-inference"]
-telemetry = ["goose/telemetry"]
-nostr = ["goose/nostr"]
-otel = ["goose/otel"]
-system-keyring = ["goose/system-keyring"]
+code-mode = ["mesmile/code-mode"]
+local-inference = ["mesmile/local-inference"]
+aws-providers = ["mesmile/aws-providers"]
+cuda = ["mesmile/cuda", "local-inference"]
+vulkan = ["mesmile/vulkan", "local-inference"]
+telemetry = ["mesmile/telemetry"]
+nostr = ["mesmile/nostr"]
+otel = ["mesmile/otel"]
+system-keyring = ["mesmile/system-keyring"]
 portable-default = ["rustls-tls", "aws-providers", "telemetry", "otel"]
 rustls-tls = [
     "reqwest/rustls",
@@ -38,7 +38,7 @@ rustls-tls = [
     "axum-server/tls-rustls",
     "dep:rustls",
     "dep:aws-lc-rs",
-    "goose/rustls-tls",
+    "mesmile/rustls-tls",
     "mesmile-mcp/rustls-tls",
 ]
 native-tls = [
@@ -46,12 +46,12 @@ native-tls = [
     "tokio-tungstenite/native-tls",
     "axum-server/tls-openssl",
     "dep:openssl",
-    "goose/native-tls",
+    "mesmile/native-tls",
     "mesmile-mcp/native-tls",
 ]
 
 [dependencies]
-goose = { path = "../goose", default-features = false }
+mesmile = { path = "../mesmile", default-features = false }
 mesmile-mcp = { path = "../mesmile-mcp", default-features = false }
 rmcp = { workspace = true }
 axum = { workspace = true, features = ["ws", "macros"] }
