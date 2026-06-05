@@ -349,7 +349,7 @@ impl ClaudeCodeProvider {
     /// Returns true when the control protocol is enabled.
     fn apply_permission_flags(cmd: &mut Command) -> Result<bool, ProviderError> {
         let config = Config::global();
-        let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
+        let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
 
         match mesmile_mode {
             MeSmileMode::Auto => {

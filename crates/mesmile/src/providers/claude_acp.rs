@@ -58,7 +58,7 @@ impl ProviderDef for ClaudeAcpProvider {
             let resolved_command = SearchPaths::builder()
                 .with_npm()
                 .resolve(CLAUDE_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
+            let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
 
             let mode_mapping = HashMap::from([
                 // Closest to "autonomous": bypassPermissions skips confirmations.

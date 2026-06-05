@@ -453,7 +453,7 @@ fn extract_client_mcp_host_info(
     mesmile_client_capabilities: Option<&GooseClientCapabilities>,
 ) -> GooseMcpHostInfo {
     let host_capabilities =
-        mesmile_client_capabilities.and_then(|goose| mesmile.mcp_host_capabilities.as_ref());
+        mesmile_client_capabilities.and_then(|goose| goose.mcp_host_capabilities.as_ref());
     let explicit_extensions = host_capabilities
         .as_ref()
         .and_then(|capabilities| capabilities.extensions.as_ref())
@@ -2022,7 +2022,7 @@ fn extract_client_supports_mesmile_custom_notifications(
     mesmile_client_capabilities: Option<&GooseClientCapabilities>,
 ) -> bool {
     mesmile_client_capabilities
-        .and_then(|goose| mesmile.custom_notifications)
+        .and_then(|goose| goose.custom_notifications)
         .unwrap_or(false)
 }
 
@@ -2123,9 +2123,9 @@ fn interaction_update_meta(message_id: Option<&str>, created: i64) -> serde_json
 
 fn message_update_meta(message_id: Option<&str>, created: i64) -> Meta {
     let mut goose = serde_json::Map::new();
-    mesmile.insert("created".to_string(), serde_json::json!(created));
+    goose.insert("created".to_string(), serde_json::json!(created));
     if let Some(id) = message_id {
-        mesmile.insert("messageId".to_string(), serde_json::json!(id));
+        goose.insert("messageId".to_string(), serde_json::json!(id));
     }
 
     let mut meta = serde_json::Map::new();
@@ -2159,9 +2159,9 @@ fn replay_message_meta(message: &Message) -> Meta {
 
 fn replay_message_mesmile_meta(message: &Message) -> serde_json::Map<String, serde_json::Value> {
     let mut goose = serde_json::Map::new();
-    mesmile.insert("created".to_string(), serde_json::json!(message.created));
+    goose.insert("created".to_string(), serde_json::json!(message.created));
     if let Some(id) = &message.id {
-        mesmile.insert("messageId".to_string(), serde_json::json!(id));
+        goose.insert("messageId".to_string(), serde_json::json!(id));
     }
     goose
 }
@@ -2175,7 +2175,7 @@ fn merge_replay_message_meta(meta: Option<Meta>, message: &Message) -> Meta {
 
     if let serde_json::Value::Object(goose) = mesmile_value {
         for (key, value) in replay_goose {
-            mesmile.insert(key, value);
+            goose.insert(key, value);
         }
     } else {
         *mesmile_value = serde_json::Value::Object(replay_goose);

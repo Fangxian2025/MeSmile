@@ -56,7 +56,7 @@ impl ProviderDef for PiAcpProvider {
         Box::pin(async move {
             let config = Config::global();
             let resolved_command = SearchPaths::builder().with_npm().resolve(PI_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
+            let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
 
             let mode_mapping = HashMap::from([
                 (MeSmileMode::Auto, "auto".to_string()),

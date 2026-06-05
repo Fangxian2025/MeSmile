@@ -528,7 +528,7 @@ impl Config {
             map.insert("GOOSE_PROVIDER".to_string(), Value::String(provider));
         }
         if let Ok(model) = self.get_mesmile_model() {
-            map.insert("GOOSE_MODEL".to_string(), Value::String(model));
+            map.insert("MESMILE_MODEL".to_string(), Value::String(model));
         }
 
         Ok(map)
@@ -1102,9 +1102,9 @@ config_value!(CODEX_ENABLE_SKILLS, String, "true");
 config_value!(CODEX_SKIP_GIT_CHECK, String, "false");
 config_value!(CHATGPT_CODEX_REASONING_EFFORT, String, "medium");
 
-config_value!(GOOSE_SEARCH_PATHS, Vec<String>);
-config_value!(GOOSE_MODE, MeSmileMode);
-// GOOSE_PROVIDER and GOOSE_MODEL are handled by crate::config::providers
+config_value!(MESMILE_SEARCH_PATHS, Vec<String>);
+config_value!(MESMILE_MODE, MeSmileMode);
+// GOOSE_PROVIDER and MESMILE_MODEL are handled by crate::config::providers
 // which checks the structured `providers:` block first and falls back to
 // the legacy flat keys. The accessors below delegate to that module.
 impl Config {
@@ -1121,7 +1121,7 @@ impl Config {
     }
     pub fn get_mesmile_model(&self) -> Result<String, ConfigError> {
         crate::config::providers::get_active_model(self)
-            .ok_or_else(|| ConfigError::NotFound("GOOSE_MODEL".to_string()))
+            .ok_or_else(|| ConfigError::NotFound("MESMILE_MODEL".to_string()))
     }
     pub fn set_mesmile_model(&self, v: impl Into<String>) -> Result<(), ConfigError> {
         let model = v.into();
@@ -1131,13 +1131,13 @@ impl Config {
         Ok(())
     }
 }
-config_value!(GOOSE_PROMPT_EDITOR, Option<String>);
-config_value!(GOOSE_PROMPT_EDITOR_ALWAYS, Option<bool>);
-config_value!(GOOSE_MAX_ACTIVE_AGENTS, usize);
-config_value!(GOOSE_DISABLE_SESSION_NAMING, bool);
-config_value!(GOOSE_DISABLE_TOOL_CALL_SUMMARY, bool);
-config_value!(GOOSE_THINKING_EFFORT, String);
-config_value!(GOOSE_DEFAULT_EXTENSION_TIMEOUT, u64);
+config_value!(MESMILE_PROMPT_EDITOR, Option<String>);
+config_value!(MESMILE_PROMPT_EDITOR_ALWAYS, Option<bool>);
+config_value!(MESMILE_MAX_ACTIVE_AGENTS, usize);
+config_value!(MESMILE_DISABLE_SESSION_NAMING, bool);
+config_value!(MESMILE_DISABLE_TOOL_CALL_SUMMARY, bool);
+config_value!(MESMILE_THINKING_EFFORT, String);
+config_value!(MESMILE_DEFAULT_EXTENSION_TIMEOUT, u64);
 
 fn find_workspace_or_exe_root() -> Option<PathBuf> {
     let exe = std::env::current_exe().ok()?;
@@ -2141,12 +2141,12 @@ mod tests {
         // Base (system) config
         std::fs::write(
             base_file.path(),
-            "GOOSE_PROVIDER: openai\nGOOSE_MODEL: gpt-4\n",
+            "GOOSE_PROVIDER: openai\nMESMILE_MODEL: gpt-4\n",
         )
         .unwrap();
 
         // User config overrides model
-        std::fs::write(user_file.path(), "GOOSE_MODEL: gpt-4o\n").unwrap();
+        std::fs::write(user_file.path(), "MESMILE_MODEL: gpt-4o\n").unwrap();
 
         let config = Config::new_with_config_paths(
             vec![
@@ -2156,8 +2156,8 @@ mod tests {
             secrets_file.path(),
         )?;
 
-        // GOOSE_MODEL should be overridden by later config
-        let model: String = config.get_param("GOOSE_MODEL")?;
+        // MESMILE_MODEL should be overridden by later config
+        let model: String = config.get_param("MESMILE_MODEL")?;
         assert_eq!(model, "gpt-4o");
 
         // GOOSE_PROVIDER should still come from base

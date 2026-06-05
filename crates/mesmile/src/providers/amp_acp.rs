@@ -57,7 +57,7 @@ impl ProviderDef for AmpAcpProvider {
         Box::pin(async move {
             let config = Config::global();
             let resolved_command = SearchPaths::builder().with_npm().resolve(AMP_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
+            let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
 
             let mode_mapping = HashMap::from([
                 // "bypass" skips confirmations, closest to autonomous mode.

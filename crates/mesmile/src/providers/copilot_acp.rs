@@ -61,7 +61,7 @@ impl ProviderDef for CopilotAcpProvider {
             let resolved_command = SearchPaths::builder()
                 .with_npm()
                 .resolve(COPILOT_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
+            let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
 
             let mut args = vec!["--acp".to_string()];
             if model.model_name != ACP_CURRENT_MODEL {

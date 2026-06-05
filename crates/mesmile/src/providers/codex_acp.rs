@@ -58,7 +58,7 @@ impl ProviderDef for CodexAcpProvider {
                 .with_npm()
                 .resolve(CODEX_ACP_PROVIDER_NAME)?;
             let env = vec![];
-            let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
+            let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
             let mcp_servers = extension_configs_to_mcp_servers(&extensions);
 
             // fixed MeSmile mode via -c overrides until session/set-mode works

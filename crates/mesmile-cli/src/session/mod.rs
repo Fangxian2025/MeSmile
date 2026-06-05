@@ -1191,7 +1191,7 @@ impl CliSession {
                                     // Approve/SmartApprove modes since auto-allowing would
                                     // bypass the safety contract those modes are meant to enforce.
                                     let config = Config::global();
-                                    let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
+                                    let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
                                     if mesmile_mode == MeSmileMode::Approve || mesmile_mode == MeSmileMode::SmartApprove {
                                         cancel_token_clone.cancel();
                                         drop(stream);
