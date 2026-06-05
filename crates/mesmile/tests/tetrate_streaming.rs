@@ -329,7 +329,7 @@ mod tetrate_streaming_tests {
 
     // Helper function to process a stream and collect content
     async fn process_stream(
-        mut stream: mesmile::providers::base::MessageStream,
+        mut stream: goose::providers::base::MessageStream,
         label: &str,
     ) -> Result<String> {
         let mut content = String::new();

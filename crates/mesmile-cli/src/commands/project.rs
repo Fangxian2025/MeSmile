@@ -16,7 +16,7 @@ fn format_date(date: DateTime<chrono::Utc>) -> String {
 ///
 /// Offers options to resume the most recently accessed project
 pub fn handle_project_default() -> Result<()> {
-    let mesmile_bin = std::env::current_exe()
+    let goose_bin = std::env::current_exe()
         .map(|p| p.to_string_lossy().into_owned())
         .unwrap_or_else(|_| "goose".to_string());
     let tracker = ProjectTracker::load()?;
@@ -25,12 +25,12 @@ pub fn handle_project_default() -> Result<()> {
     if projects.is_empty() {
         // If no projects exist, just start a new one in the current directory
         println!("No previous projects found. Starting a new session in the current directory.");
-        let mut command = std::process::Command::new(&mesmile_bin);
+        let mut command = std::process::Command::new(&goose_bin);
         command.arg("session");
         let status = command.status()?;
 
         if !status.success() {
-            println!("Failed to run mesmile. Exit code: {:?}", status.code());
+            println!("Failed to run goose. Exit code: {:?}", status.code());
         }
         return Ok(());
     }
@@ -105,7 +105,7 @@ pub fn handle_project_default() -> Result<()> {
             std::env::set_current_dir(project_dir)?;
 
             // Build the command to run goose
-            let mut command = std::process::Command::new(&mesmile_bin);
+            let mut command = std::process::Command::new(&goose_bin);
             command.arg("session");
 
             if let Some(id) = session_id {
@@ -117,7 +117,7 @@ pub fn handle_project_default() -> Result<()> {
             let status = command.status()?;
 
             if !status.success() {
-                println!("Failed to run mesmile. Exit code: {:?}", status.code());
+                println!("Failed to run goose. Exit code: {:?}", status.code());
             }
         }
         "fresh" => {
@@ -130,28 +130,28 @@ pub fn handle_project_default() -> Result<()> {
             std::env::set_current_dir(project_dir)?;
 
             // Build the command to run goose with a fresh session
-            let mut command = std::process::Command::new(&mesmile_bin);
+            let mut command = std::process::Command::new(&goose_bin);
             command.arg("session");
 
             // Execute the command
             let status = command.status()?;
 
             if !status.success() {
-                println!("Failed to run mesmile. Exit code: {:?}", status.code());
+                println!("Failed to run goose. Exit code: {:?}", status.code());
             }
         }
         "new" => {
             let _ = outro("Starting a new session in the current directory");
 
             // Build the command to run goose
-            let mut command = std::process::Command::new(&mesmile_bin);
+            let mut command = std::process::Command::new(&goose_bin);
             command.arg("session");
 
             // Execute the command
             let status = command.status()?;
 
             if !status.success() {
-                println!("Failed to run mesmile. Exit code: {:?}", status.code());
+                println!("Failed to run goose. Exit code: {:?}", status.code());
             }
         }
         _ => {
@@ -166,7 +166,7 @@ pub fn handle_project_default() -> Result<()> {
 ///
 /// Shows a list of projects and lets the user select one to resume
 pub fn handle_projects_interactive() -> Result<()> {
-    let mesmile_bin = std::env::current_exe()
+    let goose_bin = std::env::current_exe()
         .map(|p| p.to_string_lossy().into_owned())
         .unwrap_or_else(|_| "goose".to_string());
     let tracker = ProjectTracker::load()?;
@@ -287,7 +287,7 @@ pub fn handle_projects_interactive() -> Result<()> {
     };
 
     // Build the command to run goose
-    let mut command = std::process::Command::new(&mesmile_bin);
+    let mut command = std::process::Command::new(&goose_bin);
     command.arg("session");
 
     if resume_session {
@@ -303,7 +303,7 @@ pub fn handle_projects_interactive() -> Result<()> {
     let status = command.status()?;
 
     if !status.success() {
-        println!("Failed to run mesmile. Exit code: {:?}", status.code());
+        println!("Failed to run goose. Exit code: {:?}", status.code());
     }
 
     Ok(())

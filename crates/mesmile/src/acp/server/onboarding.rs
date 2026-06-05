@@ -5,7 +5,7 @@ use serde_yaml::Mapping;
 use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
-const GOOSE_CONFIG_PREFIX: &str = "mesmile_config:";
+const GOOSE_CONFIG_PREFIX: &str = "goose_config:";
 const CLAUDE_DESKTOP_PREFIX: &str = "claude_desktop:";
 
 #[derive(Debug, Deserialize)]
@@ -34,8 +34,8 @@ impl GooseAcpAgent {
         let mut candidates = Vec::new();
 
         if source_filter.contains(&OnboardingImportSourceKind::GooseConfig) {
-            for path in mesmile_config_candidate_paths(&self.config_dir) {
-                if let Some(candidate) = scan_mesmile_config_candidate(&path) {
+            for path in goose_config_candidate_paths(&self.config_dir) {
+                if let Some(candidate) = scan_goose_config_candidate(&path) {
                     candidates.push(candidate);
                 }
             }
@@ -79,7 +79,7 @@ fn apply_onboarding_import_candidates(
     for candidate_id in &req.candidate_ids {
         match parse_candidate_id(candidate_id) {
             Some((OnboardingImportSourceKind::GooseConfig, path)) => {
-                match apply_mesmile_config_candidate(config, target_config_dir, &path) {
+                match apply_goose_config_candidate(config, target_config_dir, &path) {
                     Ok(result) => {
                         add_counts(&mut imported, &result.imported);
                         add_counts(&mut skipped, &result.skipped);
@@ -169,7 +169,7 @@ fn import_failure_warning(
     )
 }
 
-fn mesmile_config_candidate_paths(config_dir: &Path) -> Vec<PathBuf> {
+fn goose_config_candidate_paths(config_dir: &Path) -> Vec<PathBuf> {
     let mut paths = vec![config_dir.join(CONFIG_YAML_NAME)];
     if let Some(home) = dirs::home_dir() {
         paths.push(home.join(".config").join("goose").join(CONFIG_YAML_NAME));
@@ -207,7 +207,7 @@ fn dedupe_paths(paths: Vec<PathBuf>) -> Vec<PathBuf> {
         .collect()
 }
 
-fn scan_mesmile_config_candidate(path: &Path) -> Option<OnboardingImportCandidate> {
+fn scan_goose_config_candidate(path: &Path) -> Option<OnboardingImportCandidate> {
     if !path.exists() {
         return None;
     }
@@ -314,7 +314,7 @@ fn count_skill_dirs(path: &Path) -> u32 {
         .count() as u32
 }
 
-fn apply_mesmile_config_candidate(
+fn apply_goose_config_candidate(
     target_config: &Config,
     target_config_dir: &Path,
     source_path: &Path,
@@ -338,7 +338,7 @@ fn apply_mesmile_config_candidate(
         result.imported.providers = 1;
     }
 
-    let extension_result = import_mesmile_config_extensions(target_config, &source)?;
+    let extension_result = import_goose_config_extensions(target_config, &source)?;
     result.imported.extensions += extension_result.imported;
     result.skipped.extensions += extension_result.skipped;
 
@@ -377,7 +377,7 @@ struct ImportPairCount {
     skipped: u32,
 }
 
-fn import_mesmile_config_extensions(
+fn import_goose_config_extensions(
     target_config: &Config,
     source: &Mapping,
 ) -> anyhow::Result<ImportPairCount> {
@@ -592,7 +592,7 @@ mod tests {
     fn apply_onboarding_imports_continues_after_candidate_failure() {
         let source = TempDir::new().unwrap();
         let target = TempDir::new().unwrap();
-        let missing_mesmile_config = source.path().join("missing-config.yaml");
+        let missing_goose_config = source.path().join("missing-config.yaml");
         let claude_config = source.path().join("claude_desktop_config.json");
         fs::write(
             &claude_config,
@@ -610,7 +610,7 @@ mod tests {
         .unwrap();
         let req = OnboardingImportApplyRequest {
             candidate_ids: vec![
-                candidate_id(GOOSE_CONFIG_PREFIX, &missing_mesmile_config),
+                candidate_id(GOOSE_CONFIG_PREFIX, &missing_goose_config),
                 candidate_id(CLAUDE_DESKTOP_PREFIX, &claude_config),
             ],
             enable_imported_extensions: false,
@@ -628,7 +628,7 @@ mod tests {
     }
 
     #[test]
-    fn apply_mesmile_config_imports_defaults_extensions_and_skills() {
+    fn apply_goose_config_imports_defaults_extensions_and_skills() {
         let source = TempDir::new().unwrap();
         let target = TempDir::new().unwrap();
         let source_config = source.path().join(CONFIG_YAML_NAME);
@@ -659,17 +659,17 @@ extensions:
         .unwrap();
 
         let result =
-            apply_mesmile_config_candidate(&target_config, target.path(), &source_config).unwrap();
+            apply_goose_config_candidate(&target_config, target.path(), &source_config).unwrap();
 
         assert_eq!(result.imported.providers, 1);
         assert_eq!(result.imported.extensions, 1);
         assert_eq!(result.imported.skills, 1);
-        assert_eq!(target_config.get_mesmile_provider().unwrap(), "openai");
+        assert_eq!(target_config.get_goose_provider().unwrap(), "openai");
         assert!(target.path().join("skills").join("reviewer").exists());
     }
 
     #[test]
-    fn apply_mesmile_config_model_only_skips_provider_activation() {
+    fn apply_goose_config_model_only_skips_provider_activation() {
         let source = TempDir::new().unwrap();
         let target = TempDir::new().unwrap();
         let source_config = source.path().join(CONFIG_YAML_NAME);
@@ -682,10 +682,10 @@ extensions:
         .unwrap();
 
         let result =
-            apply_mesmile_config_candidate(&target_config, target.path(), &source_config).unwrap();
+            apply_goose_config_candidate(&target_config, target.path(), &source_config).unwrap();
 
         assert_eq!(result.imported.providers, 0);
-        assert!(target_config.get_mesmile_provider().is_err());
+        assert!(target_config.get_goose_provider().is_err());
     }
 
     #[cfg(unix)]

@@ -24,7 +24,7 @@ use super::utils::filter_extensions_from_system_prompt;
 use crate::config::base::ClaudeCodeCommand;
 use crate::config::paths::Paths;
 use crate::config::search_path::SearchPaths;
-use crate::config::{Config, ExtensionConfig, MeSmileMode};
+use crate::config::{Config, ExtensionConfig, GooseMode};
 use crate::conversation::message::{Message, MessageContent};
 use crate::model::ModelConfig;
 use crate::permission::permission_confirmation::PrincipalType;
@@ -271,7 +271,7 @@ pub struct ClaudeCodeProvider {
     pending_confirmations:
         Arc<tokio::sync::Mutex<HashMap<String, oneshot::Sender<PermissionConfirmation>>>>,
     #[serde(skip)]
-    initial_mode: tokio::sync::Mutex<Option<MeSmileMode>>,
+    initial_mode: tokio::sync::Mutex<Option<GooseMode>>,
 }
 
 impl ClaudeCodeProvider {
@@ -349,18 +349,18 @@ impl ClaudeCodeProvider {
     /// Returns true when the control protocol is enabled.
     fn apply_permission_flags(cmd: &mut Command) -> Result<bool, ProviderError> {
         let config = Config::global();
-        let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
+        let goose_mode = config.get_goose_mode().unwrap_or(GooseMode::Auto);
 
-        match mesmile_mode {
-            MeSmileMode::Auto => {
+        match goose_mode {
+            GooseMode::Auto => {
                 cmd.arg("--dangerously-skip-permissions");
                 Ok(false)
             }
-            MeSmileMode::SmartApprove | MeSmileMode::Approve => {
+            GooseMode::SmartApprove | GooseMode::Approve => {
                 cmd.arg("--permission-prompt-tool").arg("stdio");
                 Ok(true)
             }
-            MeSmileMode::Chat => Ok(false),
+            GooseMode::Chat => Ok(false),
         }
     }
 
@@ -676,7 +676,7 @@ impl Provider for ClaudeCodeProvider {
         Ok(extract_model_aliases(response.ok().flatten().as_ref()))
     }
 
-    async fn update_mode(&self, _session_id: &str, mode: MeSmileMode) -> Result<(), ProviderError> {
+    async fn update_mode(&self, _session_id: &str, mode: GooseMode) -> Result<(), ProviderError> {
         // Mode is baked into the subprocess at spawn; claude-acp replaces
         // this provider (#7801).
         let mut guard = self.initial_mode.lock().await;

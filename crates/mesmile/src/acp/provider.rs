@@ -30,7 +30,7 @@ use tokio::sync::{mpsc, oneshot, Mutex as TokioMutex};
 use tokio_util::compat::{TokioAsyncReadCompatExt as _, TokioAsyncWriteCompatExt as _};
 
 use crate::acp::{map_permission_response, PermissionDecision};
-use crate::config::{ExtensionConfig, MeSmileMode};
+use crate::config::{ExtensionConfig, GooseMode};
 use crate::context_mgmt::format_message_for_compacting;
 use crate::conversation::message::{Message, MessageContent, TOOL_META_EXTERNAL_DISPATCH_KEY};
 use crate::model::ModelConfig;
@@ -51,7 +51,7 @@ pub struct AcpProviderConfig {
     pub work_dir: PathBuf,
     pub mcp_servers: Vec<McpServer>,
     pub session_mode_id: Option<String>,
-    pub mode_mapping: HashMap<MeSmileMode, String>,
+    pub mode_mapping: HashMap<GooseMode, String>,
     pub notification_callback: Option<Arc<dyn Fn(SessionNotification) + Send + Sync>>,
 }
 
@@ -135,8 +135,8 @@ struct HandoffContextClaim {
 pub struct AcpProvider {
     name: String,
     model: ModelConfig,
-    mesmile_mode: Arc<Mutex<MeSmileMode>>,
-    mode_mapping: HashMap<MeSmileMode, String>,
+    goose_mode: Arc<Mutex<GooseMode>>,
+    mode_mapping: HashMap<GooseMode, String>,
 
     session: AcpSession,
 
@@ -177,13 +177,13 @@ impl AcpProvider {
     pub async fn connect(
         name: String,
         model: ModelConfig,
-        mesmile_mode: MeSmileMode,
+        goose_mode: GooseMode,
         config: AcpProviderConfig,
     ) -> Result<Self> {
         Self::start(
             name,
             model,
-            mesmile_mode,
+            goose_mode,
             config,
             Box::new(|cl, rx, init_tx| Box::pin(cl.spawn(rx, init_tx))),
         )
@@ -194,14 +194,14 @@ impl AcpProvider {
     pub async fn connect_with_transport(
         name: String,
         model: ModelConfig,
-        mesmile_mode: MeSmileMode,
+        goose_mode: GooseMode,
         config: AcpProviderConfig,
         transport: impl agent_client_protocol::ConnectTo<Client> + 'static,
     ) -> Result<Self> {
         Self::start(
             name,
             model,
-            mesmile_mode,
+            goose_mode,
             config,
             Box::new(move |cl, mut rx, init_tx| {
                 Box::pin(async move {
@@ -217,20 +217,20 @@ impl AcpProvider {
     async fn start(
         name: String,
         model: ModelConfig,
-        mesmile_mode: MeSmileMode,
+        goose_mode: GooseMode,
         config: AcpProviderConfig,
         run: ClientLoopFn,
     ) -> Result<Self> {
         let (tx, rx) = mpsc::channel(32);
         let (init_tx, init_rx) = oneshot::channel();
         let mode_mapping = config.mode_mapping.clone();
-        let mesmile_mode_shared = Arc::new(Mutex::new(mesmile_mode));
+        let goose_mode_shared = Arc::new(Mutex::new(goose_mode));
         let pending_tool_updates: Arc<Mutex<HashMap<String, AccumulatedToolCall>>> =
             Arc::new(Mutex::new(HashMap::new()));
         let context_size = Arc::new(AtomicU64::new(0));
         let client_loop = AcpClientLoop::new(
             config,
-            mesmile_mode_shared.clone(),
+            goose_mode_shared.clone(),
             pending_tool_updates.clone(),
             context_size.clone(),
         );
@@ -274,7 +274,7 @@ impl AcpProvider {
         Ok(Self {
             name,
             model: resolved_model,
-            mesmile_mode: mesmile_mode_shared,
+            goose_mode: goose_mode_shared,
             mode_mapping,
             session,
             pending_confirmations: Arc::new(TokioMutex::new(HashMap::new())),
@@ -290,7 +290,7 @@ impl AcpProvider {
         self.session.id.clone()
     }
 
-    pub(crate) async fn send_set_mode(&self, _mesmile_id: &str, mode_id: String) -> Result<()> {
+    pub(crate) async fn send_set_mode(&self, _goose_id: &str, mode_id: String) -> Result<()> {
         let session_id = self.acp_session_id();
         let (response_tx, response_rx) = oneshot::channel();
         self.tx
@@ -308,7 +308,7 @@ impl AcpProvider {
 
     pub(crate) async fn send_set_config_option(
         &self,
-        _mesmile_id: &str,
+        _goose_id: &str,
         config_id: String,
         value: String,
     ) -> Result<()> {
@@ -386,7 +386,7 @@ impl Provider for AcpProvider {
         model
     }
 
-    async fn update_mode(&self, session_id: &str, mode: MeSmileMode) -> Result<(), ProviderError> {
+    async fn update_mode(&self, session_id: &str, mode: GooseMode) -> Result<(), ProviderError> {
         let mode_str = self
             .mode_mapping
             .get(&mode)
@@ -403,7 +403,7 @@ impl Provider for AcpProvider {
                 .map_err(|e| ProviderError::RequestFailed(format!("Failed to set mode: {e}")))?;
         }
 
-        if let Ok(mut guard) = self.mesmile_mode.lock() {
+        if let Ok(mut guard) = self.goose_mode.lock() {
             *guard = mode;
         }
         Ok(())
@@ -460,12 +460,12 @@ impl Provider for AcpProvider {
         };
 
         let pending_confirmations = self.pending_confirmations.clone();
-        let mesmile_mode = *self
-            .mesmile_mode
+        let goose_mode = *self
+            .goose_mode
             .lock()
-            .map_err(|_| ProviderError::RequestFailed("mesmile_mode lock poisoned".into()))?;
+            .map_err(|_| ProviderError::RequestFailed("goose_mode lock poisoned".into()))?;
 
-        let reject_all_tools = mesmile_mode == MeSmileMode::Chat;
+        let reject_all_tools = goose_mode == GooseMode::Chat;
         let model_name = model_config.model_name.clone();
 
         Ok(Box::pin(try_stream! {
@@ -510,12 +510,12 @@ impl Provider for AcpProvider {
                                 params = params.with_arguments(map);
                             }
                             // external_dispatch tells the agent loop not to redispatch this
-                            // call. mesmile.acp.kind preserves ACP's stable categorization for
+                            // call. goose.acp.kind preserves ACP's stable categorization for
                             // downstream consumers (metrics, observability, icon selection)
                             // independent of the display title we put in `name`.
                             let tool_meta = Some(serde_json::json!({
                                 TOOL_META_EXTERNAL_DISPATCH_KEY: true,
-                                "mesmile.acp.kind": kind,
+                                "goose.acp.kind": kind,
                             }));
                             let message = Message::assistant().with_tool_request_with_metadata(
                                 id,
@@ -565,7 +565,7 @@ impl Provider for AcpProvider {
                     AcpUpdate::PermissionRequest { request, response_tx } => {
                         text_run = None;
                         thought_run = None;
-                        if let Some(decision) = permission_decision_from_mode(mesmile_mode) {
+                        if let Some(decision) = permission_decision_from_mode(goose_mode) {
                             if decision.should_record_rejection() {
                                 rejected_tool_calls.insert(request.tool_call.tool_call_id.0.to_string());
                             }
@@ -639,7 +639,7 @@ impl Drop for AcpProvider {
 
 struct AcpClientLoop {
     config: AcpProviderConfig,
-    mesmile_mode: Arc<Mutex<MeSmileMode>>,
+    goose_mode: Arc<Mutex<GooseMode>>,
     prompt_response_tx: Arc<Mutex<Option<mpsc::Sender<AcpUpdate>>>>,
     pending_tool_updates: Arc<Mutex<HashMap<String, AccumulatedToolCall>>>,
     context_size: Arc<AtomicU64>,
@@ -648,13 +648,13 @@ struct AcpClientLoop {
 impl AcpClientLoop {
     fn new(
         config: AcpProviderConfig,
-        mesmile_mode: Arc<Mutex<MeSmileMode>>,
+        goose_mode: Arc<Mutex<GooseMode>>,
         pending_tool_updates: Arc<Mutex<HashMap<String, AccumulatedToolCall>>>,
         context_size: Arc<AtomicU64>,
     ) -> Self {
         Self {
             config,
-            mesmile_mode,
+            goose_mode,
             prompt_response_tx: Arc::new(Mutex::new(None)),
             pending_tool_updates,
             context_size,
@@ -708,7 +708,7 @@ impl AcpClientLoop {
     ) -> Result<()> {
         let AcpClientLoop {
             config,
-            mesmile_mode,
+            goose_mode,
             prompt_response_tx,
             pending_tool_updates,
             context_size,
@@ -722,7 +722,7 @@ impl AcpClientLoop {
                 {
                     let prompt_response_tx = prompt_response_tx.clone();
                     let reverse_modes = reverse_modes.clone();
-                    let mesmile_mode = mesmile_mode.clone();
+                    let goose_mode = goose_mode.clone();
                     let pending_tool_updates = pending_tool_updates.clone();
                     let context_size = context_size.clone();
                     async move |notification: SessionNotification, _cx| {
@@ -734,9 +734,9 @@ impl AcpClientLoop {
                                 if let Some(mode) = resolve_mode(
                                     &reverse_modes,
                                     update.current_mode_id.0.as_ref(),
-                                    &mesmile_mode,
+                                    &goose_mode,
                                 ) {
-                                    if let Ok(mut guard) = mesmile_mode.lock() {
+                                    if let Ok(mut guard) = goose_mode.lock() {
                                         *guard = mode;
                                     }
                                 }
@@ -748,9 +748,9 @@ impl AcpClientLoop {
                                             if let Some(mode) = resolve_mode(
                                                 &reverse_modes,
                                                 sel.current_value.0.as_ref(),
-                                                &mesmile_mode,
+                                                &goose_mode,
                                             ) {
-                                                if let Ok(mut guard) = mesmile_mode.lock() {
+                                                if let Ok(mut guard) = goose_mode.lock() {
                                                     *guard = mode;
                                                 }
                                             }
@@ -810,7 +810,7 @@ impl AcpClientLoop {
                                     // `title` (display) and `kind` (category). We pass `title`
                                     // for renderer affordance, surface `kind` separately via
                                     // tool_meta for stable categorization, and the
-                                    // mesmile.external_dispatch marker keeps `name` off the
+                                    // goose.external_dispatch marker keeps `name` off the
                                     // agent loop's routing/auth paths.
                                     let _ = tx.try_send(AcpUpdate::ToolCallStart {
                                         id: id.clone(),
@@ -919,7 +919,7 @@ impl AcpClientLoop {
                 agent_client_protocol::on_receive_request!(),
             )
             .connect_with(transport, async move |cx: ConnectionTo<Agent>| {
-                handle_requests(config, mesmile_mode, cx, rx, prompt_response_tx, init_tx).await
+                handle_requests(config, goose_mode, cx, rx, prompt_response_tx, init_tx).await
             })
             .await?;
 
@@ -999,7 +999,7 @@ fn log_undelivered<E: std::fmt::Debug>(result: Result<(), E>, method: &str) {
 
 async fn handle_requests(
     config: AcpProviderConfig,
-    mesmile_mode: Arc<Mutex<MeSmileMode>>,
+    goose_mode: Arc<Mutex<GooseMode>>,
     cx: ConnectionTo<Agent>,
     rx: &mut mpsc::Receiver<ClientRequest>,
     prompt_response_tx: Arc<Mutex<Option<mpsc::Sender<AcpUpdate>>>>,
@@ -1048,7 +1048,7 @@ async fn handle_requests(
                 let result = match session {
                     Ok(session) => {
                         session_ids.push(session.session_id.clone());
-                        apply_session_mode(&config, &mesmile_mode, &cx, session).await
+                        apply_session_mode(&config, &goose_mode, &cx, session).await
                     }
                     Err(err) => Err(anyhow::anyhow!(
                         "ACP {} failed: {err}",
@@ -1141,11 +1141,11 @@ async fn handle_requests(
 
 async fn apply_session_mode(
     config: &AcpProviderConfig,
-    mesmile_mode: &Arc<Mutex<MeSmileMode>>,
+    goose_mode: &Arc<Mutex<GooseMode>>,
     cx: &ConnectionTo<Agent>,
     session: NewSessionResponse,
 ) -> Result<NewSessionResponse> {
-    let current_mode = mesmile_mode.lock().ok().map(|mode| *mode);
+    let current_mode = goose_mode.lock().ok().map(|mode| *mode);
     let requested_mode_id = current_mode
         .and_then(|mode| config.mode_mapping.get(&mode).cloned())
         .or_else(|| config.session_mode_id.clone());
@@ -1482,9 +1482,9 @@ fn resolve_model_info(
 }
 
 fn reverse_mode_mapping(
-    mode_mapping: &HashMap<MeSmileMode, String>,
-) -> HashMap<String, Vec<MeSmileMode>> {
-    let mut reverse: HashMap<String, Vec<MeSmileMode>> = HashMap::new();
+    mode_mapping: &HashMap<GooseMode, String>,
+) -> HashMap<String, Vec<GooseMode>> {
+    let mut reverse: HashMap<String, Vec<GooseMode>> = HashMap::new();
     for (mode, id) in mode_mapping {
         reverse.entry(id.clone()).or_default().push(*mode);
     }
@@ -1492,10 +1492,10 @@ fn reverse_mode_mapping(
 }
 
 fn resolve_mode(
-    reverse_modes: &HashMap<String, Vec<MeSmileMode>>,
+    reverse_modes: &HashMap<String, Vec<GooseMode>>,
     mode_id: &str,
-    current: &Arc<Mutex<MeSmileMode>>,
-) -> Option<MeSmileMode> {
+    current: &Arc<Mutex<GooseMode>>,
+) -> Option<GooseMode> {
     let candidates = reverse_modes.get(mode_id)?;
     if candidates.len() == 1 {
         return Some(candidates[0]);
@@ -1508,11 +1508,11 @@ fn resolve_mode(
     }
 }
 
-fn permission_decision_from_mode(mesmile_mode: MeSmileMode) -> Option<PermissionDecision> {
-    match mesmile_mode {
-        MeSmileMode::Auto => Some(PermissionDecision::AllowOnce),
-        MeSmileMode::Chat => Some(PermissionDecision::RejectOnce),
-        MeSmileMode::Approve | MeSmileMode::SmartApprove => None,
+fn permission_decision_from_mode(goose_mode: GooseMode) -> Option<PermissionDecision> {
+    match goose_mode {
+        GooseMode::Auto => Some(PermissionDecision::AllowOnce),
+        GooseMode::Chat => Some(PermissionDecision::RejectOnce),
+        GooseMode::Approve | GooseMode::SmartApprove => None,
     }
 }
 
@@ -1541,7 +1541,7 @@ mod tests {
                 model_name: "test-model".to_string(),
                 ..Default::default()
             },
-            mesmile_mode: Arc::new(Mutex::new(MeSmileMode::Auto)),
+            goose_mode: Arc::new(Mutex::new(GooseMode::Auto)),
             mode_mapping: HashMap::new(),
             session: AcpSession {
                 id: SessionId::new("test-session"),
@@ -1678,7 +1678,7 @@ mod tests {
         ];
 
         let result = provider
-            .stream(&provider.model, "mesmile-session", "", &messages, &[])
+            .stream(&provider.model, "goose-session", "", &messages, &[])
             .await;
 
         assert!(matches!(result, Err(ProviderError::RequestFailed(_))));
@@ -1800,61 +1800,61 @@ mod tests {
         assert!(filtered.is_empty());
     }
 
-    #[test_case(MeSmileMode::Auto => Some(PermissionDecision::AllowOnce) ; "auto allows")]
-    #[test_case(MeSmileMode::Chat => Some(PermissionDecision::RejectOnce) ; "chat rejects")]
-    #[test_case(MeSmileMode::Approve => None ; "approve defers")]
-    #[test_case(MeSmileMode::SmartApprove => None ; "smart_approve defers")]
-    fn test_permission_decision_from_mode(mode: MeSmileMode) -> Option<PermissionDecision> {
+    #[test_case(GooseMode::Auto => Some(PermissionDecision::AllowOnce) ; "auto allows")]
+    #[test_case(GooseMode::Chat => Some(PermissionDecision::RejectOnce) ; "chat rejects")]
+    #[test_case(GooseMode::Approve => None ; "approve defers")]
+    #[test_case(GooseMode::SmartApprove => None ; "smart_approve defers")]
+    fn test_permission_decision_from_mode(mode: GooseMode) -> Option<PermissionDecision> {
         permission_decision_from_mode(mode)
     }
 
     #[test_case(
         HashMap::from([
-            (MeSmileMode::Auto, "yolo".to_string()),
-            (MeSmileMode::Approve, "default".to_string()),
-            (MeSmileMode::SmartApprove, "auto_edit".to_string()),
-            (MeSmileMode::Chat, "plan".to_string()),
+            (GooseMode::Auto, "yolo".to_string()),
+            (GooseMode::Approve, "default".to_string()),
+            (GooseMode::SmartApprove, "auto_edit".to_string()),
+            (GooseMode::Chat, "plan".to_string()),
         ]),
         HashMap::from([
-            ("yolo".to_string(), vec![MeSmileMode::Auto]),
-            ("default".to_string(), vec![MeSmileMode::Approve]),
-            ("auto_edit".to_string(), vec![MeSmileMode::SmartApprove]),
-            ("plan".to_string(), vec![MeSmileMode::Chat]),
+            ("yolo".to_string(), vec![GooseMode::Auto]),
+            ("default".to_string(), vec![GooseMode::Approve]),
+            ("auto_edit".to_string(), vec![GooseMode::SmartApprove]),
+            ("plan".to_string(), vec![GooseMode::Chat]),
         ])
         ; "gemini provider mapping"
     )]
     #[test_case(
         HashMap::from([
-            (MeSmileMode::Auto, "bypassPermissions".to_string()),
-            (MeSmileMode::Approve, "default".to_string()),
-            (MeSmileMode::SmartApprove, "acceptEdits".to_string()),
-            (MeSmileMode::Chat, "plan".to_string()),
+            (GooseMode::Auto, "bypassPermissions".to_string()),
+            (GooseMode::Approve, "default".to_string()),
+            (GooseMode::SmartApprove, "acceptEdits".to_string()),
+            (GooseMode::Chat, "plan".to_string()),
         ]),
         HashMap::from([
-            ("bypassPermissions".to_string(), vec![MeSmileMode::Auto]),
-            ("default".to_string(), vec![MeSmileMode::Approve]),
-            ("acceptEdits".to_string(), vec![MeSmileMode::SmartApprove]),
-            ("plan".to_string(), vec![MeSmileMode::Chat]),
+            ("bypassPermissions".to_string(), vec![GooseMode::Auto]),
+            ("default".to_string(), vec![GooseMode::Approve]),
+            ("acceptEdits".to_string(), vec![GooseMode::SmartApprove]),
+            ("plan".to_string(), vec![GooseMode::Chat]),
         ])
         ; "claude provider mapping"
     )]
     #[test_case(
         HashMap::from([
-            (MeSmileMode::Auto, "full-access".to_string()),
-            (MeSmileMode::Approve, "read-only".to_string()),
-            (MeSmileMode::SmartApprove, "auto".to_string()),
-            (MeSmileMode::Chat, "read-only".to_string()),
+            (GooseMode::Auto, "full-access".to_string()),
+            (GooseMode::Approve, "read-only".to_string()),
+            (GooseMode::SmartApprove, "auto".to_string()),
+            (GooseMode::Chat, "read-only".to_string()),
         ]),
         HashMap::from([
-            ("full-access".to_string(), vec![MeSmileMode::Auto]),
-            ("read-only".to_string(), vec![MeSmileMode::Approve, MeSmileMode::Chat]),
-            ("auto".to_string(), vec![MeSmileMode::SmartApprove]),
+            ("full-access".to_string(), vec![GooseMode::Auto]),
+            ("read-only".to_string(), vec![GooseMode::Approve, GooseMode::Chat]),
+            ("auto".to_string(), vec![GooseMode::SmartApprove]),
         ])
         ; "codex duplicate read-only"
     )]
     fn test_reverse_mode_mapping(
-        forward: HashMap<MeSmileMode, String>,
-        expected: HashMap<String, Vec<MeSmileMode>>,
+        forward: HashMap<GooseMode, String>,
+        expected: HashMap<String, Vec<GooseMode>>,
     ) {
         let result = reverse_mode_mapping(&forward);
         assert_eq!(result.len(), expected.len());
@@ -1918,43 +1918,43 @@ mod tests {
         resolve_model_info("test", &response)
     }
 
-    fn codex_reverse_modes() -> HashMap<String, Vec<MeSmileMode>> {
+    fn codex_reverse_modes() -> HashMap<String, Vec<GooseMode>> {
         HashMap::from([
-            ("full-access".to_string(), vec![MeSmileMode::Auto]),
+            ("full-access".to_string(), vec![GooseMode::Auto]),
             (
                 "read-only".to_string(),
-                vec![MeSmileMode::Approve, MeSmileMode::Chat],
+                vec![GooseMode::Approve, GooseMode::Chat],
             ),
-            ("auto".to_string(), vec![MeSmileMode::SmartApprove]),
+            ("auto".to_string(), vec![GooseMode::SmartApprove]),
         ])
     }
 
     #[test_case(
-        "full-access", MeSmileMode::Auto, Some(MeSmileMode::Auto)
+        "full-access", GooseMode::Auto, Some(GooseMode::Auto)
         ; "unique mapping returns the only candidate"
     )]
     #[test_case(
-        "read-only", MeSmileMode::Approve, Some(MeSmileMode::Approve)
+        "read-only", GooseMode::Approve, Some(GooseMode::Approve)
         ; "duplicate prefers current when current is Approve"
     )]
     #[test_case(
-        "read-only", MeSmileMode::Chat, Some(MeSmileMode::Chat)
+        "read-only", GooseMode::Chat, Some(GooseMode::Chat)
         ; "duplicate prefers current when current is Chat"
     )]
     #[test_case(
-        "read-only", MeSmileMode::Auto, Some(MeSmileMode::Approve)
+        "read-only", GooseMode::Auto, Some(GooseMode::Approve)
         ; "duplicate falls back to first when current not in candidates"
     )]
     #[test_case(
-        "unknown-id", MeSmileMode::Auto, None
+        "unknown-id", GooseMode::Auto, None
         ; "unknown mode id returns None"
     )]
-    fn test_resolve_mode(mode_id: &str, current: MeSmileMode, expected: Option<MeSmileMode>) {
+    fn test_resolve_mode(mode_id: &str, current: GooseMode, expected: Option<GooseMode>) {
         let reverse_modes = codex_reverse_modes();
         let current = Arc::new(Mutex::new(current));
         let result = resolve_mode(&reverse_modes, mode_id, &current);
-        if mode_id == "read-only" && expected == Some(MeSmileMode::Approve) {
-            assert!(result == Some(MeSmileMode::Approve) || result == Some(MeSmileMode::Chat));
+        if mode_id == "read-only" && expected == Some(GooseMode::Approve) {
+            assert!(result == Some(GooseMode::Approve) || result == Some(GooseMode::Chat));
         } else {
             assert_eq!(result, expected);
         }
@@ -2035,7 +2035,7 @@ mod tests {
         for (kind, expected) in cases {
             let tool_meta = serde_json::json!({
                 TOOL_META_EXTERNAL_DISPATCH_KEY: true,
-                "mesmile.acp.kind": kind,
+                "goose.acp.kind": kind,
             });
             assert_eq!(
                 tool_meta[TOOL_META_EXTERNAL_DISPATCH_KEY],
@@ -2043,9 +2043,9 @@ mod tests {
                 "external_dispatch marker missing for kind={kind:?}"
             );
             assert_eq!(
-                tool_meta["mesmile.acp.kind"],
+                tool_meta["goose.acp.kind"],
                 serde_json::Value::String(expected.to_string()),
-                "mesmile.acp.kind serialized wrong for kind={kind:?}"
+                "goose.acp.kind serialized wrong for kind={kind:?}"
             );
         }
     }

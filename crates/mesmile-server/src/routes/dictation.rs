@@ -194,7 +194,7 @@ pub async fn transcribe_dictation(
 )]
 pub async fn get_dictation_config(
 ) -> Result<Json<HashMap<DictationProvider, DictationProviderStatus>>, ErrorResponse> {
-    let config = mesmile::config::Config::global();
+    let config = goose::config::Config::global();
     let mut providers = HashMap::new();
 
     for def in all_providers() {
@@ -274,7 +274,7 @@ pub async fn download_model(Path(model_id): Path<String>) -> Result<StatusCode, 
             model.url.to_string(),
             model.local_path(),
             Some(Box::new(move || {
-                let _ = mesmile::config::Config::global()
+                let _ = goose::config::Config::global()
                     .set_param(whisper::LOCAL_WHISPER_MODEL_CONFIG_KEY, model_id_for_config);
             })),
         )

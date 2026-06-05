@@ -12,13 +12,13 @@ use axum::{
     Json, Router,
 };
 use mesmile::agents::{Container, ExtensionLoadResult};
-use mesmile::mesmile_apps::{fetch_mcp_apps, GooseApp, McpAppCache};
+use mesmile::goose_apps::{fetch_mcp_apps, GooseApp, McpAppCache};
 
 use base64::Engine;
 use mesmile::agents::reply_parts::is_tool_visible_to_app;
 use mesmile::agents::ExtensionConfig;
 use mesmile::config::resolve_extensions_for_new_session;
-use mesmile::config::{Config, MeSmileMode};
+use mesmile::config::{Config, GooseMode};
 use mesmile::model::ModelConfig;
 use mesmile::providers::create;
 use mesmile::recipe::Recipe;
@@ -55,7 +55,7 @@ pub struct UpdateProviderRequest {
 #[derive(Deserialize, utoipa::ToSchema)]
 pub struct UpdateSessionRequest {
     session_id: String,
-    mesmile_mode: Option<String>,
+    goose_mode: Option<String>,
 }
 
 #[derive(Deserialize, utoipa::ToSchema)]
@@ -199,7 +199,7 @@ async fn start_agent(
     Json(payload): Json<StartAgentRequest>,
 ) -> Result<Json<Session>, ErrorResponse> {
     #[cfg(feature = "telemetry")]
-    mesmile::posthog::set_session_context("desktop", false);
+    goose::posthog::set_session_context("desktop", false);
 
     let StartAgentRequest {
         working_dir,
@@ -215,7 +215,7 @@ async fn start_agent(
             Err(err) => {
                 error!("Failed to decode recipe deeplink: {}", err);
                 #[cfg(feature = "telemetry")]
-                mesmile::posthog::emit_error("recipe_deeplink_decode_failed", &err.to_string());
+                goose::posthog::emit_error("recipe_deeplink_decode_failed", &err.to_string());
                 return Err(ErrorResponse {
                     message: err.to_string(),
                     status: StatusCode::BAD_REQUEST,
@@ -244,7 +244,7 @@ async fn start_agent(
 
     let manager = state.session_manager();
     let config = Config::global();
-    let current_mode = config.get_mesmile_mode().unwrap_or_default();
+    let current_mode = config.get_goose_mode().unwrap_or_default();
 
     let mut session = manager
         .create_session(
@@ -257,7 +257,7 @@ async fn start_agent(
         .map_err(|err| {
             error!("Failed to create session: {}", err);
             #[cfg(feature = "telemetry")]
-            mesmile::posthog::emit_error("session_create_failed", &err.to_string());
+            goose::posthog::emit_error("session_create_failed", &err.to_string());
             ErrorResponse {
                 message: format!("Failed to create session: {}", err),
                 status: StatusCode::BAD_REQUEST,
@@ -293,10 +293,10 @@ async fn start_agent(
         let mut update = manager.update(&session.id).recipe(Some(recipe.clone()));
 
         if let Some(ref settings) = recipe.settings {
-            if let Some(ref provider) = settings.mesmile_provider {
+            if let Some(ref provider) = settings.goose_provider {
                 update = update.provider_name(provider);
 
-                if let Some(ref model) = settings.mesmile_model {
+                if let Some(ref model) = settings.goose_model {
                     if let Ok(model_config) = ModelConfig::new(model) {
                         update = update.model_config(model_config);
                     }
@@ -375,7 +375,7 @@ async fn resume_agent(
     Json(payload): Json<ResumeAgentRequest>,
 ) -> Result<Json<ResumeAgentResponse>, ErrorResponse> {
     #[cfg(feature = "telemetry")]
-    mesmile::posthog::set_session_context("desktop", true);
+    goose::posthog::set_session_context("desktop", true);
 
     let session = state
         .session_manager()
@@ -384,7 +384,7 @@ async fn resume_agent(
         .map_err(|err| {
             error!("Failed to resume session {}: {}", payload.session_id, err);
             #[cfg(feature = "telemetry")]
-            mesmile::posthog::emit_error("session_resume_failed", &err.to_string());
+            goose::posthog::emit_error("session_resume_failed", &err.to_string());
             ErrorResponse {
                 message: format!("Failed to resume session: {}", err),
                 status: StatusCode::NOT_FOUND,
@@ -536,7 +536,7 @@ async fn get_tools(
 ) -> Result<Json<Vec<ToolInfo>>, StatusCode> {
     let session_id = query.session_id;
     let agent = state.get_agent_for_route(session_id.clone()).await?;
-    let mesmile_mode = agent.mesmile_mode().await;
+    let goose_mode = agent.goose_mode().await;
     let permission_manager = agent.config.permission_manager.clone();
 
     let mut tools: Vec<ToolInfo> = agent
@@ -547,9 +547,9 @@ async fn get_tools(
             let permission = permission_manager
                 .get_user_permission(&tool.name)
                 .or_else(|| {
-                    if mesmile_mode == MeSmileMode::SmartApprove {
+                    if goose_mode == GooseMode::SmartApprove {
                         permission_manager.get_smart_approve_permission(&tool.name)
-                    } else if mesmile_mode == MeSmileMode::Approve {
+                    } else if goose_mode == GooseMode::Approve {
                         Some(PermissionLevel::AskBefore)
                     } else {
                         None
@@ -597,7 +597,7 @@ async fn update_agent_provider(
         .map_err(|e| (e, "No agent for session id".to_owned()))?;
 
     let config = Config::global();
-    let model = match payload.model.or_else(|| config.get_mesmile_model().ok()) {
+    let model = match payload.model.or_else(|| config.get_goose_model().ok()) {
         Some(m) => m,
         None => {
             return Err((StatusCode::BAD_REQUEST, "No model specified".to_owned()));
@@ -646,9 +646,9 @@ async fn update_agent_provider(
         })?;
 
     // Propagate session mode to the new provider
-    let mode = agent.mesmile_mode().await;
+    let mode = agent.goose_mode().await;
     agent
-        .update_mesmile_mode(mode, &payload.session_id)
+        .update_goose_mode(mode, &payload.session_id)
         .await
         .map_err(|e| {
             (
@@ -679,8 +679,8 @@ async fn update_session(
         .await
         .map_err(|e| (e, "No agent for session id".to_owned()))?;
 
-    if let Some(mode_str) = payload.mesmile_mode {
-        let mode: MeSmileMode = mode_str.parse().map_err(|_| {
+    if let Some(mode_str) = payload.goose_mode {
+        let mode: GooseMode = mode_str.parse().map_err(|_| {
             (
                 StatusCode::BAD_REQUEST,
                 format!("Invalid mode: {}", mode_str),
@@ -688,7 +688,7 @@ async fn update_session(
         })?;
 
         agent
-            .update_mesmile_mode(mode, &payload.session_id)
+            .update_goose_mode(mode, &payload.session_id)
             .await
             .map_err(|e| {
                 (
@@ -726,7 +726,7 @@ async fn agent_add_extension(
         .await
         .map_err(|e| {
             #[cfg(feature = "telemetry")]
-            mesmile::posthog::emit_error(
+            goose::posthog::emit_error(
                 "extension_add_failed",
                 &format!("{}: {}", extension_name, e),
             );
@@ -1135,7 +1135,7 @@ async fn call_tool(
         params
     };
 
-    let ctx = mesmile::agents::ToolCallContext::new(payload.session_id.clone(), None, None);
+    let ctx = goose::agents::ToolCallContext::new(payload.session_id.clone(), None, None);
     let tool_result = agent
         .extension_manager
         .dispatch_tool_call(&ctx, tool_call, CancellationToken::default())
@@ -1384,7 +1384,7 @@ pub fn routes(state: Arc<AppState>) -> Router {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use mesmile::config::MeSmileMode;
+    use mesmile::config::GooseMode;
     use mesmile::session::session_manager::SessionType;
     use rmcp::model::Tool;
     use rmcp::object;
@@ -1419,7 +1419,7 @@ mod tests {
                 std::env::current_dir().unwrap(),
                 "frontend-route-test".to_string(),
                 SessionType::Hidden,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await
             .unwrap();

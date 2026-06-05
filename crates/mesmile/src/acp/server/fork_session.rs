@@ -28,15 +28,15 @@ impl GooseAcpAgent {
             .internal_err()?;
         let new_session_id = new_session.id.clone();
 
-        let mesmile_session = self
+        let goose_session = self
             .session_manager
             .get_session(&new_session_id, false)
             .await
             .internal_err()?;
 
-        let mesmile_session = self
+        let goose_session = self
             .prepare_session_for_activation(
-                mesmile_session,
+                goose_session,
                 args.cwd.clone(),
                 args.mcp_servers,
                 false,
@@ -44,7 +44,7 @@ impl GooseAcpAgent {
             .await?;
 
         let (_agent, extension_results) = self
-            .activate_acp_session(cx, &mesmile_session, HashMap::new())
+            .activate_acp_session(cx, &goose_session, HashMap::new())
             .await?;
 
         let acp_session_id = SessionId::new(new_session_id.clone());
@@ -54,7 +54,7 @@ impl GooseAcpAgent {
         }
 
         let (mode_state, model_state, config_options) =
-            build_session_setup_config(&self.provider_inventory, &mesmile_session).await?;
+            build_session_setup_config(&self.provider_inventory, &goose_session).await?;
 
         let mut response = ForkSessionResponse::new(acp_session_id.clone())
             .modes(mode_state)
@@ -68,8 +68,8 @@ impl GooseAcpAgent {
         }
         send_session_setup_notifications(
             cx,
-            &mesmile_session,
-            self.supports_mesmile_custom_notifications(),
+            &goose_session,
+            self.supports_goose_custom_notifications(),
         )?;
         Ok(response)
     }

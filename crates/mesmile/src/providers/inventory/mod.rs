@@ -1014,8 +1014,8 @@ fn enrich_model_ids_with_canonical(
         models.push(model);
     }
 
-    // For Databricks providers, prefer mesmile- prefixed model_ids when there are duplicates.
-    // Re-scan: if a later model_id with "mesmile-" prefix maps to the same display name,
+    // For Databricks providers, prefer goose- prefixed model_ids when there are duplicates.
+    // Re-scan: if a later model_id with "goose-" prefix maps to the same display name,
     // swap it in.
     if matches!(provider_family, "databricks" | "databricks_v2") {
         let mut name_to_idx: HashMap<String, usize> = HashMap::new();
@@ -1023,12 +1023,12 @@ fn enrich_model_ids_with_canonical(
             name_to_idx.insert(model.name.clone(), idx);
         }
         for id in model_ids {
-            if !id.starts_with("mesmile-") {
+            if !id.starts_with("goose-") {
                 continue;
             }
             let candidate = enriched_model(provider_family, id, None);
             if let Some(&idx) = name_to_idx.get(&candidate.name) {
-                if !models[idx].id.starts_with("mesmile-") {
+                if !models[idx].id.starts_with("goose-") {
                     models[idx].id = candidate.id;
                 }
             }
@@ -1312,22 +1312,22 @@ mod tests {
     }
 
     #[test]
-    fn databricks_v2_inventory_prefers_mesmile_model_ids_for_duplicate_names() {
+    fn databricks_v2_inventory_prefers_goose_model_ids_for_duplicate_names() {
         let models = enrich_model_ids_with_canonical(
             "databricks_v2",
             &[
                 "databricks-gpt-5-5".to_string(),
-                "mesmile-gpt-5-5".to_string(),
+                "goose-gpt-5-5".to_string(),
             ],
         );
 
         assert!(
-            models.iter().any(|model| model.id == "mesmile-gpt-5-5"),
-            "expected mesmile-gpt-5-5 to win duplicate canonical-name tie, got {models:?}"
+            models.iter().any(|model| model.id == "goose-gpt-5-5"),
+            "expected goose-gpt-5-5 to win duplicate canonical-name tie, got {models:?}"
         );
         assert!(
             !models.iter().any(|model| model.id == "databricks-gpt-5-5"),
-            "expected databricks-gpt-5-5 to be replaced by mesmile-gpt-5-5, got {models:?}"
+            "expected databricks-gpt-5-5 to be replaced by goose-gpt-5-5, got {models:?}"
         );
     }
 

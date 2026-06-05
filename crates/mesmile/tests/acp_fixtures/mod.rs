@@ -15,7 +15,7 @@ pub use mesmile::acp::{map_permission_response, PermissionDecision};
 use mesmile::agents::GoosePlatform;
 use mesmile::builtin_extension::register_builtin_extensions;
 use mesmile::config::paths::Paths;
-use mesmile::config::{MeSmileMode, PermissionManager};
+use mesmile::config::{GooseMode, PermissionManager};
 use mesmile::providers::api_client::{ApiClient, AuthMethod as ApiAuthMethod};
 use mesmile::providers::base::Provider;
 use mesmile::providers::openai::OpenAiProvider;
@@ -44,7 +44,7 @@ fn write_global_test_config(config_path: &Path, openai_base_url: &str) {
 
     let global_config_dir = Paths::config_dir();
     fs::create_dir_all(&global_config_dir).unwrap();
-    let global_config_path = global_config_dir.join(mesmile::config::base::CONFIG_YAML_NAME);
+    let global_config_path = global_config_dir.join(goose::config::base::CONFIG_YAML_NAME);
     fs::write(&global_config_path, serde_yaml::to_string(&config).unwrap()).unwrap();
 }
 
@@ -173,7 +173,7 @@ pub async fn spawn_acp_server_in_process(
     openai_base_url: &str,
     builtins: &[String],
     data_root: &std::path::Path,
-    mesmile_mode: MeSmileMode,
+    goose_mode: GooseMode,
     provider_factory: Option<AcpProviderFactory>,
     current_model: &str,
     disable_session_naming: bool,
@@ -181,13 +181,13 @@ pub async fn spawn_acp_server_in_process(
     fs::create_dir_all(data_root).unwrap();
     // TODO: Paths::in_state_dir is global, ignoring per-test data_root
     fs::create_dir_all(Paths::in_state_dir("logs")).unwrap();
-    let config_path = data_root.join(mesmile::config::base::CONFIG_YAML_NAME);
+    let config_path = data_root.join(goose::config::base::CONFIG_YAML_NAME);
     if !config_path.exists() {
         fs::write(
             &config_path,
             format!(
                 "GOOSE_MODEL: {current_model}\nGOOSE_PROVIDER: openai\nGOOSE_MODE: {}\n",
-                mesmile_mode
+                goose_mode
             ),
         )
         .unwrap();
@@ -218,7 +218,7 @@ pub async fn spawn_acp_server_in_process(
         data_dir: data_root.to_path_buf(),
         config_dir: data_root.to_path_buf(),
         disable_session_naming,
-        mesmile_platform: GoosePlatform::GooseCli,
+        goose_platform: GoosePlatform::GooseCli,
         additional_source_roots: Vec::new(),
     })
     .await
@@ -517,7 +517,7 @@ pub struct SessionData<S> {
 pub struct TestConnectionConfig {
     pub mcp_servers: Vec<McpServer>,
     pub builtins: Vec<String>,
-    pub mesmile_mode: MeSmileMode,
+    pub goose_mode: GooseMode,
     pub cwd: Option<tempfile::TempDir>,
     pub data_root: PathBuf,
     pub provider_factory: Option<AcpProviderFactory>,
@@ -537,7 +537,7 @@ impl Default for TestConnectionConfig {
         Self {
             mcp_servers: Vec::new(),
             builtins: Vec::new(),
-            mesmile_mode: MeSmileMode::default(),
+            goose_mode: GooseMode::default(),
             cwd: None,
             data_root: PathBuf::new(),
             provider_factory: None,

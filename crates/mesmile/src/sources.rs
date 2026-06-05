@@ -430,7 +430,7 @@ fn is_global_agent_file(path: &Path) -> bool {
     global_roots.push(Paths::agents_dir());
     if let Some(home) = dirs::home_dir() {
         global_roots.push(home.join(".agents").join("agents"));
-        global_roots.push(home.join(".mesmile").join("agents"));
+        global_roots.push(home.join(".goose").join("agents"));
         global_roots.push(home.join(".claude").join("agents"));
     }
     global_roots.push(Paths::config_dir().join("agents"));
@@ -464,7 +464,7 @@ fn resolve_agent_file_with_roots(
     let in_agent_dir = parent_name == Some("agents")
         && matches!(
             grandparent_name,
-            Some(".mesmile") | Some(".claude") | Some(".agents")
+            Some(".goose") | Some(".claude") | Some(".agents")
         );
     let in_additional_root = additional_roots
         .iter()
@@ -488,7 +488,7 @@ fn list_agent_dirs(working_dir: Option<&Path>, additional_roots: &[SourceRoot]) 
             writable: true,
         });
         dirs.push(SourceRoot {
-            path: working_dir.join(".mesmile").join("agents"),
+            path: working_dir.join(".goose").join("agents"),
             writable: true,
         });
         dirs.push(SourceRoot {
@@ -507,7 +507,7 @@ fn list_agent_dirs(working_dir: Option<&Path>, additional_roots: &[SourceRoot]) 
             writable: true,
         });
         dirs.push(SourceRoot {
-            path: home.join(".mesmile").join("agents"),
+            path: home.join(".goose").join("agents"),
             writable: true,
         });
         dirs.push(SourceRoot {
@@ -524,7 +524,7 @@ fn list_agent_dirs(working_dir: Option<&Path>, additional_roots: &[SourceRoot]) 
 }
 
 fn is_project_agent_file(path: &Path, working_dir: &Path) -> bool {
-    [".agents", ".mesmile", ".claude"]
+    [".agents", ".goose", ".claude"]
         .into_iter()
         .map(|dir| working_dir.join(dir).join("agents"))
         .any(|root| is_under_root(path, &root))
@@ -1500,7 +1500,7 @@ mod tests {
         let tmp = TempDir::new().unwrap();
         let missing_dir = tmp
             .path()
-            .join(".mesmile")
+            .join(".goose")
             .join("skills")
             .join("no-such-skill");
         let err = update_source_with_roots(
@@ -1523,7 +1523,7 @@ mod tests {
         let tmp = TempDir::new().unwrap();
         let missing_dir = tmp
             .path()
-            .join(".mesmile")
+            .join(".goose")
             .join("skills")
             .join("no-such-skill");
         let err = delete_source(SourceType::Skill, missing_dir.to_str().unwrap()).unwrap_err();
@@ -1535,12 +1535,12 @@ mod tests {
         let listed = list_sources(Some(SourceType::BuiltinSkill), None, false).unwrap();
         let builtin = listed
             .iter()
-            .find(|source| source.name == "mesmile-doc-guide")
-            .expect("expected mesmile-doc-guide builtin skill");
+            .find(|source| source.name == "goose-doc-guide")
+            .expect("expected goose-doc-guide builtin skill");
 
         assert_eq!(builtin.source_type, SourceType::BuiltinSkill);
         assert!(builtin.global);
-        assert_eq!(builtin.path, "builtin://skills/mesmile-doc-guide");
+        assert_eq!(builtin.path, "builtin://skills/goose-doc-guide");
         assert!(builtin.supporting_files.is_empty());
         assert!(!builtin.content.is_empty());
     }
@@ -1560,12 +1560,12 @@ mod tests {
         let skill_dir = project
             .join(".agents")
             .join("skills")
-            .join("mesmile-doc-guide");
+            .join("goose-doc-guide");
         std::fs::create_dir_all(&skill_dir).unwrap();
         std::fs::write(
             skill_dir.join("SKILL.md"),
             build_skill_md(
-                "mesmile-doc-guide",
+                "goose-doc-guide",
                 "project override",
                 "Use project docs",
                 &HashMap::new(),
@@ -1581,7 +1581,7 @@ mod tests {
         .unwrap();
         assert!(!builtins
             .iter()
-            .any(|source| source.name == "mesmile-doc-guide"));
+            .any(|source| source.name == "goose-doc-guide"));
 
         let skills = list_sources(
             Some(SourceType::Skill),
@@ -1591,7 +1591,7 @@ mod tests {
         .unwrap();
         let project_skill = skills
             .iter()
-            .find(|source| source.name == "mesmile-doc-guide")
+            .find(|source| source.name == "goose-doc-guide")
             .expect("expected project skill");
         assert_eq!(project_skill.source_type, SourceType::Skill);
         assert_eq!(project_skill.description, "project override");
@@ -1742,7 +1742,7 @@ mod tests {
             .join("shared-skill");
         let legacy_skill_dir = tmp
             .path()
-            .join(".mesmile")
+            .join(".goose")
             .join("skills")
             .join("shared-skill");
         std::fs::create_dir_all(&agents_skill_dir).unwrap();
@@ -1824,7 +1824,7 @@ mod tests {
     fn update_rejects_path_traversal() {
         let tmp = TempDir::new().unwrap();
         let project = tmp.path();
-        let escaped_dir = project.join(".mesmile").join("escaped");
+        let escaped_dir = project.join(".goose").join("escaped");
         std::fs::create_dir_all(&escaped_dir).unwrap();
         std::fs::write(
             escaped_dir.join("SKILL.md"),
@@ -1832,7 +1832,7 @@ mod tests {
         )
         .unwrap();
 
-        let attempted_escape = project.join(".mesmile").join("escaped");
+        let attempted_escape = project.join(".goose").join("escaped");
         let err = update_source_with_roots(
             SourceType::Skill,
             attempted_escape.to_str().unwrap(),

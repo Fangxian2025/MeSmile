@@ -20,7 +20,7 @@ use crate::config::base::CONFIG_YAML_NAME;
 use crate::config::extensions::get_enabled_extensions_with_config;
 use crate::config::paths::Paths;
 use crate::config::permission::PermissionManager;
-use crate::config::{Config, MeSmileMode};
+use crate::config::{Config, GooseMode};
 use crate::conversation::message::{
     ActionRequiredData, Message, MessageContent, SystemNotificationContent, SystemNotificationType,
     ToolRequest,
@@ -145,7 +145,7 @@ impl<T, E: std::fmt::Display> ResultExt<T> for Result<T, E> {
     }
 }
 
-pub(super) const DEFAULT_PROVIDER_ID: &str = "MeSmile";
+pub(super) const DEFAULT_PROVIDER_ID: &str = "goose";
 pub(super) const DEFAULT_PROVIDER_LABEL: &str = "Goose (Default)";
 const PROVIDER_CONFIG_STATUS_CHECK_CONCURRENCY: usize = 16;
 
@@ -196,7 +196,7 @@ pub struct GooseAcpAgentOptions {
     pub data_dir: std::path::PathBuf,
     pub config_dir: std::path::PathBuf,
     pub disable_session_naming: bool,
-    pub mesmile_platform: GoosePlatform,
+    pub goose_platform: GoosePlatform,
     pub additional_source_roots: Vec<SourceRoot>,
 }
 
@@ -208,7 +208,7 @@ pub struct GooseAcpAgent {
     client_fs_capabilities: OnceCell<FileSystemCapabilities>,
     client_terminal: OnceCell<bool>,
     client_mcp_host_info: OnceCell<GooseMcpHostInfo>,
-    client_supports_mesmile_custom_notifications: OnceCell<bool>,
+    client_supports_goose_custom_notifications: OnceCell<bool>,
     use_login_shell_path: OnceCell<bool>,
     client_cx: OnceCell<ConnectionTo<Client>>,
     config_dir: std::path::PathBuf,
@@ -450,10 +450,10 @@ fn extract_client_capabilities_meta(args: &InitializeRequest) -> Option<ClientCa
 
 fn extract_client_mcp_host_info(
     args: &InitializeRequest,
-    mesmile_client_capabilities: Option<&GooseClientCapabilities>,
+    goose_client_capabilities: Option<&GooseClientCapabilities>,
 ) -> GooseMcpHostInfo {
     let host_capabilities =
-        mesmile_client_capabilities.and_then(|goose| goose.mcp_host_capabilities.as_ref());
+        goose_client_capabilities.and_then(|goose| goose.mcp_host_capabilities.as_ref());
     let explicit_extensions = host_capabilities
         .as_ref()
         .and_then(|capabilities| capabilities.extensions.as_ref())
@@ -532,11 +532,11 @@ fn push_or_replace_extension(extensions: &mut Vec<ExtensionConfig>, extension: E
 fn resolve_default_provider_model_config(
     config: &Config,
 ) -> Result<(String, crate::model::ModelConfig), agent_client_protocol::Error> {
-    let resolved_provider = config.get_mesmile_provider().map_err(|error| {
+    let resolved_provider = config.get_goose_provider().map_err(|error| {
         agent_client_protocol::Error::internal_error()
             .data(format!("Failed to resolve provider: {}", error))
     })?;
-    let resolved_model = config.get_mesmile_model().map_err(|error| {
+    let resolved_model = config.get_goose_model().map_err(|error| {
         agent_client_protocol::Error::internal_error()
             .data(format!("Failed to resolve model: {}", error))
     })?;
@@ -764,7 +764,7 @@ fn tool_call_identity_meta(tool_request: &ToolRequest) -> Option<Meta> {
     let extension_name = tool_request
         .tool_meta
         .as_ref()
-        .and_then(|meta| meta.get("mesmile_extension"))
+        .and_then(|meta| meta.get("goose_extension"))
         .and_then(serde_json::Value::as_str)
         .map(ToString::to_string)
         .or_else(|| {
@@ -782,26 +782,26 @@ fn tool_call_identity_meta(tool_request: &ToolRequest) -> Option<Meta> {
         );
     }
 
-    let mut mesmile_meta = serde_json::Map::new();
-    mesmile_meta.insert(
+    let mut goose_meta = serde_json::Map::new();
+    goose_meta.insert(
         "toolCall".to_string(),
         serde_json::Value::Object(tool_call_meta),
     );
 
     let mut meta = serde_json::Map::new();
-    meta.insert("goose".to_string(), serde_json::Value::Object(mesmile_meta));
+    meta.insert("goose".to_string(), serde_json::Value::Object(goose_meta));
     Some(meta)
 }
 
-/// Add `mesmile.toolChainSummary = { summary, count }` to a `Meta` blob,
-/// preserving any existing `mesmile.*` keys (e.g. `mesmile.toolCall` set by
+/// Add `goose.toolChainSummary = { summary, count }` to a `Meta` blob,
+/// preserving any existing `goose.*` keys (e.g. `goose.toolCall` set by
 /// [`tool_call_identity_meta`]).
 fn with_tool_chain_summary_meta(base: Option<Meta>, summary: &str, count: usize) -> Option<Meta> {
     let mut meta = base.unwrap_or_default();
-    let mesmile_entry = meta
+    let goose_entry = meta
         .entry("goose".to_string())
         .or_insert_with(|| serde_json::Value::Object(serde_json::Map::new()));
-    let mesmile_obj = match mesmile_entry {
+    let goose_obj = match goose_entry {
         serde_json::Value::Object(obj) => obj,
         other => {
             *other = serde_json::Value::Object(serde_json::Map::new());
@@ -820,7 +820,7 @@ fn with_tool_chain_summary_meta(base: Option<Meta>, summary: &str, count: usize)
         "count".to_string(),
         serde_json::Value::Number(serde_json::Number::from(count)),
     );
-    mesmile_obj.insert(
+    goose_obj.insert(
         "toolChainSummary".to_string(),
         serde_json::Value::Object(chain),
     );
@@ -1006,8 +1006,8 @@ impl GooseAcpAgent {
         Arc::clone(&self.permission_manager)
     }
 
-    pub(super) fn supports_mesmile_custom_notifications(&self) -> bool {
-        self.client_supports_mesmile_custom_notifications
+    pub(super) fn supports_goose_custom_notifications(&self) -> bool {
+        self.client_supports_goose_custom_notifications
             .get()
             .copied()
             .unwrap_or(false)
@@ -1029,9 +1029,9 @@ impl GooseAcpAgent {
             Arc::clone(&session_manager),
             Arc::clone(&permission_manager),
             None,
-            Config::global().get_mesmile_mode().unwrap_or_default(),
+            Config::global().get_goose_mode().unwrap_or_default(),
             options.disable_session_naming,
-            options.mesmile_platform.clone(),
+            options.goose_platform.clone(),
         );
         let agent_manager = Arc::new(AgentManager::new(agent_config, None).await?);
 
@@ -1043,7 +1043,7 @@ impl GooseAcpAgent {
             client_fs_capabilities: OnceCell::new(),
             client_terminal: OnceCell::new(),
             client_mcp_host_info: OnceCell::new(),
-            client_supports_mesmile_custom_notifications: OnceCell::new(),
+            client_supports_goose_custom_notifications: OnceCell::new(),
             use_login_shell_path: OnceCell::new(),
             client_cx: OnceCell::new(),
             config_dir: options.config_dir,
@@ -1077,10 +1077,10 @@ impl GooseAcpAgent {
 
     async fn maybe_refresh_provider_inventory_with_agent(
         &self,
-        mesmile_session: &Session,
+        goose_session: &Session,
         agent: &Arc<Agent>,
     ) {
-        let Some(provider_name) = mesmile_session.provider_name.as_deref() else {
+        let Some(provider_name) = goose_session.provider_name.as_deref() else {
             return;
         };
         let Some(mut inventory) = self
@@ -1098,7 +1098,7 @@ impl GooseAcpAgent {
             Err(error) => {
                 warn!(
                     provider = %provider_name,
-                    session = %mesmile_session.id,
+                    session = %goose_session.id,
                     error = %error,
                     "agent has no provider available for inventory refresh"
                 );
@@ -1480,7 +1480,7 @@ impl GooseAcpAgent {
                 } => {
                     send_elicitation_interaction_update(
                         cx,
-                        self.supports_mesmile_custom_notifications(),
+                        self.supports_goose_custom_notifications(),
                         session_id.0.as_ref(),
                         InteractionUpdate {
                             interaction: Interaction::Elicitation {
@@ -1498,7 +1498,7 @@ impl GooseAcpAgent {
             MessageContent::SystemNotification(notification) => {
                 send_status_message_update(
                     cx,
-                    self.supports_mesmile_custom_notifications(),
+                    self.supports_goose_custom_notifications(),
                     session_id.0.as_ref(),
                     notification,
                 )?;
@@ -1531,7 +1531,7 @@ impl GooseAcpAgent {
         ))?;
 
         if Config::global()
-            .get_mesmile_disable_tool_call_summary()
+            .get_goose_disable_tool_call_summary()
             .unwrap_or(false)
         {
             return Ok(());
@@ -2018,10 +2018,10 @@ impl GooseAcpAgent {
     }
 }
 
-fn extract_client_supports_mesmile_custom_notifications(
-    mesmile_client_capabilities: Option<&GooseClientCapabilities>,
+fn extract_client_supports_goose_custom_notifications(
+    goose_client_capabilities: Option<&GooseClientCapabilities>,
 ) -> bool {
-    mesmile_client_capabilities
+    goose_client_capabilities
         .and_then(|goose| goose.custom_notifications)
         .unwrap_or(false)
 }
@@ -2073,12 +2073,12 @@ fn credits_exhausted_prompt_error(
 
 fn send_status_message_update(
     cx: &ConnectionTo<Client>,
-    supports_mesmile_custom_notifications: bool,
+    supports_goose_custom_notifications: bool,
     session_id: &str,
     notification: &SystemNotificationContent,
 ) -> Result<(), agent_client_protocol::Error> {
     if let Some(status) = status_message_from_system_notification(notification) {
-        if supports_mesmile_custom_notifications {
+        if supports_goose_custom_notifications {
             cx.send_notification(GooseSessionNotification {
                 session_id: session_id.to_string(),
                 update: GooseSessionUpdate::StatusMessage(StatusMessageUpdate { status }),
@@ -2104,11 +2104,11 @@ fn status_message_from_system_notification(
 
 fn send_elicitation_interaction_update(
     cx: &ConnectionTo<Client>,
-    supports_mesmile_custom_notifications: bool,
+    supports_goose_custom_notifications: bool,
     session_id: &str,
     update: InteractionUpdate,
 ) -> Result<(), agent_client_protocol::Error> {
-    if supports_mesmile_custom_notifications {
+    if supports_goose_custom_notifications {
         cx.send_notification(GooseSessionNotification {
             session_id: session_id.to_string(),
             update: GooseSessionUpdate::InteractionUpdate(update),
@@ -2137,14 +2137,14 @@ fn extract_tool_call_update_meta(
     tool_response: &crate::conversation::message::ToolResponse,
 ) -> Option<Meta> {
     let tool_result = tool_response.tool_result.as_ref().ok()?;
-    let mesmile_meta = tool_result
+    let goose_meta = tool_result
         .meta
         .as_ref()?
         .0
         .get(TRUSTED_TOOL_UPDATE_META_KEY)?
         .clone();
     let mut meta_map = serde_json::Map::new();
-    meta_map.insert("goose".to_string(), mesmile_meta);
+    meta_map.insert("goose".to_string(), goose_meta);
     Some(meta_map)
 }
 
@@ -2152,12 +2152,12 @@ fn replay_message_meta(message: &Message) -> Meta {
     let mut meta = serde_json::Map::new();
     meta.insert(
         "goose".to_string(),
-        serde_json::Value::Object(replay_message_mesmile_meta(message)),
+        serde_json::Value::Object(replay_message_goose_meta(message)),
     );
     meta
 }
 
-fn replay_message_mesmile_meta(message: &Message) -> serde_json::Map<String, serde_json::Value> {
+fn replay_message_goose_meta(message: &Message) -> serde_json::Map<String, serde_json::Value> {
     let mut goose = serde_json::Map::new();
     goose.insert("created".to_string(), serde_json::json!(message.created));
     if let Some(id) = &message.id {
@@ -2167,18 +2167,18 @@ fn replay_message_mesmile_meta(message: &Message) -> serde_json::Map<String, ser
 }
 
 fn merge_replay_message_meta(meta: Option<Meta>, message: &Message) -> Meta {
-    let replay_goose = replay_message_mesmile_meta(message);
+    let replay_goose = replay_message_goose_meta(message);
     let mut meta = meta.unwrap_or_default();
-    let mesmile_value = meta
+    let goose_value = meta
         .entry("goose".to_string())
         .or_insert_with(|| serde_json::Value::Object(serde_json::Map::new()));
 
-    if let serde_json::Value::Object(goose) = mesmile_value {
+    if let serde_json::Value::Object(goose) = goose_value {
         for (key, value) in replay_goose {
             goose.insert(key, value);
         }
     } else {
-        *mesmile_value = serde_json::Value::Object(replay_goose);
+        *goose_value = serde_json::Value::Object(replay_goose);
     }
 
     meta
@@ -2246,14 +2246,14 @@ impl GooseAcpAgent {
             .client_fs_capabilities
             .set(args.client_capabilities.fs.clone());
         let _ = self.client_terminal.set(args.client_capabilities.terminal);
-        let mesmile_client_capabilities =
+        let goose_client_capabilities =
             extract_client_capabilities_meta(&args).and_then(|meta| meta.goose);
         let _ = self.client_mcp_host_info.set(extract_client_mcp_host_info(
             &args,
-            mesmile_client_capabilities.as_ref(),
+            goose_client_capabilities.as_ref(),
         ));
-        let _ = self.client_supports_mesmile_custom_notifications.set(
-            extract_client_supports_mesmile_custom_notifications(mesmile_client_capabilities.as_ref()),
+        let _ = self.client_supports_goose_custom_notifications.set(
+            extract_client_supports_goose_custom_notifications(goose_client_capabilities.as_ref()),
         );
         let _ = self
             .use_login_shell_path
@@ -2276,8 +2276,8 @@ impl GooseAcpAgent {
         Ok(InitializeResponse::new(args.protocol_version)
             .agent_capabilities(capabilities)
             .auth_methods(vec![AuthMethod::Agent(
-                AuthMethodAgent::new("mesmile-provider", "Configure Provider")
-                    .description("Run `mesmile configure` to set up your AI provider and API key"),
+                AuthMethodAgent::new("goose-provider", "Configure Provider")
+                    .description("Run `goose configure` to set up your AI provider and API key"),
             )]))
     }
 
@@ -2544,12 +2544,12 @@ impl GooseAcpAgent {
             .await
             .internal_err_ctx("Failed to load session")?;
         if let Some(updates) = build_usage_updates(&session) {
-            if self.supports_mesmile_custom_notifications() {
+            if self.supports_goose_custom_notifications() {
                 cx.send_notification(updates.custom)?;
             }
             // Standard ACP notification — emitted alongside the custom one for
             // backwards compatibility. Remove once all known clients have
-            // migrated to `_mesmile/unstable/session/update`.
+            // migrated to `_goose/unstable/session/update`.
             cx.send_notification(SessionNotification::new(
                 args.session_id.clone(),
                 SessionUpdate::UsageUpdate(updates.standard),
@@ -2623,7 +2623,7 @@ impl GooseAcpAgent {
 
         send_elicitation_interaction_update(
             cx,
-            self.supports_mesmile_custom_notifications(),
+            self.supports_goose_custom_notifications(),
             &req.session_id,
             InteractionUpdate {
                 interaction: Interaction::Elicitation {
@@ -2680,9 +2680,9 @@ impl GooseAcpAgent {
             .update_provider(provider, session_id)
             .await
             .internal_err_ctx("Failed to update provider")?;
-        let mode = agent.mesmile_mode().await;
+        let mode = agent.goose_mode().await;
         agent
-            .update_mesmile_mode(mode, session_id)
+            .update_goose_mode(mode, session_id)
             .await
             .internal_err_ctx("Failed to propagate mode")?;
         // model_config is already updated on the session by the agent's update_provider call.
@@ -2705,7 +2705,7 @@ impl GooseAcpAgent {
             .internal_err_ctx("Failed to get provider")?;
         let provider_name = provider.get_name().to_string();
         let current_model = provider.get_model_config().model_name.clone();
-        let mesmile_mode = agent.mesmile_mode().await;
+        let goose_mode = agent.goose_mode().await;
         let inventory = self
             .provider_inventory
             .entry_for_provider(&provider_name)
@@ -2716,7 +2716,7 @@ impl GooseAcpAgent {
                 .data(format!("Unknown provider inventory: {}", provider_name)));
         };
         let model_state = build_model_state(current_model.as_str(), &inventory);
-        let mode_state = build_mode_state(mesmile_mode)?;
+        let mode_state = build_mode_state(goose_mode)?;
         let provider_options = build_provider_options(Some(&provider_name)).await;
         let config_options = build_config_options(
             &mode_state,
@@ -2736,18 +2736,18 @@ impl GooseAcpAgent {
         session_id: &str,
         mode_id: &str,
     ) -> Result<SetSessionModeResponse, agent_client_protocol::Error> {
-        let mode = mode_id.parse::<MeSmileMode>().map_err(|_| {
+        let mode = mode_id.parse::<GooseMode>().map_err(|_| {
             agent_client_protocol::Error::invalid_params()
                 .data(format!("Invalid mode: {}", mode_id))
         })?;
 
         let agent = self.get_session_agent(session_id, None).await?;
         agent
-            .update_mesmile_mode(mode, session_id)
+            .update_goose_mode(mode, session_id)
             .await
             .internal_err_ctx("Failed to update mode")?;
 
-        // mesmile_mode is already updated on the session above.
+        // goose_mode is already updated on the session above.
 
         Ok(SetSessionModeResponse::new())
     }
@@ -2772,7 +2772,7 @@ impl GooseAcpAgent {
         let use_default_provider = provider_name == DEFAULT_PROVIDER_ID;
         let resolved_provider_name = if use_default_provider {
             config
-                .get_mesmile_provider()
+                .get_goose_provider()
                 .internal_err_ctx("Failed to resolve default provider from config")?
         } else {
             provider_name.to_string()
@@ -2782,7 +2782,7 @@ impl GooseAcpAgent {
             model_name.to_string()
         } else if use_default_provider {
             config
-                .get_mesmile_model()
+                .get_goose_model()
                 .internal_err_ctx("Failed to resolve default model from config")?
         } else if is_changing_provider {
             ACP_CURRENT_MODEL.to_string()
@@ -2820,9 +2820,9 @@ impl GooseAcpAgent {
             .update_provider(new_provider, session_id)
             .await
             .internal_err_ctx("Failed to update provider")?;
-        let mode = agent.mesmile_mode().await;
+        let mode = agent.goose_mode().await;
         agent
-            .update_mesmile_mode(mode, session_id)
+            .update_goose_mode(mode, session_id)
             .await
             .internal_err_ctx("Failed to propagate mode")?;
 
@@ -2925,7 +2925,7 @@ where
 
         SacpAgent
             .builder()
-            .name("mesmile-acp")
+            .name("goose-acp")
             .with_handler(handler)
             .connect_to(ByteStreams::new(write, read))
             .await?;
@@ -2945,7 +2945,7 @@ pub async fn run(builtins: Vec<String>) -> Result<()> {
             builtins,
             data_dir: Paths::data_dir(),
             config_dir: Paths::config_dir(),
-            mesmile_platform: GoosePlatform::GooseCli,
+            goose_platform: GoosePlatform::GooseCli,
             additional_source_roots: Vec::new(),
         },
     );
@@ -3100,12 +3100,12 @@ print(\"hello, world\")
     }
 
     #[test]
-    fn test_tool_call_identity_meta_uses_mesmile_extension_metadata() {
+    fn test_tool_call_identity_meta_uses_goose_extension_metadata() {
         let request = ToolRequest {
             id: "req_1".to_string(),
             tool_call: Ok(CallToolRequestParams::new("context7__query-docs")),
             metadata: None,
-            tool_meta: Some(serde_json::json!({"mesmile_extension": "context7"})),
+            tool_meta: Some(serde_json::json!({"goose_extension": "context7"})),
         };
 
         let meta = tool_call_identity_meta(&request).expect("expected metadata");
@@ -3239,13 +3239,13 @@ print(\"hello, world\")
             .expect("meta should be created");
         let goose = meta.get("goose").expect("goose key");
         assert_eq!(
-            mesmile.get("toolCall"),
+            goose.get("toolCall"),
             Some(
                 &serde_json::json!({ "toolName": "developer__shell", "extensionName": "developer" })
             )
         );
         assert_eq!(
-            mesmile.get("toolChainSummary"),
+            goose.get("toolChainSummary"),
             Some(&serde_json::json!({ "summary": "ran two commands", "count": 2 }))
         );
     }
@@ -3276,14 +3276,14 @@ print(\"hello, world\")
             .and_then(|m| m.get("goose"))
             .expect("replay meta must include a goose namespace");
         assert_eq!(
-            mesmile.get("toolCall"),
+            goose.get("toolCall"),
             Some(
                 &serde_json::json!({ "toolName": "developer__shell", "extensionName": "developer" })
             ),
             "replay must preserve identity meta alongside the chain summary",
         );
         assert_eq!(
-            mesmile.get("toolChainSummary"),
+            goose.get("toolChainSummary"),
             Some(&serde_json::json!({ "summary": "applied dark mode polish", "count": 3 })),
             "replay must attach toolChainSummary so the chain header renders on first paint",
         );
@@ -3490,7 +3490,7 @@ print(\"hello, world\")
     }
 
     #[test]
-    fn test_extract_tool_call_update_meta_ignores_untrusted_mesmile_meta() {
+    fn test_extract_tool_call_update_meta_ignores_untrusted_goose_meta() {
         let response = response_with_meta(Some(serde_json::json!({
             "goose": {
                 "mcpApp": {
@@ -3533,7 +3533,7 @@ print(\"hello, world\")
     }
 
     #[test]
-    fn test_merge_replay_message_meta_preserves_existing_mesmile_meta() {
+    fn test_merge_replay_message_meta_preserves_existing_goose_meta() {
         let message = Message::new(Role::Assistant, 1_700_000_000, vec![]).with_id("msg_1");
         let existing = serde_json::from_value(serde_json::json!({
             "goose": {
@@ -3698,7 +3698,7 @@ print(\"hello, world\")
             message_count: 0,
             provider_name: None,
             model_config: None,
-            mesmile_mode: MeSmileMode::default(),
+            goose_mode: GooseMode::default(),
             archived_at: None,
             project_id: None,
         }
@@ -3762,37 +3762,37 @@ print(\"hello, world\")
     }
 
     #[test]
-    fn test_mesmile_custom_notifications_capability_defaults_to_false() {
+    fn test_goose_custom_notifications_capability_defaults_to_false() {
         let request =
             InitializeRequest::new(agent_client_protocol::schema::ProtocolVersion::LATEST);
-        let mesmile_client_capabilities =
+        let goose_client_capabilities =
             extract_client_capabilities_meta(&request).and_then(|meta| meta.goose);
 
-        assert!(!extract_client_supports_mesmile_custom_notifications(
-            mesmile_client_capabilities.as_ref()
+        assert!(!extract_client_supports_goose_custom_notifications(
+            goose_client_capabilities.as_ref()
         ));
     }
 
     #[test]
-    fn test_mesmile_custom_notifications_capability_reads_client_meta() {
-        let mut mesmile_meta = serde_json::Map::new();
-        mesmile_meta.insert(
+    fn test_goose_custom_notifications_capability_reads_client_meta() {
+        let mut goose_meta = serde_json::Map::new();
+        goose_meta.insert(
             "customNotifications".to_string(),
             serde_json::Value::Bool(true),
         );
         let mut meta = serde_json::Map::new();
-        meta.insert("goose".to_string(), serde_json::Value::Object(mesmile_meta));
+        meta.insert("goose".to_string(), serde_json::Value::Object(goose_meta));
 
         let request =
             InitializeRequest::new(agent_client_protocol::schema::ProtocolVersion::LATEST)
                 .client_capabilities(
                     agent_client_protocol::schema::ClientCapabilities::new().meta(meta),
                 );
-        let mesmile_client_capabilities =
+        let goose_client_capabilities =
             extract_client_capabilities_meta(&request).and_then(|meta| meta.goose);
 
-        assert!(extract_client_supports_mesmile_custom_notifications(
-            mesmile_client_capabilities.as_ref()
+        assert!(extract_client_supports_goose_custom_notifications(
+            goose_client_capabilities.as_ref()
         ));
     }
 }

@@ -2,7 +2,7 @@ use anyhow::Result;
 use async_trait::async_trait;
 use futures::StreamExt;
 use mesmile::agents::{Agent, AgentEvent, SessionConfig};
-use mesmile::config::MeSmileMode;
+use mesmile::config::GooseMode;
 use mesmile::conversation::message::{Message, MessageContent};
 use mesmile::conversation::Conversation;
 use mesmile::model::ModelConfig;
@@ -198,7 +198,7 @@ impl ProviderDef for MockCompactionProvider {
 
     fn from_env(
         _model: ModelConfig,
-        _extensions: Vec<mesmile::config::ExtensionConfig>,
+        _extensions: Vec<goose::config::ExtensionConfig>,
     ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
         Box::pin(async { Ok(Self::new()) })
     }
@@ -218,7 +218,7 @@ async fn setup_test_session(
             temp_dir.path().to_path_buf(),
             session_name.to_string(),
             SessionType::Hidden,
-            MeSmileMode::default(),
+            GooseMode::default(),
         )
         .await?;
 

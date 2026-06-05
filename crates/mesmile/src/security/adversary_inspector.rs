@@ -5,7 +5,7 @@ use std::sync::OnceLock;
 
 use crate::agents::types::SharedProvider;
 use crate::config::paths::Paths;
-use crate::config::MeSmileMode;
+use crate::config::GooseMode;
 use crate::conversation::message::{Message, MessageContent, ToolRequest};
 use crate::conversation::Conversation;
 use crate::tool_inspection::{InspectionAction, InspectionResult, ToolInspector};
@@ -34,7 +34,7 @@ struct AdversaryConfig {
 /// Adversary inspector that reviews tool calls against user-defined rules.
 ///
 /// Activated by placing an `adversary.md` file in the Goose config directory
-/// (`~/.config/mesmile/adversary.md`). The file contains optional frontmatter
+/// (`~/.config/goose/adversary.md`). The file contains optional frontmatter
 /// to select which tools are reviewed, followed by rules.
 ///
 /// Example `adversary.md`:
@@ -361,7 +361,7 @@ impl ToolInspector for AdversaryInspector {
         _session_id: &str,
         tool_requests: &[ToolRequest],
         messages: &[Message],
-        _mesmile_mode: MeSmileMode,
+        _goose_mode: GooseMode,
     ) -> Result<Vec<InspectionResult>> {
         let config = match self.get_config() {
             Some(c) => c,
@@ -622,7 +622,7 @@ mod tests {
         };
 
         let results = inspector
-            .inspect("test", &[request], &[], MeSmileMode::Auto)
+            .inspect("test", &[request], &[], GooseMode::Auto)
             .await
             .unwrap();
         assert!(results.is_empty());

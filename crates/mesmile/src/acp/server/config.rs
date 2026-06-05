@@ -63,8 +63,8 @@ impl GooseAcpAgent {
     ) -> Result<DefaultsReadResponse, agent_client_protocol::Error> {
         let config = self.config()?;
         Ok(DefaultsReadResponse {
-            provider_id: config.get_mesmile_provider().ok(),
-            model_id: config.get_mesmile_model().ok(),
+            provider_id: config.get_goose_provider().ok(),
+            model_id: config.get_goose_model().ok(),
         })
     }
 

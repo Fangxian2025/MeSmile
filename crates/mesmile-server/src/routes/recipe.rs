@@ -200,7 +200,7 @@ async fn create_recipe(
     match recipe_result {
         Ok(mut recipe) => {
             if let Some(author_req) = request.author {
-                recipe.author = Some(mesmile::recipe::Author {
+                recipe.author = Some(goose::recipe::Author {
                     contact: author_req.contact,
                     metadata: author_req.metadata,
                 });
@@ -214,7 +214,7 @@ async fn create_recipe(
         Err(e) => {
             tracing::error!("Error details: {:?}", e);
             #[cfg(feature = "telemetry")]
-            mesmile::posthog::emit_error("recipe_create_failed", &e.to_string());
+            goose::posthog::emit_error("recipe_create_failed", &e.to_string());
             let error_response = CreateRecipeResponse {
                 recipe: None,
                 error: Some(format!("Failed to create recipe: {}", e)),
@@ -242,7 +242,7 @@ async fn encode_recipe(
         Err(err) => {
             tracing::error!("Failed to encode recipe: {}", err);
             #[cfg(feature = "telemetry")]
-            mesmile::posthog::emit_error("recipe_encode_failed", &err.to_string());
+            goose::posthog::emit_error("recipe_encode_failed", &err.to_string());
             Err(StatusCode::BAD_REQUEST)
         }
     }
@@ -269,7 +269,7 @@ async fn decode_recipe(
         Err(err) => {
             tracing::error!("Failed to decode deeplink: {}", err);
             #[cfg(feature = "telemetry")]
-            mesmile::posthog::emit_error("recipe_decode_failed", &err.to_string());
+            goose::posthog::emit_error("recipe_decode_failed", &err.to_string());
             Err(StatusCode::BAD_REQUEST)
         }
     }
@@ -396,7 +396,7 @@ async fn schedule_recipe(
         Err(e) => {
             tracing::error!("Failed to schedule recipe: {}", e);
             #[cfg(feature = "telemetry")]
-            mesmile::posthog::emit_error("recipe_schedule_failed", &e.to_string());
+            goose::posthog::emit_error("recipe_schedule_failed", &e.to_string());
             Err(StatusCode::INTERNAL_SERVER_ERROR)
         }
     }

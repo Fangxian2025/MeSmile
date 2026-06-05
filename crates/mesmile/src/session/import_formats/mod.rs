@@ -1,4 +1,4 @@
-//! Importers for non-mesmile session formats.
+//! Importers for non-goose session formats.
 //!
 //! Goose's native session export is a JSON-serialized [`crate::session::Session`].
 //! These submodules let users also import sessions exported by other coding
@@ -21,7 +21,7 @@ pub mod pi;
 /// Detected import source format.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ImportFormat {
-    /// Native mesmile session export — a JSON object representing a `Session`.
+    /// Native goose session export — a JSON object representing a `Session`.
     Goose,
     /// Claude Code `.jsonl` transcript (one JSON object per line, no header).
     ClaudeCode,
@@ -35,7 +35,7 @@ pub enum ImportFormat {
 ///
 /// We peek at the first non-blank line:
 /// - If it parses as a JSON object whose top-level has `working_dir`/`workingDir`
-///   and a `conversation` (or `messages`) field, it's mesmile.
+///   and a `conversation` (or `messages`) field, it's goose.
 /// - If the *first* line is `{"type":"session", ...}` it's pi.
 /// - If it's a JSON-Lines stream with per-line `type` fields like
 ///   `user`/`assistant`/`attachment`, it's Claude Code.
@@ -95,10 +95,10 @@ pub fn detect_format(content: &str) -> ImportFormat {
     ImportFormat::Goose
 }
 
-/// Convert any supported foreign format to a mesmile-native session JSON string.
+/// Convert any supported foreign format to a goose-native session JSON string.
 ///
 /// For [`ImportFormat::Goose`] the input is returned unchanged.
-pub fn convert_to_mesmile_session_json(content: &str) -> Result<String> {
+pub fn convert_to_goose_session_json(content: &str) -> Result<String> {
     match detect_format(content) {
         ImportFormat::Goose => Ok(content.to_string()),
         ImportFormat::ClaudeCode => claude_code::convert(content),

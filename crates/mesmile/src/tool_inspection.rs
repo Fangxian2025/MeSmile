@@ -2,7 +2,7 @@ use anyhow::Result;
 use async_trait::async_trait;
 use std::collections::HashMap;
 
-use crate::config::MeSmileMode;
+use crate::config::GooseMode;
 use crate::conversation::message::{Message, ToolRequest};
 use crate::permission::permission_inspector::PermissionInspector;
 use crate::permission::permission_judge::PermissionCheckResult;
@@ -41,7 +41,7 @@ pub trait ToolInspector: Send + Sync {
         session_id: &str,
         tool_requests: &[ToolRequest],
         messages: &[Message],
-        mesmile_mode: MeSmileMode,
+        goose_mode: GooseMode,
     ) -> Result<Vec<InspectionResult>>;
 
     /// Whether this inspector is enabled
@@ -77,7 +77,7 @@ impl ToolInspectionManager {
         session_id: &str,
         tool_requests: &[ToolRequest],
         messages: &[Message],
-        mesmile_mode: MeSmileMode,
+        goose_mode: GooseMode,
     ) -> Result<Vec<InspectionResult>> {
         let mut all_results = Vec::new();
 
@@ -93,7 +93,7 @@ impl ToolInspectionManager {
             );
 
             match inspector
-                .inspect(session_id, tool_requests, messages, mesmile_mode)
+                .inspect(session_id, tool_requests, messages, goose_mode)
                 .await
             {
                 Ok(results) => {

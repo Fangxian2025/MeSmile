@@ -1,4 +1,4 @@
-use mesmile::config::MeSmileMode;
+use mesmile::config::GooseMode;
 use mesmile::conversation::message::{Message, MessageContent, ToolRequest};
 use mesmile::security::adversary_inspector::AdversaryInspector;
 use mesmile::tool_inspection::ToolInspector;
@@ -44,7 +44,7 @@ async fn test_adversary_disabled_without_config_file() {
                 object!({"command": "rm -rf /"}),
             )],
             &[],
-            MeSmileMode::SmartApprove,
+            GooseMode::SmartApprove,
         )
         .await
         .unwrap();
@@ -78,7 +78,7 @@ async fn test_adversary_enabled_default_tools() {
                 object!({"command": "cargo build"}),
             )],
             &messages,
-            MeSmileMode::SmartApprove,
+            GooseMode::SmartApprove,
         )
         .await
         .unwrap();
@@ -86,7 +86,7 @@ async fn test_adversary_enabled_default_tools() {
     assert_eq!(results.len(), 1);
     assert!(matches!(
         results[0].action,
-        mesmile::tool_inspection::InspectionAction::Allow
+        goose::tool_inspection::InspectionAction::Allow
     ));
 
     // write is NOT reviewed by default — skipped entirely
@@ -99,7 +99,7 @@ async fn test_adversary_enabled_default_tools() {
                 object!({"path": "foo.txt", "content": "hi"}),
             )],
             &messages,
-            MeSmileMode::SmartApprove,
+            GooseMode::SmartApprove,
         )
         .await
         .unwrap();
@@ -132,7 +132,7 @@ async fn test_adversary_custom_tool_filter() {
             "test",
             &[make_request("r1", "shell", object!({"command": "ls"}))],
             &messages,
-            MeSmileMode::Auto,
+            GooseMode::Auto,
         )
         .await
         .unwrap();
@@ -148,7 +148,7 @@ async fn test_adversary_custom_tool_filter() {
                 object!({"script": "echo hi", "language": "shell"}),
             )],
             &messages,
-            MeSmileMode::Auto,
+            GooseMode::Auto,
         )
         .await
         .unwrap();
@@ -164,7 +164,7 @@ async fn test_adversary_custom_tool_filter() {
                 object!({"path": "x.txt", "content": "y"}),
             )],
             &messages,
-            MeSmileMode::Auto,
+            GooseMode::Auto,
         )
         .await
         .unwrap();

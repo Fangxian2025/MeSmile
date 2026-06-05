@@ -294,7 +294,7 @@ pub async fn session_reply(
     let session_start = std::time::Instant::now();
 
     tracing::info!(
-        monotonic_counter.mesmile.session_starts = 1,
+        monotonic_counter.goose.session_starts = 1,
         session_type = "app",
         interface = "ui",
         "Session started"
@@ -303,7 +303,7 @@ pub async fn session_reply(
     if let Some(ref recipe) = session_data.recipe {
         if state.mark_recipe_run_if_absent(&session_id).await {
             tracing::info!(
-                monotonic_counter.mesmile.recipe_runs = 1,
+                monotonic_counter.goose.recipe_runs = 1,
                 recipe_name = %recipe.title,
                 recipe_version = %recipe.version,
                 session_type = "app",
@@ -322,17 +322,17 @@ pub async fn session_reply(
     let is_elicitation_response = user_message.content.iter().any(|c| {
         matches!(
             c,
-            mesmile::conversation::message::MessageContent::ActionRequired(ar)
+            goose::conversation::message::MessageContent::ActionRequired(ar)
                 if matches!(
                     ar.data,
-                    mesmile::conversation::message::ActionRequiredData::ElicitationResponse { .. }
+                    goose::conversation::message::ActionRequiredData::ElicitationResponse { .. }
                 )
         )
     });
 
     if is_elicitation_response {
         let agent = state.get_agent_for_route(session_id.clone()).await?;
-        let session_config = mesmile::agents::types::SessionConfig {
+        let session_config = goose::agents::types::SessionConfig {
             id: session_id.clone(),
             schedule_id: session_data.schedule_id.clone(),
             max_turns: None,
@@ -533,7 +533,7 @@ pub async fn session_reply(
         {
             let total_tokens = session.total_tokens.unwrap_or(0);
             tracing::info!(
-                monotonic_counter.mesmile.session_completions = 1,
+                monotonic_counter.goose.session_completions = 1,
                 session_type = "app",
                 interface = "ui",
                 exit_type = "normal",
@@ -544,7 +544,7 @@ pub async fn session_reply(
             );
 
             tracing::info!(
-                monotonic_counter.mesmile.session_duration_ms = session_duration.as_millis() as u64,
+                monotonic_counter.goose.session_duration_ms = session_duration.as_millis() as u64,
                 session_type = "app",
                 interface = "ui",
                 "Session duration"
@@ -552,7 +552,7 @@ pub async fn session_reply(
 
             if total_tokens > 0 {
                 tracing::info!(
-                    monotonic_counter.mesmile.session_tokens = total_tokens,
+                    monotonic_counter.goose.session_tokens = total_tokens,
                     session_type = "app",
                     interface = "ui",
                     "Session tokens"
@@ -560,7 +560,7 @@ pub async fn session_reply(
             }
         } else {
             tracing::info!(
-                monotonic_counter.mesmile.session_completions = 1,
+                monotonic_counter.goose.session_completions = 1,
                 session_type = "app",
                 interface = "ui",
                 exit_type = "normal",
@@ -571,7 +571,7 @@ pub async fn session_reply(
             );
 
             tracing::info!(
-                monotonic_counter.mesmile.session_duration_ms = session_duration.as_millis() as u64,
+                monotonic_counter.goose.session_duration_ms = session_duration.as_millis() as u64,
                 session_type = "app",
                 interface = "ui",
                 "Session duration"

@@ -297,7 +297,7 @@ impl ModelConfig {
             Ok(tokens) => {
                 if tokens <= 0 {
                     return Err(ConfigError::InvalidRange(
-                        "mesmile_max_tokens".to_string(),
+                        "goose_max_tokens".to_string(),
                         "must be greater than 0".to_string(),
                     ));
                 }
@@ -305,7 +305,7 @@ impl ModelConfig {
             }
             Err(crate::config::ConfigError::NotFound(_)) => Ok(None),
             Err(e) => Err(ConfigError::InvalidValue(
-                "mesmile_max_tokens".to_string(),
+                "goose_max_tokens".to_string(),
                 String::new(),
                 e.to_string(),
             )),
@@ -983,11 +983,11 @@ mod tests {
         }
 
         #[test]
-        fn mesmile_prefixed_reasoning_models() {
+        fn goose_prefixed_reasoning_models() {
             let _guard = env_lock::lock_env(ENV_LOCK_KEYS);
-            assert!(ModelConfig::new_or_fail("mesmile-o3-mini").is_openai_reasoning_model());
-            assert!(ModelConfig::new_or_fail("mesmile-o4-mini").is_openai_reasoning_model());
-            assert!(ModelConfig::new_or_fail("mesmile-gpt-5").is_openai_reasoning_model());
+            assert!(ModelConfig::new_or_fail("goose-o3-mini").is_openai_reasoning_model());
+            assert!(ModelConfig::new_or_fail("goose-o4-mini").is_openai_reasoning_model());
+            assert!(ModelConfig::new_or_fail("goose-gpt-5").is_openai_reasoning_model());
         }
 
         #[test]
@@ -1006,7 +1006,7 @@ mod tests {
             assert!(
                 !ModelConfig::new_or_fail("databricks-claude-sonnet-4").is_openai_reasoning_model()
             );
-            assert!(!ModelConfig::new_or_fail("mesmile-claude-sonnet-4").is_openai_reasoning_model());
+            assert!(!ModelConfig::new_or_fail("goose-claude-sonnet-4").is_openai_reasoning_model());
             assert!(!ModelConfig::new_or_fail("llama-3-70b").is_openai_reasoning_model());
         }
     }

@@ -7,7 +7,7 @@ use crate::acp::{
     extension_configs_to_mcp_servers, AcpProvider, AcpProviderConfig, ACP_CURRENT_MODEL,
 };
 use crate::config::search_path::SearchPaths;
-use crate::config::{Config, MeSmileMode};
+use crate::config::{Config, GooseMode};
 use crate::model::ModelConfig;
 use crate::providers::acp_tooling::{acp_adapter_installed, acp_inventory_identity};
 use crate::providers::base::{current_working_dir, ProviderDef, ProviderMetadata};
@@ -34,7 +34,7 @@ impl ProviderDef for CodexAcpProvider {
         .with_setup_steps(vec![
             "Install the ACP adapter: `npm install -g @zed-industries/codex-acp`",
             "Run `codex` once to authenticate with your OpenAI account",
-            "Add to your MeSmile config file (`~/.config/mesmile/config.yaml` on macOS/Linux):\n  GOOSE_PROVIDER: codex-acp\n  GOOSE_MODEL: current\n  codex-acp_configured: true",
+            "Add to your goose config file (`~/.config/goose/config.yaml` on macOS/Linux):\n  GOOSE_PROVIDER: codex-acp\n  GOOSE_MODEL: current\n  codex-acp_configured: true",
             "Restart goose for changes to take effect",
         ])
     }
@@ -58,11 +58,11 @@ impl ProviderDef for CodexAcpProvider {
                 .with_npm()
                 .resolve(CODEX_ACP_PROVIDER_NAME)?;
             let env = vec![];
-            let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
+            let goose_mode = config.get_goose_mode().unwrap_or(GooseMode::Auto);
             let mcp_servers = extension_configs_to_mcp_servers(&extensions);
 
-            // fixed MeSmile mode via -c overrides until session/set-mode works
-            let (approval_policy, sandbox_mode) = map_mesmile_mode(mesmile_mode);
+            // fixed goose mode via -c overrides until session/set-mode works
+            let (approval_policy, sandbox_mode) = map_goose_mode(goose_mode);
             let mut args = vec![
                 "-c".to_string(),
                 format!("approval_policy={approval_policy}"),
@@ -84,10 +84,10 @@ impl ProviderDef for CodexAcpProvider {
 
             // Chat and Approve both map to "read-only".
             let mode_mapping = HashMap::from([
-                (MeSmileMode::Auto, "full-access".to_string()),
-                (MeSmileMode::Approve, "read-only".to_string()),
-                (MeSmileMode::SmartApprove, "auto".to_string()),
-                (MeSmileMode::Chat, "read-only".to_string()),
+                (GooseMode::Auto, "full-access".to_string()),
+                (GooseMode::Approve, "read-only".to_string()),
+                (GooseMode::SmartApprove, "auto".to_string()),
+                (GooseMode::Chat, "read-only".to_string()),
             ]);
 
             let provider_config = AcpProviderConfig {
@@ -104,7 +104,7 @@ impl ProviderDef for CodexAcpProvider {
             };
 
             let metadata = Self::metadata();
-            AcpProvider::connect(metadata.name, model, mesmile_mode, provider_config).await
+            AcpProvider::connect(metadata.name, model, goose_mode, provider_config).await
         })
     }
 
@@ -123,13 +123,13 @@ impl ProviderDef for CodexAcpProvider {
 
 // Codex sandbox scope determines what needs approval: operations within the
 // sandbox are auto-approved, operations outside it trigger on-request prompts.
-// So Approve uses read-only sandbox to force write approvals through mesmile.
-fn map_mesmile_mode(mesmile_mode: MeSmileMode) -> (&'static str, &'static str) {
-    match mesmile_mode {
-        MeSmileMode::Auto => ("never", "danger-full-access"),
-        MeSmileMode::SmartApprove => ("on-request", "workspace-write"),
-        MeSmileMode::Approve => ("on-request", "read-only"),
-        MeSmileMode::Chat => ("never", "read-only"),
+// So Approve uses read-only sandbox to force write approvals through goose.
+fn map_goose_mode(goose_mode: GooseMode) -> (&'static str, &'static str) {
+    match goose_mode {
+        GooseMode::Auto => ("never", "danger-full-access"),
+        GooseMode::SmartApprove => ("on-request", "workspace-write"),
+        GooseMode::Approve => ("on-request", "read-only"),
+        GooseMode::Chat => ("never", "read-only"),
     }
 }
 
@@ -138,12 +138,12 @@ mod tests {
     use super::*;
     use test_case::test_case;
 
-    #[test_case(MeSmileMode::Auto, "never", "danger-full-access")]
-    #[test_case(MeSmileMode::SmartApprove, "on-request", "workspace-write")]
-    #[test_case(MeSmileMode::Approve, "on-request", "read-only")]
-    #[test_case(MeSmileMode::Chat, "never", "read-only")]
-    fn test_map_mesmile_mode(mode: MeSmileMode, expected_approval: &str, expected_sandbox: &str) {
-        let (approval, sandbox) = map_mesmile_mode(mode);
+    #[test_case(GooseMode::Auto, "never", "danger-full-access")]
+    #[test_case(GooseMode::SmartApprove, "on-request", "workspace-write")]
+    #[test_case(GooseMode::Approve, "on-request", "read-only")]
+    #[test_case(GooseMode::Chat, "never", "read-only")]
+    fn test_map_goose_mode(mode: GooseMode, expected_approval: &str, expected_sandbox: &str) {
+        let (approval, sandbox) = map_goose_mode(mode);
         assert_eq!(approval, expected_approval);
         assert_eq!(sandbox, expected_sandbox);
     }

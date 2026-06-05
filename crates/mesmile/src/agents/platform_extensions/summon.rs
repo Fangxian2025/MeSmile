@@ -5,7 +5,7 @@ use crate::agents::subagent_task_config::{TaskConfig, DEFAULT_SUBAGENT_MAX_TURNS
 use crate::agents::tool_execution::ToolCallContext;
 use crate::agents::AgentConfig;
 use crate::config::paths::Paths;
-use crate::config::{Config, MeSmileMode};
+use crate::config::{Config, GooseMode};
 use crate::providers;
 use crate::recipe::build_recipe::build_recipe_from_template;
 use crate::recipe::local_recipes::load_local_recipe_file;
@@ -228,7 +228,7 @@ pub fn discover_filesystem_sources(working_dir: &Path) -> Vec<SourceEntry> {
 
     let local_recipe_dirs: Vec<PathBuf> = vec![
         working_dir.to_path_buf(),
-        working_dir.join(".mesmile/recipes"),
+        working_dir.join(".goose/recipes"),
         working_dir.join(".agents/recipes"),
     ];
 
@@ -241,7 +241,7 @@ pub fn discover_filesystem_sources(working_dir: &Path) -> Vec<SourceEntry> {
         })
         .chain(
             [
-                home.as_ref().map(|h| h.join(".mesmile/recipes")),
+                home.as_ref().map(|h| h.join(".goose/recipes")),
                 Some(config.join("recipes")),
                 home.as_ref().map(|h| h.join(".agents/recipes")),
             ]
@@ -251,13 +251,13 @@ pub fn discover_filesystem_sources(working_dir: &Path) -> Vec<SourceEntry> {
         .collect();
 
     let local_agent_dirs: Vec<PathBuf> = vec![
-        working_dir.join(".mesmile/agents"),
+        working_dir.join(".goose/agents"),
         working_dir.join(".claude/agents"),
         working_dir.join(".agents/agents"),
     ];
 
     let global_agent_dirs: Vec<PathBuf> = [
-        home.as_ref().map(|h| h.join(".mesmile/agents")),
+        home.as_ref().map(|h| h.join(".goose/agents")),
         home.as_ref().map(|h| h.join(".agents/agents")),
         Some(config.join("agents")),
         home.as_ref().map(|h| h.join(".claude/agents")),
@@ -1087,7 +1087,7 @@ impl SummonClient {
             self.context.session_manager.clone(),
             crate::config::permission::PermissionManager::instance(),
             None,
-            MeSmileMode::Auto,
+            GooseMode::Auto,
             true, // disable session naming for subagents
             crate::agents::GoosePlatform::GooseCli,
         );
@@ -1099,7 +1099,7 @@ impl SummonClient {
                 working_dir,
                 "Delegated task".to_string(),
                 SessionType::SubAgent,
-                MeSmileMode::Auto,
+                GooseMode::Auto,
             )
             .await
             .map_err(|e| format!("Failed to create subagent session: {}", e))?;
@@ -1328,8 +1328,8 @@ impl SummonClient {
         // with the correct priority ordering; setting it here would cause it to be overridden
         // by the parent session's recipe instead.
         let settings = model.map(|m| Settings {
-            mesmile_model: Some(m),
-            mesmile_provider: params.provider.clone(),
+            goose_model: Some(m),
+            goose_provider: params.provider.clone(),
             temperature: params.temperature,
             max_turns: None,
         });
@@ -1408,7 +1408,7 @@ impl SummonClient {
         let override_model = params
             .model
             .clone()
-            .or_else(|| recipe.settings.as_ref().and_then(|s| s.mesmile_model.clone()))
+            .or_else(|| recipe.settings.as_ref().and_then(|s| s.goose_model.clone()))
             .or_else(|| {
                 Config::global()
                     .get_param::<String>("GOOSE_SUBAGENT_MODEL")
@@ -1461,7 +1461,7 @@ impl SummonClient {
                 recipe
                     .settings
                     .as_ref()
-                    .and_then(|s| s.mesmile_provider.clone())
+                    .and_then(|s| s.goose_provider.clone())
             })
             .or_else(|| {
                 Config::global()
@@ -1590,7 +1590,7 @@ impl SummonClient {
             self.context.session_manager.clone(),
             crate::config::permission::PermissionManager::instance(),
             None,
-            MeSmileMode::Auto,
+            GooseMode::Auto,
             true, // disable session naming for subagents
             crate::agents::GoosePlatform::GooseCli,
         );
@@ -1602,7 +1602,7 @@ impl SummonClient {
                 working_dir,
                 description.clone(),
                 SessionType::SubAgent,
-                MeSmileMode::Auto,
+                GooseMode::Auto,
             )
             .await
             .map_err(|e| format!("Failed to create subagent session: {}", e))?;
@@ -1886,7 +1886,7 @@ You review code."#;
     async fn test_discover_recipes_and_agents() {
         let temp_dir = TempDir::new().unwrap();
 
-        let recipes = temp_dir.path().join(".mesmile/recipes");
+        let recipes = temp_dir.path().join(".goose/recipes");
         fs::create_dir_all(&recipes).unwrap();
         fs::write(
             recipes.join("deploy.yaml"),
@@ -1894,7 +1894,7 @@ You review code."#;
         )
         .unwrap();
 
-        let agents = temp_dir.path().join(".mesmile/agents");
+        let agents = temp_dir.path().join(".goose/agents");
         fs::create_dir_all(&agents).unwrap();
         fs::write(
             agents.join("reviewer.md"),
@@ -1924,7 +1924,7 @@ You review code."#;
     async fn test_recipe_deduplication_local_wins() {
         let temp_dir = TempDir::new().unwrap();
 
-        let local = temp_dir.path().join(".mesmile/recipes");
+        let local = temp_dir.path().join(".goose/recipes");
         fs::create_dir_all(&local).unwrap();
         fs::write(
             local.join("deploy.yaml"),
@@ -1951,7 +1951,7 @@ You review code."#;
     async fn test_load_recipe_source() {
         let temp_dir = TempDir::new().unwrap();
 
-        let recipes = temp_dir.path().join(".mesmile/recipes");
+        let recipes = temp_dir.path().join(".goose/recipes");
         fs::create_dir_all(&recipes).unwrap();
         fs::write(
             recipes.join("deploy.yaml"),
@@ -1975,7 +1975,7 @@ You review code."#;
     async fn test_load_agent_source() {
         let temp_dir = TempDir::new().unwrap();
 
-        let agents = temp_dir.path().join(".mesmile/agents");
+        let agents = temp_dir.path().join(".goose/agents");
         fs::create_dir_all(&agents).unwrap();
         fs::write(
             agents.join("reviewer.md"),
@@ -1999,7 +1999,7 @@ You review code."#;
     async fn test_load_nonexistent_source_suggests_similar() {
         let temp_dir = TempDir::new().unwrap();
 
-        let recipes = temp_dir.path().join(".mesmile/recipes");
+        let recipes = temp_dir.path().join(".goose/recipes");
         fs::create_dir_all(&recipes).unwrap();
         fs::write(
             recipes.join("deploy.yaml"),
@@ -2129,8 +2129,8 @@ You review code."#;
                 prompt: None,
                 extensions: None,
                 settings: Some(crate::recipe::Settings {
-                    mesmile_provider: None,
-                    mesmile_model: None,
+                    goose_provider: None,
+                    goose_model: None,
                     temperature: None,
                     max_turns: Some(10),
                 }),

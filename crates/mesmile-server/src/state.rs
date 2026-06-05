@@ -155,14 +155,14 @@ impl AppState {
         buses.remove(session_id);
     }
 
-    pub async fn get_agent(&self, session_id: String) -> anyhow::Result<Arc<mesmile::agents::Agent>> {
+    pub async fn get_agent(&self, session_id: String) -> anyhow::Result<Arc<goose::agents::Agent>> {
         self.agent_manager.get_or_create_agent(session_id).await
     }
 
     pub async fn get_agent_for_route(
         &self,
         session_id: String,
-    ) -> Result<Arc<mesmile::agents::Agent>, StatusCode> {
+    ) -> Result<Arc<goose::agents::Agent>, StatusCode> {
         self.get_agent(session_id).await.map_err(|e| {
             tracing::error!("Failed to get agent: {}", e);
             StatusCode::INTERNAL_SERVER_ERROR

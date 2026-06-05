@@ -10,7 +10,7 @@ use agent_client_protocol::{Channel, Client, ConnectTo, DynConnectTo};
 use async_trait::async_trait;
 use futures::StreamExt;
 use mesmile::acp::{AcpProvider, AcpProviderConfig};
-use mesmile::config::{MeSmileMode, PermissionManager};
+use mesmile::config::{GooseMode, PermissionManager};
 use mesmile::conversation::message::{ActionRequiredData, Message, MessageContent};
 use mesmile::model::ModelConfig;
 use mesmile::permission::permission_confirmation::PrincipalType;
@@ -151,7 +151,7 @@ impl Connection for AcpProviderConnection {
             false => (config.data_root.clone(), None),
         };
 
-        let mesmile_mode = config.mesmile_mode;
+        let goose_mode = config.goose_mode;
         let mcp_servers = config.mcp_servers;
 
         let current_model = config.current_model.clone();
@@ -159,7 +159,7 @@ impl Connection for AcpProviderConnection {
             openai.uri(),
             &config.builtins,
             data_root.as_path(),
-            mesmile_mode,
+            goose_mode,
             config.provider_factory,
             &current_model,
             config.disable_session_naming,
@@ -183,10 +183,10 @@ impl Connection for AcpProviderConnection {
             work_dir: cwd_path.clone(),
             mcp_servers,
             session_mode_id: None,
-            mode_mapping: MeSmileMode::VARIANTS
+            mode_mapping: GooseMode::VARIANTS
                 .iter()
                 .map(|v| {
-                    let mode = MeSmileMode::from_str(v).unwrap();
+                    let mode = GooseMode::from_str(v).unwrap();
                     (mode, mode.to_string())
                 })
                 .collect(),
@@ -204,7 +204,7 @@ impl Connection for AcpProviderConnection {
         let provider = AcpProvider::connect_with_transport(
             "acp-test".to_string(),
             ModelConfig::new(TEST_MODEL).unwrap(),
-            mesmile_mode,
+            goose_mode,
             provider_config,
             transport,
         )
@@ -228,7 +228,7 @@ impl Connection for AcpProviderConnection {
 
     async fn new_session(&mut self) -> anyhow::Result<SessionData<AcpProviderSession>> {
         self.session_counter += 1;
-        let mesmile_id = format!("test-session-{}", self.session_counter);
+        let goose_id = format!("test-session-{}", self.session_counter);
 
         let models = if self.strip_config_options {
             None
@@ -247,7 +247,7 @@ impl Connection for AcpProviderConnection {
 
         let session = AcpProviderSession {
             provider: Arc::clone(&self.provider),
-            session_id: agent_client_protocol::schema::SessionId::new(mesmile_id),
+            session_id: agent_client_protocol::schema::SessionId::new(goose_id),
             notification_sink: self.notification_sink.clone(),
             session_models: self.session_models.clone(),
             work_dir: self.work_dir.clone(),
@@ -371,9 +371,9 @@ fn strip_config_options(transport: DuplexTransport) -> Channel {
     tokio::spawn(async move {
         let mut stripped_initial_config = HashSet::new();
 
-        let mesmile_to_server = async {
+        let goose_to_server = async {
             let mut from_goose = filter.rx;
-            while let Some(msg) = from_mesmile.next().await {
+            while let Some(msg) = from_goose.next().await {
                 if server.tx.unbounded_send(msg).is_err() {
                     break;
                 }
@@ -458,7 +458,7 @@ fn strip_config_options(transport: DuplexTransport) -> Channel {
             }
         };
 
-        futures::join!(mesmile_to_server, server_to_goose);
+        futures::join!(goose_to_server, server_to_goose);
     });
 
     client_channel

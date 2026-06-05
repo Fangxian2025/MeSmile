@@ -34,7 +34,7 @@ impl NanoGptProvider {
             host.to_string(),
             AuthMethod::BearerToken(api_key.to_string()),
         )?
-        .with_header("x-client", "MeSmile")
+        .with_header("x-client", "goose")
     }
 
     async fn check_subscription(api_key: &str) -> bool {

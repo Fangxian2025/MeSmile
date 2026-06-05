@@ -422,7 +422,7 @@ async fn share_session_nostr(
             .await
             .map_err(|_| StatusCode::NOT_FOUND)?;
 
-        let relays = nostr_share::resolve_relays(request.relays, mesmile::config::Config::global());
+        let relays = nostr_share::resolve_relays(request.relays, goose::config::Config::global());
         let share = nostr_share::publish_session_json(&exported, relays)
             .await
             .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
@@ -517,7 +517,7 @@ async fn fork_session(
             .map_err(|e| {
                 tracing::error!("Failed to get session: {}", e);
                 #[cfg(feature = "telemetry")]
-                mesmile::posthog::emit_error("session_get_failed", &e.to_string());
+                goose::posthog::emit_error("session_get_failed", &e.to_string());
                 ErrorResponse {
                     message: if e.to_string().contains("not found") {
                         format!("Session {} not found", session_id)
@@ -538,7 +538,7 @@ async fn fork_session(
             .map_err(|e| {
                 tracing::error!("Failed to copy session: {}", e);
                 #[cfg(feature = "telemetry")]
-                mesmile::posthog::emit_error("session_copy_failed", &e.to_string());
+                goose::posthog::emit_error("session_copy_failed", &e.to_string());
                 ErrorResponse {
                     message: format!("Failed to copy session: {}", e),
                     status: StatusCode::INTERNAL_SERVER_ERROR,
@@ -557,7 +557,7 @@ async fn fork_session(
             .map_err(|e| {
                 tracing::error!("Failed to truncate conversation: {}", e);
                 #[cfg(feature = "telemetry")]
-                mesmile::posthog::emit_error("session_truncate_failed", &e.to_string());
+                goose::posthog::emit_error("session_truncate_failed", &e.to_string());
                 ErrorResponse {
                     message: format!("Failed to truncate conversation: {}", e),
                     status: StatusCode::INTERNAL_SERVER_ERROR,
@@ -605,7 +605,7 @@ async fn get_session_extensions(
 
     let extensions = EnabledExtensionsState::extensions_or_default(
         Some(&session.extension_data),
-        mesmile::config::Config::global(),
+        goose::config::Config::global(),
     );
 
     Ok(Json(SessionExtensionsResponse { extensions }))

@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Result};
 use async_trait::async_trait;
-use mesmile::config::MeSmileMode;
+use mesmile::config::GooseMode;
 use mesmile::conversation::message::{Message, ToolRequest};
 use mesmile::tool_inspection::{
     InspectionAction, InspectionResult, ToolInspectionManager, ToolInspector,
@@ -28,7 +28,7 @@ impl ToolInspector for MockInspectorOk {
         _session_id: &str,
         _tool_requests: &[ToolRequest],
         _messages: &[Message],
-        _mesmile_mode: MeSmileMode,
+        _goose_mode: GooseMode,
     ) -> Result<Vec<InspectionResult>> {
         Ok(self.results.clone())
     }
@@ -47,7 +47,7 @@ impl ToolInspector for MockInspectorErr {
         _session_id: &str,
         _tool_requests: &[ToolRequest],
         _messages: &[Message],
-        _mesmile_mode: MeSmileMode,
+        _goose_mode: GooseMode,
     ) -> Result<Vec<InspectionResult>> {
         Err(anyhow!("simulated failure"))
     }
@@ -92,7 +92,7 @@ async fn test_inspect_tools_aggregates_and_handles_errors() {
             mesmile_test_support::TEST_SESSION_ID,
             &tool_requests,
             &messages,
-            MeSmileMode::Approve,
+            GooseMode::Approve,
         )
         .await
         .expect("inspect_tools should not fail when one inspector errors");

@@ -272,7 +272,7 @@ pub async fn handle_session_export(
     }
     #[cfg(not(feature = "nostr"))]
     if nostr {
-        return Err(anyhow::anyhow!("mesmile was not built with nostr support"));
+        return Err(anyhow::anyhow!("goose was not built with nostr support"));
     }
 
     if let Some(output_path) = output_path {
@@ -288,24 +288,24 @@ pub async fn handle_session_export(
 }
 
 pub async fn handle_session_import(input: String, nostr: bool) -> Result<()> {
-    let json = if nostr || input.starts_with("mesmile://sessions/nostr") {
+    let json = if nostr || input.starts_with("goose://sessions/nostr") {
         #[cfg(feature = "nostr")]
         {
             nostr_share::import_session_json_from_deeplink(&input).await?
         }
         #[cfg(not(feature = "nostr"))]
-        return Err(anyhow::anyhow!("mesmile was not built with nostr support"));
+        return Err(anyhow::anyhow!("goose was not built with nostr support"));
     } else {
         fs::read_to_string(&input)
             .with_context(|| format!("Failed to read session import file: {input}"))?
     };
 
-    let format = mesmile::session::import_formats::detect_format(&json);
+    let format = goose::session::import_formats::detect_format(&json);
     let label = match format {
-        mesmile::session::import_formats::ImportFormat::Goose => "goose",
-        mesmile::session::import_formats::ImportFormat::ClaudeCode => "Claude Code",
-        mesmile::session::import_formats::ImportFormat::Codex => "Codex",
-        mesmile::session::import_formats::ImportFormat::Pi => "Pi",
+        goose::session::import_formats::ImportFormat::Goose => "goose",
+        goose::session::import_formats::ImportFormat::ClaudeCode => "Claude Code",
+        goose::session::import_formats::ImportFormat::Codex => "Codex",
+        goose::session::import_formats::ImportFormat::Pi => "Pi",
     };
     println!("Detected format: {}", label);
 
@@ -356,7 +356,7 @@ pub async fn handle_diagnostics(session_id: &str, output_path: Option<PathBuf>) 
 }
 
 fn export_session_to_markdown(
-    messages: Vec<mesmile::conversation::message::Message>,
+    messages: Vec<goose::conversation::message::Message>,
     session_name: &String,
 ) -> String {
     let mut markdown_output = String::new();
@@ -379,7 +379,7 @@ fn export_session_to_markdown(
             && message.content.iter().all(|content| {
                 matches!(
                     content,
-                    mesmile::conversation::message::MessageContent::ToolResponse(_)
+                    goose::conversation::message::MessageContent::ToolResponse(_)
                 )
             });
 
@@ -413,7 +413,7 @@ fn export_session_to_markdown(
         if message.content.iter().any(|content| {
             matches!(
                 content,
-                mesmile::conversation::message::MessageContent::ToolRequest(_)
+                goose::conversation::message::MessageContent::ToolRequest(_)
             )
         }) {
             skip_next_if_tool_response = true;

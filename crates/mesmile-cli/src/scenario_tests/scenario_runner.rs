@@ -8,7 +8,7 @@ use crate::session::CliSession;
 use anyhow::Result;
 use mesmile::agents::{Agent, AgentConfig, GoosePlatform};
 use mesmile::config::permission::PermissionManager;
-use mesmile::config::MeSmileMode;
+use mesmile::config::GooseMode;
 use mesmile::model::ModelConfig;
 use mesmile::providers::{create, testprovider::TestProvider};
 use mesmile::session::session_manager::SessionType;
@@ -143,7 +143,7 @@ where
 {
     use mesmile::config::ExtensionConfig;
 
-    mesmile::agents::moim::SKIP.with(|f| f.set(true));
+    goose::agents::moim::SKIP.with(|f| f.set(true));
 
     if let Ok(path) = dotenv() {
         println!("Loaded environment from {:?}", path);
@@ -212,7 +212,7 @@ where
         session_manager,
         permission_manager,
         None,
-        MeSmileMode::Auto,
+        GooseMode::Auto,
         true,
         GoosePlatform::GooseCli,
     );
@@ -242,13 +242,13 @@ where
             PathBuf::default(),
             "scenario-runner".to_string(),
             SessionType::Hidden,
-            MeSmileMode::default(),
+            GooseMode::default(),
         )
         .await?;
 
     agent
         .update_provider(
-            provider_arc as Arc<dyn mesmile::providers::base::Provider>,
+            provider_arc as Arc<dyn goose::providers::base::Provider>,
             &session.id,
         )
         .await?;

@@ -12,35 +12,35 @@ use std::process::Command;
 fn asset_name() -> &'static str {
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
     {
-        "mesmile-aarch64-apple-darwin.tar.bz2"
+        "goose-aarch64-apple-darwin.tar.bz2"
     }
     #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
     {
-        "mesmile-x86_64-apple-darwin.tar.bz2"
+        "goose-x86_64-apple-darwin.tar.bz2"
     }
     #[cfg(all(target_os = "linux", target_arch = "x86_64", target_env = "gnu"))]
     {
-        "mesmile-x86_64-unknown-linux-gnu.tar.bz2"
+        "goose-x86_64-unknown-linux-gnu.tar.bz2"
     }
     #[cfg(all(target_os = "linux", target_arch = "aarch64", target_env = "gnu"))]
     {
-        "mesmile-aarch64-unknown-linux-gnu.tar.bz2"
+        "goose-aarch64-unknown-linux-gnu.tar.bz2"
     }
     #[cfg(all(target_os = "linux", target_arch = "x86_64", target_env = "musl"))]
     {
-        "mesmile-x86_64-unknown-linux-musl.tar.bz2"
+        "goose-x86_64-unknown-linux-musl.tar.bz2"
     }
     #[cfg(all(target_os = "linux", target_arch = "aarch64", target_env = "musl"))]
     {
-        "mesmile-aarch64-unknown-linux-musl.tar.bz2"
+        "goose-aarch64-unknown-linux-musl.tar.bz2"
     }
     #[cfg(all(target_os = "windows", target_arch = "x86_64", feature = "cuda"))]
     {
-        "mesmile-x86_64-pc-windows-msvc-cuda.zip"
+        "goose-x86_64-pc-windows-msvc-cuda.zip"
     }
     #[cfg(all(target_os = "windows", target_arch = "x86_64", not(feature = "cuda")))]
     {
-        "mesmile-x86_64-pc-windows-msvc.zip"
+        "goose-x86_64-pc-windows-msvc.zip"
     }
 }
 
@@ -48,7 +48,7 @@ fn asset_name() -> &'static str {
 fn binary_name() -> &'static str {
     #[cfg(target_os = "windows")]
     {
-        "mesmile.exe"
+        "goose.exe"
     }
     #[cfg(not(target_os = "windows"))]
     {
@@ -64,7 +64,7 @@ fn binary_name() -> &'static str {
 fn sha256_hex(data: &[u8]) -> String {
     let mut hasher = Sha256::new();
     hasher.update(data);
-    mesmile::utils::bytes_to_hex(hasher.finalize())
+    goose::utils::bytes_to_hex(hasher.finalize())
 }
 
 #[derive(serde::Deserialize)]
@@ -81,7 +81,7 @@ const GITHUB_ACTIONS_ISSUER: &str = "https://token.actions.githubusercontent.com
 
 async fn fetch_attestations(digest: &str, token: Option<&str>) -> Result<Vec<serde_json::Value>> {
     let url = format!(
-        "https://api.github.com/repos/Fangxian2025/MeSmile/attestations/sha256:{digest}\
+        "https://api.github.com/repos/aaif-goose/goose/attestations/sha256:{digest}\
          ?per_page=30&predicate_type=https://slsa.dev/provenance/v1"
     );
 
@@ -90,7 +90,7 @@ async fn fetch_attestations(digest: &str, token: Option<&str>) -> Result<Vec<ser
         .get(&url)
         .header("Accept", "application/vnd.github+json")
         .header("X-GitHub-Api-Version", "2022-11-28")
-        .header("User-Agent", "mesmile-cli");
+        .header("User-Agent", "goose-cli");
 
     if let Some(tok) = token {
         req = req.header("Authorization", format!("Bearer {tok}"));
@@ -207,7 +207,7 @@ async fn verify_provenance(archive_data: &[u8], tag: &str) -> Result<bool> {
     ))
 }
 
-/// Update the MeSmile binary to the latest release.
+/// Update the goose binary to the latest release.
 ///
 /// Downloads the platform-appropriate archive from GitHub releases, verifies
 /// its SLSA provenance via Sigstore, extracts it with path-traversal
@@ -222,7 +222,7 @@ pub async fn update(canary: bool, reconfigure: bool) -> Result<()> {
     {
         let tag = if canary { "canary" } else { "stable" };
         let asset = asset_name();
-        let url = format!("https://github.com/Fangxian2025/MeSmile/releases/download/{tag}/{asset}");
+        let url = format!("https://github.com/aaif-goose/goose/releases/download/{tag}/{asset}");
 
         println!("Downloading {asset} from {tag} release...");
 
@@ -275,20 +275,20 @@ pub async fn update(canary: bool, reconfigure: bool) -> Result<()> {
         copy_dlls(&extracted_binary, &current_exe)?;
 
         if provenance_verified {
-            println!("mesmile updated successfully (verified with Sigstore SLSA provenance).");
+            println!("goose updated successfully (verified with Sigstore SLSA provenance).");
         } else {
-            println!("mesmile updated successfully.");
+            println!("goose updated successfully.");
         }
 
         // --- Reconfigure if requested -------------------------------------------
         if reconfigure {
-            println!("Running mesmile configure...");
+            println!("Running goose configure...");
             let status = Command::new(current_exe)
                 .arg("configure")
                 .status()
-                .context("Failed to run mesmile configure")?;
+                .context("Failed to run goose configure")?;
             if !status.success() {
-                eprintln!("Warning: mesmile configure exited with {status}");
+                eprintln!("Warning: goose configure exited with {status}");
             }
         }
 
@@ -398,12 +398,12 @@ fn extract_tar_bz2(data: &[u8], dest: &Path) -> Result<()> {
 /// Find the binary inside the extracted archive.
 ///
 /// The archive may place it in:
-///   1. A `mesmile-package/` subdirectory (Windows releases)
+///   1. A `goose-package/` subdirectory (Windows releases)
 ///   2. Directly at the top level
 ///   3. In some other single subdirectory
 fn find_binary(extract_dir: &Path, binary_name: &str) -> Option<PathBuf> {
-    // 1. Check mesmile-package subdir (matches download_cli.sh / download_cli.ps1)
-    let package_dir = extract_dir.join("mesmile-package");
+    // 1. Check goose-package subdir (matches download_cli.sh / download_cli.ps1)
+    let package_dir = extract_dir.join("goose-package");
     if package_dir.is_dir() {
         let p = package_dir.join(binary_name);
         if p.exists() {
@@ -451,7 +451,7 @@ fn replace_binary(new_binary: &Path, current_exe: &Path) -> Result<()> {
         if old_exe.exists() {
             fs::remove_file(&old_exe).with_context(|| {
                 format!(
-                    "Failed to remove old backup {}. Is another MeSmile process running?",
+                    "Failed to remove old backup {}. Is another goose process running?",
                     old_exe.display()
                 )
             })?;
@@ -558,7 +558,7 @@ mod tests {
     fn test_asset_name_valid() {
         let name = asset_name();
         assert!(!name.is_empty());
-        assert!(name.starts_with("mesmile-"));
+        assert!(name.starts_with("goose-"));
         #[cfg(target_os = "windows")]
         assert!(name.ends_with(".zip"));
         #[cfg(not(target_os = "windows"))]
@@ -569,7 +569,7 @@ mod tests {
     fn test_binary_name() {
         let name = binary_name();
         #[cfg(target_os = "windows")]
-        assert_eq!(name, "mesmile.exe");
+        assert_eq!(name, "goose.exe");
         #[cfg(not(target_os = "windows"))]
         assert_eq!(name, "goose");
     }
@@ -577,7 +577,7 @@ mod tests {
     #[test]
     fn test_find_binary_in_package_subdir() {
         let tmp = tempdir().unwrap();
-        let pkg = tmp.path().join("mesmile-package");
+        let pkg = tmp.path().join("goose-package");
         fs::create_dir_all(&pkg).unwrap();
         fs::write(pkg.join(binary_name()), b"fake").unwrap();
 
@@ -633,8 +633,8 @@ mod tests {
     #[test]
     fn test_replace_binary_windows_rename_away() {
         let tmp = tempdir().unwrap();
-        let current = tmp.path().join("mesmile.exe");
-        let new_bin = tmp.path().join("new_mesmile.exe");
+        let current = tmp.path().join("goose.exe");
+        let new_bin = tmp.path().join("new_goose.exe");
 
         fs::write(&current, b"old version").unwrap();
         fs::write(&new_bin, b"new version").unwrap();
@@ -656,9 +656,9 @@ mod tests {
     #[test]
     fn test_replace_binary_windows_cleanup_old() {
         let tmp = tempdir().unwrap();
-        let current = tmp.path().join("mesmile.exe");
+        let current = tmp.path().join("goose.exe");
         let old = current.with_extension("exe.old");
-        let new_bin = tmp.path().join("new_mesmile.exe");
+        let new_bin = tmp.path().join("new_goose.exe");
 
         // Simulate a previous update left .old behind
         fs::write(&current, b"version 2").unwrap();
@@ -683,7 +683,7 @@ mod tests {
 
         let tmp = tempdir().unwrap();
 
-        // Create a zip in memory with mesmile-package/ structure
+        // Create a zip in memory with goose-package/ structure
         let mut buf = Vec::new();
         {
             let cursor = Cursor::new(&mut buf);
@@ -691,13 +691,13 @@ mod tests {
             let options = zip::write::SimpleFileOptions::default()
                 .compression_method(zip::CompressionMethod::Stored);
 
-            writer.add_directory("mesmile-package/", options).unwrap();
+            writer.add_directory("goose-package/", options).unwrap();
             writer
-                .start_file("mesmile-package/mesmile.exe", options)
+                .start_file("goose-package/goose.exe", options)
                 .unwrap();
-            writer.write_all(b"fake MeSmile binary").unwrap();
+            writer.write_all(b"fake goose binary").unwrap();
             writer
-                .start_file("mesmile-package/libtest.dll", options)
+                .start_file("goose-package/libtest.dll", options)
                 .unwrap();
             writer.write_all(b"fake dll").unwrap();
             writer.finish().unwrap();
@@ -705,14 +705,14 @@ mod tests {
 
         extract_zip(&buf, tmp.path()).unwrap();
 
-        let binary = find_binary(tmp.path(), "mesmile.exe");
+        let binary = find_binary(tmp.path(), "goose.exe");
         assert!(binary.is_some());
 
         let content = fs::read_to_string(binary.unwrap()).unwrap();
-        assert_eq!(content, "fake MeSmile binary");
+        assert_eq!(content, "fake goose binary");
 
-        // DLL should be in mesmile-package too
-        assert!(tmp.path().join("mesmile-package/libtest.dll").exists());
+        // DLL should be in goose-package too
+        assert!(tmp.path().join("goose-package/libtest.dll").exists());
     }
 
     // -----------------------------------------------------------------------
@@ -744,7 +744,7 @@ mod tests {
     #[test]
     fn test_validate_entry_path_accepts_safe_paths() {
         assert!(validate_entry_path(Path::new("goose")).is_ok());
-        assert!(validate_entry_path(Path::new("mesmile-package/goose")).is_ok());
+        assert!(validate_entry_path(Path::new("goose-package/goose")).is_ok());
         assert!(validate_entry_path(Path::new("subdir/nested/file.txt")).is_ok());
     }
 
@@ -782,24 +782,24 @@ mod tests {
             let encoder = BzEncoder::new(&mut builder_buf, Compression::default());
             let mut builder = tar::Builder::new(encoder);
 
-            let data = b"MeSmile binary content";
+            let data = b"goose binary content";
             let mut header = tar::Header::new_gnu();
             header.set_size(data.len() as u64);
             header.set_mode(0o755);
             header.set_cksum();
             builder
-                .append_data(&mut header, "mesmile-package/goose", &data[..])
+                .append_data(&mut header, "goose-package/goose", &data[..])
                 .unwrap();
             builder.into_inner().unwrap().finish().unwrap();
         }
 
         extract_tar_bz2(&builder_buf, tmp.path()).unwrap();
 
-        let extracted = tmp.path().join("mesmile-package/goose");
+        let extracted = tmp.path().join("goose-package/goose");
         assert!(extracted.exists());
         assert_eq!(
             fs::read_to_string(extracted).unwrap(),
-            "MeSmile binary content"
+            "goose binary content"
         );
     }
 

@@ -4,7 +4,7 @@ use crate::config::Config;
 
 /// Goose-specific credential store that uses the Config system
 ///
-/// This implementation stores OAuth credentials in the MeSmile configuration
+/// This implementation stores OAuth credentials in the goose configuration
 /// system, which handles secure storage (e.g., keychain integration).
 
 #[derive(Clone)]

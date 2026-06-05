@@ -383,7 +383,7 @@ mod tests {
 
     #[test]
     fn local_repo_path_includes_owner_to_avoid_collisions() {
-        let parent = Path::new("mesmile-recipes");
+        let parent = Path::new("goose-recipes");
         let first = get_local_repo_path(parent, "owner-one/shared").unwrap();
         let second = get_local_repo_path(parent, "owner-two/shared").unwrap();
 
@@ -394,7 +394,7 @@ mod tests {
 
     #[test]
     fn temp_child_name_keeps_recipe_downloads_under_temp_dir() {
-        let parent = Path::new("mesmile-recipes");
+        let parent = Path::new("goose-recipes");
         let child = temp_child_name("../outside");
         let output_dir = parent.join(&child);
 

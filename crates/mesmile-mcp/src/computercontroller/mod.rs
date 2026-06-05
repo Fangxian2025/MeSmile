@@ -331,7 +331,7 @@ impl Default for ComputerControllerServer {
 impl ComputerControllerServer {
     pub fn new() -> Self {
         // choose_app_strategy().cache_dir()
-        // - macOS/Linux: ~/.cache/mesmile/computer_controller/
+        // - macOS/Linux: ~/.cache/goose/computer_controller/
         // - Windows:     ~\AppData\Local\Block\goose\cache\computer_controller\
         // keep previous behavior of defaulting to /tmp/
         let cache_dir = choose_app_strategy(crate::APP_STRATEGY.clone())
@@ -543,7 +543,7 @@ impl ComputerControllerServer {
             tool_router,
             cache_dir,
             active_resources: Arc::new(Mutex::new(HashMap::new())),
-            http_client: Client::builder().user_agent("MeSmile/1.0").build().unwrap(),
+            http_client: Client::builder().user_agent("goose/1.0").build().unwrap(),
             instructions,
             system_automation,
             #[cfg(target_os = "macos")]
@@ -1619,7 +1619,7 @@ impl ServerHandler for ComputerControllerServer {
                 .build(),
         )
         .with_server_info(Implementation::new(
-            "mesmile-computercontroller",
+            "goose-computercontroller",
             env!("CARGO_PKG_VERSION"),
         ))
         .with_instructions(self.instructions.clone())

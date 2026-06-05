@@ -1002,12 +1002,12 @@ mod tests {
     #[test]
     fn endpoint_metadata_uses_endpoint_name_when_no_upstream_model_exists() {
         let endpoint = json!({
-            "name": "mesmile-gpt-5-5"
+            "name": "goose-gpt-5-5"
         });
 
         let info = DatabricksProvider::endpoint_info_from_value(&endpoint).unwrap();
 
-        assert_eq!(info.name, "mesmile-gpt-5-5");
+        assert_eq!(info.name, "goose-gpt-5-5");
         assert_eq!(info.upstream_model_name, None);
         assert_eq!(info.reasoning, Some(true));
     }

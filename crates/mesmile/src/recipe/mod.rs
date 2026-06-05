@@ -98,10 +98,10 @@ pub struct Author {
 #[derive(Serialize, Deserialize, Debug, Clone, ToSchema)]
 pub struct Settings {
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub mesmile_provider: Option<String>,
+    pub goose_provider: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub mesmile_model: Option<String>,
+    pub goose_model: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub temperature: Option<f32>,

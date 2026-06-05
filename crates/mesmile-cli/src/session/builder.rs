@@ -5,7 +5,7 @@ use super::CliSession;
 use console::style;
 use mesmile::agents::{Agent, Container, ExtensionError};
 use mesmile::config::resolve_extensions_for_new_session;
-use mesmile::config::{Config, ExtensionConfig, MeSmileMode};
+use mesmile::config::{Config, ExtensionConfig, GooseMode};
 use mesmile::providers::create;
 use mesmile::recipe::Recipe;
 use mesmile::session::session_manager::SessionType;
@@ -226,14 +226,14 @@ async fn load_extensions(
 struct ResolvedProviderConfig {
     provider_name: String,
     model_name: String,
-    model_config: mesmile::model::ModelConfig,
+    model_config: goose::model::ModelConfig,
 }
 
 fn resolve_provider_and_model(
     session_config: &SessionBuilderConfig,
     config: &Config,
     saved_provider: Option<String>,
-    saved_model_config: Option<mesmile::model::ModelConfig>,
+    saved_model_config: Option<goose::model::ModelConfig>,
 ) -> ResolvedProviderConfig {
     let recipe_settings = session_config
         .recipe
@@ -244,10 +244,10 @@ fn resolve_provider_and_model(
         .provider
         .clone()
         .or(saved_provider)
-        .or_else(|| recipe_settings.and_then(|s| s.mesmile_provider.clone()))
-        .or_else(|| config.get_mesmile_provider().ok())
+        .or_else(|| recipe_settings.and_then(|s| s.goose_provider.clone()))
+        .or_else(|| config.get_goose_provider().ok())
         .unwrap_or_else(|| {
-            output::render_error("No provider configured. Run 'mesmile configure' first.");
+            output::render_error("No provider configured. Run 'goose configure' first.");
             process::exit(1);
         });
 
@@ -255,10 +255,10 @@ fn resolve_provider_and_model(
         .model
         .clone()
         .or_else(|| saved_model_config.as_ref().map(|mc| mc.model_name.clone()))
-        .or_else(|| recipe_settings.and_then(|s| s.mesmile_model.clone()))
-        .or_else(|| config.get_mesmile_model().ok())
+        .or_else(|| recipe_settings.and_then(|s| s.goose_model.clone()))
+        .or_else(|| config.get_goose_model().ok())
         .unwrap_or_else(|| {
-            output::render_error("No model configured. Run 'mesmile configure' first.");
+            output::render_error("No model configured. Run 'goose configure' first.");
             process::exit(1);
         });
 
@@ -275,7 +275,7 @@ fn resolve_provider_and_model(
         config
     } else {
         let temperature = recipe_settings.and_then(|s| s.temperature);
-        mesmile::model::ModelConfig::new(&model_name)
+        goose::model::ModelConfig::new(&model_name)
             .unwrap_or_else(|e| {
                 output::render_error(&format!("Failed to create model configuration: {}", e));
                 process::exit(1);
@@ -293,8 +293,8 @@ fn resolve_provider_and_model(
 
 async fn resolve_session_id(
     session_config: &SessionBuilderConfig,
-    session_manager: &mesmile::session::session_manager::SessionManager,
-    mesmile_mode: MeSmileMode,
+    session_manager: &goose::session::session_manager::SessionManager,
+    goose_mode: GooseMode,
 ) -> String {
     if session_config.no_session {
         let working_dir = std::env::current_dir().unwrap_or_else(|e| {
@@ -306,7 +306,7 @@ async fn resolve_session_id(
                 working_dir,
                 "CLI Session".to_string(),
                 SessionType::Hidden,
-                mesmile_mode,
+                goose_mode,
             )
             .await
             .unwrap_or_else(|e| {
@@ -438,7 +438,7 @@ async fn resolve_and_load_extensions(
     extensions: Vec<ExtensionConfig>,
     session_id: &str,
 ) -> Arc<Agent> {
-    for warning in mesmile::config::get_warnings() {
+    for warning in goose::config::get_warnings() {
         eprintln!("{}", style(format!("Warning: {}", warning)).yellow());
     }
 
@@ -482,7 +482,7 @@ async fn configure_session_prompts(
 
 pub async fn build_session(session_config: SessionBuilderConfig) -> CliSession {
     #[cfg(feature = "telemetry")]
-    mesmile::posthog::set_session_context("cli", session_config.resume);
+    goose::posthog::set_session_context("cli", session_config.resume);
 
     let config = Config::global();
     let agent: Agent = Agent::new();
@@ -516,7 +516,7 @@ pub async fn build_session(session_config: SessionBuilderConfig) -> CliSession {
         .await;
 
     let session_id =
-        resolve_session_id(&session_config, &session_manager, agent.config.mesmile_mode).await;
+        resolve_session_id(&session_config, &session_manager, agent.config.goose_mode).await;
 
     if session_config.resume {
         handle_resumed_session_workdir(&agent, &session_id, session_config.interactive).await;
@@ -542,9 +542,9 @@ pub async fn build_session(session_config: SessionBuilderConfig) -> CliSession {
         Err(e) => {
             output::render_error(&format!(
                 "Error {}.\n\
-                Please check your system keychain and run 'mesmile configure' again.\n\
+                Please check your system keychain and run 'goose configure' again.\n\
                 If your system is unable to use the keyring, please try setting secret key(s) via environment variables.\n\
-                For more info, see: https://mesmile-docs.ai/docs/troubleshooting/#keychainkeyring-errors",
+                For more info, see: https://goose-docs.ai/docs/troubleshooting/#keychainkeyring-errors",
                 e
             ));
             process::exit(1);
@@ -561,7 +561,7 @@ pub async fn build_session(session_config: SessionBuilderConfig) -> CliSession {
         });
 
     agent
-        .update_mesmile_mode(agent.config.mesmile_mode, &session_id)
+        .update_goose_mode(agent.config.goose_mode, &session_id)
         .await
         .unwrap_or_else(|e| {
             output::render_error(&format!("Failed to set session mode: {}", e));
@@ -635,7 +635,7 @@ mod tests {
             extensions: vec!["echo test".to_string()],
             streamable_http_extensions: vec![StreamableHttpOptions {
                 url: "http://localhost:8080/mcp".to_string(),
-                timeout: mesmile::config::DEFAULT_EXTENSION_TIMEOUT,
+                timeout: goose::config::DEFAULT_EXTENSION_TIMEOUT,
             }],
             builtins: vec!["developer".to_string()],
             no_profile: false,

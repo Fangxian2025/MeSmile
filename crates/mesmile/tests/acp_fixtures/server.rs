@@ -127,7 +127,7 @@ impl Connection for AcpServerConnection {
             openai.uri(),
             &config.builtins,
             data_root.as_path(),
-            config.mesmile_mode,
+            config.goose_mode,
             config.provider_factory,
             &config.current_model,
             config.disable_session_naming,

@@ -3,7 +3,7 @@ use dotenvy::dotenv;
 use futures::StreamExt;
 use mesmile::acp::ACP_CURRENT_MODEL;
 use mesmile::agents::{Agent, AgentConfig, AgentEvent, GoosePlatform, PromptManager, SessionConfig};
-use mesmile::config::{ExtensionConfig, MeSmileMode, PermissionManager};
+use mesmile::config::{ExtensionConfig, GooseMode, PermissionManager};
 use mesmile::conversation::message::{ActionRequiredData, Message, MessageContent};
 use mesmile::permission::permission_confirmation::PrincipalType;
 use mesmile::permission::{Permission, PermissionConfirmation};
@@ -209,7 +209,7 @@ impl ProviderTestConfig {
 }
 
 impl ProviderFixture {
-    async fn setup(config: &ProviderTestConfig, mode: MeSmileMode) -> Result<Self> {
+    async fn setup(config: &ProviderTestConfig, mode: GooseMode) -> Result<Self> {
         let mut env_vars: Vec<(&'static str, Option<&str>)> =
             vec![("GOOSE_MODE", Some(<&str>::from(mode)))];
         for &var in config.clear_env {
@@ -256,7 +256,7 @@ impl ProviderFixture {
                 std::env::current_dir()?,
                 "provider_test".to_string(),
                 SessionType::User,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await?;
         let session_id = session.id;
@@ -289,7 +289,7 @@ impl ProviderFixture {
     async fn tool_roundtrip(
         &self,
         prompt: &str,
-        model_config: Option<mesmile::model::ModelConfig>,
+        model_config: Option<goose::model::ModelConfig>,
     ) -> Result<Message> {
         let tools = self
             .agent
@@ -340,7 +340,7 @@ impl ProviderFixture {
         }
 
         let params = tool_req.tool_call.as_ref().unwrap().clone();
-        let ctx = mesmile::agents::ToolCallContext::new(
+        let ctx = goose::agents::ToolCallContext::new(
             self.session_id.to_string(),
             None,
             Some("test-id".to_string()),
@@ -445,7 +445,7 @@ impl ProviderFixture {
     async fn test_image_content_support(&self) -> Result<()> {
         let image_config = match &self.image_model {
             Some(model) => {
-                Some(mesmile::model::ModelConfig::new(model)?.with_canonical_limits(&self.name))
+                Some(goose::model::ModelConfig::new(model)?.with_canonical_limits(&self.name))
             }
             None => None,
         };
@@ -467,7 +467,7 @@ impl ProviderFixture {
     async fn test_model_switch(&self) -> Result<()> {
         let default = &self.provider.get_model_config().model_name;
         let alt = self.model_switch_name.as_deref().unwrap();
-        let alt_config = mesmile::model::ModelConfig::new(alt)?.with_canonical_limits(&self.name);
+        let alt_config = goose::model::ModelConfig::new(alt)?.with_canonical_limits(&self.name);
 
         let message = Message::user().with_text("Just say hello!");
         let (response, _) = self
@@ -607,7 +607,7 @@ impl ProviderFixture {
         // Start in Auto mode (fixture default), tools auto-approved.
         // Switch to Approve mode dynamically via agent.
         self.agent
-            .update_mesmile_mode(MeSmileMode::Approve, &self.session_id)
+            .update_goose_mode(GooseMode::Approve, &self.session_id)
             .await?;
         // Verify tool call now requires permission (ActionRequired).
         // Cancel prevents the task from completing → tool fails.
@@ -651,61 +651,61 @@ async fn test_provider(config: ProviderTestConfig) -> Result<()> {
         }
     }
 
-    let run_test = |mode: MeSmileMode| ProviderFixture::setup(&config, mode);
+    let run_test = |mode: GooseMode| ProviderFixture::setup(&config, mode);
 
-    if run_test(MeSmileMode::Auto).await.is_err() {
+    if run_test(GooseMode::Auto).await.is_err() {
         println!("Skipping {} tests - failed to create provider", name);
         TEST_REPORT.record_skip(name);
         return Ok(());
     }
 
     let result: Result<()> = async {
-        run_test(MeSmileMode::Auto)
+        run_test(GooseMode::Auto)
             .await?
             .test_model_listing()
             .await?;
-        run_test(MeSmileMode::Auto)
+        run_test(GooseMode::Auto)
             .await?
             .test_basic_response()
             .await?;
         if config.test_mcp_tools {
-            run_test(MeSmileMode::Auto).await?.test_tool_usage().await?;
-            run_test(MeSmileMode::Auto)
+            run_test(GooseMode::Auto).await?.test_tool_usage().await?;
+            run_test(GooseMode::Auto)
                 .await?
                 .test_image_content_support()
                 .await?;
         }
         if config.model_switch_name.is_some() {
-            run_test(MeSmileMode::Auto).await?.test_model_switch().await?;
+            run_test(GooseMode::Auto).await?.test_model_switch().await?;
         }
         if config.test_context_length_exceeded {
-            run_test(MeSmileMode::Auto)
+            run_test(GooseMode::Auto)
                 .await?
                 .test_context_length_exceeded_error()
                 .await?;
         }
         if config.test_permissions {
-            run_test(MeSmileMode::Approve)
+            run_test(GooseMode::Approve)
                 .await?
                 .test_permission_allow()
                 .await?;
-            run_test(MeSmileMode::Approve)
+            run_test(GooseMode::Approve)
                 .await?
                 .test_permission_deny()
                 .await?;
             if config.test_smart_approve {
-                run_test(MeSmileMode::SmartApprove)
+                run_test(GooseMode::SmartApprove)
                     .await?
                     .test_smart_approve_llm_detect()
                     .await?;
-                run_test(MeSmileMode::SmartApprove)
+                run_test(GooseMode::SmartApprove)
                     .await?
                     .test_smart_approve_readonly()
                     .await?;
             }
         }
         if config.test_mode_update {
-            run_test(MeSmileMode::Auto).await?.test_mode_update().await?;
+            run_test(GooseMode::Auto).await?.test_mode_update().await?;
         }
         Ok(())
     }

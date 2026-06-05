@@ -60,7 +60,7 @@ impl ProviderDef for MockProvider {
 
     fn from_env(
         model: ModelConfig,
-        _extensions: Vec<mesmile::config::ExtensionConfig>,
+        _extensions: Vec<goose::config::ExtensionConfig>,
     ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
         Box::pin(async move { Ok(Self::new(model)) })
     }
@@ -96,7 +96,7 @@ fn build_and_get_binary_path() -> PathBuf {
             "build",
             "--frozen",
             "-p",
-            "mesmile-test",
+            "goose-test",
             "--bin",
             "capture",
             "--message-format=json",
@@ -184,7 +184,7 @@ async fn test_replayed_session(
     std::env::set_var("GOOSE_MCP_CLIENT_VERSION", "0.0.0");
 
     // Setup test file for developer extension tests
-    let test_file_path = "/tmp/mesmile_test/mesmile.txt";
+    let test_file_path = "/tmp/mesmile_test/goose.txt";
     if let Some(parent) = std::path::Path::new(test_file_path).parent() {
         fs::create_dir_all(parent).ok();
     }
@@ -254,7 +254,7 @@ async fn test_replayed_session(
         model_config: ModelConfig::new("test-model").unwrap(),
     }) as Arc<dyn Provider>)));
     let temp_dir = tempfile::tempdir().unwrap();
-    let session_manager = Arc::new(mesmile::session::SessionManager::new(
+    let session_manager = Arc::new(goose::session::SessionManager::new(
         temp_dir.path().to_path_buf(),
     ));
     let extension_manager = Arc::new(ExtensionManager::new(
@@ -280,7 +280,7 @@ async fn test_replayed_session(
                 new_call = new_call.with_arguments(args);
             }
             let tool_call = new_call;
-            let ctx = mesmile::agents::ToolCallContext::new(
+            let ctx = goose::agents::ToolCallContext::new(
                 "test-session-id".to_string(),
                 None,
                 Some("test-id".to_string()),

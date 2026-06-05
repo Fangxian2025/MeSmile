@@ -92,8 +92,8 @@ impl MemoryServer {
              This extension stores and retrieves categorized information with tagging support.
 
              Storage:
-             - Local: .mesmile/memory/ (project-specific)
-             - Global: ~/.config/mesmile/memory/ (user-wide)
+             - Local: .goose/memory/ (project-specific)
+             - Global: ~/.config/goose/memory/ (user-wide)
 
              Save proactively when users share preferences, project configurations, workflow patterns,
              or recurring commands. Always confirm with the user before saving. Suggest relevant
@@ -104,7 +104,7 @@ impl MemoryServer {
 
         let global_memory_dir = choose_app_strategy(crate::APP_STRATEGY.clone())
             .map(|strategy| strategy.in_config_dir("memory"))
-            .unwrap_or_else(|_| PathBuf::from(".config/mesmile/memory"));
+            .unwrap_or_else(|_| PathBuf::from(".config/goose/memory"));
 
         let mut memory_router = Self {
             tool_router: Self::tool_router(),
@@ -166,7 +166,7 @@ impl MemoryServer {
                 .cloned()
                 .or_else(|| std::env::current_dir().ok())
                 .unwrap_or_else(|| PathBuf::from("."));
-            local_base.join(".mesmile").join("memory")
+            local_base.join(".goose").join("memory")
         };
         base_dir.join(format!("{}.txt", category))
     }
@@ -183,7 +183,7 @@ impl MemoryServer {
                 .cloned()
                 .or_else(|| std::env::current_dir().ok())
                 .unwrap_or_else(|| PathBuf::from("."));
-            local_base.join(".mesmile").join("memory")
+            local_base.join(".goose").join("memory")
         };
         let mut memories = HashMap::new();
         if base_dir.exists() {
@@ -323,7 +323,7 @@ impl MemoryServer {
                 .cloned()
                 .or_else(|| std::env::current_dir().ok())
                 .unwrap_or_else(|| PathBuf::from("."));
-            local_base.join(".mesmile").join("memory")
+            local_base.join(".goose").join("memory")
         };
         if base_dir.exists() {
             fs::remove_dir_all(&base_dir)?;
@@ -457,7 +457,7 @@ impl ServerHandler for MemoryServer {
     fn get_info(&self) -> ServerInfo {
         InitializeResult::new(ServerCapabilities::builder().enable_tools().build())
             .with_server_info(Implementation::new(
-                "mesmile-memory",
+                "goose-memory",
                 env!("CARGO_PKG_VERSION"),
             ))
             .with_instructions(self.instructions.clone())
@@ -483,7 +483,7 @@ mod tests {
             global_memory_dir: memory_base.join("global"),
         };
 
-        let local_memory_dir = working_dir.join(".mesmile").join("memory");
+        let local_memory_dir = working_dir.join(".goose").join("memory");
 
         assert!(!router.global_memory_dir.exists());
         assert!(!local_memory_dir.exists());
@@ -592,7 +592,7 @@ mod tests {
             global_memory_dir: memory_base.join("global"),
         };
 
-        let local_memory_dir = working_dir.join(".mesmile").join("memory");
+        let local_memory_dir = working_dir.join(".goose").join("memory");
         assert!(!local_memory_dir.exists());
 
         router

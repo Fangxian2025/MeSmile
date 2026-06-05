@@ -95,7 +95,7 @@ impl McpClientTrait for MockClient {
 
     async fn call_tool(
         &self,
-        _ctx: &mesmile::agents::ToolCallContext,
+        _ctx: &goose::agents::ToolCallContext,
         name: &str,
         arguments: Option<serde_json::Map<String, Value>>,
         _cancel_token: CancellationToken,

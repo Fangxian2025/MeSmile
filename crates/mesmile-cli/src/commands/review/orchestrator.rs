@@ -1,4 +1,4 @@
-//! Deterministic, Rust-driven orchestration for `mesmile review`.
+//! Deterministic, Rust-driven orchestration for `goose review`.
 //!
 //! The default in-process review path lets the LLM decide whether to
 //! dispatch each check as a real subagent (`delegate(... async: true)`)
@@ -10,7 +10,7 @@
 //! This module sidesteps that variance by orchestrating checks
 //! deterministically from Rust:
 //!
-//! - One subprocess per check (`mesmile run -q -t <prompt>`)
+//! - One subprocess per check (`goose run -q -t <prompt>`)
 //! - Concurrency capped at [`MAX_WORKERS`] via a Tokio semaphore
 //! - Per-subprocess turn limit via `--max-turns` (see
 //!   [`resolve_main_turn_limit`] and [`Check::resolved_turn_limit`])
@@ -77,7 +77,7 @@ struct RawFinding {
     summary: Option<String>,
 }
 
-/// Run all discovered checks concurrently as `mesmile run` subprocesses.
+/// Run all discovered checks concurrently as `goose run` subprocesses.
 ///
 /// Returns one `Vec<Finding>` per check, in the same order as `checks`.
 /// A failed check (subprocess error, turn-limit exhaustion, malformed JSON) yields an
@@ -125,7 +125,7 @@ pub async fn run_checks_in_parallel(
         let (idx, check, result, quiet) = match joined {
             Ok(v) => v,
             Err(e) => {
-                eprintln!("mesmile review: check task panicked: {e}");
+                eprintln!("goose review: check task panicked: {e}");
                 continue;
             }
         };
@@ -134,7 +134,7 @@ pub async fn run_checks_in_parallel(
             Ok(findings) => {
                 if !quiet {
                     eprintln!(
-                        "mesmile review: check '{}' completed: {} finding(s)",
+                        "goose review: check '{}' completed: {} finding(s)",
                         check.name,
                         findings.len()
                     );
@@ -144,7 +144,7 @@ pub async fn run_checks_in_parallel(
             Err(e) => {
                 // Per-check failure must never abort the review — emit a
                 // warning and continue with empty findings for this check.
-                eprintln!("mesmile review: check '{}' failed: {e}", check.name);
+                eprintln!("goose review: check '{}' failed: {e}", check.name);
                 results[idx] = Vec::new();
             }
         }
@@ -160,7 +160,7 @@ pub async fn run_checks_in_parallel(
 /// 2. If the user picked an explicit `--provider` on the CLI, drop the
 ///    per-check `model:` declaration entirely. The per-check model is
 ///    almost always pinned to a specific provider (e.g. a check that
-///    asks for `mesmile-claude-4-sonnet` would 404 against Google's API),
+///    asks for `goose-claude-4-sonnet` would 404 against Google's API),
 ///    so silently inheriting it across providers makes targeted reruns
 ///    fail. Use `--model` if set, otherwise fall through to the
 ///    selected provider's default.
@@ -181,13 +181,13 @@ fn resolve_check_model(check: &Check, opts: &ReviewOptions) -> Option<String> {
 
 /// Resolve the turn limit for a main-pass subprocess.
 ///
-/// Uses `mesmile review --turn-limit` when set, otherwise
+/// Uses `goose review --turn-limit` when set, otherwise
 /// [`DEFAULT_CHECK_TURN_LIMIT`].
 fn resolve_main_turn_limit(default_turn_limit: Option<usize>) -> usize {
     default_turn_limit.unwrap_or(DEFAULT_CHECK_TURN_LIMIT)
 }
 
-/// Spawn a single `mesmile run` subprocess for one check and parse its
+/// Spawn a single `goose run` subprocess for one check and parse its
 /// output into [`Finding`]s.
 async fn run_single_check_subprocess(
     check: &Check,
@@ -221,7 +221,7 @@ async fn run_single_check_subprocess(
         .collect())
 }
 
-/// Generic `mesmile run` subprocess that hands a prompt to the model
+/// Generic `goose run` subprocess that hands a prompt to the model
 /// and parses `{"findings": [...]}` JSON out of the response. Shared
 /// by the per-check and per-file main-pass orchestrators so both get
 /// the same robust JSON extraction and error reporting.
@@ -232,9 +232,9 @@ async fn run_subprocess_for_findings(
     model: Option<&str>,
     max_turns: Option<usize>,
 ) -> Result<Vec<RawFinding>> {
-    let mesmile_bin = std::env::current_exe().context("locate current MeSmile binary")?;
+    let goose_bin = std::env::current_exe().context("locate current goose binary")?;
 
-    let mut cmd = Command::new(&mesmile_bin);
+    let mut cmd = Command::new(&goose_bin);
     cmd.arg("run")
         .arg("--no-session")
         .arg("--quiet")
@@ -267,7 +267,7 @@ async fn run_subprocess_for_findings(
             .write_all(prompt.as_bytes())
             .await
             .with_context(|| format!("write prompt to {label} stdin"))?;
-        // Closing stdin signals EOF to `mesmile run -i -`.
+        // Closing stdin signals EOF to `goose run -i -`.
         drop(stdin);
     }
 
@@ -355,7 +355,7 @@ pub async fn run_main_pass_in_parallel(
         let (idx, path, result, quiet) = match joined {
             Ok(v) => v,
             Err(e) => {
-                eprintln!("mesmile review: main-pass task panicked: {e}");
+                eprintln!("goose review: main-pass task panicked: {e}");
                 continue;
             }
         };
@@ -374,7 +374,7 @@ pub async fn run_main_pass_in_parallel(
                     .collect();
                 if !quiet {
                     eprintln!(
-                        "mesmile review: main pass on '{}' completed: {} finding(s)",
+                        "goose review: main pass on '{}' completed: {} finding(s)",
                         path,
                         findings.len()
                     );
@@ -384,7 +384,7 @@ pub async fn run_main_pass_in_parallel(
             Err(e) => {
                 // A single broken file must not abort the entire main
                 // pass; surface a warning and continue.
-                eprintln!("mesmile review: main pass on '{}' failed: {e}", path);
+                eprintln!("goose review: main pass on '{}' failed: {e}", path);
                 per_file_results[idx] = Vec::new();
             }
         }
@@ -569,7 +569,7 @@ fn take_quoted(s: &str) -> Option<(String, &str)> {
 }
 
 /// Prompt section telling review subprocesses about the `--max-turns`
-/// cap enforced by mesmile. Without this, models routinely burn turns on
+/// cap enforced by goose. Without this, models routinely burn turns on
 /// tool loops and return nothing when the limit stops the session.
 fn build_subprocess_turn_budget_section(max_turns: usize) -> String {
     format!(
@@ -629,7 +629,7 @@ fn build_main_pass_prompt(
 ///
 /// Shape matches the prompt format Amp-authored checks already expect,
 /// so a check written for `amp review` runs the same way under
-/// `mesmile review`.
+/// `goose review`.
 fn build_check_prompt(
     check: &Check,
     diff: &str,
@@ -1001,7 +1001,7 @@ mod tests {
     #[test]
     fn resolve_check_model_cli_provider_wins_over_per_check_model() {
         let mut c = ck("perf");
-        c.model = Some("mesmile-claude-4-sonnet".into()); // wrong provider
+        c.model = Some("goose-claude-4-sonnet".into()); // wrong provider
         let opts = ReviewOptions {
             provider: Some("google".into()),
             default_model: Some("gemini-3.1-pro-preview".into()),
@@ -1018,7 +1018,7 @@ mod tests {
         // `--provider google` without `--model`: a per-check model pinned
         // to a Claude/Databricks model would 404 against Google. Drop it.
         let mut c = ck("perf");
-        c.model = Some("mesmile-claude-4-sonnet".into());
+        c.model = Some("goose-claude-4-sonnet".into());
         let opts = ReviewOptions {
             provider: Some("google".into()),
             default_model: None,

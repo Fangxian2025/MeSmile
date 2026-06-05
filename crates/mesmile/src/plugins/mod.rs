@@ -12,7 +12,7 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 use tracing::warn;
 
-const INSTALL_METADATA: &str = ".mesmile-plugin-install.json";
+const INSTALL_METADATA: &str = ".goose-plugin-install.json";
 const AUTO_UPDATE_INTERVAL_HOURS: i64 = 24;
 
 #[derive(Debug, Clone, PartialEq, Eq)]

@@ -173,10 +173,10 @@ where
 
     let event = EventBuilder::new(Kind::Custom(EVENT_KIND), encrypted)
         .tag(Tag::identifier(format!(
-            "mesmile-session-{}",
+            "goose-session-{}",
             uuid::Uuid::now_v7()
         )))
-        .tag(Tag::parse(["client", "MeSmile"])?)
+        .tag(Tag::parse(["client", "goose"])?)
         .sign_with_keys(&publish_keys)?;
 
     publisher.publish(event.clone(), &relays).await?;
@@ -238,7 +238,7 @@ where
 
 pub fn build_deeplink(nevent: &str, decryption_key: &str) -> String {
     format!(
-        "mesmile://sessions/nostr?nevent={}&key={}",
+        "goose://sessions/nostr?nevent={}&key={}",
         urlencoding::encode(nevent),
         urlencoding::encode(decryption_key)
     )
@@ -246,7 +246,7 @@ pub fn build_deeplink(nevent: &str, decryption_key: &str) -> String {
 
 pub fn parse_deeplink(deeplink: &str) -> Result<ParsedShareLink> {
     let parsed = url::Url::parse(deeplink).context("Invalid Goose session share link")?;
-    if parsed.scheme() != "mesmile"
+    if parsed.scheme() != "goose"
         || parsed.host_str() != Some("sessions")
         || parsed.path() != "/nostr"
     {
@@ -325,7 +325,7 @@ mod tests {
         .await
         .unwrap();
 
-        assert!(share.deeplink.starts_with("mesmile://sessions/nostr?"));
+        assert!(share.deeplink.starts_with("goose://sessions/nostr?"));
         assert!(share.nevent.starts_with("nevent1"));
         assert_eq!(share.relays, vec!["wss://relay.example"]);
         assert_eq!(*relays.lock().unwrap(), vec!["wss://relay.example"]);
@@ -363,7 +363,7 @@ mod tests {
 
     #[test]
     fn parses_deeplink() {
-        let parsed = parse_deeplink("mesmile://sessions/nostr?nevent=abc&key=def").unwrap();
+        let parsed = parse_deeplink("goose://sessions/nostr?nevent=abc&key=def").unwrap();
         assert_eq!(parsed.nevent, "abc");
         assert_eq!(parsed.decryption_key, "def");
     }

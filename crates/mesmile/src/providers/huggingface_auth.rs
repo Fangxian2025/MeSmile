@@ -22,7 +22,7 @@ const AUTHORIZE_URL: &str = "https://huggingface.co/oauth/authorize";
 const TOKEN_URL: &str = "https://huggingface.co/oauth/token";
 const OAUTH_SCOPES: &str = "read-repos gated-repos inference-api";
 const HUGGINGFACE_OAUTH_CLIENT_METADATA_URL: &str =
-    "https://mesmile-docs.ai/oauth/huggingface-client-metadata.json";
+    "https://goose-docs.ai/oauth/huggingface-client-metadata.json";
 // This URI must match the redirect URI in the Hugging Face CIMD metadata.
 const OAUTH_HOST: [u8; 4] = [127, 0, 0, 1];
 const OAUTH_PORT: u16 = 17863;
@@ -404,7 +404,7 @@ const HTML_SUCCESS_TEMPLATE: &str = r#"<!doctype html>
   <body>
     <div class="container">
       <h1>Authorization Successful</h1>
-      <p>You can close this window and return to mesmile.</p>
+      <p>You can close this window and return to goose.</p>
     </div>
   </body>
 </html>"#;

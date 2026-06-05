@@ -4,16 +4,16 @@ use schemars::{JsonSchema, SchemaGenerator};
 use serde::{Deserialize, Serialize};
 
 /// Goose-custom session update notification — a parallel to ACP's
-/// `session/update` carrying mesmile-specific update variants.
+/// `session/update` carrying goose-specific update variants.
 #[derive(Debug, Default, Clone, Serialize, Deserialize, JsonSchema, JsonRpcNotification)]
-#[notification(method = "_mesmile/unstable/session/update")]
+#[notification(method = "_goose/unstable/session/update")]
 #[serde(rename_all = "camelCase")]
 pub struct GooseSessionNotification {
     pub session_id: String,
     pub update: GooseSessionUpdate,
 }
 
-/// Discriminated union of mesmile-specific session update payloads.
+/// Discriminated union of goose-specific session update payloads.
 /// Variant tag matches ACP's convention (`sessionUpdate: "<snake_case>"`).
 ///
 /// `discriminator.mapping` is what makes TS codegen (`@hey-api/openapi-ts`)
@@ -131,7 +131,7 @@ where
     }
 }
 
-/// Schemas for every mesmile-custom outbound notification. To register a new
+/// Schemas for every goose-custom outbound notification. To register a new
 /// notification, define the struct above (with `JsonRpcNotification` +
 /// `Default`) and add one line below.
 pub fn custom_notification_schemas(generator: &mut SchemaGenerator) -> Vec<CustomMethodSchema> {

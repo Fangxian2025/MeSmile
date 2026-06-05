@@ -24,7 +24,7 @@ struct PollResponse {
 
 fn build_client() -> Result<ApiClient> {
     ApiClient::new(NANOGPT_CLI_LOGIN_HOST.to_string(), AuthMethod::NoAuth)?
-        .with_header("x-client", "MeSmile")
+        .with_header("x-client", "goose")
 }
 
 async fn poll_for_token(client: &ApiClient, device_code: &str) -> Result<String> {
@@ -71,7 +71,7 @@ async fn poll_for_token(client: &ApiClient, device_code: &str) -> Result<String>
 
 pub async fn complete_nanogpt_auth() -> Result<String> {
     let client = build_client()?;
-    let body = json!({ "client_name": "MeSmile" });
+    let body = json!({ "client_name": "goose" });
 
     let response = client.response_post(None, "start", &body).await?;
 

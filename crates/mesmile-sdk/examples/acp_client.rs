@@ -5,18 +5,18 @@
 //!
 //! # Prerequisites
 //!
-//! You must have goose built and a provider configured (`mesmile configure`).
+//! You must have goose built and a provider configured (`goose configure`).
 //!
 //! # Usage
 //!
 //! ```bash
-//! cargo run -p mesmile-sdk --example acp_client -- "What is 2 + 2?"
+//! cargo run -p goose-sdk --example acp_client -- "What is 2 + 2?"
 //! ```
 //!
-//! Or with a custom MeSmile binary path:
+//! Or with a custom goose binary path:
 //!
 //! ```bash
-//! cargo run -p mesmile-sdk --example acp_client -- --mesmile-bin ./target/debug/goose "Explain Rust's ownership model in one sentence"
+//! cargo run -p goose-sdk --example acp_client -- --goose-bin ./target/debug/goose "Explain Rust's ownership model in one sentence"
 //! ```
 
 use agent_client_protocol::schema::{
@@ -31,19 +31,19 @@ use tokio_util::compat::{TokioAsyncReadCompatExt, TokioAsyncWriteCompatExt};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Parse args: [--mesmile-bin PATH] PROMPT
+    // Parse args: [--goose-bin PATH] PROMPT
     let args: Vec<String> = std::env::args().skip(1).collect();
-    let (mesmile_bin, prompt) = parse_args(&args)?;
+    let (goose_bin, prompt) = parse_args(&args)?;
 
-    eprintln!("🚀 Spawning: {} acp", mesmile_bin.display());
+    eprintln!("🚀 Spawning: {} acp", goose_bin.display());
 
-    let mut child = tokio::process::Command::new(&mesmile_bin)
+    let mut child = tokio::process::Command::new(&goose_bin)
         .arg("acp")
         .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::inherit())
         .spawn()
-        .map_err(|e| format!("Failed to spawn '{}': {e}", mesmile_bin.display()))?;
+        .map_err(|e| format!("Failed to spawn '{}': {e}", goose_bin.display()))?;
 
     let child_stdin = child.stdin.take().expect("stdin should be piped");
     let child_stdout = child.stdout.take().expect("stdout should be piped");
@@ -136,14 +136,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn parse_args(args: &[String]) -> Result<(PathBuf, String), String> {
-    let mut mesmile_bin = PathBuf::from("goose");
+    let mut goose_bin = PathBuf::from("goose");
     let mut i = 0;
 
     while i < args.len() {
         match args[i].as_str() {
-            "--mesmile-bin" => {
+            "--goose-bin" => {
                 i += 1;
-                mesmile_bin = PathBuf::from(args.get(i).ok_or("--mesmile-bin requires a value")?);
+                goose_bin = PathBuf::from(args.get(i).ok_or("--goose-bin requires a value")?);
             }
             _ => break,
         }
@@ -153,8 +153,8 @@ fn parse_args(args: &[String]) -> Result<(PathBuf, String), String> {
     let prompt = args[i..].join(" ");
 
     if prompt.is_empty() {
-        return Err("Usage: acp_client [--mesmile-bin PATH] PROMPT".into());
+        return Err("Usage: acp_client [--goose-bin PATH] PROMPT".into());
     }
 
-    Ok((mesmile_bin, prompt))
+    Ok((goose_bin, prompt))
 }

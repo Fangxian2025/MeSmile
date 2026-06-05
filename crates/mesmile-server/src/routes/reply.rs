@@ -33,7 +33,7 @@ pub fn track_tool_telemetry(content: &MessageContent, all_messages: &[Message]) 
     match content {
         MessageContent::ToolRequest(tool_request) => {
             if let Ok(tool_call) = &tool_request.tool_call {
-                tracing::info!(monotonic_counter.mesmile.tool_calls = 1,
+                tracing::info!(monotonic_counter.goose.tool_calls = 1,
                     tool_name = %tool_call.name,
                     "Tool call started"
                 );
@@ -66,7 +66,7 @@ pub fn track_tool_telemetry(content: &MessageContent, all_messages: &[Message]) 
             let result_status = if success { "success" } else { "error" };
 
             tracing::info!(
-                monotonic_counter.mesmile.tool_completions = 1,
+                monotonic_counter.goose.tool_completions = 1,
                 tool_name = %tool_name,
                 result = %result_status,
                 "Tool call completed"
@@ -214,7 +214,7 @@ pub async fn reply(
     let session_start = std::time::Instant::now();
 
     tracing::info!(
-        monotonic_counter.mesmile.session_starts = 1,
+        monotonic_counter.goose.session_starts = 1,
         session_type = "app",
         interface = "ui",
         "Session started"
@@ -230,7 +230,7 @@ pub async fn reply(
                 .unwrap_or_else(|| "unknown".to_string());
 
             tracing::info!(
-                monotonic_counter.mesmile.recipe_runs = 1,
+                monotonic_counter.goose.recipe_runs = 1,
                 recipe_name = %recipe_name,
                 recipe_version = %recipe_version,
                 session_type = "app",
@@ -398,7 +398,7 @@ pub async fn reply(
         if let Ok(session) = state.session_manager().get_session(&session_id, true).await {
             let total_tokens = session.total_tokens.unwrap_or(0);
             tracing::info!(
-                monotonic_counter.mesmile.session_completions = 1,
+                monotonic_counter.goose.session_completions = 1,
                 session_type = "app",
                 interface = "ui",
                 exit_type = "normal",
@@ -409,7 +409,7 @@ pub async fn reply(
             );
 
             tracing::info!(
-                monotonic_counter.mesmile.session_duration_ms = session_duration.as_millis() as u64,
+                monotonic_counter.goose.session_duration_ms = session_duration.as_millis() as u64,
                 session_type = "app",
                 interface = "ui",
                 "Session duration"
@@ -417,7 +417,7 @@ pub async fn reply(
 
             if total_tokens > 0 {
                 tracing::info!(
-                    monotonic_counter.mesmile.session_tokens = total_tokens,
+                    monotonic_counter.goose.session_tokens = total_tokens,
                     session_type = "app",
                     interface = "ui",
                     "Session tokens"
@@ -425,7 +425,7 @@ pub async fn reply(
             }
         } else {
             tracing::info!(
-                monotonic_counter.mesmile.session_completions = 1,
+                monotonic_counter.goose.session_completions = 1,
                 session_type = "app",
                 interface = "ui",
                 exit_type = "normal",
@@ -436,7 +436,7 @@ pub async fn reply(
             );
 
             tracing::info!(
-                monotonic_counter.mesmile.session_duration_ms = session_duration.as_millis() as u64,
+                monotonic_counter.goose.session_duration_ms = session_duration.as_millis() as u64,
                 session_type = "app",
                 interface = "ui",
                 "Session duration"

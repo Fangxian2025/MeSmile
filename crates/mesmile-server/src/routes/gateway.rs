@@ -67,7 +67,7 @@ pub async fn start_gateway(
         max_sessions: request.max_sessions,
     };
 
-    let gw = match mesmile::gateway::create_gateway(&mut config) {
+    let gw = match goose::gateway::create_gateway(&mut config) {
         Ok(gw) => gw,
         Err(e) => return ErrorResponse::bad_request(e.to_string()).into_response(),
     };

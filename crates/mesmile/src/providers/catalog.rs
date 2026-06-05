@@ -972,7 +972,7 @@ fn setup_entry_from_metadata(
     }
 }
 
-fn synthetic_mesmile_setup_entry(curated: &CuratedSetupMetadata) -> ProviderSetupCatalogEntry {
+fn synthetic_goose_setup_entry(curated: &CuratedSetupMetadata) -> ProviderSetupCatalogEntry {
     ProviderSetupCatalogEntry {
         provider_id: curated.provider_id.to_string(),
         display_name: curated.display_name.unwrap_or("Goose").to_string(),
@@ -1049,7 +1049,7 @@ pub async fn get_setup_catalog_entries() -> Vec<ProviderSetupCatalogEntry> {
         .iter()
         .filter_map(|curated| {
             if curated.synthetic {
-                return Some(synthetic_mesmile_setup_entry(curated));
+                return Some(synthetic_goose_setup_entry(curated));
             }
 
             registry_metadata
@@ -1175,16 +1175,16 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn setup_catalog_includes_mesmile_and_curated_fields() {
+    async fn setup_catalog_includes_goose_and_curated_fields() {
         let entries = get_setup_catalog_entries().await;
 
         let goose = entries
             .iter()
             .find(|entry| entry.provider_id == "goose")
             .expect("setup catalog should include synthetic goose");
-        assert_eq!(mesmile.category, ProviderSetupCategory::Agent);
-        assert_eq!(mesmile.setup_method, ProviderSetupMethod::None);
-        assert!(mesmile.fields.is_empty());
+        assert_eq!(goose.category, ProviderSetupCategory::Agent);
+        assert_eq!(goose.setup_method, ProviderSetupMethod::None);
+        assert!(goose.fields.is_empty());
 
         let ollama = entries
             .iter()

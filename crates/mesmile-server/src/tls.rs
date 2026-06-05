@@ -1,4 +1,4 @@
-//! TLS configuration for the MeSmile server.
+//! TLS configuration for the goose server.
 //!
 //! Two TLS backends are supported for the HTTPS listener via `axum-server`:
 //!
@@ -31,7 +31,7 @@ fn generate_self_signed_cert() -> Result<(rcgen::Certificate, KeyPair)> {
     let mut params = CertificateParams::default();
     params
         .distinguished_name
-        .push(DnType::CommonName, "mesmiled localhost");
+        .push(DnType::CommonName, "goosed localhost");
     params.subject_alt_names = vec![
         SanType::IpAddress(std::net::IpAddr::V4(std::net::Ipv4Addr::LOCALHOST)),
         SanType::DnsName("localhost".try_into()?),

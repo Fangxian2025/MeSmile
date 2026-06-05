@@ -126,7 +126,7 @@ fn resolve_tool_name(raw_tool_name: &str, tools: &[Tool]) -> Option<String> {
         .unwrap_or(without_functions_prefix)
         .trim();
 
-    // Also try replacing dots with double-underscores (MeSmile tool name convention)
+    // Also try replacing dots with double-underscores (goose tool name convention)
     let with_dunder = without_functions_prefix.replace('.', "__");
 
     let mut candidates = vec![
@@ -1187,7 +1187,7 @@ mod tests {
             serde_json::Map::new(),
         )];
 
-        let content = "<|tool_calls_section_begin|> <|tool_call_begin|> functions.tree:0 <|tool_call_argument_begin|> {\"path\": \"C:\\Users\\eugen\\programmazione\\mesmile-fork\", \"depth\": 1} <|tool_call_end|> <|tool_calls_section_end|>";
+        let content = "<|tool_calls_section_begin|> <|tool_call_begin|> functions.tree:0 <|tool_call_argument_begin|> {\"path\": \"C:\\Users\\eugen\\programmazione\\goose-fork\", \"depth\": 1} <|tool_call_end|> <|tool_calls_section_end|>";
         let calls = parse_tokenized_tool_calls(content, &tools);
 
         assert_eq!(calls.len(), 1);
@@ -1198,7 +1198,7 @@ mod tests {
                 .as_ref()
                 .and_then(|a| a.get("path"))
                 .and_then(|v| v.as_str()),
-            Some("C:\\Users\\eugen\\programmazione\\mesmile-fork")
+            Some("C:\\Users\\eugen\\programmazione\\goose-fork")
         );
     }
 

@@ -1,4 +1,4 @@
-use mesmile::config::MeSmileMode;
+use mesmile::config::GooseMode;
 use rustyline::completion::{Completer, FilenameCompleter, Pair};
 use rustyline::highlight::{CmdKind, Highlighter};
 use rustyline::hint::Hinter;
@@ -10,7 +10,7 @@ use strum::VariantNames;
 
 use super::{CompletionCache, HintStatus};
 
-/// Completer for MeSmile CLI commands
+/// Completer for goose CLI commands
 pub struct GooseCompleter {
     pub completion_cache: Arc<std::sync::RwLock<CompletionCache>>,
     filename_completer: FilenameCompleter,
@@ -83,7 +83,7 @@ impl GooseCompleter {
 
     /// Complete flags for the /mode command
     fn complete_mode_flags(&self, line: &str) -> Result<(usize, Vec<Pair>)> {
-        let modes = MeSmileMode::VARIANTS;
+        let modes = GooseMode::VARIANTS;
 
         let parts: Vec<&str> = line.split_whitespace().collect();
 

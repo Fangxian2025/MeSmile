@@ -144,7 +144,7 @@ fn check_provider_configured_with_huggingface_oauth(
     // OAuth providers: trust the structured configured flag or legacy marker
     let has_oauth_key = metadata.config_keys.iter().any(|key| key.oauth_flow);
     if has_oauth_key {
-        if let Some(entry) = mesmile::config::get_provider_entry(config, &metadata.name) {
+        if let Some(entry) = goose::config::get_provider_entry(config, &metadata.name) {
             if entry.configured {
                 return true;
             }
@@ -157,7 +157,7 @@ fn check_provider_configured_with_huggingface_oauth(
 
     // Zero-config providers (no config keys): trust structured flag or active status
     if metadata.config_keys.is_empty() {
-        if let Some(entry) = mesmile::config::get_provider_entry(config, &metadata.name) {
+        if let Some(entry) = goose::config::get_provider_entry(config, &metadata.name) {
             if entry.configured {
                 return true;
             }
@@ -166,7 +166,7 @@ fn check_provider_configured_with_huggingface_oauth(
         if config.get_param::<bool>(&configured_marker).is_ok() {
             return true;
         }
-        if let Ok(current) = config.get_mesmile_provider() {
+        if let Ok(current) = config.get_goose_provider() {
             if current == metadata.name {
                 return true;
             }

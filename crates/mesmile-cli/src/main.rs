@@ -15,15 +15,15 @@ fn enable_windows_vt_processing() {
 }
 
 async fn run() -> Result<()> {
-    if let Err(e) = mesmile_cli::logging::setup_logging(None) {
+    if let Err(e) = goose_cli::logging::setup_logging(None) {
         eprintln!("Warning: Failed to initialize logging: {}", e);
     }
 
     let result = cli().await;
 
     #[cfg(feature = "otel")]
-    if mesmile::otel::otlp::is_otlp_initialized() {
-        mesmile::otel::otlp::shutdown_otlp();
+    if goose::otel::otlp::is_otlp_initialized() {
+        goose::otel::otlp::shutdown_otlp();
     }
 
     result
@@ -34,7 +34,7 @@ fn main() -> Result<()> {
     enable_windows_vt_processing();
 
     let handle = std::thread::Builder::new()
-        .name("mesmile-cli-main".to_string())
+        .name("goose-cli-main".to_string())
         .stack_size(8 * 1024 * 1024)
         .spawn(|| {
             let runtime = tokio::runtime::Builder::new_multi_thread()
@@ -43,9 +43,9 @@ fn main() -> Result<()> {
                 .expect("Failed to build Tokio runtime");
             runtime.block_on(run())
         })
-        .map_err(|e| anyhow::anyhow!("Failed to spawn mesmile-cli main thread: {}", e))?;
+        .map_err(|e| anyhow::anyhow!("Failed to spawn goose-cli main thread: {}", e))?;
 
     handle
         .join()
-        .map_err(|_| anyhow::anyhow!("mesmile-cli main thread panicked"))?
+        .map_err(|_| anyhow::anyhow!("goose-cli main thread panicked"))?
 }

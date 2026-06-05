@@ -69,9 +69,9 @@ impl AgentManager {
             .get_or_try_init(|| async {
                 let config = Config::global();
                 let max_sessions = config
-                    .get_mesmile_max_active_agents()
+                    .get_goose_max_active_agents()
                     .unwrap_or(DEFAULT_MAX_SESSION);
-                let default_mode = config.get_mesmile_mode().unwrap_or_default();
+                let default_mode = config.get_goose_mode().unwrap_or_default();
                 let schedule_file_path = Paths::data_dir().join("schedule.json");
                 let session_manager = Arc::new(SessionManager::instance());
                 let scheduler = Scheduler::new(schedule_file_path, Arc::clone(&session_manager))
@@ -82,7 +82,7 @@ impl AgentManager {
                     PermissionManager::instance(),
                     Some(scheduler),
                     default_mode,
-                    config.get_mesmile_disable_session_naming().unwrap_or(false),
+                    config.get_goose_disable_session_naming().unwrap_or(false),
                     GoosePlatform::GooseDesktop,
                 );
                 let manager = Self::new(agent_config, Some(max_sessions)).await?;
@@ -195,19 +195,19 @@ impl AgentManager {
             }
         }
 
-        let mut mode = self.agent_config.mesmile_mode;
+        let mut mode = self.agent_config.goose_mode;
         if let Ok(session) = self
             .agent_config
             .session_manager
             .get_session(session_id, false)
             .await
         {
-            mode = session.mesmile_mode;
-            info!(mesmile_mode = %mode, session_id = %session_id, "Session loaded");
+            mode = session.goose_mode;
+            info!(goose_mode = %mode, session_id = %session_id, "Session loaded");
         }
 
         let mut config = self.agent_config.clone();
-        config.mesmile_mode = mode;
+        config.goose_mode = mode;
         config.mcp_host_info = runtime_context.mcp_host_info;
         config.use_login_shell_path = runtime_context.use_login_shell_path;
         config.session_name_update_tx = runtime_context.session_name_update_tx;
@@ -378,7 +378,7 @@ mod tests {
 
     use crate::agents::{AgentConfig, GoosePlatform};
     use crate::config::permission::PermissionManager;
-    use crate::config::MeSmileMode;
+    use crate::config::GooseMode;
     use crate::execution::SessionExecutionMode;
     use crate::session::SessionManager;
 
@@ -390,7 +390,7 @@ mod tests {
             session_manager,
             PermissionManager::instance(),
             None,
-            MeSmileMode::default(),
+            GooseMode::default(),
             false,
             GoosePlatform::GooseDesktop,
         );
@@ -642,7 +642,7 @@ mod tests {
             async fn update_mode(
                 &self,
                 _session_id: &str,
-                _mode: MeSmileMode,
+                _mode: GooseMode,
             ) -> std::result::Result<(), ProviderError> {
                 Err(ProviderError::ExecutionError(
                     "intentional failure for test".into(),
@@ -686,7 +686,7 @@ mod tests {
             session_manager,
             PermissionManager::instance(),
             None,
-            MeSmileMode::default(),
+            GooseMode::default(),
             false,
             GoosePlatform::GooseDesktop,
         );
@@ -713,11 +713,11 @@ mod tests {
         assert!(locks.contains_key("c"));
     }
 
-    #[test_case(MeSmileMode::Approve ; "approve")]
-    #[test_case(MeSmileMode::Chat ; "chat")]
-    #[test_case(MeSmileMode::SmartApprove ; "smart_approve")]
+    #[test_case(GooseMode::Approve ; "approve")]
+    #[test_case(GooseMode::Chat ; "chat")]
+    #[test_case(GooseMode::SmartApprove ; "smart_approve")]
     #[tokio::test]
-    async fn test_agent_inherits_session_mode(mode: MeSmileMode) {
+    async fn test_agent_inherits_session_mode(mode: GooseMode) {
         let temp_dir = TempDir::new().unwrap();
         let manager = create_test_manager(&temp_dir).await;
 
@@ -733,7 +733,7 @@ mod tests {
             .unwrap();
 
         let agent = manager.get_or_create_agent(session.id).await.unwrap();
-        assert_eq!(agent.mesmile_mode().await, mode);
+        assert_eq!(agent.goose_mode().await, mode);
     }
 
     #[tokio::test]
@@ -747,7 +747,7 @@ mod tests {
                 temp_dir.path().to_path_buf(),
                 "s1".into(),
                 crate::session::SessionType::User,
-                MeSmileMode::Approve,
+                GooseMode::Approve,
             )
             .await
             .unwrap();
@@ -756,7 +756,7 @@ mod tests {
                 temp_dir.path().to_path_buf(),
                 "s2".into(),
                 crate::session::SessionType::User,
-                MeSmileMode::Auto,
+                GooseMode::Auto,
             )
             .await
             .unwrap();
@@ -764,7 +764,7 @@ mod tests {
         let a1 = manager.get_or_create_agent(s1.id).await.unwrap();
         let a2 = manager.get_or_create_agent(s2.id).await.unwrap();
 
-        assert_eq!(a1.mesmile_mode().await, MeSmileMode::Approve);
-        assert_eq!(a2.mesmile_mode().await, MeSmileMode::Auto);
+        assert_eq!(a1.goose_mode().await, GooseMode::Approve);
+        assert_eq!(a2.goose_mode().await, GooseMode::Auto);
     }
 }

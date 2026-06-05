@@ -7,7 +7,7 @@ use crate::acp::{
     extension_configs_to_mcp_servers, AcpProvider, AcpProviderConfig, ACP_CURRENT_MODEL,
 };
 use crate::config::search_path::SearchPaths;
-use crate::config::{Config, MeSmileMode};
+use crate::config::{Config, GooseMode};
 use crate::model::ModelConfig;
 use crate::providers::acp_tooling::{acp_adapter_installed, acp_inventory_identity};
 use crate::providers::base::{current_working_dir, ProviderDef, ProviderMetadata};
@@ -35,7 +35,7 @@ impl ProviderDef for ClaudeAcpProvider {
         .with_setup_steps(vec![
             "Install the ACP adapter: `npm install -g @agentclientprotocol/claude-agent-acp`",
             "Ensure your Claude CLI is authenticated (run `claude` to verify)",
-            "Add to your MeSmile config file (`~/.config/mesmile/config.yaml` on macOS/Linux):\n  GOOSE_PROVIDER: claude-acp\n  GOOSE_MODEL: current\n  claude-acp_configured: true",
+            "Add to your goose config file (`~/.config/goose/config.yaml` on macOS/Linux):\n  GOOSE_PROVIDER: claude-acp\n  GOOSE_MODEL: current\n  claude-acp_configured: true",
             "Restart goose for changes to take effect",
         ])
     }
@@ -58,17 +58,17 @@ impl ProviderDef for ClaudeAcpProvider {
             let resolved_command = SearchPaths::builder()
                 .with_npm()
                 .resolve(CLAUDE_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
+            let goose_mode = config.get_goose_mode().unwrap_or(GooseMode::Auto);
 
             let mode_mapping = HashMap::from([
                 // Closest to "autonomous": bypassPermissions skips confirmations.
-                (MeSmileMode::Auto, "bypassPermissions".to_string()),
+                (GooseMode::Auto, "bypassPermissions".to_string()),
                 // Claude Code's default matches "ask before risky actions".
-                (MeSmileMode::Approve, "default".to_string()),
+                (GooseMode::Approve, "default".to_string()),
                 // acceptEdits auto-accepts file edits but still prompts for risky ops.
-                (MeSmileMode::SmartApprove, "acceptEdits".to_string()),
+                (GooseMode::SmartApprove, "acceptEdits".to_string()),
                 // Plan mode disables tool execution, aligning with chat-only intent.
-                (MeSmileMode::Chat, "plan".to_string()),
+                (GooseMode::Chat, "plan".to_string()),
             ]);
 
             let provider_config = AcpProviderConfig {
@@ -79,13 +79,13 @@ impl ProviderDef for ClaudeAcpProvider {
                 env_remove: vec!["CLAUDECODE".to_string()],
                 work_dir: working_dir,
                 mcp_servers: extension_configs_to_mcp_servers(&extensions),
-                session_mode_id: Some(mode_mapping[&mesmile_mode].clone()),
+                session_mode_id: Some(mode_mapping[&goose_mode].clone()),
                 mode_mapping,
                 notification_callback: None,
             };
 
             let metadata = Self::metadata();
-            AcpProvider::connect(metadata.name, model, mesmile_mode, provider_config).await
+            AcpProvider::connect(metadata.name, model, goose_mode, provider_config).await
         })
     }
 

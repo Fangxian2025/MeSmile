@@ -260,7 +260,7 @@ mod tests {
     #[tokio::test]
     async fn test_load_skill_from_filesystem() {
         let temp_dir = TempDir::new().unwrap();
-        let skill_dir = temp_dir.path().join(".mesmile/skills/my-skill");
+        let skill_dir = temp_dir.path().join(".goose/skills/my-skill");
         fs::create_dir_all(&skill_dir).unwrap();
         fs::write(
             skill_dir.join("SKILL.md"),

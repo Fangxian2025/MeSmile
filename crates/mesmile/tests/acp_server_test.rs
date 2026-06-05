@@ -19,7 +19,7 @@ use common_tests::{
     run_prompt_model_mismatch, run_prompt_skill, run_session_name_update_notification,
     run_shell_terminal_false, run_shell_terminal_true,
 };
-use mesmile::config::MeSmileMode;
+use mesmile::config::GooseMode;
 use mesmile::conversation::message::Message;
 use mesmile::session::{SessionManager, SessionType};
 use std::path::Path;
@@ -35,7 +35,7 @@ async fn seed_list_sessions(data_root: &Path, working_dir: &Path, count: usize) 
                 working_dir.to_path_buf(),
                 format!("Seed session {index}"),
                 SessionType::Acp,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await
             .unwrap();

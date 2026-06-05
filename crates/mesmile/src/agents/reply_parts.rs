@@ -217,7 +217,7 @@ impl Agent {
         let provider = self.provider().await?;
         let model_config = provider.get_model_config();
 
-        let mesmile_mode = *self.current_mesmile_mode.lock().await;
+        let goose_mode = *self.current_goose_mode.lock().await;
 
         let prompt_manager = self.prompt_manager.lock().await;
         let mut system_prompt = prompt_manager
@@ -227,7 +227,7 @@ impl Agent {
             .with_extension_and_tool_counts(extension_count, tool_count)
             .with_code_execution_mode(code_execution_active)
             .with_hints(working_dir)
-            .with_mesmile_mode(mesmile_mode)
+            .with_goose_mode(goose_mode)
             .build();
 
         // Handle toolshim if enabled
@@ -399,7 +399,7 @@ impl Agent {
                             if let Some(ref meta) = tool.meta {
                                 // Merge registry meta into existing tool_meta;
                                 // existing keys win so provider markers (e.g.
-                                // mesmile.external_dispatch) survive coercion.
+                                // goose.external_dispatch) survive coercion.
                                 let new_meta = serde_json::to_value(meta).ok();
                                 coerced_req.tool_meta =
                                     match (coerced_req.tool_meta.take(), new_meta) {
@@ -627,7 +627,7 @@ pub fn is_tool_visible_to_model(tool: &Tool) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::MeSmileMode;
+    use crate::config::GooseMode;
     use crate::conversation::message::Message;
     use crate::model::ModelConfig;
     use crate::providers::base::{Provider, ProviderUsage, Usage};
@@ -676,7 +676,7 @@ mod tests {
                 std::env::current_dir().unwrap(),
                 "test-prepare-tools".to_string(),
                 SessionType::Hidden,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await?;
 
@@ -817,7 +817,7 @@ mod tests {
 
     #[tokio::test]
     async fn categorize_tool_requests_skips_externally_dispatched_and_preserves_marker() {
-        // External requests must (1) survive coercion with mesmile.external_dispatch
+        // External requests must (1) survive coercion with goose.external_dispatch
         // intact, (2) be excluded from both dispatch buckets, (3) stay in
         // filtered_message.
         use crate::conversation::message::TOOL_META_EXTERNAL_DISPATCH_KEY;
@@ -858,7 +858,7 @@ mod tests {
         };
         assert!(
             tool_req.is_externally_dispatched(),
-            "mesmile.external_dispatch marker was clobbered by coercion; merged tool_meta = {:?}",
+            "goose.external_dispatch marker was clobbered by coercion; merged tool_meta = {:?}",
             tool_req.tool_meta
         );
         let merged = tool_req

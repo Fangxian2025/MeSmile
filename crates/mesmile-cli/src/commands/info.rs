@@ -57,7 +57,7 @@ enum ProviderCheckError {
 async fn check_provider(
     config: &Config,
 ) -> std::result::Result<ProviderCheckSuccess, ProviderCheckError> {
-    let (provider, model) = match (config.get_mesmile_provider(), config.get_mesmile_model()) {
+    let (provider, model) = match (config.get_goose_provider(), config.get_goose_model()) {
         (Ok(provider), Ok(model)) => (provider, model),
         (Err(e), _) => {
             return Err(ProviderCheckError::NotConfigured {
@@ -73,11 +73,11 @@ async fn check_provider(
         }
     };
 
-    let model_config = mesmile::model::ModelConfig::new(&model)
+    let model_config = goose::model::ModelConfig::new(&model)
         .map_err(|e| ProviderCheckError::InvalidModel(e.to_string()))?
         .with_canonical_limits(&provider);
 
-    let provider_client = mesmile::providers::create(&provider, model_config, Vec::new())
+    let provider_client = goose::providers::create(&provider, model_config, Vec::new())
         .await
         .map_err(|e| {
             let error = e.to_string();
@@ -146,7 +146,7 @@ pub async fn handle_info(verbose: bool, check: bool) -> Result<()> {
             println!("  No configuration values set");
             println!(
                 "  Run '{}' to configure goose",
-                style("mesmile configure").cyan()
+                style("goose configure").cyan()
             );
         } else {
             let sorted_values: std::collections::BTreeMap<_, _> =
@@ -187,7 +187,7 @@ pub async fn handle_info(verbose: bool, check: bool) -> Result<()> {
                 );
                 print_aligned(
                     "Hint:",
-                    &format!("Run '{}'", style("mesmile configure").cyan()),
+                    &format!("Run '{}'", style("goose configure").cyan()),
                     label_padding,
                 );
             }
@@ -216,7 +216,7 @@ pub async fn handle_info(verbose: bool, check: bool) -> Result<()> {
                         "Hint:",
                         &format!(
                             "Set the API key in your environment or run '{}'",
-                            style("mesmile configure").cyan()
+                            style("goose configure").cyan()
                         ),
                         label_padding,
                     );
@@ -230,7 +230,7 @@ pub async fn handle_info(verbose: bool, check: bool) -> Result<()> {
                         "Hint:",
                         &format!(
                             "Check the provider name and config, or run '{}'",
-                            style("mesmile configure").cyan()
+                            style("goose configure").cyan()
                         ),
                         label_padding,
                     );
@@ -247,7 +247,7 @@ pub async fn handle_info(verbose: bool, check: bool) -> Result<()> {
                         "Hint:",
                         &format!(
                             "Check your API key or run '{}'",
-                            style("mesmile configure").cyan()
+                            style("goose configure").cyan()
                         ),
                         label_padding,
                     );
@@ -263,7 +263,7 @@ pub async fn handle_info(verbose: bool, check: bool) -> Result<()> {
         }
 
         // Propagate non-zero exit status so automation (CI scripts, install
-        // checks, health probes) can rely on `mesmile info --check` as a
+        // checks, health probes) can rely on `goose info --check` as a
         // pre-flight verifier.
         if result.is_err() {
             return Err(anyhow!("provider check failed"));

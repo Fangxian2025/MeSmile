@@ -39,25 +39,25 @@ impl Shell {
 
 static BASH_CONFIG: ShellConfig = ShellConfig {
     script_template: r#"export AGENT_SESSION_ID="{session_id}"
-alias @MeSmile='{mesmile_bin} term run'
-alias @g='{mesmile_bin} term run'
+alias @goose='{goose_bin} term run'
+alias @g='{goose_bin} term run'
 
-mesmile_preexec() {
+goose_preexec() {
     [[ "$1" =~ ^goose\ term ]] && return
-    [[ "$1" =~ ^(@MeSmile|@g)($|[[:space:]]) ]] && return
-    ('{mesmile_bin}' term log "$1" &) 2>/dev/null
+    [[ "$1" =~ ^(@goose|@g)($|[[:space:]]) ]] && return
+    ('{goose_bin}' term log "$1" &) 2>/dev/null
 }
 
-if [[ -z "$mesmile_preexec_installed" ]]; then
-    mesmile_preexec_installed=1
-    trap 'mesmile_preexec "$BASH_COMMAND"' DEBUG
+if [[ -z "$goose_preexec_installed" ]]; then
+    goose_preexec_installed=1
+    trap 'goose_preexec "$BASH_COMMAND"' DEBUG
 fi{command_not_found_handler}"#,
     command_not_found: Some(
         r#"
 
 command_not_found_handle() {
-    echo "🪿 Command '$1' not found. Asking mesmile..."
-    '{mesmile_bin}' term run "$@"
+    echo "🪿 Command '$1' not found. Asking goose..."
+    '{goose_bin}' term run "$@"
     return 0
 }"#,
     ),
@@ -65,23 +65,23 @@ command_not_found_handle() {
 
 static ZSH_CONFIG: ShellConfig = ShellConfig {
     script_template: r#"export AGENT_SESSION_ID="{session_id}"
-alias @MeSmile='{mesmile_bin} term run'
-alias @g='{mesmile_bin} term run'
+alias @goose='{goose_bin} term run'
+alias @g='{goose_bin} term run'
 
-mesmile_preexec() {
+goose_preexec() {
     [[ "$1" =~ ^goose\ term ]] && return
-    [[ "$1" =~ ^(@MeSmile|@g)($|[[:space:]]) ]] && return
-    ('{mesmile_bin}' term log "$1" &) 2>/dev/null
+    [[ "$1" =~ ^(@goose|@g)($|[[:space:]]) ]] && return
+    ('{goose_bin}' term log "$1" &) 2>/dev/null
 }
 
 autoload -Uz add-zsh-hook
-add-zsh-hook preexec mesmile_preexec{command_not_found_handler}"#,
+add-zsh-hook preexec goose_preexec{command_not_found_handler}"#,
     command_not_found: Some(
         r#"
 
 command_not_found_handler() {
-    echo "🪿 Command '$1' not found. Asking mesmile..."
-    '{mesmile_bin}' term run "$@"
+    echo "🪿 Command '$1' not found. Asking goose..."
+    '{goose_bin}' term run "$@"
     return 0
 }"#,
     ),
@@ -89,21 +89,21 @@ command_not_found_handler() {
 
 static FISH_CONFIG: ShellConfig = ShellConfig {
     script_template: r#"set -gx AGENT_SESSION_ID "{session_id}"
-function @MeSmile; {mesmile_bin} term run $argv; end
-function @g; {mesmile_bin} term run $argv; end
+function @goose; {goose_bin} term run $argv; end
+function @g; {goose_bin} term run $argv; end
 
-function mesmile_preexec --on-event fish_preexec
-    string match -q -r '^mesmile term' -- $argv[1]; and return
-    string match -q -r '^(@MeSmile|@g)($|\s)' -- $argv[1]; and return
-    {mesmile_bin} term log "$argv[1]" 2>/dev/null &
+function goose_preexec --on-event fish_preexec
+    string match -q -r '^goose term' -- $argv[1]; and return
+    string match -q -r '^(@goose|@g)($|\s)' -- $argv[1]; and return
+    {goose_bin} term log "$argv[1]" 2>/dev/null &
 end"#,
     command_not_found: None,
 };
 
 static NU_CONFIG: ShellConfig = ShellConfig {
     script_template: r#"$env.AGENT_SESSION_ID = "{session_id}"
-def --wrapped @MeSmile [...args] { run-external "{mesmile_bin}" "term" "run" ...$args }
-def --wrapped @g [...args] { run-external "{mesmile_bin}" "term" "run" ...$args }
+def --wrapped @goose [...args] { run-external "{goose_bin}" "term" "run" ...$args }
+def --wrapped @g [...args] { run-external "{goose_bin}" "term" "run" ...$args }
 
 if (($env | get -o GOOSE_NU_PREEXEC_INSTALLED | default false) != true) {
     $env.GOOSE_NU_PREEXEC_INSTALLED = true
@@ -114,13 +114,13 @@ if (($env | get -o GOOSE_NU_PREEXEC_INSTALLED | default false) != true) {
             if ($line | is-empty) {
                 return
             }
-            if ($line =~ '^mesmile term(\s|$)') {
+            if ($line =~ '^goose term(\s|$)') {
                 return
             }
-            if ($line =~ '^(@MeSmile|@g)(\s|$)') {
+            if ($line =~ '^(@goose|@g)(\s|$)') {
                 return
             }
-            job spawn { run-external "{mesmile_bin}" "term" "log" $line | complete | ignore } | ignore
+            job spawn { run-external "{goose_bin}" "term" "log" $line | complete | ignore } | ignore
         }
     )
 }
@@ -129,8 +129,8 @@ if (($env | get -o GOOSE_NU_PREEXEC_INSTALLED | default false) != true) {
         r#"
 $env.config.hooks.command_not_found = {|command_name|
     let prompt = (try { commandline | str trim } catch { $command_name })
-    print $"🪿 Command '($command_name)' not found. Asking mesmile..."
-    run-external "{mesmile_bin}" "term" "run" $prompt | complete | ignore
+    print $"🪿 Command '($command_name)' not found. Asking goose..."
+    run-external "{goose_bin}" "term" "run" $prompt | complete | ignore
     null
 }"#,
     ),
@@ -138,14 +138,14 @@ $env.config.hooks.command_not_found = {|command_name|
 
 static POWERSHELL_CONFIG: ShellConfig = ShellConfig {
     script_template: r#"$env:AGENT_SESSION_ID = "{session_id}"
-function @MeSmile {{ & '{mesmile_bin}' term run @args }}
-function @g {{ & '{mesmile_bin}' term run @args }}
+function @goose {{ & '{goose_bin}' term run @args }}
+function @g {{ & '{goose_bin}' term run @args }}
 
 Set-PSReadLineKeyHandler -Chord Enter -ScriptBlock {{
     $line = $null
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$null)
-    if ($line -notmatch '^mesmile term' -and $line -notmatch '^(@MeSmile|@g)($|\s)') {{
-        Start-Job -ScriptBlock {{ & '{mesmile_bin}' term log $using:line }} | Out-Null
+    if ($line -notmatch '^goose term' -and $line -notmatch '^(@goose|@g)($|\s)') {{
+        Start-Job -ScriptBlock {{ & '{goose_bin}' term log $using:line }} | Out-Null
     }}
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }}"#,
@@ -155,14 +155,14 @@ Set-PSReadLineKeyHandler -Chord Enter -ScriptBlock {{
 fn render_term_init_script(
     shell: Shell,
     session_id: &str,
-    mesmile_bin: &str,
+    goose_bin: &str,
     with_command_not_found: bool,
 ) -> String {
     let config = shell.config();
     let command_not_found_handler = if with_command_not_found {
         config
             .command_not_found
-            .map(|handler| handler.replace("{mesmile_bin}", mesmile_bin))
+            .map(|handler| handler.replace("{goose_bin}", goose_bin))
             .unwrap_or_default()
     } else {
         String::new()
@@ -171,7 +171,7 @@ fn render_term_init_script(
     config
         .script_template
         .replace("{session_id}", session_id)
-        .replace("{mesmile_bin}", mesmile_bin)
+        .replace("{goose_bin}", goose_bin)
         .replace("{command_not_found_handler}", &command_not_found_handler)
 }
 
@@ -200,7 +200,7 @@ pub async fn handle_term_init(
                     working_dir,
                     "Goose Term Session".to_string(),
                     SessionType::Terminal,
-                    Config::global().get_mesmile_mode().unwrap_or_default(),
+                    Config::global().get_goose_mode().unwrap_or_default(),
                 )
                 .await?;
 
@@ -216,13 +216,13 @@ pub async fn handle_term_init(
         }
     };
 
-    let mesmile_bin = std::env::current_exe()
+    let goose_bin = std::env::current_exe()
         .map(|p| p.to_string_lossy().into_owned())
         .unwrap_or_else(|_| "goose".to_string());
 
     println!(
         "{}",
-        render_term_init_script(shell, &session.id, &mesmile_bin, with_command_not_found)
+        render_term_init_script(shell, &session.id, &goose_bin, with_command_not_found)
     );
     Ok(())
 }
@@ -230,7 +230,7 @@ pub async fn handle_term_init(
 pub async fn handle_term_log(command: String) -> Result<()> {
     let session_id = std::env::var("AGENT_SESSION_ID").map_err(|_| {
         anyhow!(
-            "AGENT_SESSION_ID not set. Initialize terminal integration with `mesmile term init <shell>` and reload your shell first."
+            "AGENT_SESSION_ID not set. Initialize terminal integration with `goose term init <shell>` and reload your shell first."
         )
     })?;
 
@@ -253,7 +253,7 @@ pub async fn handle_term_run(prompt: Vec<String>) -> Result<()> {
     let session_id = std::env::var("AGENT_SESSION_ID").map_err(|_| {
         anyhow!(
             "AGENT_SESSION_ID not set.\n\n\
-             Initialize terminal integration with `mesmile term init <shell>` in your shell profile, \
+             Initialize terminal integration with `goose term init <shell>` in your shell profile, \
              then restart or reload that shell."
         )
     })?;
@@ -315,7 +315,7 @@ pub async fn handle_term_run(prompt: Vec<String>) -> Result<()> {
     Ok(())
 }
 
-/// Handle `mesmile term info` - print compact session info for prompt integration
+/// Handle `goose term info` - print compact session info for prompt integration
 pub async fn handle_term_info() -> Result<()> {
     let session_id = match std::env::var("AGENT_SESSION_ID") {
         Ok(id) => id,
@@ -326,13 +326,13 @@ pub async fn handle_term_info() -> Result<()> {
     let session = session_manager.get_session(&session_id, false).await.ok();
     let total_tokens = session.as_ref().and_then(|s| s.total_tokens).unwrap_or(0) as usize;
 
-    let config = mesmile::config::Config::global();
+    let config = goose::config::Config::global();
     let model_name = config
-        .get_mesmile_model()
+        .get_goose_model()
         .ok()
         .map(|name| {
             let short = name.rsplit('/').next().unwrap_or(&name);
-            if let Some(stripped) = short.strip_prefix("mesmile-") {
+            if let Some(stripped) = short.strip_prefix("goose-") {
                 stripped.to_string()
             } else {
                 short.to_string()
@@ -341,11 +341,11 @@ pub async fn handle_term_info() -> Result<()> {
         .unwrap_or_else(|| "?".to_string());
 
     let context_limit = config
-        .get_mesmile_model()
+        .get_goose_model()
         .ok()
         .and_then(|model_name| {
-            config.get_mesmile_provider().ok().and_then(|provider_name| {
-                mesmile::model::ModelConfig::new(&model_name)
+            config.get_goose_provider().ok().and_then(|provider_name| {
+                goose::model::ModelConfig::new(&model_name)
                     .ok()
                     .map(|c| c.with_canonical_limits(&provider_name))
             })
@@ -377,7 +377,7 @@ mod tests {
         let script = render_term_init_script(Shell::Nu, "session-123", "/tmp/goose", false);
 
         assert!(script.contains("$env.AGENT_SESSION_ID = \"session-123\""));
-        assert!(script.contains("def --wrapped @MeSmile [...args]"));
+        assert!(script.contains("def --wrapped @goose [...args]"));
         assert!(script.contains("def --wrapped @g [...args]"));
         assert!(script.contains("GOOSE_NU_PREEXEC_INSTALLED"));
         assert!(script.contains("$env.config.hooks.pre_execution"));

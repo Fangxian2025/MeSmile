@@ -515,7 +515,7 @@ fn build_authorize_url(redirect_uri: &str, pkce: &PkceChallenge, state: &str) ->
         ("id_token_add_organizations", "true"),
         ("codex_cli_simplified_flow", "true"),
         ("state", state),
-        ("originator", "MeSmile"),
+        ("originator", "goose"),
     ];
     let query = serde_urlencoded::to_string(params)?;
     Ok(format!("{}/oauth/authorize?{}", ISSUER, query))
@@ -610,7 +610,7 @@ const HTML_SUCCESS_TEMPLATE: &str = r#"<!doctype html>
   <body>
     <div class="container">
       <h1>Authorization Successful</h1>
-      <p>You can close this window and return to mesmile.</p>
+      <p>You can close this window and return to goose.</p>
     </div>
     <script>const AUTO_CLOSE_TIMEOUT_MS = __AUTO_CLOSE_TIMEOUT_MS__; setTimeout(() => window.close(), AUTO_CLOSE_TIMEOUT_MS)</script>
   </body>

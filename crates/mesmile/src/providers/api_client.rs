@@ -348,7 +348,7 @@ impl ApiClient {
         Ok(client_builder)
     }
 
-    /// Reject custom TLS settings when MeSmile is compiled without a TLS backend.
+    /// Reject custom TLS settings when goose is compiled without a TLS backend.
     #[cfg(not(any(feature = "rustls-tls", feature = "native-tls")))]
     fn configure_tls(
         client_builder: reqwest::ClientBuilder,

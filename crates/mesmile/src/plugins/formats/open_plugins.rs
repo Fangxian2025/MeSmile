@@ -12,7 +12,7 @@ use std::collections::HashSet;
 use std::path::{Component, Path, PathBuf};
 
 const MANIFESTS: [&str; 3] = [
-    ".mesmile-plugin/plugin.json",
+    ".goose-plugin/plugin.json",
     ".plugin/plugin.json",
     "plugin.json",
 ];

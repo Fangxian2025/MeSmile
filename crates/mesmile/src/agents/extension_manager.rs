@@ -63,7 +63,7 @@ static RE_ENV_SIMPLE: Lazy<regex::Regex> =
 fn resolve_timeout(timeout: Option<u64>) -> u64 {
     timeout.unwrap_or_else(|| {
         Config::global()
-            .get_mesmile_default_extension_timeout()
+            .get_goose_default_extension_timeout()
             .unwrap_or(crate::config::DEFAULT_EXTENSION_TIMEOUT)
     })
 }
@@ -133,7 +133,7 @@ pub struct GooseMcpAppToolAttachment {
     pub read_error: Option<String>,
 }
 
-pub(crate) const TRUSTED_TOOL_UPDATE_META_KEY: &str = "__mesmile_tool_update_meta";
+pub(crate) const TRUSTED_TOOL_UPDATE_META_KEY: &str = "__goose_tool_update_meta";
 
 /// Manages goose extensions / MCP clients and their interactions
 pub struct ExtensionManager {
@@ -218,7 +218,7 @@ pub fn get_parameter_names(tool: &Tool) -> Vec<String> {
     names
 }
 
-const TOOL_EXTENSION_META_KEY: &str = "mesmile_extension";
+const TOOL_EXTENSION_META_KEY: &str = "goose_extension";
 
 pub fn get_tool_owner(tool: &Tool) -> Option<String> {
     tool.meta
@@ -253,9 +253,9 @@ fn remove_untrusted_mcp_app_meta(result: &mut CallToolResult) {
         .0
         .get_mut("goose")
         .and_then(Value::as_object_mut)
-        .map(|mesmile_meta| {
-            mesmile_meta.remove("mcpApp");
-            mesmile_meta.is_empty()
+        .map(|goose_meta| {
+            goose_meta.remove("mcpApp");
+            goose_meta.is_empty()
         })
         .unwrap_or(false);
 
@@ -776,7 +776,7 @@ impl ExtensionManager {
         Self::new(
             Arc::new(Mutex::new(None)),
             session_manager,
-            "mesmile-cli".to_string(),
+            "goose-cli".to_string(),
             ExtensionManagerCapabilities {
                 mcpui: false,
                 host_info: None,
@@ -2745,7 +2745,7 @@ mod tests {
             None,
             Box::new(rmcp::transport::auth::InMemoryCredentialStore::new()),
             provider,
-            "mesmile-test".to_string(),
+            "goose-test".to_string(),
             capabilities,
             temp_dir.path(),
         )
@@ -2780,7 +2780,7 @@ mod tests {
             None,
             Box::new(rmcp::transport::auth::InMemoryCredentialStore::new()),
             provider,
-            "mesmile-test".to_string(),
+            "goose-test".to_string(),
             capabilities,
             temp_dir.path(),
         )
@@ -2826,7 +2826,7 @@ mod tests {
             None,
             Box::new(rmcp::transport::auth::InMemoryCredentialStore::new()),
             provider,
-            "mesmile-test".to_string(),
+            "goose-test".to_string(),
             capabilities,
             temp_dir.path(),
         )
@@ -2907,7 +2907,7 @@ mod tests {
             Duration::from_secs(5),
             &headers,
             provider,
-            "mesmile-test".to_string(),
+            "goose-test".to_string(),
             capabilities,
             temp_dir.path(),
         )

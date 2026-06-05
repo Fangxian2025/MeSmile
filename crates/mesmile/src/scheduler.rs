@@ -832,8 +832,8 @@ async fn execute_job(
     let agent = Agent::new();
 
     let config = Config::global();
-    let provider_name = config.get_mesmile_provider()?;
-    let model_name = config.get_mesmile_model()?;
+    let provider_name = config.get_goose_provider()?;
+    let model_name = config.get_goose_model()?;
     let model_config =
         crate::model::ModelConfig::new(&model_name)?.with_canonical_limits(&provider_name);
 
@@ -844,7 +844,7 @@ async fn execute_job(
             std::env::current_dir()?,
             format!("Scheduled job: {}", job.id),
             SessionType::Scheduled,
-            agent.config.mesmile_mode,
+            agent.config.goose_mode,
         )
         .await?;
 
@@ -871,7 +871,7 @@ async fn execute_job(
     let recipe_version = recipe.version.clone();
 
     tracing::info!(
-        monotonic_counter.mesmile.session_starts = 1,
+        monotonic_counter.goose.session_starts = 1,
         session_type = "schedule",
         interface = "scheduler",
         interactive = false,
@@ -879,7 +879,7 @@ async fn execute_job(
     );
 
     tracing::info!(
-        monotonic_counter.mesmile.recipe_runs = 1,
+        monotonic_counter.goose.recipe_runs = 1,
         recipe_name = %recipe_display_name,
         recipe_version = %recipe_version,
         session_type = "schedule",
@@ -971,7 +971,7 @@ async fn execute_job(
             .unwrap_or((0, 0));
 
         tracing::info!(
-            monotonic_counter.mesmile.session_completions = 1,
+            monotonic_counter.goose.session_completions = 1,
             session_type = "schedule",
             interface = "scheduler",
             exit_type,
@@ -982,7 +982,7 @@ async fn execute_job(
         );
 
         tracing::info!(
-            monotonic_counter.mesmile.session_duration_ms = session_duration.as_millis() as u64,
+            monotonic_counter.goose.session_duration_ms = session_duration.as_millis() as u64,
             session_type = "schedule",
             interface = "scheduler",
             "Session duration"
@@ -990,7 +990,7 @@ async fn execute_job(
 
         if total_tokens > 0 {
             tracing::info!(
-                monotonic_counter.mesmile.session_tokens = total_tokens,
+                monotonic_counter.goose.session_tokens = total_tokens,
                 session_type = "schedule",
                 interface = "scheduler",
                 "Session tokens"

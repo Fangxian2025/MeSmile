@@ -1,4 +1,4 @@
-use crate::config::MeSmileMode;
+use crate::config::GooseMode;
 use crate::providers::inventory::{ProviderInventoryEntry, ProviderInventoryService};
 use crate::session::Session;
 use agent_client_protocol::schema::{
@@ -97,16 +97,16 @@ pub(super) fn should_refresh_inventory_for_session_init(entry: &ProviderInventor
 }
 
 pub(super) fn build_mode_state(
-    current_mode: MeSmileMode,
+    current_mode: GooseMode,
 ) -> Result<SessionModeState, agent_client_protocol::Error> {
-    let mut available = Vec::with_capacity(MeSmileMode::VARIANTS.len());
-    for &name in MeSmileMode::VARIANTS {
-        let mesmile_mode: MeSmileMode = name.parse().map_err(|_| {
+    let mut available = Vec::with_capacity(GooseMode::VARIANTS.len());
+    for &name in GooseMode::VARIANTS {
+        let goose_mode: GooseMode = name.parse().map_err(|_| {
             agent_client_protocol::Error::internal_error() // impossible but satisfy linters
-                .data(format!("Failed to parse MeSmileMode variant: {}", name))
+                .data(format!("Failed to parse GooseMode variant: {}", name))
         })?;
         let mut mode = SessionMode::new(SessionModeId::new(name), name);
-        mode.description = mesmile_mode.get_message().map(Into::into);
+        mode.description = goose_mode.get_message().map(Into::into);
         available.push(mode);
     }
     Ok(SessionModeState::new(
@@ -126,7 +126,7 @@ pub(super) async fn build_session_setup_config(
     ),
     agent_client_protocol::Error,
 > {
-    let mode_state = build_mode_state(session.mesmile_mode)?;
+    let mode_state = build_mode_state(session.goose_mode)?;
 
     let (Some(provider_name), Some(model_config)) = (
         session.provider_name.as_deref(),
@@ -215,11 +215,11 @@ fn available_commands_update(working_dir: &std::path::Path) -> AvailableCommands
 pub(super) fn send_session_setup_notifications(
     cx: &ConnectionTo<Client>,
     session: &Session,
-    supports_mesmile_custom_notifications: bool,
+    supports_goose_custom_notifications: bool,
 ) -> Result<(), agent_client_protocol::Error> {
     let session_id = SessionId::new(session.id.clone());
     if let Some(updates) = build_usage_updates(session) {
-        if supports_mesmile_custom_notifications {
+        if supports_goose_custom_notifications {
             cx.send_notification(updates.custom)?;
         }
         cx.send_notification(SessionNotification::new(
@@ -289,7 +289,7 @@ mod tests {
     }
 
     #[test_case(
-        MeSmileMode::Auto
+        GooseMode::Auto
         => Ok(SessionModeState::new(
             SessionModeId::new("auto"),
             vec![
@@ -306,7 +306,7 @@ mod tests {
         ; "auto mode"
     )]
     #[test_case(
-        MeSmileMode::Approve
+        GooseMode::Approve
         => Ok(SessionModeState::new(
             SessionModeId::new("approve"),
             vec![
@@ -323,13 +323,13 @@ mod tests {
         ; "approve mode"
     )]
     fn test_build_mode_state(
-        current_mode: MeSmileMode,
+        current_mode: GooseMode,
     ) -> Result<SessionModeState, agent_client_protocol::Error> {
         build_mode_state(current_mode)
     }
 
     #[test_case(
-        build_mode_state(MeSmileMode::Auto).unwrap(),
+        build_mode_state(GooseMode::Auto).unwrap(),
         "openai",
         vec![
             SessionConfigSelectOption::new("anthropic", "anthropic"),
@@ -367,7 +367,7 @@ mod tests {
         ; "auto mode with multiple models"
     )]
     #[test_case(
-        build_mode_state(MeSmileMode::Approve).unwrap(),
+        build_mode_state(GooseMode::Approve).unwrap(),
         "openai",
         vec![SessionConfigSelectOption::new("openai", "openai")],
         SessionModelState::new(ModelId::new("only-model"), vec![ModelInfo::new(ModelId::new("only-model"), "only-model")])

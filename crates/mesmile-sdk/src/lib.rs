@@ -1,7 +1,7 @@
 //! Goose SDK.
 //!
 //! With default features this crate re-exports the shared SDK wire types from
-//! `mesmile-sdk-types` so you can build an Agent Client Protocol (ACP) client
+//! `goose-sdk-types` so you can build an Agent Client Protocol (ACP) client
 //! that talks to `goose acp` over stdio.
 //!
 //! With `--features uniffi` the crate additionally compiles as a
@@ -15,7 +15,7 @@
 pub use mesmile_sdk_types::{custom_notifications, custom_requests};
 
 #[cfg(feature = "uniffi")]
-uniffi::setup_scaffolding!("fangxian2025_mesmile");
+uniffi::setup_scaffolding!("aaif_goose");
 
 #[cfg(feature = "uniffi")]
 pub mod bindings;

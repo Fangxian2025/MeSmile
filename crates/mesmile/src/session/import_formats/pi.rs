@@ -375,7 +375,7 @@ fn build_session_json(
     obj.insert("message_count".into(), json!(conversation.messages().len()));
     obj.insert("provider_name".into(), json!(null));
     obj.insert("model_config".into(), json!(null));
-    obj.insert("mesmile_mode".into(), json!("auto"));
+    obj.insert("goose_mode".into(), json!("auto"));
     obj.insert("archived_at".into(), json!(null));
     obj.insert("project_id".into(), json!(null));
     Value::Object(obj)

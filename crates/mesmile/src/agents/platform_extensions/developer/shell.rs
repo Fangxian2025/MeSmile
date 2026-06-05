@@ -197,7 +197,7 @@ pub struct ShellOutput {
 
 /// Resolve the user's full PATH by running a login shell.
 ///
-/// When mesmiled is launched from a desktop app (e.g. Electron), it may inherit
+/// When goosed is launched from a desktop app (e.g. Electron), it may inherit
 /// a minimal PATH like `/usr/bin:/bin`. This function spawns a login shell to
 /// source the user's profile and recover the full PATH.
 #[cfg(not(windows))]
@@ -225,7 +225,7 @@ fn resolve_login_shell_path() -> Option<String> {
 
     // Spawn in a new session so that bash's interactive job-control setup
     // (TIOCSPGRP) cannot steal the terminal foreground from goose, which
-    // would cause goose to receive SIGTTIN and be suspended on startup.
+    // would cause mesmile to receive SIGTTIN and be suspended on startup.
     cmd.wrap(ProcessSession);
 
     let mut child = cmd.spawn().ok()?;

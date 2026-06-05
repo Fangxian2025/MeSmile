@@ -259,7 +259,7 @@ async fn ensure_featured_models_in_registry() -> Result<(), ErrorResponse> {
             let download_id = format!("{}-mmproj", model_id);
             let dominated_by_active = dm
                 .get_progress(&download_id)
-                .is_some_and(|p| p.status == mesmile::download_manager::DownloadStatus::Downloading);
+                .is_some_and(|p| p.status == goose::download_manager::DownloadStatus::Downloading);
             if !dominated_by_active {
                 tracing::info!(model_id = %model_id, "Auto-downloading vision encoder for existing model");
                 if let Err(e) = dm
@@ -313,9 +313,9 @@ pub async fn list_local_models(
     let mut models: Vec<LocalModelResponse> = Vec::new();
 
     for entry in registry.list_models() {
-        let mesmile_status = entry.download_status();
+        let goose_status = entry.download_status();
 
-        let status = match mesmile_status {
+        let status = match goose_status {
             RegistryDownloadStatus::NotDownloaded => ModelDownloadStatus::NotDownloaded,
             RegistryDownloadStatus::Downloading {
                 progress_percent,
@@ -764,7 +764,7 @@ pub fn routes(state: Arc<AppState>) -> Router {
                 .collect()
         })
         .unwrap_or_default();
-    mesmile::download_manager::cleanup_partial_downloads(
+    goose::download_manager::cleanup_partial_downloads(
         &Paths::in_data_dir("models"),
         &registered_paths,
     );

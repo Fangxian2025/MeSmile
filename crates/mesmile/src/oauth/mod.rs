@@ -17,7 +17,7 @@ use tokio::sync::{oneshot, Mutex};
 use tracing::warn;
 
 const CALLBACK_TEMPLATE: &str = include_str!("oauth_callback.html");
-const CLIENT_METADATA_URL: &str = "https://mesmile-docs.ai/oauth/client-metadata.json";
+const CLIENT_METADATA_URL: &str = "https://goose-docs.ai/oauth/client-metadata.json";
 
 #[derive(Clone)]
 struct AppState {

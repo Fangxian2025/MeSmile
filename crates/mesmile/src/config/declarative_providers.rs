@@ -1016,7 +1016,7 @@ mod tests {
             .expect("vercel_ai_gateway should set attribution headers");
         assert_eq!(
             headers.get("http-referer").map(String::as_str),
-            Some("https://mesmile-docs.ai")
+            Some("https://goose-docs.ai")
         );
         assert_eq!(headers.get("x-title").map(String::as_str), Some("goose"));
     }

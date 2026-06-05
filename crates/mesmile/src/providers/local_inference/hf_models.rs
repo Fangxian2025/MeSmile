@@ -433,7 +433,7 @@ pub async fn search_gguf_models(query: &str, limit: usize) -> Result<Vec<HfModel
     );
 
     let response = apply_hf_auth(client.get(&url), token.as_deref())
-        .header("User-Agent", "mesmile-ai-agent")
+        .header("User-Agent", "goose-ai-agent")
         .send()
         .await?;
 
@@ -495,7 +495,7 @@ pub async fn get_repo_gguf_variants(repo_id: &str) -> Result<Vec<HfQuantVariant>
     let url = format!("{}/{}?blobs=true", HF_API_BASE, repo_id);
 
     let response = apply_hf_auth(client.get(&url), token.as_deref())
-        .header("User-Agent", "mesmile-ai-agent")
+        .header("User-Agent", "goose-ai-agent")
         .send()
         .await?;
 
@@ -520,7 +520,7 @@ pub async fn get_repo_gguf_files(repo_id: &str) -> Result<Vec<HfGgufFile>> {
     let url = format!("{}/{}?blobs=true", HF_API_BASE, repo_id);
 
     let response = apply_hf_auth(client.get(&url), token.as_deref())
-        .header("User-Agent", "mesmile-ai-agent")
+        .header("User-Agent", "goose-ai-agent")
         .send()
         .await?;
 
@@ -581,7 +581,7 @@ pub async fn resolve_model_spec_full(spec: &str) -> Result<(String, ResolvedMode
     let token = optional_hf_token(huggingface_auth::resolve_token_async()).await;
     let url = format!("{}/{}?blobs=true", HF_API_BASE, repo_id);
     let response = apply_hf_auth(client.get(&url), token.as_deref())
-        .header("User-Agent", "mesmile-ai-agent")
+        .header("User-Agent", "goose-ai-agent")
         .send()
         .await?;
 

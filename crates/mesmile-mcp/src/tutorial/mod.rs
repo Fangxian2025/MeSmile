@@ -111,7 +111,7 @@ impl ServerHandler for TutorialServer {
     fn get_info(&self) -> ServerInfo {
         InitializeResult::new(ServerCapabilities::builder().enable_tools().build())
             .with_server_info(Implementation::new(
-                "mesmile-tutorial",
+                "goose-tutorial",
                 env!("CARGO_PKG_VERSION"),
             ))
             .with_instructions(self.instructions.clone())
@@ -134,7 +134,7 @@ mod tests {
         let server = TutorialServer::new();
         let info = server.get_info();
 
-        assert_eq!(info.server_info.name, "mesmile-tutorial");
+        assert_eq!(info.server_info.name, "goose-tutorial");
         assert!(info.instructions.is_some());
         assert!(info
             .instructions

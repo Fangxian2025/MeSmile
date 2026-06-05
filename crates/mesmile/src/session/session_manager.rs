@@ -1,5 +1,5 @@
 use crate::config::paths::Paths;
-use crate::config::MeSmileMode;
+use crate::config::GooseMode;
 use crate::conversation::message::Message;
 use crate::conversation::Conversation;
 use crate::model::ModelConfig;
@@ -81,7 +81,7 @@ pub struct Session {
     pub provider_name: Option<String>,
     pub model_config: Option<ModelConfig>,
     #[serde(default)]
-    pub mesmile_mode: MeSmileMode,
+    pub goose_mode: GooseMode,
     #[serde(default)]
     pub archived_at: Option<DateTime<Utc>>,
     #[serde(default)]
@@ -108,7 +108,7 @@ pub struct SessionUpdateBuilder<'a> {
     user_recipe_values: Option<Option<HashMap<String, String>>>,
     provider_name: Option<Option<String>>,
     model_config: Option<Option<ModelConfig>>,
-    mesmile_mode: Option<MeSmileMode>,
+    goose_mode: Option<GooseMode>,
     archived_at: Option<Option<DateTime<Utc>>>,
 
     project_id: Option<Option<String>>,
@@ -143,7 +143,7 @@ impl<'a> SessionUpdateBuilder<'a> {
             user_recipe_values: None,
             provider_name: None,
             model_config: None,
-            mesmile_mode: None,
+            goose_mode: None,
             archived_at: None,
             project_id: None,
         }
@@ -254,8 +254,8 @@ impl<'a> SessionUpdateBuilder<'a> {
         self
     }
 
-    pub fn mesmile_mode(mut self, mode: MeSmileMode) -> Self {
-        self.mesmile_mode = Some(mode);
+    pub fn goose_mode(mut self, mode: GooseMode) -> Self {
+        self.goose_mode = Some(mode);
         self
     }
 
@@ -326,10 +326,10 @@ impl SessionManager {
         working_dir: PathBuf,
         name: String,
         session_type: SessionType,
-        mesmile_mode: MeSmileMode,
+        goose_mode: GooseMode,
     ) -> Result<Session> {
         self.storage
-            .create_session(working_dir, name, session_type, mesmile_mode)
+            .create_session(working_dir, name, session_type, goose_mode)
             .await
     }
 
@@ -560,7 +560,7 @@ impl Default for Session {
             message_count: 0,
             provider_name: None,
             model_config: None,
-            mesmile_mode: MeSmileMode::default(),
+            goose_mode: GooseMode::default(),
             archived_at: None,
             project_id: None,
         }
@@ -628,8 +628,8 @@ impl sqlx::FromRow<'_, sqlx::sqlite::SqliteRow> for Session {
             message_count: row.try_get("message_count").unwrap_or(0) as usize,
             provider_name: row.try_get("provider_name").ok().flatten(),
             model_config,
-            mesmile_mode: row
-                .try_get::<String, _>("mesmile_mode")
+            goose_mode: row
+                .try_get::<String, _>("goose_mode")
                 .ok()
                 .and_then(|s| s.parse().ok())
                 .unwrap_or_default(),
@@ -750,7 +750,7 @@ impl SessionStorage {
                 user_recipe_values_json TEXT,
                 provider_name TEXT,
                 model_config_json TEXT,
-                mesmile_mode TEXT NOT NULL DEFAULT 'auto',
+                goose_mode TEXT NOT NULL DEFAULT 'auto',
                 archived_at TIMESTAMP,
                 project_id TEXT
             )
@@ -873,7 +873,7 @@ impl SessionStorage {
             accumulated_total_tokens, accumulated_input_tokens, accumulated_output_tokens,
             accumulated_cost,
             schedule_id, recipe_json, user_recipe_values_json,
-            provider_name, model_config_json, mesmile_mode
+            provider_name, model_config_json, goose_mode
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         "#,
         )
@@ -897,7 +897,7 @@ impl SessionStorage {
         .bind(user_recipe_values_json)
         .bind(&session.provider_name)
         .bind(model_config_json)
-        .bind(session.mesmile_mode.to_string())
+        .bind(session.goose_mode.to_string())
         .execute(&mut *tx)
         .await?;
 
@@ -1073,7 +1073,7 @@ impl SessionStorage {
             8 => {
                 sqlx::query(
                     r#"
-                    ALTER TABLE sessions ADD COLUMN mesmile_mode TEXT NOT NULL DEFAULT 'auto'
+                    ALTER TABLE sessions ADD COLUMN goose_mode TEXT NOT NULL DEFAULT 'auto'
                 "#,
                 )
                 .execute(&mut **tx)
@@ -1200,7 +1200,7 @@ impl SessionStorage {
         working_dir: PathBuf,
         name: String,
         session_type: SessionType,
-        mesmile_mode: MeSmileMode,
+        goose_mode: GooseMode,
     ) -> Result<Session> {
         let pool = self.pool().await?;
         let mut tx = pool.begin_with("BEGIN IMMEDIATE").await?;
@@ -1208,7 +1208,7 @@ impl SessionStorage {
         let today = chrono::Utc::now().format("%Y%m%d").to_string();
         let session = sqlx::query_as(
             r#"
-                INSERT INTO sessions (id, name, user_set_name, session_type, working_dir, extension_data, mesmile_mode)
+                INSERT INTO sessions (id, name, user_set_name, session_type, working_dir, extension_data, goose_mode)
                 VALUES (
                     ? || '_' || CAST(COALESCE((
                         SELECT MAX(CAST(SUBSTR(id, 10) AS INTEGER))
@@ -1230,7 +1230,7 @@ impl SessionStorage {
             .bind(&name)
             .bind(session_type.to_string())
             .bind(&*working_dir.to_string_lossy())
-            .bind(mesmile_mode.to_string())
+            .bind(goose_mode.to_string())
             .fetch_one(&mut *tx)
             .await?;
 
@@ -1249,7 +1249,7 @@ impl SessionStorage {
                accumulated_total_tokens, accumulated_input_tokens, accumulated_output_tokens,
                accumulated_cost,
                schedule_id, recipe_json, user_recipe_values_json,
-               provider_name, model_config_json, mesmile_mode,
+               provider_name, model_config_json, goose_mode,
                archived_at, project_id
         FROM sessions
         WHERE id = ?
@@ -1314,7 +1314,7 @@ impl SessionStorage {
         add_update!(builder.user_recipe_values, "user_recipe_values_json");
         add_update!(builder.provider_name, "provider_name");
         add_update!(builder.model_config, "model_config_json");
-        add_update!(builder.mesmile_mode, "mesmile_mode");
+        add_update!(builder.goose_mode, "goose_mode");
         add_update!(builder.archived_at, "archived_at");
 
         add_update!(builder.project_id, "project_id");
@@ -1386,8 +1386,8 @@ impl SessionStorage {
                 .transpose()?;
             q = q.bind(model_config_json);
         }
-        if let Some(mesmile_mode) = builder.mesmile_mode {
-            q = q.bind(mesmile_mode.to_string());
+        if let Some(goose_mode) = builder.goose_mode {
+            q = q.bind(goose_mode.to_string());
         }
         if let Some(ref archived_at) = builder.archived_at {
             q = q.bind(archived_at.as_ref());
@@ -1581,7 +1581,7 @@ impl SessionStorage {
                    s.accumulated_total_tokens, s.accumulated_input_tokens, s.accumulated_output_tokens,
                    s.accumulated_cost,
                    s.schedule_id, s.recipe_json, s.user_recipe_values_json,
-                   s.provider_name, s.model_config_json, s.mesmile_mode,
+                   s.provider_name, s.model_config_json, s.goose_mode,
                    s.archived_at, s.project_id,
                    COUNT(m.id) as message_count
             FROM sessions s
@@ -1746,7 +1746,7 @@ impl SessionStorage {
         json: &str,
         session_type_override: Option<SessionType>,
     ) -> Result<Session> {
-        let normalized = super::import_formats::convert_to_mesmile_session_json(json)?;
+        let normalized = super::import_formats::convert_to_goose_session_json(json)?;
         let import: Session = serde_json::from_str(&normalized)?;
 
         let session = self
@@ -1754,7 +1754,7 @@ impl SessionStorage {
                 import.working_dir.clone(),
                 import.name.clone(),
                 session_type_override.unwrap_or(import.session_type),
-                import.mesmile_mode,
+                import.goose_mode,
             )
             .await?;
 
@@ -1799,7 +1799,7 @@ impl SessionStorage {
                 original_session.working_dir.clone(),
                 new_name,
                 original_session.session_type,
-                original_session.mesmile_mode,
+                original_session.goose_mode,
             )
             .await?;
 
@@ -1819,7 +1819,7 @@ impl SessionStorage {
         if let Some(model_config) = original_session.model_config {
             builder = builder.model_config(model_config);
         }
-        builder = builder.mesmile_mode(original_session.mesmile_mode);
+        builder = builder.goose_mode(original_session.goose_mode);
 
         builder.apply().await?;
 
@@ -2039,7 +2039,7 @@ mod tests {
                 PathBuf::from(working_dir),
                 format!("Session in {working_dir}"),
                 SessionType::User,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await
             .unwrap();
@@ -2104,7 +2104,7 @@ mod tests {
                 PathBuf::from("/tmp/search-test"),
                 name.to_string(),
                 session_type,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await
             .unwrap();
@@ -2393,7 +2393,7 @@ mod tests {
                 PathBuf::from("/tmp/lock-upgrade-test"),
                 "Lock Upgrade Session".to_string(),
                 SessionType::User,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await
             .unwrap();
@@ -2499,7 +2499,7 @@ mod tests {
                         working_dir.clone(),
                         description,
                         SessionType::User,
-                        MeSmileMode::default(),
+                        GooseMode::default(),
                     )
                     .await
                     .unwrap();
@@ -2588,7 +2588,7 @@ mod tests {
                 PathBuf::from("/tmp/test"),
                 DESCRIPTION.to_string(),
                 SessionType::User,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await
             .unwrap();
@@ -2656,7 +2656,7 @@ mod tests {
                 PathBuf::from("/tmp/test"),
                 "User session".to_string(),
                 SessionType::User,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await
             .unwrap();
@@ -2679,7 +2679,7 @@ mod tests {
                 PathBuf::from("/tmp/test"),
                 "ACP session".to_string(),
                 SessionType::Acp,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await
             .unwrap();
@@ -2732,11 +2732,11 @@ mod tests {
         assert_eq!(imported.working_dir, PathBuf::from("/tmp/test"));
     }
 
-    #[test_case(MeSmileMode::Approve)]
-    #[test_case(MeSmileMode::SmartApprove)]
-    #[test_case(MeSmileMode::Chat)]
+    #[test_case(GooseMode::Approve)]
+    #[test_case(GooseMode::SmartApprove)]
+    #[test_case(GooseMode::Chat)]
     #[tokio::test]
-    async fn test_mesmile_mode_persists(mode: MeSmileMode) {
+    async fn test_goose_mode_persists(mode: GooseMode) {
         let temp_dir = TempDir::new().unwrap();
         let sm = SessionManager::new(temp_dir.path().to_path_buf());
 
@@ -2751,11 +2751,11 @@ mod tests {
             .unwrap();
 
         let reloaded = sm.get_session(&session.id, false).await.unwrap();
-        assert_eq!(reloaded.mesmile_mode, mode);
+        assert_eq!(reloaded.goose_mode, mode);
     }
 
     #[tokio::test]
-    async fn test_mesmile_mode_update() {
+    async fn test_goose_mode_update() {
         let temp_dir = TempDir::new().unwrap();
         let sm = SessionManager::new(temp_dir.path().to_path_buf());
 
@@ -2764,23 +2764,23 @@ mod tests {
                 temp_dir.path().to_path_buf(),
                 "test".into(),
                 SessionType::User,
-                MeSmileMode::default(),
+                GooseMode::default(),
             )
             .await
             .unwrap();
 
         sm.update(&session.id)
-            .mesmile_mode(MeSmileMode::Approve)
+            .goose_mode(GooseMode::Approve)
             .apply()
             .await
             .unwrap();
 
         let reloaded = sm.get_session(&session.id, false).await.unwrap();
-        assert_eq!(reloaded.mesmile_mode, MeSmileMode::Approve);
+        assert_eq!(reloaded.goose_mode, GooseMode::Approve);
     }
 
     #[tokio::test]
-    async fn test_mesmile_mode_malformed_defaults_to_auto() {
+    async fn test_goose_mode_malformed_defaults_to_auto() {
         let temp_dir = TempDir::new().unwrap();
         let sm = SessionManager::new(temp_dir.path().to_path_buf());
 
@@ -2789,20 +2789,20 @@ mod tests {
                 temp_dir.path().to_path_buf(),
                 "test".into(),
                 SessionType::User,
-                MeSmileMode::Approve,
+                GooseMode::Approve,
             )
             .await
             .unwrap();
 
         let pool = &sm.storage().pool;
-        sqlx::query("UPDATE sessions SET mesmile_mode = 'garbage' WHERE id = ?")
+        sqlx::query("UPDATE sessions SET goose_mode = 'garbage' WHERE id = ?")
             .bind(&session.id)
             .execute(pool)
             .await
             .unwrap();
 
         let reloaded = sm.get_session(&session.id, false).await.unwrap();
-        assert_eq!(reloaded.mesmile_mode, MeSmileMode::default());
+        assert_eq!(reloaded.goose_mode, GooseMode::default());
     }
 
     #[tokio::test]
@@ -2833,7 +2833,7 @@ mod tests {
             .unwrap();
 
         sqlx::query(
-            "INSERT INTO sessions (id, name, user_set_name, session_type, working_dir, extension_data, mesmile_mode)
+            "INSERT INTO sessions (id, name, user_set_name, session_type, working_dir, extension_data, goose_mode)
              VALUES (?, ?, ?, ?, ?, ?, ?)",
         )
         .bind("user_id")
@@ -2848,7 +2848,7 @@ mod tests {
         .unwrap();
 
         sqlx::query(
-            "INSERT INTO sessions (id, name, user_set_name, session_type, working_dir, extension_data, mesmile_mode)
+            "INSERT INTO sessions (id, name, user_set_name, session_type, working_dir, extension_data, goose_mode)
              VALUES (?, ?, ?, ?, ?, ?, ?)",
         )
         .bind("acp_id")

@@ -273,7 +273,7 @@ pub fn load_hint_files(
 
     let mut hints = String::new();
     if !global_hints_contents.is_empty() {
-        hints.push_str("\n### Global Hints\nThese are my global mesmile hints.\n");
+        hints.push_str("\n### Global Hints\nThese are my global goose hints.\n");
         hints.push_str(&global_hints_contents.join("\n"));
     }
 
@@ -304,7 +304,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mesmilehints_when_present() {
+    fn test_goosehints_when_present() {
         let dir = TempDir::new().unwrap();
 
         fs::write(dir.path().join(MESMILE_HINTS_FILENAME), "Test hint content").unwrap();
@@ -315,7 +315,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mesmilehints_when_missing() {
+    fn test_goosehints_when_missing() {
         let dir = TempDir::new().unwrap();
 
         let gitignore = create_dummy_gitignore();
@@ -325,7 +325,7 @@ mod tests {
     }
 
     #[test]
-    fn test_mesmilehints_multiple_filenames() {
+    fn test_goosehints_multiple_filenames() {
         let dir = TempDir::new().unwrap();
 
         fs::write(
@@ -335,7 +335,7 @@ mod tests {
         .unwrap();
         fs::write(
             dir.path().join(MESMILE_HINTS_FILENAME),
-            "Custom hints file content from .mesmilehints",
+            "Custom hints file content from .goosehints",
         )
         .unwrap();
 
@@ -347,11 +347,11 @@ mod tests {
         );
 
         assert!(hints.contains("Custom hints file content from CLAUDE.md"));
-        assert!(hints.contains("Custom hints file content from .mesmilehints"));
+        assert!(hints.contains("Custom hints file content from .goosehints"));
     }
 
     #[test]
-    fn test_mesmilehints_configurable_filename() {
+    fn test_goosehints_configurable_filename() {
         let dir = TempDir::new().unwrap();
 
         fs::write(dir.path().join("CLAUDE.md"), "Custom hints file content").unwrap();
@@ -363,7 +363,7 @@ mod tests {
     }
 
     #[test]
-    fn test_nested_mesmilehints_with_git_root() {
+    fn test_nested_goosehints_with_git_root() {
         let temp_dir = TempDir::new().unwrap();
         let project_root = temp_dir.path();
 
@@ -398,7 +398,7 @@ mod tests {
     }
 
     #[test]
-    fn test_nested_mesmilehints_without_git_root() {
+    fn test_nested_goosehints_without_git_root() {
         let temp_dir = TempDir::new().unwrap();
         let base_dir = temp_dir.path();
 
@@ -430,7 +430,7 @@ mod tests {
     }
 
     #[test]
-    fn test_nested_mesmilehints_mixed_filenames() {
+    fn test_nested_goosehints_mixed_filenames() {
         let temp_dir = TempDir::new().unwrap();
         let project_root = temp_dir.path();
 
@@ -441,7 +441,7 @@ mod tests {
         fs::create_dir(&subdir).unwrap();
         fs::write(
             subdir.join(MESMILE_HINTS_FILENAME),
-            "Subdir .mesmilehints content",
+            "Subdir .goosehints content",
         )
         .unwrap();
 
@@ -456,7 +456,7 @@ mod tests {
         );
 
         assert!(hints.contains("Root CLAUDE.md content"));
-        assert!(hints.contains("Subdir .mesmilehints content"));
+        assert!(hints.contains("Subdir .goosehints content"));
     }
 
     #[test]

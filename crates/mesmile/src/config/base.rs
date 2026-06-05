@@ -1,5 +1,5 @@
 use crate::config::paths::Paths;
-use crate::config::MeSmileMode;
+use crate::config::GooseMode;
 use fs2::FileExt;
 #[cfg(feature = "system-keyring")]
 use keyring::Entry;
@@ -36,7 +36,7 @@ fn write_secrets_file(path: &Path, content: &str) -> std::io::Result<()> {
 }
 
 #[cfg(feature = "system-keyring")]
-const KEYRING_SERVICE: &str = "MeSmile";
+const KEYRING_SERVICE: &str = "goose";
 #[cfg(feature = "system-keyring")]
 const KEYRING_USERNAME: &str = "secrets";
 pub const CONFIG_YAML_NAME: &str = "config.yaml";
@@ -78,7 +78,7 @@ impl From<keyring::Error> for ConfigError {
     }
 }
 
-/// Configuration management for mesmile.
+/// Configuration management for goose.
 ///
 /// This module provides a flexible configuration system that supports:
 /// - Dynamic configuration keys
@@ -90,13 +90,13 @@ impl From<keyring::Error> for ConfigError {
 ///
 /// Configuration values are loaded with the following precedence:
 /// 1. Environment variables (exact key match)
-/// 2. Configuration file (~/.config/mesmile/config.yaml by default)
+/// 2. Configuration file (~/.config/goose/config.yaml by default)
 ///
 /// Secrets are loaded with the following precedence:
 /// 1. Environment variables (exact key match)
 /// 2. System keyring (which can be disabled with GOOSE_DISABLE_KEYRING)
 /// 3. If the keyring is disabled, secrets are stored in a secrets file
-///    (~/.config/mesmile/secrets.yaml by default)
+///    (~/.config/goose/secrets.yaml by default)
 ///
 /// # Examples
 ///
@@ -123,7 +123,7 @@ impl From<keyring::Error> for ConfigError {
 /// checking for environment overrides. e.g. openai_api_key will check for an
 /// environment variable OPENAI_API_KEY
 ///
-/// For mesmile-specific configuration, consider prefixing with "mesmile_" to avoid conflicts.
+/// For goose-specific configuration, consider prefixing with "goose_" to avoid conflicts.
 pub struct Config {
     /// Ordered list of config files to load and merge.
     /// Later entries take precedence over earlier ones.
@@ -150,12 +150,12 @@ static GLOBAL_CONFIG: OnceCell<Config> = OnceCell::new();
 fn system_config_path() -> PathBuf {
     #[cfg(unix)]
     {
-        PathBuf::from("/etc/mesmile/config.yaml")
+        PathBuf::from("/etc/goose/config.yaml")
     }
     #[cfg(windows)]
     {
         env::var("PROGRAMDATA")
-            .map(|d| PathBuf::from(d).join("mesmile").join("config.yaml"))
+            .map(|d| PathBuf::from(d).join("goose").join("config.yaml"))
             .unwrap_or_else(|_| PathBuf::from(r"C:\ProgramData\goose\config.yaml"))
     }
 }
@@ -388,7 +388,7 @@ fn secret_storage(config_dir: &Path, _keyring_disabled: bool, _service: &str) ->
 impl Config {
     /// Get the global configuration instance.
     ///
-    /// This will initialize the configuration with the default path (~/.config/mesmile/config.yaml)
+    /// This will initialize the configuration with the default path (~/.config/goose/config.yaml)
     /// if it hasn't been initialized yet.
     pub fn global() -> &'static Config {
         GLOBAL_CONFIG.get_or_init(Config::default)
@@ -524,11 +524,11 @@ impl Config {
                 .zip(serde_json::to_value(v).ok())
         }));
 
-        if let Ok(provider) = self.get_mesmile_provider() {
+        if let Ok(provider) = self.get_goose_provider() {
             map.insert("GOOSE_PROVIDER".to_string(), Value::String(provider));
         }
-        if let Ok(model) = self.get_mesmile_model() {
-            map.insert("MESMILE_MODEL".to_string(), Value::String(model));
+        if let Ok(model) = self.get_goose_model() {
+            map.insert("GOOSE_MODEL".to_string(), Value::String(model));
         }
 
         Ok(map)
@@ -1102,28 +1102,28 @@ config_value!(CODEX_ENABLE_SKILLS, String, "true");
 config_value!(CODEX_SKIP_GIT_CHECK, String, "false");
 config_value!(CHATGPT_CODEX_REASONING_EFFORT, String, "medium");
 
-config_value!(MESMILE_SEARCH_PATHS, Vec<String>);
-config_value!(MESMILE_MODE, MeSmileMode);
-// GOOSE_PROVIDER and MESMILE_MODEL are handled by crate::config::providers
+config_value!(GOOSE_SEARCH_PATHS, Vec<String>);
+config_value!(GOOSE_MODE, GooseMode);
+// GOOSE_PROVIDER and GOOSE_MODEL are handled by crate::config::providers
 // which checks the structured `providers:` block first and falls back to
 // the legacy flat keys. The accessors below delegate to that module.
 impl Config {
-    pub fn get_mesmile_provider(&self) -> Result<String, ConfigError> {
+    pub fn get_goose_provider(&self) -> Result<String, ConfigError> {
         crate::config::providers::get_active_provider(self)
             .ok_or_else(|| ConfigError::NotFound("GOOSE_PROVIDER".to_string()))
     }
-    pub fn set_mesmile_provider(&self, v: impl Into<String>) -> Result<(), ConfigError> {
+    pub fn set_goose_provider(&self, v: impl Into<String>) -> Result<(), ConfigError> {
         let name = v.into();
         let model = crate::config::providers::get_provider_entry(self, &name)
             .map(|e| e.model)
             .unwrap_or_default();
         crate::config::providers::set_active_provider(self, &name, &model)
     }
-    pub fn get_mesmile_model(&self) -> Result<String, ConfigError> {
+    pub fn get_goose_model(&self) -> Result<String, ConfigError> {
         crate::config::providers::get_active_model(self)
-            .ok_or_else(|| ConfigError::NotFound("MESMILE_MODEL".to_string()))
+            .ok_or_else(|| ConfigError::NotFound("GOOSE_MODEL".to_string()))
     }
-    pub fn set_mesmile_model(&self, v: impl Into<String>) -> Result<(), ConfigError> {
+    pub fn set_goose_model(&self, v: impl Into<String>) -> Result<(), ConfigError> {
         let model = v.into();
         if let Some(provider) = crate::config::providers::get_active_provider(self) {
             crate::config::providers::set_active_provider(self, &provider, &model)?;
@@ -1131,13 +1131,13 @@ impl Config {
         Ok(())
     }
 }
-config_value!(MESMILE_PROMPT_EDITOR, Option<String>);
-config_value!(MESMILE_PROMPT_EDITOR_ALWAYS, Option<bool>);
-config_value!(MESMILE_MAX_ACTIVE_AGENTS, usize);
-config_value!(MESMILE_DISABLE_SESSION_NAMING, bool);
-config_value!(MESMILE_DISABLE_TOOL_CALL_SUMMARY, bool);
-config_value!(MESMILE_THINKING_EFFORT, String);
-config_value!(MESMILE_DEFAULT_EXTENSION_TIMEOUT, u64);
+config_value!(GOOSE_PROMPT_EDITOR, Option<String>);
+config_value!(GOOSE_PROMPT_EDITOR_ALWAYS, Option<bool>);
+config_value!(GOOSE_MAX_ACTIVE_AGENTS, usize);
+config_value!(GOOSE_DISABLE_SESSION_NAMING, bool);
+config_value!(GOOSE_DISABLE_TOOL_CALL_SUMMARY, bool);
+config_value!(GOOSE_THINKING_EFFORT, String);
+config_value!(GOOSE_DEFAULT_EXTENSION_TIMEOUT, u64);
 
 fn find_workspace_or_exe_root() -> Option<PathBuf> {
     let exe = std::env::current_exe().ok()?;
@@ -2141,12 +2141,12 @@ mod tests {
         // Base (system) config
         std::fs::write(
             base_file.path(),
-            "GOOSE_PROVIDER: openai\nMESMILE_MODEL: gpt-4\n",
+            "GOOSE_PROVIDER: openai\nGOOSE_MODEL: gpt-4\n",
         )
         .unwrap();
 
         // User config overrides model
-        std::fs::write(user_file.path(), "MESMILE_MODEL: gpt-4o\n").unwrap();
+        std::fs::write(user_file.path(), "GOOSE_MODEL: gpt-4o\n").unwrap();
 
         let config = Config::new_with_config_paths(
             vec![
@@ -2156,8 +2156,8 @@ mod tests {
             secrets_file.path(),
         )?;
 
-        // MESMILE_MODEL should be overridden by later config
-        let model: String = config.get_param("MESMILE_MODEL")?;
+        // GOOSE_MODEL should be overridden by later config
+        let model: String = config.get_param("GOOSE_MODEL")?;
         assert_eq!(model, "gpt-4o");
 
         // GOOSE_PROVIDER should still come from base
@@ -2268,7 +2268,7 @@ extensions:
 
         let config = Config::new_with_config_paths(
             vec![
-                PathBuf::from("/tmp/nonexistent_mesmile_config.yaml"),
+                PathBuf::from("/tmp/nonexistent_goose_config.yaml"),
                 config_file.path().to_path_buf(),
             ],
             secrets_file.path(),

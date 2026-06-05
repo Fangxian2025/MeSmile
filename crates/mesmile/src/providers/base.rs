@@ -14,7 +14,7 @@ use super::errors::ProviderError;
 use super::inventory::{default_inventory_identity, InventoryIdentityInput};
 use super::retry::RetryConfig;
 use crate::config::base::ConfigValue;
-use crate::config::{Config, ExtensionConfig, MeSmileMode};
+use crate::config::{Config, ExtensionConfig, GooseMode};
 use crate::conversation::message::{Message, MessageContent};
 use crate::conversation::Conversation;
 use crate::model::ModelConfig;
@@ -1052,7 +1052,7 @@ pub trait Provider: Send + Sync {
     }
 
     /// Whether the provider manages its own conversation context (e.g. CLI
-    /// wrappers like Claude Code or Gemini CLI). When true, mesmile-side
+    /// wrappers like Claude Code or Gemini CLI). When true, goose-side
     /// context management such as tool-pair summarization is skipped because
     /// the provider's internal state is the source of truth.
     fn manages_own_context(&self) -> bool {
@@ -1190,7 +1190,7 @@ pub trait Provider: Send + Sync {
         ))
     }
 
-    async fn update_mode(&self, _session_id: &str, _mode: MeSmileMode) -> Result<(), ProviderError> {
+    async fn update_mode(&self, _session_id: &str, _mode: GooseMode) -> Result<(), ProviderError> {
         Ok(())
     }
 

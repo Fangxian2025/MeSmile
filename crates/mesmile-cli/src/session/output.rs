@@ -443,7 +443,7 @@ pub fn render_exit_plan_mode() {
     println!("\n{}\n", style("Exiting plan mode.").green().bold());
 }
 
-pub fn mesmile_mode_message(text: &str) {
+pub fn goose_mode_message(text: &str) {
     println!("\n{}", style(text).yellow(),);
 }
 
@@ -1345,7 +1345,7 @@ pub fn display_session_info(
     println!(
         "  {}  {}",
         style("   L L").white(),
-        style("   MeSmile is ready").white()
+        style("   goose is ready").white()
     );
 }
 

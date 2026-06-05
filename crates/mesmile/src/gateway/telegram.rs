@@ -227,7 +227,7 @@ impl TelegramGateway {
 
     /// Save voice bytes to a temporary file and return the path.
     ///
-    /// Files are stored under `<tmp>/mesmile_voice/voice_<uuid>.<ext>` so Goose
+    /// Files are stored under `<tmp>/goose_voice/voice_<uuid>.<ext>` so Goose
     /// can access them via its shell tools.  The extension is derived from the
     /// MIME type when available, falling back to `.ogg` for voice notes.
     ///
@@ -237,7 +237,7 @@ impl TelegramGateway {
         bytes: &[u8],
         mime_type: Option<&str>,
     ) -> anyhow::Result<std::path::PathBuf> {
-        let dir = std::env::temp_dir().join("mesmile_voice");
+        let dir = std::env::temp_dir().join("goose_voice");
         std::fs::create_dir_all(&dir)?;
 
         // Restrict directory permissions to owner-only on Unix.
@@ -501,7 +501,7 @@ impl Gateway for TelegramGateway {
 
 /// Remove voice files from the temp directory that are older than `max_age`.
 fn cleanup_voice_files(max_age: std::time::Duration) {
-    let dir = std::env::temp_dir().join("mesmile_voice");
+    let dir = std::env::temp_dir().join("goose_voice");
     let Ok(entries) = std::fs::read_dir(&dir) else {
         return;
     };
@@ -731,9 +731,9 @@ mod tests {
 
     #[test]
     fn voice_prompt_includes_path_and_duration() {
-        let path = std::path::PathBuf::from("/tmp/mesmile_voice/voice_test.ogg");
+        let path = std::path::PathBuf::from("/tmp/goose_voice/voice_test.ogg");
         let prompt = TelegramGateway::voice_prompt(&path, Some(10), Some("audio/ogg"));
-        assert!(prompt.contains("/tmp/mesmile_voice/voice_test.ogg"));
+        assert!(prompt.contains("/tmp/goose_voice/voice_test.ogg"));
         assert!(prompt.contains("(duration: 10s)"));
         assert!(prompt.contains("audio/ogg"));
         assert!(prompt.contains("transcribe"));
@@ -741,15 +741,15 @@ mod tests {
 
     #[test]
     fn voice_prompt_without_duration() {
-        let path = std::path::PathBuf::from("/tmp/mesmile_voice/voice_test.ogg");
+        let path = std::path::PathBuf::from("/tmp/goose_voice/voice_test.ogg");
         let prompt = TelegramGateway::voice_prompt(&path, None, None);
         assert!(!prompt.contains("duration"));
-        assert!(prompt.contains("/tmp/mesmile_voice/voice_test.ogg"));
+        assert!(prompt.contains("/tmp/goose_voice/voice_test.ogg"));
     }
 
     #[test]
     fn voice_prompt_with_mp3_mime() {
-        let path = std::path::PathBuf::from("/tmp/mesmile_voice/voice_test.mp3");
+        let path = std::path::PathBuf::from("/tmp/goose_voice/voice_test.mp3");
         let prompt = TelegramGateway::voice_prompt(&path, Some(60), Some("audio/mpeg"));
         assert!(prompt.contains("audio/mpeg"));
         assert!(!prompt.contains("OGG"));
@@ -784,7 +784,7 @@ mod tests {
 
     #[test]
     fn cleanup_preserves_recent_files() {
-        let dir = std::env::temp_dir().join("mesmile_voice");
+        let dir = std::env::temp_dir().join("goose_voice");
         std::fs::create_dir_all(&dir).unwrap();
         let recent_file = dir.join("voice_cleanup_recent_test.ogg");
         std::fs::write(&recent_file, b"recent").unwrap();

@@ -1,7 +1,7 @@
 use anyhow::Result;
 use async_trait::async_trait;
 
-use crate::config::MeSmileMode;
+use crate::config::GooseMode;
 use crate::conversation::message::{Message, ToolRequest};
 use crate::security::{SecurityManager, SecurityResult};
 use crate::tool_inspection::{InspectionAction, InspectionResult, ToolInspector};
@@ -61,7 +61,7 @@ impl ToolInspector for SecurityInspector {
         _session_id: &str,
         tool_requests: &[ToolRequest],
         messages: &[Message],
-        _mesmile_mode: MeSmileMode,
+        _goose_mode: GooseMode,
     ) -> Result<Vec<InspectionResult>> {
         let security_results = self
             .security_manager
@@ -114,7 +114,7 @@ mod tests {
         }];
 
         let results = inspector
-            .inspect("test", &tool_requests, &[], MeSmileMode::Approve)
+            .inspect("test", &tool_requests, &[], GooseMode::Approve)
             .await
             .unwrap();
 

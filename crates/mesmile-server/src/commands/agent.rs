@@ -45,9 +45,9 @@ pub async fn run() -> Result<()> {
     let _ = rustls::crypto::ring::default_provider().install_default();
 
     boot_marker("main entered");
-    crate::logging::setup_logging(Some("mesmiled"))?;
+    crate::logging::setup_logging(Some("goosed"))?;
 
-    mesmile::security::set_security_defaults();
+    goose::security::set_security_defaults();
 
     let settings = configuration::Settings::new()?;
 
@@ -69,16 +69,16 @@ pub async fn run() -> Result<()> {
         .allow_methods(Any)
         .allow_headers(Any);
 
-    // TODO(acp-migration): When ui/desktop launches `mesmile serve` directly,
-    // move any mesmiled-only ACP setup into the mesmile serve path before deleting
+    // TODO(acp-migration): When ui/desktop launches `goose serve` directly,
+    // move any goosed-only ACP setup into the goose serve path before deleting
     // this bridge. In particular, verify everything ACP currently gets from
-    // mesmiled startup/AppState initialization, including builtin extension
+    // goosed startup/AppState initialization, including builtin extension
     // registration and the desktop platform identity.
     let acp_server = Arc::new(AcpServer::new(AcpServerFactoryConfig {
         builtins: vec!["developer".to_string()],
         data_dir: Paths::data_dir(),
         config_dir: Paths::config_dir(),
-        mesmile_platform: GoosePlatform::GooseDesktop,
+        goose_platform: GoosePlatform::GooseDesktop,
         additional_source_roots: Vec::new(),
     }));
 
@@ -157,8 +157,8 @@ pub async fn run() -> Result<()> {
     }
 
     #[cfg(feature = "otel")]
-    if mesmile::otel::otlp::is_otlp_initialized() {
-        mesmile::otel::otlp::shutdown_otlp();
+    if goose::otel::otlp::is_otlp_initialized() {
+        goose::otel::otlp::shutdown_otlp();
     }
 
     info!("server shutdown complete");

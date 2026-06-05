@@ -17,7 +17,7 @@ mod tests {
         use mesmile::agents::platform_tools::PLATFORM_MANAGE_SCHEDULE_TOOL_NAME;
         use mesmile::agents::AgentConfig;
         use mesmile::config::permission::PermissionManager;
-        use mesmile::config::MeSmileMode;
+        use mesmile::config::GooseMode;
         use mesmile::scheduler::{ScheduledJob, SchedulerError};
         use mesmile::scheduler_trait::SchedulerTrait;
         use mesmile::session::{Session, SessionManager};
@@ -127,7 +127,7 @@ mod tests {
                 session_manager,
                 permission_manager,
                 Some(mock_scheduler),
-                MeSmileMode::Auto,
+                GooseMode::Auto,
                 false,
                 GoosePlatform::GooseCli,
             );
@@ -169,7 +169,7 @@ mod tests {
                 session_manager,
                 permission_manager,
                 Some(mock_scheduler),
-                MeSmileMode::Auto,
+                GooseMode::Auto,
                 false,
                 GoosePlatform::GooseCli,
             );
@@ -224,7 +224,7 @@ mod tests {
                 session_manager,
                 permission_manager,
                 Some(mock_scheduler),
-                MeSmileMode::Auto,
+                GooseMode::Auto,
                 false,
                 GoosePlatform::GooseCli,
             );
@@ -340,7 +340,7 @@ mod tests {
         use super::*;
         use async_trait::async_trait;
         use mesmile::agents::SessionConfig;
-        use mesmile::config::MeSmileMode;
+        use mesmile::config::GooseMode;
         use mesmile::conversation::message::{Message, MessageContent};
         use mesmile::model::ModelConfig;
         use mesmile::providers::base::{
@@ -380,7 +380,7 @@ mod tests {
 
             fn from_env(
                 _model: ModelConfig,
-                _extensions: Vec<mesmile::config::ExtensionConfig>,
+                _extensions: Vec<goose::config::ExtensionConfig>,
             ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
                 Box::pin(async { Ok(Self::new()) })
             }
@@ -430,7 +430,7 @@ mod tests {
                     PathBuf::default(),
                     "max-turn-test".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::default(),
+                    GooseMode::default(),
                 )
                 .await?;
 
@@ -453,12 +453,12 @@ mod tests {
                         if let Some(MessageContent::ActionRequired(action)) =
                             response.content.first()
                         {
-                            if let mesmile::conversation::message::ActionRequiredData::ToolConfirmation { id, .. } = &action.data {
+                            if let goose::conversation::message::ActionRequiredData::ToolConfirmation { id, .. } = &action.data {
                                 agent.handle_confirmation(
                                     id.clone(),
-                                    mesmile::permission::PermissionConfirmation {
-                                        principal_type: mesmile::permission::permission_confirmation::PrincipalType::Tool,
-                                        permission: mesmile::permission::Permission::AllowOnce,
+                                    goose::permission::PermissionConfirmation {
+                                        principal_type: goose::permission::permission_confirmation::PrincipalType::Tool,
+                                        permission: goose::permission::Permission::AllowOnce,
                                     }
                                 ).await;
                             }
@@ -501,7 +501,7 @@ mod tests {
         use async_trait::async_trait;
         use mesmile::agents::SessionConfig;
         use mesmile::config::base::Config;
-        use mesmile::config::MeSmileMode;
+        use mesmile::config::GooseMode;
         use mesmile::conversation::message::Message;
         use mesmile::model::ModelConfig;
         use mesmile::providers::base::{
@@ -549,7 +549,7 @@ mod tests {
 
             fn from_env(
                 _model: ModelConfig,
-                _extensions: Vec<mesmile::config::ExtensionConfig>,
+                _extensions: Vec<goose::config::ExtensionConfig>,
             ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
                 Box::pin(async { Ok(Self::new()) })
             }
@@ -613,7 +613,7 @@ mod tests {
                     PathBuf::from("."),
                     "summarization-test".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::Auto,
+                    GooseMode::Auto,
                 )
                 .await?;
 
@@ -760,7 +760,7 @@ mod tests {
         };
         use mesmile::agents::AgentConfig;
         use mesmile::config::permission::PermissionManager;
-        use mesmile::config::MeSmileMode;
+        use mesmile::config::GooseMode;
         use mesmile::session::SessionManager;
 
         async fn setup_agent_with_extension_manager() -> (Agent, String) {
@@ -789,7 +789,7 @@ mod tests {
                 session_manager.clone(),
                 PermissionManager::instance(),
                 None,
-                MeSmileMode::default(),
+                GooseMode::default(),
                 false,
                 GoosePlatform::GooseCli,
             );
@@ -801,7 +801,7 @@ mod tests {
                     std::path::PathBuf::from("."),
                     "Test Session".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::default(),
+                    GooseMode::default(),
                 )
                 .await
                 .expect("Failed to create session");
@@ -854,7 +854,7 @@ mod tests {
         use async_trait::async_trait;
         use mesmile::agents::{AgentConfig, SessionConfig};
         use mesmile::config::permission::PermissionManager;
-        use mesmile::config::MeSmileMode;
+        use mesmile::config::GooseMode;
         use mesmile::conversation::message::Message;
         use mesmile::model::ModelConfig;
         use mesmile::providers::base::{
@@ -902,7 +902,7 @@ mod tests {
 
             fn from_env(
                 _model: ModelConfig,
-                _extensions: Vec<mesmile::config::ExtensionConfig>,
+                _extensions: Vec<goose::config::ExtensionConfig>,
             ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
                 unimplemented!()
             }
@@ -987,7 +987,7 @@ mod tests {
                 session_manager.clone(),
                 PermissionManager::instance(),
                 None,
-                MeSmileMode::Auto,
+                GooseMode::Auto,
                 true, // disable session naming so it doesn't consume a provider call
                 GoosePlatform::GooseCli,
             );
@@ -999,7 +999,7 @@ mod tests {
                     PathBuf::default(),
                     "streaming-test".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::default(),
+                    GooseMode::default(),
                 )
                 .await?;
 
@@ -1126,7 +1126,7 @@ mod tests {
         use mesmile::agents::AgentConfig;
         use mesmile::agents::SessionConfig;
         use mesmile::config::permission::PermissionManager;
-        use mesmile::config::MeSmileMode;
+        use mesmile::config::GooseMode;
         use mesmile::conversation::message::Message;
         use mesmile::model::ModelConfig;
         use mesmile::providers::base::{
@@ -1172,7 +1172,7 @@ mod tests {
 
             fn from_env(
                 _model: ModelConfig,
-                _extensions: Vec<mesmile::config::ExtensionConfig>,
+                _extensions: Vec<goose::config::ExtensionConfig>,
             ) -> futures::future::BoxFuture<'static, anyhow::Result<Self>> {
                 Box::pin(async { Ok(Self::new()) })
             }
@@ -1214,7 +1214,7 @@ mod tests {
                 session_manager,
                 PermissionManager::instance(),
                 None,
-                MeSmileMode::Auto,
+                GooseMode::Auto,
                 true,
                 GoosePlatform::GooseCli,
             );
@@ -1233,7 +1233,7 @@ mod tests {
                     PathBuf::default(),
                     "goal-test".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::default(),
+                    GooseMode::default(),
                 )
                 .await?;
 
@@ -1309,7 +1309,7 @@ mod tests {
                     PathBuf::default(),
                     "no-goal-test".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::default(),
+                    GooseMode::default(),
                 )
                 .await?;
 
@@ -1354,7 +1354,7 @@ mod tests {
                     PathBuf::default(),
                     "goal-cmd-test".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::default(),
+                    GooseMode::default(),
                 )
                 .await?;
 
@@ -1394,7 +1394,7 @@ mod tests {
         use async_trait::async_trait;
         use mesmile::agents::{AgentConfig, SessionConfig};
         use mesmile::config::permission::PermissionManager;
-        use mesmile::config::MeSmileMode;
+        use mesmile::config::GooseMode;
         use mesmile::conversation::message::Message;
         use mesmile::model::ModelConfig;
         use mesmile::providers::base::{
@@ -1469,7 +1469,7 @@ mod tests {
                 session_manager.clone(),
                 PermissionManager::instance(),
                 None,
-                MeSmileMode::Auto,
+                GooseMode::Auto,
                 true,
                 GoosePlatform::GooseCli,
             );
@@ -1484,7 +1484,7 @@ mod tests {
                     PathBuf::default(),
                     "cumulative-token-test".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::default(),
+                    GooseMode::default(),
                 )
                 .await?;
 
@@ -1508,7 +1508,7 @@ mod tests {
         use super::*;
         use mesmile::agents::{AgentConfig, ExtensionConfig};
         use mesmile::config::permission::PermissionManager;
-        use mesmile::config::MeSmileMode;
+        use mesmile::config::GooseMode;
         use mesmile::session::session_manager::SessionType;
         use mesmile::session::{
             EnabledExtensionsState, ExtensionData, ExtensionState, SessionManager,
@@ -1552,7 +1552,7 @@ mod tests {
                 session_manager.clone(),
                 permission_manager,
                 None,
-                MeSmileMode::default(),
+                GooseMode::default(),
                 false,
                 GoosePlatform::GooseDesktop,
             ));
@@ -1562,7 +1562,7 @@ mod tests {
                     std::env::current_dir().unwrap(),
                     "frontend-extension-test".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::default(),
+                    GooseMode::default(),
                 )
                 .await
                 .unwrap();
@@ -1631,7 +1631,7 @@ mod tests {
                 session_manager.clone(),
                 permission_manager,
                 None,
-                MeSmileMode::default(),
+                GooseMode::default(),
                 false,
                 GoosePlatform::GooseDesktop,
             )));
@@ -1641,7 +1641,7 @@ mod tests {
                     std::env::current_dir().unwrap(),
                     "frontend-extension-load-test".to_string(),
                     SessionType::Hidden,
-                    MeSmileMode::default(),
+                    GooseMode::default(),
                 )
                 .await
                 .unwrap();

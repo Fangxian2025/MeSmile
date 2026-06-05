@@ -347,7 +347,7 @@ impl ProviderDef for KimiCodeProvider {
             KIMI_CODE_DEFAULT_MODEL,
             KIMI_CODE_KNOWN_MODELS.to_vec(),
             KIMI_CODE_DOC_URL,
-            // Marker key — the actual token lives in ~/.config/mesmile/kimicode/token.json.
+            // Marker key — the actual token lives in ~/.config/goose/kimicode/token.json.
             // `oauth_flow=true` routes config through `configure_oauth`;
             // readiness is tracked via the `kimi_code_configured` param.
             vec![ConfigKey::new_oauth_device_code(
@@ -359,7 +359,7 @@ impl ProviderDef for KimiCodeProvider {
             )],
         )
         .with_setup_steps(vec![
-            "Run `mesmile configure` and select 'Kimi Code'",
+            "Run `goose configure` and select 'Kimi Code'",
             "A browser window will open — log in to kimi.com and enter the displayed code",
             "Once authorized, Goose will save your token automatically",
         ])
@@ -498,7 +498,7 @@ mod tests {
             client: Client::new(),
             token_cache: TokenCache {
                 path: std::env::temp_dir()
-                    .join(format!("mesmile-kimicode-test-{}.json", Uuid::new_v4())),
+                    .join(format!("goose-kimicode-test-{}.json", Uuid::new_v4())),
             },
             cached_token: tokio::sync::Mutex::new(None),
             device_id: device_id.to_string(),

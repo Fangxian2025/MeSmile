@@ -1394,7 +1394,7 @@ mod tests {
         assert!(is_claude_model("databricks-claude-sonnet-4"));
         assert!(is_claude_model("databricks-claude-3-7-sonnet"));
         assert!(is_claude_model("claude-sonnet-4"));
-        assert!(is_claude_model("mesmile-claude-sonnet"));
+        assert!(is_claude_model("goose-claude-sonnet"));
         assert!(!is_claude_model("gpt-4o"));
         assert!(!is_claude_model("gemini-2-5-flash"));
         assert!(!is_claude_model("databricks-meta-llama-3-3-70b"));

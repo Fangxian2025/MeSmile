@@ -683,7 +683,7 @@ mod tests {
     }
 
     #[test]
-    fn test_resolve_ollama_chunk_timeout_uses_mesmile_stream_fallback() {
+    fn test_resolve_ollama_chunk_timeout_uses_goose_stream_fallback() {
         let _guard = env_lock::lock_env([
             ("OLLAMA_STREAM_TIMEOUT", None::<&str>),
             ("GOOSE_STREAM_TIMEOUT", Some("90")),

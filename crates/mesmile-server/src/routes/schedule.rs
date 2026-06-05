@@ -152,13 +152,13 @@ async fn create_schedule(
         .add_scheduled_job(job.clone(), false)
         .await
         .map_err(|e| match e {
-            mesmile::scheduler::SchedulerError::CronParseError(msg) => {
+            goose::scheduler::SchedulerError::CronParseError(msg) => {
                 ErrorResponse::bad_request(format!("Invalid cron expression: {}", msg))
             }
-            mesmile::scheduler::SchedulerError::RecipeLoadError(msg) => {
+            goose::scheduler::SchedulerError::RecipeLoadError(msg) => {
                 ErrorResponse::bad_request(format!("Recipe load error: {}", msg))
             }
-            mesmile::scheduler::SchedulerError::JobIdExists(msg) => ErrorResponse {
+            goose::scheduler::SchedulerError::JobIdExists(msg) => ErrorResponse {
                 message: format!("Job ID already exists: {}", msg),
                 status: StatusCode::CONFLICT,
             },
@@ -210,7 +210,7 @@ async fn delete_schedule(
         .remove_scheduled_job(&id, false)
         .await
         .map_err(|e| match e {
-            mesmile::scheduler::SchedulerError::JobNotFound(msg) => {
+            goose::scheduler::SchedulerError::JobNotFound(msg) => {
                 ErrorResponse::not_found(format!("Schedule not found: {}", msg))
             }
             _ => ErrorResponse::internal(format!("Error removing schedule: {}", e)),
@@ -255,7 +255,7 @@ async fn run_now_handler(
                 .await
                 .ok()
                 .and_then(|content: String| {
-                    mesmile::recipe::template_recipe::parse_recipe_content(
+                    goose::recipe::template_recipe::parse_recipe_content(
                         &content,
                         Some(
                             std::path::Path::new(&job.source)
@@ -276,7 +276,7 @@ async fn run_now_handler(
 
     let recipe_version_tag = recipe_version_opt.as_deref().unwrap_or("");
     tracing::info!(
-        monotonic_counter.mesmile.recipe_runs = 1,
+        monotonic_counter.goose.recipe_runs = 1,
         recipe_name = %recipe_display_name,
         recipe_version = %recipe_version_tag,
         session_type = "schedule",
@@ -287,10 +287,10 @@ async fn run_now_handler(
     match scheduler.run_now(&id).await {
         Ok(session_id) => Ok(Json(RunNowResponse { session_id })),
         Err(e) => match e {
-            mesmile::scheduler::SchedulerError::JobNotFound(msg) => Err(ErrorResponse::not_found(
+            goose::scheduler::SchedulerError::JobNotFound(msg) => Err(ErrorResponse::not_found(
                 format!("Schedule not found: {}", msg),
             )),
-            mesmile::scheduler::SchedulerError::AnyhowError(ref err) => {
+            goose::scheduler::SchedulerError::AnyhowError(ref err) => {
                 // Check if this is a cancellation error
                 if err.to_string().contains("was successfully cancelled") {
                     // Return a special session_id to indicate cancellation
@@ -380,10 +380,10 @@ async fn pause_schedule(
     let scheduler = state.scheduler();
 
     scheduler.pause_schedule(&id).await.map_err(|e| match e {
-        mesmile::scheduler::SchedulerError::JobNotFound(msg) => {
+        goose::scheduler::SchedulerError::JobNotFound(msg) => {
             ErrorResponse::not_found(format!("Schedule not found: {}", msg))
         }
-        mesmile::scheduler::SchedulerError::AnyhowError(err) => {
+        goose::scheduler::SchedulerError::AnyhowError(err) => {
             ErrorResponse::bad_request(format!("Cannot pause schedule: {}", err))
         }
         _ => ErrorResponse::internal(format!("Error pausing schedule: {}", e)),
@@ -412,7 +412,7 @@ async fn unpause_schedule(
     let scheduler = state.scheduler();
 
     scheduler.unpause_schedule(&id).await.map_err(|e| match e {
-        mesmile::scheduler::SchedulerError::JobNotFound(msg) => {
+        goose::scheduler::SchedulerError::JobNotFound(msg) => {
             ErrorResponse::not_found(format!("Schedule not found: {}", msg))
         }
         _ => ErrorResponse::internal(format!("Error unpausing schedule: {}", e)),
@@ -447,13 +447,13 @@ async fn update_schedule(
         .update_schedule(&id, req.cron)
         .await
         .map_err(|e| match e {
-            mesmile::scheduler::SchedulerError::JobNotFound(msg) => {
+            goose::scheduler::SchedulerError::JobNotFound(msg) => {
                 ErrorResponse::not_found(format!("Schedule not found: {}", msg))
             }
-            mesmile::scheduler::SchedulerError::AnyhowError(err) => {
+            goose::scheduler::SchedulerError::AnyhowError(err) => {
                 ErrorResponse::bad_request(format!("Cannot update schedule: {}", err))
             }
-            mesmile::scheduler::SchedulerError::CronParseError(msg) => {
+            goose::scheduler::SchedulerError::CronParseError(msg) => {
                 ErrorResponse::bad_request(format!("Invalid cron expression: {}", msg))
             }
             _ => ErrorResponse::internal(format!("Error updating schedule: {}", e)),
@@ -484,10 +484,10 @@ pub async fn kill_running_job(
     let scheduler = state.scheduler();
 
     scheduler.kill_running_job(&id).await.map_err(|e| match e {
-        mesmile::scheduler::SchedulerError::JobNotFound(msg) => {
+        goose::scheduler::SchedulerError::JobNotFound(msg) => {
             ErrorResponse::not_found(format!("Job not found: {}", msg))
         }
-        mesmile::scheduler::SchedulerError::AnyhowError(err) => {
+        goose::scheduler::SchedulerError::AnyhowError(err) => {
             ErrorResponse::bad_request(format!("Cannot kill job: {}", err))
         }
         _ => ErrorResponse::internal(format!("Error killing job: {}", e)),
@@ -522,7 +522,7 @@ pub async fn inspect_running_job(
         .get_running_job_info(&id)
         .await
         .map_err(|e| match e {
-            mesmile::scheduler::SchedulerError::JobNotFound(msg) => {
+            goose::scheduler::SchedulerError::JobNotFound(msg) => {
                 ErrorResponse::not_found(format!("Job not found: {}", msg))
             }
             _ => ErrorResponse::internal(format!("Error inspecting job: {}", e)),

@@ -7,7 +7,7 @@ use crate::acp::{
     extension_configs_to_mcp_servers, AcpProvider, AcpProviderConfig, ACP_CURRENT_MODEL,
 };
 use crate::config::search_path::SearchPaths;
-use crate::config::{Config, MeSmileMode};
+use crate::config::{Config, GooseMode};
 use crate::model::ModelConfig;
 use crate::providers::acp_tooling::{acp_adapter_installed, acp_inventory_identity};
 use crate::providers::base::{current_working_dir, ProviderDef, ProviderMetadata};
@@ -38,7 +38,7 @@ impl ProviderDef for CopilotAcpProvider {
         .with_setup_steps(vec![
             "Install the Copilot CLI: `npm install -g @github/copilot`",
             "Run `copilot login` to authenticate with your GitHub account",
-            "Add to your MeSmile config file (`~/.config/mesmile/config.yaml` on macOS/Linux):\n  GOOSE_PROVIDER: copilot-acp\n  GOOSE_MODEL: current\n  copilot-acp_configured: true",
+            "Add to your goose config file (`~/.config/goose/config.yaml` on macOS/Linux):\n  GOOSE_PROVIDER: copilot-acp\n  GOOSE_MODEL: current\n  copilot-acp_configured: true",
             "Restart goose for changes to take effect",
         ])
     }
@@ -61,7 +61,7 @@ impl ProviderDef for CopilotAcpProvider {
             let resolved_command = SearchPaths::builder()
                 .with_npm()
                 .resolve(COPILOT_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_mode().unwrap_or(MeSmileMode::Auto);
+            let goose_mode = config.get_goose_mode().unwrap_or(GooseMode::Auto);
 
             let mut args = vec!["--acp".to_string()];
             if model.model_name != ACP_CURRENT_MODEL {
@@ -72,10 +72,10 @@ impl ProviderDef for CopilotAcpProvider {
             // Copilot modes are full protocol URIs.
             // No approve-specific mode; permissions are handled separately.
             let mode_mapping = HashMap::from([
-                (MeSmileMode::Auto, MODE_AGENT.to_string()),
-                (MeSmileMode::Approve, MODE_AGENT.to_string()),
-                (MeSmileMode::SmartApprove, MODE_AGENT.to_string()),
-                (MeSmileMode::Chat, MODE_PLAN.to_string()),
+                (GooseMode::Auto, MODE_AGENT.to_string()),
+                (GooseMode::Approve, MODE_AGENT.to_string()),
+                (GooseMode::SmartApprove, MODE_AGENT.to_string()),
+                (GooseMode::Chat, MODE_PLAN.to_string()),
             ]);
 
             let provider_config = AcpProviderConfig {
@@ -85,13 +85,13 @@ impl ProviderDef for CopilotAcpProvider {
                 env_remove: vec![],
                 work_dir: working_dir,
                 mcp_servers: extension_configs_to_mcp_servers(&extensions),
-                session_mode_id: Some(mode_mapping[&mesmile_mode].clone()),
+                session_mode_id: Some(mode_mapping[&goose_mode].clone()),
                 mode_mapping,
                 notification_callback: None,
             };
 
             let metadata = Self::metadata();
-            AcpProvider::connect(metadata.name, model, mesmile_mode, provider_config).await
+            AcpProvider::connect(metadata.name, model, goose_mode, provider_config).await
         })
     }
 

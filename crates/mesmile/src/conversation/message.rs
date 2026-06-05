@@ -159,16 +159,16 @@ pub struct PersistedChainSummary {
 
 /// Marker key under `ToolRequest.tool_meta` indicating the tool was already
 /// executed externally; the agent loop must skip redispatch.
-pub const TOOL_META_EXTERNAL_DISPATCH_KEY: &str = "mesmile.external_dispatch";
+pub const TOOL_META_EXTERNAL_DISPATCH_KEY: &str = "goose.external_dispatch";
 
 /// Key under `ToolRequest.tool_meta` storing the LLM-generated short title
 /// for this tool call. Used to make the title survive session reload.
-pub const TOOL_META_TITLE_KEY: &str = "mesmile.toolSummary.title";
+pub const TOOL_META_TITLE_KEY: &str = "goose.toolSummary.title";
 
 /// Key under `ToolRequest.tool_meta` storing the LLM-generated chain summary
 /// for the chain that starts at this tool request. Shape: `{ "summary": String,
 /// "count": u64 }`. Only attached to the FIRST tool request in a chain.
-pub const TOOL_META_CHAIN_SUMMARY_KEY: &str = "mesmile.toolChain.summary";
+pub const TOOL_META_CHAIN_SUMMARY_KEY: &str = "goose.toolChain.summary";
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]

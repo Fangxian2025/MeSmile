@@ -1,7 +1,7 @@
 use super::completion::GooseCompleter;
 use super::{CompletionCache, HintStatus};
 use anyhow::Result;
-use mesmile::config::{Config, MeSmileMode};
+use mesmile::config::{Config, GooseMode};
 use rustyline::Editor;
 use shlex;
 use std::collections::HashMap;
@@ -19,7 +19,7 @@ pub enum InputResult {
     Retry,
     ListPrompts(Option<String>),
     PromptCommand(PromptCommandOptions),
-    MeSmileMode(String),
+    GooseMode(String),
     Model(Option<String>),
     Plan(PlanCommandOptions),
     EndPlan,
@@ -94,8 +94,8 @@ pub fn get_newline_key() -> char {
 
 /// Determine whether the editor should be used for every prompt.
 ///
-/// When `mesmile_prompt_editor` is configured, defaults to `true` (backward compat).
-/// Users can override by explicitly setting `mesmile_prompt_editor_always` to `false`.
+/// When `goose_prompt_editor` is configured, defaults to `true` (backward compat).
+/// Users can override by explicitly setting `goose_prompt_editor_always` to `false`.
 /// When no editor is configured, defaults to `false`.
 fn should_use_editor_always(
     prompt_editor: Option<&str>,
@@ -110,12 +110,12 @@ pub fn get_input(
     conversation_messages: Option<&Vec<String>>,
 ) -> Result<InputResult> {
     let config = Config::global();
-    let prompt_editor = config.get_mesmile_prompt_editor().ok().flatten();
-    let editor_always_override = config.get_mesmile_prompt_editor_always().ok().flatten();
+    let prompt_editor = config.get_goose_prompt_editor().ok().flatten();
+    let editor_always_override = config.get_goose_prompt_editor_always().ok().flatten();
     let editor_always = should_use_editor_always(prompt_editor.as_deref(), editor_always_override);
 
     if editor_always {
-        if let Ok(Some(editor_cmd)) = config.get_mesmile_prompt_editor() {
+        if let Ok(Some(editor_cmd)) = config.get_goose_prompt_editor() {
             if !editor_cmd.is_empty() {
                 let messages = extract_recent_messages(conversation_messages);
                 let message_refs: Vec<&str> = messages.iter().map(|s| s.as_str()).collect();
@@ -261,7 +261,7 @@ fn handle_slash_command(input: &str) -> Option<InputResult> {
         s if s.starts_with(CMD_BUILTIN) => Some(InputResult::AddBuiltin(
             s.get(CMD_BUILTIN.len()..).unwrap_or("").to_string(),
         )),
-        s if s.starts_with(CMD_MODE) => Some(InputResult::MeSmileMode(
+        s if s.starts_with(CMD_MODE) => Some(InputResult::GooseMode(
             s.get(CMD_MODE.len()..).unwrap_or("").to_string(),
         )),
         s if s == CMD_MODEL => Some(InputResult::Model(None)),
@@ -403,7 +403,7 @@ fn parse_plan_command(input: String) -> Option<InputResult> {
 
 fn print_help() {
     let newline_key = get_newline_key().to_ascii_uppercase();
-    let modes = MeSmileMode::VARIANTS.join(", ");
+    let modes = GooseMode::VARIANTS.join(", ");
     println!(
         "Available commands:
 /exit or /quit - Exit the session
@@ -414,14 +414,14 @@ fn print_help() {
 /builtin <names> - Add builtin extensions by name (comma-separated)
 /prompts [--extension <name>] - List all available prompts, optionally filtered by extension
 /prompt <n> [--info] [key=value...] - Get prompt info or execute a prompt
-/mode <name> - Set the MeSmile mode to use ({modes})
+/mode <name> - Set the goose mode to use ({modes})
 /model [name] - Show the current model, or switch models for this session while keeping the same provider
 /plan <message_text> -  Enters 'plan' mode with optional message. Create a plan based on the current messages and asks user if they want to act on it.
-                        If user acts on the plan, MeSmile mode is set to 'auto' and returns to 'normal' MeSmile mode.
-                        To warm up goose before using '/plan', we recommend setting '/mode approve' & putting appropriate context into mesmile.
+                        If user acts on the plan, goose mode is set to 'auto' and returns to 'normal' goose mode.
+                        To warm up goose before using '/plan', we recommend setting '/mode approve' & putting appropriate context into goose.
                         The model is used based on $GOOSE_PLANNER_PROVIDER and $GOOSE_PLANNER_MODEL environment variables.
                         If no model is set, the default model is used.
-/endplan - Exit plan mode and return to 'normal' MeSmile mode.
+/endplan - Exit plan mode and return to 'normal' goose mode.
 /recipe [filepath] - Generate a recipe from the current conversation and save it to the specified filepath (must end with .yaml).
                        If no filepath is provided, it will be saved to ./recipe.yaml.
 /compact - Compact the current conversation to reduce context length while preserving key information.
@@ -456,10 +456,10 @@ fn print_editor_help() {
   /edit opens your configured editor for composing prompts.
   Use '/edit some text' to pre-fill the editor with initial text.
   Previous conversation is included as markdown headings for context.
-  Configure editor: mesmile configure set mesmile_prompt_editor \"vim\"
-  Falls back to $VISUAL or $EDITOR if mesmile_prompt_editor is not set.
-  When mesmile_prompt_editor is set, the editor is used for every prompt by default.
-  To use inline prompts with on-demand /edit: mesmile configure set mesmile_prompt_editor_always false"
+  Configure editor: goose configure set goose_prompt_editor \"vim\"
+  Falls back to $VISUAL or $EDITOR if goose_prompt_editor is not set.
+  When goose_prompt_editor is set, the editor is used for every prompt by default.
+  To use inline prompts with on-demand /edit: goose configure set goose_prompt_editor_always false"
     );
 }
 

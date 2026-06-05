@@ -9,7 +9,7 @@ pub struct AcpServerFactoryConfig {
     pub builtins: Vec<String>,
     pub data_dir: std::path::PathBuf,
     pub config_dir: std::path::PathBuf,
-    pub mesmile_platform: GoosePlatform,
+    pub goose_platform: GoosePlatform,
     pub additional_source_roots: Vec<SourceRoot>,
 }
 
@@ -24,7 +24,7 @@ impl AcpServer {
 
     pub async fn create_agent(&self) -> Result<Arc<GooseAcpAgent>> {
         let config = crate::config::Config::global();
-        let disable_session_naming = config.get_mesmile_disable_session_naming().unwrap_or(false);
+        let disable_session_naming = config.get_goose_disable_session_naming().unwrap_or(false);
 
         let provider_factory: AcpProviderFactory = Arc::new(
             move |provider_name, model_config, extensions, working_dir| {
@@ -53,7 +53,7 @@ impl AcpServer {
             data_dir: self.config.data_dir.clone(),
             config_dir: self.config.config_dir.clone(),
             disable_session_naming,
-            mesmile_platform: self.config.mesmile_platform.clone(),
+            goose_platform: self.config.goose_platform.clone(),
             additional_source_roots: self.config.additional_source_roots.clone(),
         })
         .await?;

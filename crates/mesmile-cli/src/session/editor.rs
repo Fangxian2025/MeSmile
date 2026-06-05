@@ -11,7 +11,7 @@ use tempfile::NamedTempFile;
 /// Checks GOOSE_PROMPT_EDITOR, then $VISUAL, then $EDITOR.
 pub fn resolve_editor_command() -> Option<String> {
     let config = Config::global();
-    let config_editor = config.get_mesmile_prompt_editor().ok().flatten();
+    let config_editor = config.get_goose_prompt_editor().ok().flatten();
     let visual = std::env::var("VISUAL").ok();
     let editor_env = std::env::var("EDITOR").ok();
     resolve_editor_from_sources(
@@ -63,7 +63,7 @@ fn build_template(messages: &[&str], prefill: Option<&str>) -> String {
 /// Create temporary markdown file with conversation history and optional prefill text
 fn create_temp_file(messages: &[&str], prefill: Option<&str>) -> Result<NamedTempFile> {
     let temp_file = Builder::new()
-        .prefix("mesmile_prompt_")
+        .prefix("goose_prompt_")
         .suffix(".md")
         .tempfile()?;
 
@@ -131,7 +131,7 @@ pub fn get_editor_input(
     let temp_file = create_temp_file(messages, prefill)?;
     let temp_path = temp_file.path().to_path_buf();
 
-    let symlink_path = PathBuf::from(".mesmile_prompt_temp.md");
+    let symlink_path = PathBuf::from(".goose_prompt_temp.md");
 
     if symlink_path.exists() {
         std::fs::remove_file(&symlink_path)?;
@@ -249,7 +249,7 @@ This is the user's input
         let path = temp_file.path();
 
         assert!(path.exists());
-        assert!(path.to_str().unwrap().contains("mesmile_prompt_"));
+        assert!(path.to_str().unwrap().contains("goose_prompt_"));
         assert!(path.to_str().unwrap().ends_with(".md"));
 
         let content = fs::read_to_string(path).unwrap();
@@ -290,13 +290,13 @@ This is the user's input
     #[test]
     fn test_create_temp_file_with_prefix_suffix() {
         let temp_file = Builder::new()
-            .prefix("mesmile_test_")
+            .prefix("goose_test_")
             .suffix(".md")
             .tempfile()
             .unwrap();
 
         let name = temp_file.path().file_name().unwrap().to_str().unwrap();
-        assert!(name.starts_with("mesmile_test_"));
+        assert!(name.starts_with("goose_test_"));
         assert!(name.ends_with(".md"));
     }
 
@@ -322,7 +322,7 @@ with multiple lines.
     fn test_tempfile_cleanup() {
         let path = {
             let temp_file = Builder::new()
-                .prefix("mesmile_cleanup_test_")
+                .prefix("goose_cleanup_test_")
                 .tempfile()
                 .unwrap();
             let path = temp_file.path().to_path_buf();

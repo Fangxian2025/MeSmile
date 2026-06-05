@@ -221,18 +221,18 @@ pub async fn upsert_config(
         if let Some(name) = query.value.as_str() {
             // Preserve the target provider's saved model rather than copying
             // the current active provider's model into the new entry.
-            let model = mesmile::config::get_provider_entry(config, name)
+            let model = goose::config::get_provider_entry(config, name)
                 .map(|e| e.model)
-                .or_else(|| config.get_mesmile_model().ok())
+                .or_else(|| config.get_goose_model().ok())
                 .unwrap_or_default();
-            mesmile::config::set_active_provider(config, name, &model)?;
+            goose::config::set_active_provider(config, name, &model)?;
             return Ok(Json(Value::String(format!("Upserted key {}", query.key))));
         }
     }
     if query.key == "GOOSE_MODEL" {
         if let Some(model) = query.value.as_str() {
-            if let Ok(provider) = config.get_mesmile_provider() {
-                mesmile::config::set_active_provider(config, &provider, model)?;
+            if let Ok(provider) = config.get_goose_provider() {
+                goose::config::set_active_provider(config, &provider, model)?;
                 return Ok(Json(Value::String(format!("Upserted key {}", query.key))));
             }
         }
@@ -263,8 +263,8 @@ pub async fn remove_config(
         config.delete("active_provider")?;
         config.delete("GOOSE_PROVIDER")?;
     } else if query.key == "GOOSE_MODEL" {
-        if let Ok(provider) = config.get_mesmile_provider() {
-            mesmile::config::set_active_provider(config, &provider, "")?;
+        if let Ok(provider) = config.get_goose_provider() {
+            goose::config::set_active_provider(config, &provider, "")?;
         }
         config.delete("GOOSE_MODEL")?;
     } else {
@@ -582,9 +582,9 @@ fn is_known_provider_secret(
 }
 
 fn unconfigure_provider(config: &Config, provider_name: &str) -> Result<(), ConfigError> {
-    if let Some(mut entry) = mesmile::config::get_provider_entry(config, provider_name) {
+    if let Some(mut entry) = goose::config::get_provider_entry(config, provider_name) {
         entry.configured = false;
-        mesmile::config::set_provider_entry(config, provider_name, &entry)?;
+        goose::config::set_provider_entry(config, provider_name, &entry)?;
     }
 
     let configured_marker = format!("{}_configured", provider_name);
@@ -593,20 +593,20 @@ fn unconfigure_provider(config: &Config, provider_name: &str) -> Result<(), Conf
 }
 
 fn mark_provider_configured(config: &Config, provider_name: &str) -> Result<(), ConfigError> {
-    if let Some(mut entry) = mesmile::config::get_provider_entry(config, provider_name) {
+    if let Some(mut entry) = goose::config::get_provider_entry(config, provider_name) {
         entry.configured = true;
-        mesmile::config::set_provider_entry(config, provider_name, &entry)?;
+        goose::config::set_provider_entry(config, provider_name, &entry)?;
     } else {
-        let model = if mesmile::config::get_active_provider(config).as_deref() == Some(provider_name)
+        let model = if goose::config::get_active_provider(config).as_deref() == Some(provider_name)
         {
-            config.get_mesmile_model().unwrap_or_default()
+            config.get_goose_model().unwrap_or_default()
         } else {
             String::new()
         };
-        mesmile::config::set_provider_entry(
+        goose::config::set_provider_entry(
             config,
             provider_name,
-            &mesmile::config::ProviderEntry {
+            &goose::config::ProviderEntry {
                 enabled: true,
                 model,
                 configured: true,
@@ -738,7 +738,7 @@ pub async fn delete_provider_secret(Path(id): Path<String>) -> Result<Json<Strin
                 provider
             )));
         }
-        mesmile::providers::cleanup_provider(provider).await?;
+        goose::providers::cleanup_provider(provider).await?;
         for shared_provider in provider_cache_providers_sharing_cache(provider) {
             unconfigure_provider(config, shared_provider)?;
         }
@@ -767,13 +767,13 @@ pub async fn read_config(
 
     // Intercept legacy keys to return structured provider config
     if query.key == "GOOSE_PROVIDER" || query.key == "active_provider" {
-        if let Ok(val) = config.get_mesmile_provider() {
+        if let Ok(val) = config.get_goose_provider() {
             return Ok(Json(ConfigValueResponse::Value(Value::String(val))));
         }
         return Ok(Json(ConfigValueResponse::Value(Value::Null)));
     }
     if query.key == "GOOSE_MODEL" {
-        if let Ok(val) = config.get_mesmile_model() {
+        if let Ok(val) = config.get_goose_model() {
             return Ok(Json(ConfigValueResponse::Value(Value::String(val))));
         }
         return Ok(Json(ConfigValueResponse::Value(Value::Null)));
@@ -804,11 +804,11 @@ pub async fn read_config(
     )
 )]
 pub async fn get_extensions() -> Result<Json<ExtensionResponse>, ErrorResponse> {
-    let extensions = mesmile::config::get_all_extensions()
+    let extensions = goose::config::get_all_extensions()
         .into_iter()
-        .filter(|ext| !mesmile::agents::extension_manager::is_hidden_extension(&ext.config.name()))
+        .filter(|ext| !goose::agents::extension_manager::is_hidden_extension(&ext.config.name()))
         .collect();
-    let warnings = mesmile::config::get_warnings();
+    let warnings = goose::config::get_warnings();
     Ok(Json(ExtensionResponse {
         extensions,
         warnings,
@@ -829,12 +829,12 @@ pub async fn get_extensions() -> Result<Json<ExtensionResponse>, ErrorResponse> 
 pub async fn add_extension(
     Json(extension_query): Json<ExtensionQuery>,
 ) -> Result<Json<String>, ErrorResponse> {
-    let extensions = mesmile::config::get_all_extensions();
-    let key = mesmile::config::extensions::name_to_key(&extension_query.name);
+    let extensions = goose::config::get_all_extensions();
+    let key = goose::config::extensions::name_to_key(&extension_query.name);
 
     let is_update = extensions.iter().any(|e| e.config.key() == key);
 
-    mesmile::config::set_extension(ExtensionEntry {
+    goose::config::set_extension(ExtensionEntry {
         enabled: extension_query.enabled,
         config: extension_query.config,
     });
@@ -856,8 +856,8 @@ pub async fn add_extension(
     )
 )]
 pub async fn remove_extension(Path(name): Path<String>) -> Result<Json<String>, ErrorResponse> {
-    let key = mesmile::config::extensions::name_to_key(&name);
-    mesmile::config::remove_extension(&key);
+    let key = goose::config::extensions::name_to_key(&name);
+    goose::config::remove_extension(&key);
     Ok(Json(format!("Removed extension {}", name)))
 }
 
@@ -890,7 +890,7 @@ pub async fn providers() -> Result<Json<Vec<ProviderDetails>>, ErrorResponse> {
         .into_iter()
         .map(|(metadata, provider_type)| {
             let is_configured = check_provider_configured(&metadata, provider_type);
-            let saved_model = mesmile::config::get_provider_entry(config, &metadata.name)
+            let saved_model = goose::config::get_provider_entry(config, &metadata.name)
                 .map(|e| e.model)
                 .filter(|m| !m.is_empty());
 
@@ -938,7 +938,7 @@ pub async fn get_provider_models(
     }
 
     let model_config = ModelConfig::new(&metadata.default_model)?.with_canonical_limits(&name);
-    let provider = mesmile::providers::create(&name, model_config, Vec::new()).await?;
+    let provider = goose::providers::create(&name, model_config, Vec::new()).await?;
 
     let models_result = provider.fetch_recommended_model_info().await;
 
@@ -972,7 +972,7 @@ pub async fn resolve_provider_model_info(
     }
 
     let model_config = ModelConfig::new(model)?.with_canonical_limits(name);
-    let provider = mesmile::providers::create(name, model_config.clone(), Vec::new()).await?;
+    let provider = goose::providers::create(name, model_config.clone(), Vec::new()).await?;
     match provider.fetch_model_info(model).await {
         Ok(info) => Ok(info),
         Err(error) => {
@@ -1047,7 +1047,7 @@ pub async fn get_slash_commands(
     }
 
     let working_dir = query.working_dir.map(std::path::PathBuf::from);
-    for source in mesmile::skills::list_installed_skills(working_dir.as_deref()) {
+    for source in goose::skills::list_installed_skills(working_dir.as_deref()) {
         commands.push(SlashCommand {
             command: source.name,
             help: source.description,
@@ -1059,7 +1059,7 @@ pub async fn get_slash_commands(
         .as_deref()
         .unwrap_or_else(|| std::path::Path::new("."));
     for source in
-        mesmile::agents::platform_extensions::summon::discover_filesystem_sources(discover_dir)
+        goose::agents::platform_extensions::summon::discover_filesystem_sources(discover_dir)
     {
         if matches!(
             source.source_type,
@@ -1150,7 +1150,7 @@ pub async fn get_canonical_model_info(
 pub async fn upsert_permissions(
     Json(query): Json<UpsertPermissionsQuery>,
 ) -> Result<Json<String>, ErrorResponse> {
-    let permission_manager = mesmile::config::PermissionManager::instance();
+    let permission_manager = goose::config::PermissionManager::instance();
 
     for tool_permission in &query.tool_permissions {
         permission_manager.update_user_permission(
@@ -1201,8 +1201,8 @@ pub struct CreateCustomProviderResponse {
 pub async fn create_custom_provider(
     Json(request): Json<UpdateCustomProviderRequest>,
 ) -> Result<Json<CreateCustomProviderResponse>, ErrorResponse> {
-    let config = mesmile::config::declarative_providers::create_custom_provider(
-        mesmile::config::declarative_providers::CreateCustomProviderParams {
+    let config = goose::config::declarative_providers::create_custom_provider(
+        goose::config::declarative_providers::CreateCustomProviderParams {
             engine: request.engine,
             display_name: request.display_name,
             api_url: request.api_url,
@@ -1217,7 +1217,7 @@ pub async fn create_custom_provider(
         },
     )?;
 
-    mesmile::providers::refresh_custom_providers().await?;
+    goose::providers::refresh_custom_providers().await?;
 
     Ok(Json(CreateCustomProviderResponse {
         provider_name: config.id().to_string(),
@@ -1236,7 +1236,7 @@ pub async fn create_custom_provider(
 pub async fn get_custom_provider(
     Path(id): Path<String>,
 ) -> Result<Json<LoadedProvider>, ErrorResponse> {
-    let loaded_provider = mesmile::config::declarative_providers::load_provider(id.as_str())
+    let loaded_provider = goose::config::declarative_providers::load_provider(id.as_str())
         .map_err(|e| {
             ErrorResponse::not_found(format!("Custom provider '{}' not found: {}", id, e))
         })?;
@@ -1254,9 +1254,9 @@ pub async fn get_custom_provider(
     )
 )]
 pub async fn remove_custom_provider(Path(id): Path<String>) -> Result<Json<String>, ErrorResponse> {
-    mesmile::config::declarative_providers::remove_custom_provider(&id)?;
+    goose::config::declarative_providers::remove_custom_provider(&id)?;
 
-    mesmile::providers::refresh_custom_providers().await?;
+    goose::providers::refresh_custom_providers().await?;
 
     Ok(Json(format!("Removed custom provider: {}", id)))
 }
@@ -1275,7 +1275,7 @@ pub async fn remove_custom_provider(Path(id): Path<String>) -> Result<Json<Strin
 pub async fn cleanup_provider_cache(
     Path(name): Path<String>,
 ) -> Result<Json<String>, ErrorResponse> {
-    mesmile::providers::cleanup_provider(&name).await?;
+    goose::providers::cleanup_provider(&name).await?;
     Ok(Json(format!("Cleaned up provider cache: {}", name)))
 }
 
@@ -1293,8 +1293,8 @@ pub async fn update_custom_provider(
     Path(id): Path<String>,
     Json(request): Json<UpdateCustomProviderRequest>,
 ) -> Result<Json<String>, ErrorResponse> {
-    mesmile::config::declarative_providers::update_custom_provider(
-        mesmile::config::declarative_providers::UpdateCustomProviderParams {
+    goose::config::declarative_providers::update_custom_provider(
+        goose::config::declarative_providers::UpdateCustomProviderParams {
             id: id.clone(),
             engine: request.engine,
             display_name: request.display_name,
@@ -1310,7 +1310,7 @@ pub async fn update_custom_provider(
         },
     )?;
 
-    mesmile::providers::refresh_custom_providers().await?;
+    goose::providers::refresh_custom_providers().await?;
 
     Ok(Json(format!("Updated custom provider: {}", id)))
 }
@@ -1345,7 +1345,7 @@ pub async fn set_config_provider(
         .await
         .and_then(|_| {
             let config = Config::global();
-            mesmile::config::set_active_provider(config, &provider, &model)
+            goose::config::set_active_provider(config, &provider, &model)
                 .map_err(|e| anyhow::anyhow!(e))
         })
         .map_err(|err| {
@@ -1436,7 +1436,7 @@ pub async fn configure_provider_oauth(
                 provider_name, e
             ))
         })?;
-        mark_provider_configured(mesmile::config::Config::global(), &provider_name)?;
+        mark_provider_configured(goose::config::Config::global(), &provider_name)?;
         return Ok(Json("OAuth configuration completed".to_string()));
     }
 
@@ -1463,7 +1463,7 @@ pub async fn configure_provider_oauth(
         ))
     })?;
 
-    mark_provider_configured(mesmile::config::Config::global(), &provider_name)?;
+    mark_provider_configured(goose::config::Config::global(), &provider_name)?;
 
     Ok(Json("OAuth configuration completed".to_string()))
 }
@@ -1529,7 +1529,7 @@ mod tests {
 
     fn new_test_config() -> Config {
         let unique = format!(
-            "mesmile-server-config-test-{}-{}",
+            "goose-server-config-test-{}-{}",
             std::process::id(),
             std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
@@ -1708,7 +1708,7 @@ mod tests {
     #[test]
     fn unconfigure_provider_clears_structured_entry() {
         let config = new_test_config();
-        mesmile::config::set_provider_entry(
+        goose::config::set_provider_entry(
             &config,
             "huggingface",
             &ProviderEntry {
@@ -1721,7 +1721,7 @@ mod tests {
 
         unconfigure_provider(&config, "huggingface").unwrap();
 
-        let entry = mesmile::config::get_provider_entry(&config, "huggingface").unwrap();
+        let entry = goose::config::get_provider_entry(&config, "huggingface").unwrap();
         assert!(entry.enabled);
         assert_eq!(entry.model, "Qwen/Qwen3-Coder-480B-A35B-Instruct");
         assert!(!entry.configured);
