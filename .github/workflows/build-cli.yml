@@ -172,7 +172,7 @@ jobs:
           fi
 
           if [ "${{ matrix.variant }}" = "musl" ]; then
-            cargo build --release --target ${TARGET} -p mesmile-cli --bin mesmile \
+            cargo build --release --target ${TARGET} -p mesmile-cli --bin mesmile-cli \
               --no-default-features \
               --features portable-default
           else
@@ -246,14 +246,14 @@ jobs:
             cargo build --release --target x86_64-pc-windows-msvc -p mesmile-cli
           }
 
-          if (-not (Test-Path "./target/x86_64-pc-windows-msvc/release/mesmile.exe")) {
+          if (-not (Test-Path "./target/x86_64-pc-windows-msvc/release/mesmile-cli.exe")) {
             Write-Error "Windows CLI binary not found."
             Get-ChildItem ./target/x86_64-pc-windows-msvc/release/ -ErrorAction SilentlyContinue
             exit 1
           }
 
           Write-Output "Windows CLI binary found."
-          Get-Item ./target/x86_64-pc-windows-msvc/release/mesmile.exe
+          Get-Item ./target/x86_64-pc-windows-msvc/release/mesmile-cli.exe
 
       - name: Package CLI (Linux/macOS)
         if: matrix.platform != 'windows'
@@ -271,8 +271,8 @@ jobs:
           # Create a directory for the package contents
           mkdir -p "target/${TARGET}/release/mesmile-package"
 
-          # Copy the mesmile binary
-          cp "target/${TARGET}/release/mesmile" "target/${TARGET}/release/mesmile-package/"
+          # Copy the mesmile-cli binary
+          cp "target/${TARGET}/release/mesmile-cli" "target/${TARGET}/release/mesmile-package/"
 
           cd "target/${TARGET}/release"
           tar -cjf "mesmile-${TARGET}${VARIANT_SUFFIX}.tar.bz2" -C mesmile-package .

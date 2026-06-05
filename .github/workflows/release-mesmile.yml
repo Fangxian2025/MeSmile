@@ -67,9 +67,9 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           mkdir -p release-pkg
-          cp target/${{ matrix.config.target }}/release/mesmile${{ matrix.config.ext }} release-pkg/
+          cp target/${{ matrix.config.target }}/release/mesmile-cli${{ matrix.config.ext }} release-pkg/
           cd release-pkg
-          tar -czf ../mesmile-${{ matrix.config.target }}.tar.gz mesmile${{ matrix.config.ext }}
+          tar -czf ../mesmile-${{ matrix.config.target }}.tar.gz mesmile-cli${{ matrix.config.ext }}
           echo "ASSET=mesmile-${{ matrix.config.target }}.tar.gz" >> $GITHUB_ENV
 
       - name: Package (Windows)
@@ -77,8 +77,8 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path release-pkg -Force
-          Copy-Item "target/${{ matrix.config.target }}/release/mesmile${{ matrix.config.ext }}" -Destination release-pkg/
-          Compress-Archive -Path release-pkg/mesmile.exe -DestinationPath mesmile-${{ matrix.config.target }}.zip
+          Copy-Item "target/${{ matrix.config.target }}/release/mesmile-cli${{ matrix.config.ext }}" -Destination release-pkg/
+          Compress-Archive -Path release-pkg/mesmile-cli.exe -DestinationPath mesmile-${{ matrix.config.target }}.zip
           echo "ASSET=mesmile-${{ matrix.config.target }}.zip" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Upload artifact
