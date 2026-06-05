@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run-benchmarks.sh - Script to run goose benchmarks across multiple provider:model pairs
+# run-benchmarks.sh - Script to run mesmile benchmarks across multiple provider:model pairs
 
 set -e
 
@@ -101,17 +101,17 @@ fi
 echo "" >> "$SUMMARY_FILE"
 
 # Determine which binary to use
-GOOSE_CMD="goose"
+GOOSE_CMD="mesmile"
 if [ "$DEBUG_MODE" = true ]; then
-  if [ -f "./target/debug/goose" ]; then
-    GOOSE_CMD="./target/debug/goose"
+  if [ -f "./target/debug/mesmile" ]; then
+    GOOSE_CMD="./target/debug/mesmile"
     echo "Using debug binary: $GOOSE_CMD"
   else
     echo "Warning: Debug binary not found at ./target/debug/mesmile. Falling back to system-installed mesmile."
   fi
 else
-  if [ -f "./target/release/goose" ]; then
-    GOOSE_CMD="./target/release/goose"
+  if [ -f "./target/release/mesmile" ]; then
+    GOOSE_CMD="./target/release/mesmile"
     echo "Using release binary: $GOOSE_CMD"
   else
     echo "Warning: Release binary not found at ./target/release/mesmile. Falling back to system-installed mesmile."

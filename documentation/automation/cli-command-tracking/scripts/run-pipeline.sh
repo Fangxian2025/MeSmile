@@ -10,7 +10,7 @@
 
 set -e
 
-GOOSE_REPO=${GOOSE_REPO:-"$HOME/Development/goose"}
+GOOSE_REPO=${GOOSE_REPO:-"$HOME/Development/mesmile"}
 
 # Function to get release tags using gh CLI
 get_latest_release() {
@@ -110,7 +110,7 @@ if [ "$HAS_CHANGES" = "true" ]; then
     echo ""
     echo "Step 4: Synthesizing CLI changes documentation..."
     
-    # Run goose and capture output, filtering out session logs
+    # Run mesmile and capture output, filtering out session logs
     mesmile run --recipe ../recipes/synthesize-cli-changes.yaml 2>&1 | \
         sed -E 's/\x1B\[[0-9;]*[mK]//g' | \
         grep -v "^starting session" | \
@@ -124,7 +124,7 @@ if [ "$HAS_CHANGES" = "true" ]; then
         grep -v "^Description:" | \
         cat -s > cli-changes.md.tmp
 
-    # If the pipeline fails, surface the goose error (grep can exit 1 when it matches nothing)
+    # If the pipeline fails, surface the mesmile error (grep can exit 1 when it matches nothing)
     if [ ${PIPESTATUS[0]} -ne 0 ]; then
         echo "✗ Failed to synthesize CLI changes (mesmile run failed)" >&2
         exit 1
@@ -135,7 +135,7 @@ if [ "$HAS_CHANGES" = "true" ]; then
         mv cli-changes.md.tmp cli-changes.md
         echo "✓ Generated cli-changes.md ($(wc -l < cli-changes.md) lines)"
     elif [ -f cli-changes.md ] && [ -s cli-changes.md ]; then
-        # File was written directly by goose
+        # File was written directly by mesmile
         rm -f cli-changes.md.tmp
         echo "✓ Generated cli-changes.md ($(wc -l < cli-changes.md) lines)"
     else

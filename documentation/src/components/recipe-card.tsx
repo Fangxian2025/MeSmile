@@ -103,7 +103,7 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
             >
-              Launch in goose Desktop →
+              Launch in MeSmile Desktop →
             </a>
 
             <div className="relative group">
@@ -177,7 +177,7 @@ export function RecipeCard({ recipe }: { recipe: Recipe }) {
                 onClick={handleSubmitParams}
                 className="bg-purple-600 text-white px-4 py-2 rounded text-sm hover:bg-purple-700"
               >
-                Copy goose CLI Command
+                Copy MeSmile CLI Command
               </button>
             </div>
           </div>

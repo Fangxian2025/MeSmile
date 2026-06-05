@@ -47,7 +47,7 @@ You'll master core AI engineering skills like building gesture-controlled interf
 ## Ready to Build?
 
 1. Sign up at [adventofai.dev](https://adventofai.dev) for daily notifications
-2. Install goose using the [quickstart guide](/docs/quickstart)
+2. Install MeSmile using the [quickstart guide](/docs/quickstart)
 3. Join the community on [Discord](https://discord.gg/block-opensource)
 
 The first challenge unlocks December 1st at 12 PM ET. The Winter Festival needs your skills. Let's build something amazing together.

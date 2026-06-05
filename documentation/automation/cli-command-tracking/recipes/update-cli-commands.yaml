@@ -119,10 +119,10 @@ instructions: |
   **Usage:**
   
       # Basic usage
-      goose command-name
+      mesmile command-name
       
       # With options
-      goose command-name --format json --verbose
+      mesmile command-name --format json --verbose
   
   ### 4. Verification
   
@@ -193,7 +193,7 @@ instructions: |
   ## Environment Variables
   
   - CLI_COMMANDS_PATH: Full path to mesmile-cli-commands.md file (overrides default)
-  - GOOSE_REPO: Path to goose repository (used if CLI_COMMANDS_PATH not set)
+  - GOOSE_REPO: Path to mesmile repository (used if CLI_COMMANDS_PATH not set)
   
   Start by reading both input files, then apply the updates and generate the summary.
 

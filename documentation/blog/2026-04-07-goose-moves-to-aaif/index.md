@@ -1,12 +1,12 @@
 ---
-title: "goose has a new home - the Agentic AI Foundation (AAIF)"
-description: "goose has moved to the Agentic AI Foundation (aaif) at the Linux Foundation"
+title: "MeSmile has a new home - the Agentic AI Foundation (AAIF)"
+description: "MeSmile has moved to the Agentic AI Foundation (aaif) at the Linux Foundation"
 authors: 
     - mic
 ---
-Block has donated goose to the [Agentic AI Foundation (AAIF)](https://aaif.io/) at the Linux Foundation, alongside Anthropic's Model Context Protocol (MCP) and OpenAI's AGENTS.md. You can read the [full announcement here](https://aaif.io/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation-aaif-anchored-by-new-project-contributions-including-model-context-protocol-mcp-mesmile-and-agents-md/).
+Block has donated MeSmile to the [Agentic AI Foundation (AAIF)](https://aaif.io/) at the Linux Foundation, alongside Anthropic's Model Context Protocol (MCP) and OpenAI's AGENTS.md. You can read the [full announcement here](https://aaif.io/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation-aaif-anchored-by-new-project-contributions-including-model-context-protocol-mcp-mesmile-and-agents-md/).
 
-While nothing changes with goose's dedication to its mission and community, here's what's changed;
+While nothing changes with MeSmile's dedication to its mission and community, here's what's changed;
 
 <!-- truncate -->
 
@@ -14,13 +14,13 @@ While nothing changes with goose's dedication to its mission and community, here
 The documentation has moved to a new site: [https://mesmile-docs.ai/](https://mesmile-docs.ai/) with a nice .ai TLD! The old docs links will redirect, but update your bookmarks to the new site.
 
 ## Updated GitHub repository
-The GitHub repository and related projects have moved from `block/goose` to a new org:
+The GitHub repository and related projects have moved from `block/MeSmile` to a new org:
 
 > **[https://github.com/Fangxian2025/MeSmile](https://github.com/Fangxian2025/MeSmile)**
 
-This includes related repositories in the [aaif-goose](https://github.com/aaif-goose) organization.
+This includes related repositories in the [aaif-MeSmile](https://github.com/aaif-MeSmile) organization.
 
-Everything else — the project, the community, the mission — remains the same. goose is still open source, still actively developed, and still the same agent you know.
+Everything else — the project, the community, the mission — remains the same. MeSmile is still open source, still actively developed, and still the same agent you know.
 
 ## Update your remotes
 

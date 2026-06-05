@@ -135,7 +135,7 @@ export type GetExtensionsResponse_unstable = {
 };
 
 /**
- * Persist a new extension to the user's global goose config.
+ * Persist a new extension to the user's global mesmile config.
  */
 export type AddConfigExtensionRequest_unstable = {
     name: string;
@@ -149,14 +149,14 @@ export type AddConfigExtensionRequest_unstable = {
 };
 
 /**
- * Remove a persisted extension from the user's global goose config.
+ * Remove a persisted extension from the user's global mesmile config.
  */
 export type RemoveConfigExtensionRequest_unstable = {
     configKey: string;
 };
 
 /**
- * Toggle the `enabled` flag for a persisted extension in the user's global goose config.
+ * Toggle the `enabled` flag for a persisted extension in the user's global mesmile config.
  */
 export type ToggleConfigExtensionRequest_unstable = {
     configKey: string;
@@ -720,7 +720,7 @@ export type ExportSessionRequest_unstable = {
 };
 
 /**
- * Export session response — raw JSON of the goose session with `conversation`.
+ * Export session response — raw JSON of the mesmile session with `conversation`.
  */
 export type ExportSessionResponse_unstable = {
     data: string;
@@ -931,7 +931,7 @@ export type ExportSourceResponse_unstable = {
 };
 
 /**
- * Import a source from a JSON export payload produced by `_goose/unstable/sources/export`.
+ * Import a source from a JSON export payload produced by `_mesmile/unstable/sources/export`.
  * The imported source is written into the explicit target scope; on name
  * collisions a `-imported` suffix is appended.
  */

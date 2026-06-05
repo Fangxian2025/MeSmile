@@ -19,7 +19,7 @@ type SidebarItem = {
 };
 
 const config: Config = {
-  title: "goose | Your open source AI agent",
+  title: "MeSmile | Your open source AI agent",
   tagline: "your local AI agent, automating engineering tasks seamlessly",
   favicon: "img/favicon.ico",
 
@@ -31,7 +31,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "aaif-goose", // Usually your GitHub org/user name.
+  organizationName: "Fangxian2025", // Usually your GitHub org/user name.
   projectName: "MeSmile", // Usually your repo name.
 
   onBrokenLinks: "throw",
@@ -234,8 +234,8 @@ const config: Config = {
             to: "/docs/guides/context-engineering/creating-plans",
           },
           {
-            from: "/docs/guides/using-gooseignore",
-            to: "/docs/guides/context-engineering/using-gooseignore",
+            from: "/docs/guides/using-mesmileignore",
+            to: "/docs/guides/context-engineering/using-mesmileignore",
           },
           {
             from: "/docs/guides/config-file",
@@ -258,8 +258,8 @@ const config: Config = {
             to: "/docs/guides/managing-tools/mesmile-permissions",
           },
           {
-            from: "/docs/guides/using-goosehints",
-            to: "/docs/guides/context-engineering/using-goosehints",
+            from: "/docs/guides/using-mesmilehints",
+            to: "/docs/guides/context-engineering/using-mesmilehints",
           },
           {
             from: "/docs/guides/managing-tools/hooks",
@@ -439,7 +439,7 @@ const config: Config = {
     navbar: {
       title: "",
       logo: {
-        alt: "goose Logo", // TODO: replace logo assets with AAIF branding
+        alt: "MeSmile Logo", // TODO: replace logo assets with AAIF branding
         src: "img/logo_light.png",
         srcDark: "img/logo_dark.png",
       },
@@ -515,7 +515,7 @@ const config: Config = {
           title: "Quick Links",
           items: [
             {
-              label: "Install goose",
+              label: "Install MeSmile",
               to: "docs/getting-started/installation",
             },
             {
@@ -596,7 +596,7 @@ const config: Config = {
             },
           },
         ],
-        quickQuestions: ["What is goose?"],
+        quickQuestions: ["What is MeSmile?"],
       },
     },
     announcementBar: {

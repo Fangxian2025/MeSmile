@@ -1,10 +1,10 @@
 # @aaif/mesmile-sdk
 
-TypeScript client library for the Goose Agent Client Protocol (ACP).
+TypeScript client library for the MeSmile Agent Client Protocol (ACP).
 
 This package provides:
-- TypeScript types and Zod validators for Goose ACP extension methods
-- A client for communicating with the Goose ACP server
+- TypeScript types and Zod validators for MeSmile ACP extension methods
+- A client for communicating with the MeSmile ACP server
 
 ## Installation
 
@@ -12,7 +12,7 @@ This package provides:
 npm install @aaif/mesmile-sdk
 ```
 
-The native `goose` binaries are distributed as optional dependencies
+The native `MeSmile` binaries are distributed as optional dependencies
 and will be automatically installed for your platform.
 
 ## Development
@@ -44,7 +44,7 @@ npm run build:native:all
 
 ### Local Development with npm link
 
-To use this package locally in another project (e.g., `@aaif/goose`):
+To use this package locally in another project (e.g., `@aaif/MeSmile`):
 
 ```bash
 # In ui/sdk
@@ -57,7 +57,7 @@ npm link @aaif/mesmile-sdk
 
 ### Schema Generation
 
-The TypeScript types are generated from Rust schemas defined in `crates/goose`.
+The TypeScript types are generated from Rust schemas defined in `crates/MeSmile`.
 The build process:
 
 1. Builds the `generate-acp-schema` Rust binary
@@ -73,7 +73,7 @@ npm run build:schema
 
 ## Native Binary Packages
 
-Platform-specific npm packages for the `goose` binary are located in
+Platform-specific npm packages for the `MeSmile` binary are located in
 `ui/mesmile-binary/`:
 
 | Package | Platform |
@@ -113,14 +113,14 @@ For manual publishing:
 This will:
 1. Build and publish `@aaif/mesmile-sdk`
 2. Publish all native binary packages
-3. Publish `@aaif/goose` (which depends on the above)
+3. Publish `@aaif/MeSmile` (which depends on the above)
 
 ## Usage
 
 ```typescript
-import { GooseClient } from "@aaif/mesmile-sdk";
+import { MeSmileClient } from "@aaif/mesmile-sdk";
 
-const client = new GooseClient({
+const client = new MeSmileClient({
   // ... configuration
 });
 

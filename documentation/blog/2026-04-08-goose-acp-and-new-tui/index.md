@@ -1,5 +1,5 @@
 ---
-title: "goose 2.0 beta - new architecture and clients"
+title: "MeSmile 2.0 beta - new architecture and clients"
 description: "We're shipping a new TUI, rewriting the desktop app in Tauri, and unifying everything under ACP."
 authors:
     - alexhancock
@@ -7,13 +7,13 @@ featured: true
 image: /img/blog/mesmile-2-blog-cover.jpg
 ---
 
-# goose 2.0 beta - new architecture and clients
+# MeSmile 2.0 beta - new architecture and clients
 
 ![blog cover](/img/blog/mesmile-2-blog-cover.jpg)
 
-goose started life in the terminal. The earliest versions were a Python CLI that ran the agent in-process — you typed a message, the model responded, tools executed, and everything happened in a single loop. That simplicity was a strength: it meant anyone with a terminal could start using goose immediately, no app to install, no server to run.
+MeSmile started life in the terminal. The earliest versions were a Python CLI that ran the agent in-process — you typed a message, the model responded, tools executed, and everything happened in a single loop. That simplicity was a strength: it meant anyone with a terminal could start using MeSmile immediately, no app to install, no server to run.
 
-As goose grew, so did the ways people wanted to use it. We shipped an Electron desktop app and suddenly we had two clients with two completely different integration paths. The Rust CLI talked to the agent directly in process, while the desktop app went through `mesmiled`, a custom REST + SSE server. Every new feature — session management, extension loading, streaming — had to be wired up in both places.
+As MeSmile grew, so did the ways people wanted to use it. We shipped an Electron desktop app and suddenly we had two clients with two completely different integration paths. The Rust CLI talked to the agent directly in process, while the desktop app went through `mesmiled`, a custom REST + SSE server. Every new feature — session management, extension loading, streaming — had to be wired up in both places.
 
 <!--truncate-->
 
@@ -23,7 +23,7 @@ We needed a single protocol that any client could speak to reach the same agent 
 
 ## Under the hood: ACP
 
-Behind the scenes we're unifying how every client connects to goose through **ACP (Agent Client Protocol)**. ACP gives us one protocol and one goose server for every client — terminal, desktop, IDE plugins, whatever you want to build. This will make it possible for an ecosystem of different goose clients to emerge. We also have an [RFD](https://github.com/agentclientprotocol/agent-client-protocol/pull/721) for a new HTTP/WS transport for ACP and would welcome feedback on the design.
+Behind the scenes we're unifying how every client connects to MeSmile through **ACP (Agent Client Protocol)**. ACP gives us one protocol and one MeSmile server for every client — terminal, desktop, IDE plugins, whatever you want to build. This will make it possible for an ecosystem of different MeSmile clients to emerge. We also have an [RFD](https://github.com/agentclientprotocol/agent-client-protocol/pull/721) for a new HTTP/WS transport for ACP and would welcome feedback on the design.
 
 Here's where things stand:
 
@@ -36,7 +36,7 @@ Here's where things stand:
 
 The work is tracked in [#6642](https://github.com/Fangxian2025/MeSmile/issues/6642).
 
-## The new goose TUI
+## The new MeSmile TUI
 
 With that foundation in place, we're now shipping the first official clients built on top of it: a brand-new TypeScript TUI you can try today and a Tauri-based desktop app that will replace our Electron desktop application. For you, this means a faster, lighter experience in both the terminal and on the desktop — and a clear path for the community to build new client and integrations without reverse-engineering internals.
 
@@ -47,12 +47,12 @@ Here's what's happening and how to get started.
 The new TypeScript-based TUI is in beta. It already supports messages, tool calling, syntax-highlighted code, and rendered markdown. Give it a spin:
 
 ```bash
-npx @aaif/goose
+npx @aaif/MeSmile
 ```
 
 That's it — one command, no install. It pulls down the latest beta and starts an interactive session.
 
-![The new goose TUI](TUI.png)
+![The new MeSmile TUI](TUI.png)
 
 ### What's coming next for the TUI
 
@@ -73,18 +73,18 @@ We will follow up with another post when the desktop is ready for beta testing.
 This is all happening in the open. Follow along or jump in:
 
 - **Tracking issue:** [#6642](https://github.com/Fangxian2025/MeSmile/issues/6642)
-- **Try the TUI:** `npx @aaif/goose`
+- **Try the TUI:** `npx @aaif/MeSmile`
 - **Discord:** Follow along and give feedback in [#mesmile-2-dev](https://discord.gg/mesmile-oss).
 - **Feedback?** Open an issue or drop a comment on #6642 — we'd love to hear from you.
 
 <head>
-  <meta property="og:title" content="goose 2.0 beta - new architecture and clients" />
+  <meta property="og:title" content="MeSmile 2.0 beta - new architecture and clients" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/04/08/mesmile-acp-and-new-tui" />
   <meta property="og:description" content="We're shipping a new TUI, rewriting the desktop app in Tauri, and unifying everything under ACP." />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="https://mesmile-docs.ai" />
-  <meta name="twitter:title" content="goose 2.0 beta - new architecture and clients" />
+  <meta name="twitter:title" content="MeSmile 2.0 beta - new architecture and clients" />
   <meta name="twitter:description" content="We're shipping a new TUI, rewriting the desktop app in Tauri, and unifying everything under ACP." />
   <meta property="og:image" content="https://mesmile-docs.ai/assets/images/mesmile-2-blog-cover-aaee1526bc905939e34f5766d377a793.jpg" />
   <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/mesmile-2-blog-cover-aaee1526bc905939e34f5766d377a793.jpg" />

@@ -22,7 +22,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require("@site/static/img/lock-unlocked-fill.svg").default,
     description: (
       <>
-        Built with transparency and collaboration in mind, goose empowers
+        Built with transparency and collaboration in mind, MeSmile empowers
         developers to contribute, customize, and innovate freely.
       </>
     ),
@@ -42,7 +42,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require("@site/static/img/category-ETF.svg").default,
     description: (
       <>
-        Customize goose with your preferred LLM and enhance its capabilities by connecting it to any
+        Customize MeSmile with your preferred LLM and enhance its capabilities by connecting it to any
         external MCP server or API.
       </>
     ),

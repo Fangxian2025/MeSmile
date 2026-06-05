@@ -6,7 +6,7 @@
 set -e
 
 VERSION=${1:-"main"}
-GOOSE_REPO=${GOOSE_REPO:-"$HOME/Development/goose"}
+GOOSE_REPO=${GOOSE_REPO:-"$HOME/Development/mesmile"}
 
 if [ ! -d "$GOOSE_REPO" ]; then
     echo "Error: GOOSE_REPO directory not found: $GOOSE_REPO" >&2

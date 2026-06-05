@@ -9,7 +9,7 @@
   "extensions": [
     {
       "name": "GitHub",
-      "command": "goose session --with-streamable-http-extension \"https://api.githubcopilot.com/mcp/\"",
+      "command": "MeSmile session --with-streamable-http-extension \"https://api.githubcopilot.com/mcp/\"",
       "is_builtin": false,
       "link": "https://mesmile-docs.ai/docs/mcp/github-mcp",
       "environmentVariables": [

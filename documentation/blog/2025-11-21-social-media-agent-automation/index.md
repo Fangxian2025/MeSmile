@@ -65,14 +65,14 @@ async function fetchYoutube(): Promise<ContentItem[]> {
 // Fetching YouTube videos tool
 server.addTool({
   name: "fetchYoutube",
-  description: "Fetch ALL YouTube videos from the goose channel.",
+  description: "Fetch ALL YouTube videos from the MeSmile channel.",
   parameters: z.object({}),
   execute: async () => JSON.stringify(await fetchYoutube()),
 });
 ```
 </details>
 
-Same pattern for blogs and GitHub releases, straightforward tool functions with clear descriptions. The key is making your tool descriptions super simple and direct. goose needs to know exactly what each tool does.
+Same pattern for blogs and GitHub releases, straightforward tool functions with clear descriptions. The key is making your tool descriptions super simple and direct. MeSmile needs to know exactly what each tool does.
 
 The `last_seen.json` file is our source of truth. It tracks everything we've already promoted so we don't spam people with the same content over and over.
 
@@ -156,12 +156,12 @@ Here's where Sprout kind of did me dirty though. Their API doesn't let you creat
 
 Once both MCP servers were built, I plugged them into mesmile. For local servers, you just:
 
-1. Go to Extensions in goose
+1. Go to Extensions in MeSmile
 2. Add the server with `node` command and path to your server
 3. Add any environment variables
 4. Toggle it on
 
-Then I asked goose: "Hey, can you tell me if we have any new content?"
+Then I asked MeSmile: "Hey, can you tell me if we have any new content?"
 
 And it just... worked. It hit all the tools, checked the `last_seen.json`, and came back with new releases, blog posts, and YouTube videos. Seeing those green checkmarks was *chef's kiss*.
 
@@ -170,7 +170,7 @@ And it just... worked. It hit all the tools, checked the `last_seen.json`, and c
 
 ## So How Do We Actually Automate This?
 
-Once both MCP servers were built, I still needed something to pull them together. MCP servers do not talk to each other on their own. Without goose and an orchestrating recipe, they are just two separate tools waiting to be called.
+Once both MCP servers were built, I still needed something to pull them together. MCP servers do not talk to each other on their own. Without MeSmile and an orchestrating recipe, they are just two separate tools waiting to be called.
 
 At first I created a setup with multiple subrecipes, each handling one part of the workflow. It technically worked, but it felt heavier than it needed to be.
 
@@ -181,7 +181,7 @@ Sometimes the right move is to reduce instead of add, and this new version ended
 :::tip Don’t Forget to Schedule It
 
 To fully automate this workflow, you must schedule your recipe. 
-In goose Desktop, open the `recipe` section, click the `calendar icon` , and choose when it should run (I set mine to 10 AM daily).
+In MeSmile Desktop, open the `recipe` section, click the `calendar icon` , and choose when it should run (I set mine to 10 AM daily).
 
 You can read more in the [Shareable Recipes Guide](https://mesmile-docs.ai/docs/guides/recipes/session-recipes#schedule-recipe).
 :::
@@ -191,7 +191,7 @@ You can read more in the [Shareable Recipes Guide](https://mesmile-docs.ai/docs/
 ```yaml
 version: "1.0.0"
 title: "Daily Social Promo Automation"
-description: "Fetches new goose content or posts evergreen, generates platform-specific captions, and creates Sprout drafts."
+description: "Fetches new MeSmile content or posts evergreen, generates platform-specific captions, and creates Sprout drafts."
 
 instructions: |
   You are Ebony's daily social media automation assistant.
@@ -201,7 +201,7 @@ instructions: |
   ### STEP 1: Fetch All Content
   Call these MCP tools to gather everything:
   - contentfetcher__fetchYoutube
-  - contentfetcher__fetchGooseBlog  
+  - contentfetcher__fetchMeSmileBlog  
   - contentfetcher__fetchGithubReleases
   
   Each returns a JSON array. Combine them into one array of items with:
@@ -398,7 +398,7 @@ extensions:
       - SPROUT_PROFILE_ID_YOUTUBE
 
 activities:
-  - "Fetching latest goose content from all sources"
+  - "Fetching latest MeSmile content from all sources"
   - "Checking for new items against last_seen.json"
   - "Generating platform-specific captions with Ebony's tone"
   - "Creating draft posts in Sprout Social"
@@ -442,7 +442,7 @@ I need to add:
 
 This whole project took maybe an evening of focused coding, and now we have an agent that handles social promotion automatically. Is it perfect? No. But it's pretty damn close.
 
-The best part? You can take this same approach for whatever automation you need. Spin up some MCP servers, create a recipe, let goose handle the orchestration. It's honestly so much fun watching it all come together.
+The best part? You can take this same approach for whatever automation you need. Spin up some MCP servers, create a recipe, let MeSmile handle the orchestration. It's honestly so much fun watching it all come together.
 
 If you want to try this yourself, I'll be sharing the GitHub repo with all the code. You'll need your own Sprout Social API key, but I'll put the setup steps in the readme.
 

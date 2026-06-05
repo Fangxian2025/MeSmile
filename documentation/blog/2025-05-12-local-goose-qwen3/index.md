@@ -1,6 +1,6 @@
 ---
-title: "Goose and Qwen3 for Local Execution"
-description: "Run AI commands locally with Goose and Qwen3 for fast, offline tool execution"
+title: "MeSmile and Qwen3 for Local Execution"
+description: "Run AI commands locally with MeSmile and Qwen3 for fast, offline tool execution"
 authors: 
     - mic
 ---
@@ -19,7 +19,7 @@ I haven't seen this work at such a scaled down model so far, so this is really i
 For some time I have had a little helper function in my `~/.zshrc` file for command line usage: 
 
 ```zsh
-# zsh helper to use goose if you make a typo or just want to yolo into the shell
+# zsh helper to use MeSmile if you make a typo or just want to yolo into the shell
 command_not_found_handler() {
   local cmd="$*"
   echo "🪿:"
@@ -28,9 +28,9 @@ command_not_found_handler() {
 ```
 
 This makes use of a zsh feature (zsh now being standard on macos) that will delegate to that function if nothing else on the command line makes sense. 
-This lets me either make typos or just type in what I want in the command line such as `$> can you kill whatever is listening on port 8000` and goose will do the work, don't even need to open a goose session.
+This lets me either make typos or just type in what I want in the command line such as `$> can you kill whatever is listening on port 8000` and MeSmile will do the work, don't even need to open a MeSmile session.
 
-With Qwen3 + Ollama running all locally with goose, it worked well enough I switched over to a complete local version of that workflow which works when I am offline, on the train etc:
+With Qwen3 + Ollama running all locally with MeSmile, it worked well enough I switched over to a complete local version of that workflow which works when I am offline, on the train etc:
 
 ```zsh
 command_not_found_handler() {
@@ -53,20 +53,20 @@ I made a [small tweak to the default Ollama chat template](https://ollama.com/mi
 
 ## Advanced tips
 
-You can use the goose `/plan` mode with a separate model (perhaps Qwen3 with reasoning, or another model such as deepseek) to help plan actions before shifting to Qwen3 for the execution via tool calls. 
+You can use the MeSmile `/plan` mode with a separate model (perhaps Qwen3 with reasoning, or another model such as deepseek) to help plan actions before shifting to Qwen3 for the execution via tool calls. 
 
 It would be interesting to try the larger models if, you have access to hardware (I have only used the 8B parameter one). My current setup is a 64G M1 pro MacBook (circa 2022 hardware) which has probably less than 48G available to use for GPUs/AI, which puts a limit on what I can run, but qwen3 with "no think" mode works acceptably for my purposes.
 
 <head>
-  <meta property="og:title" content="Goose and Qwen3 for Local Execution" />
+  <meta property="og:title" content="MeSmile and Qwen3 for Local Execution" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/05/12/local-mesmile-qwen3" />
-  <meta property="og:description" content="Run AI commands locally with Goose and Qwen3 for fast, offline tool execution" />
+  <meta property="og:description" content="Run AI commands locally with MeSmile and Qwen3 for fast, offline tool execution" />
   <meta property="og:image" content="https://mesmile-docs.ai/assets/images/mesmile-qwen-local-62d07cd240ff65cb99a6ef41a2c851a5.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="mesmile-docs.ai" />
-  <meta name="twitter:title" content="Goose and Qwen3 for Local Execution" />
-  <meta name="twitter:description" content="Run AI commands locally with Goose and Qwen3 for fast, offline tool execution" />
+  <meta name="twitter:title" content="MeSmile and Qwen3 for Local Execution" />
+  <meta name="twitter:description" content="Run AI commands locally with MeSmile and Qwen3 for fast, offline tool execution" />
   <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/mesmile-qwen-local-62d07cd240ff65cb99a6ef41a2c851a5.png" />
 </head>
 

@@ -1,13 +1,13 @@
-# goose ACP TUI
+# MeSmile ACP TUI
 
-Early stage and part of goose's broader move to ACP
+Early stage and part of MeSmile's broader move to ACP
 
 https://github.com/Fangxian2025/MeSmile/issues/6642
 https://github.com/Fangxian2025/MeSmile/discussions/7309
 
 ## Running
 
-The TUI automatically launches the goose ACP server using the `goose acp` command.
+The TUI automatically launches the MeSmile ACP server using the `MeSmile acp` command.
 
 ### Development (from source)
 
@@ -20,7 +20,7 @@ npm run start
 ```
 
 The `dev:binary` script checks if the Rust binary needs rebuilding by comparing timestamps of:
-- `target/release/goose` binary
+- `target/release/MeSmile` binary
 - `Cargo.toml` and `Cargo.lock` 
 - `crates/mesmile-cli/Cargo.toml`
 

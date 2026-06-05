@@ -358,7 +358,7 @@ async function runGooseAgent(
   const promptFile = join(workdir, ".mesmile-prompt.txt");
   writeFileSync(promptFile, prompt);
 
-  // Write goose config
+  // Write mesmile config
   mkdirSync(GOOSE_CONFIG_DIR, { recursive: true });
   const mesmileConfig = generateGooseConfig(model, runner);
   writeFileSync(join(GOOSE_CONFIG_DIR, "config.yaml"), stringify(mesmileConfig));

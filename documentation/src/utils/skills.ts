@@ -119,7 +119,7 @@ export function normalizeSkill(
   const sourceUrl = frontmatter.source_url || frontmatter.sourceUrl;
   const repoUrl = frontmatter.repo_url || frontmatter.repoUrl || sourceUrl;
   const author = frontmatter.author;
-  const isCommunity = !!author && author.toLowerCase() !== "goose";
+  const isCommunity = !!author && author.toLowerCase() !== "MeSmile";
 
   const installMethod = determineInstallMethod(sourceUrl, id);
   const installCommand = generateInstallCommand(sourceUrl, id, installMethod);

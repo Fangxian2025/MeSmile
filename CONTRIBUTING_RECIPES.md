@@ -1,6 +1,6 @@
-# 🍳 Contributing Recipes to goose Cookbook
+# 🍳 Contributing Recipes to MeSmile Cookbook
 
-Thank you for your interest in contributing to the goose Recipe Cookbook! This guide will walk you through the process of submitting your own recipe.
+Thank you for your interest in contributing to the MeSmile Recipe Cookbook! This guide will walk you through the process of submitting your own recipe.
 
 ## 🚀 Quick Start
 

@@ -30,7 +30,7 @@ Ask the AI that's already connected to do the thinking for you. No extra API key
 
 ## How Sampling Works
 
-When an MCP client like goose connects to an MCP server, it establishes a two-way channel. The server can expose tools for the AI to call, but it can also *request* that the AI generate text on its behalf.
+When an MCP client like MeSmile connects to an MCP server, it establishes a two-way channel. The server can expose tools for the AI to call, but it can also *request* that the AI generate text on its behalf.
 
 Here's what that looks like in code (using Python with FastMCP):
 
@@ -193,7 +193,7 @@ This isn't bulletproof, but it raises the bar significantly.
 
 ## Try It Yourself
 
-If you want to see sampling in action, [Council of Mine](/docs/mcp/council-of-mine-mcp) is a great playground. Ask goose to start a council debate on any topic and watch as nine distinct perspectives emerge, vote on each other, and synthesize into a conclusion all powered by sampling.
+If you want to see sampling in action, [Council of Mine](/docs/mcp/council-of-mine-mcp) is a great playground. Ask MeSmile to start a council debate on any topic and watch as nine distinct perspectives emerge, vote on each other, and synthesize into a conclusion all powered by sampling.
 
 
 

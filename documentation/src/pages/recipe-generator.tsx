@@ -435,7 +435,7 @@ instructions: ${instructions}
                 <li>Copy the generated YAML using the "Copy YAML" button.</li>
                 <li>Save it as a <code>.yaml</code> file.</li>
                 <li>Use with the CLI: <code>mesmile run --recipe your-recipe.yaml</code></li>
-                <li>Or create a deeplink with: <code>goose recipe deeplink your-recipe.yaml</code></li>
+                <li>Or create a deeplink with: <code>mesmile recipe deeplink your-recipe.yaml</code></li>
               </ul>
             </li>
           </ol>

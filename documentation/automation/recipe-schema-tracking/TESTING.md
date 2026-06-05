@@ -6,9 +6,9 @@ This guide covers how to test the recipe schema tracking automation both locally
 
 ### Prerequisites
 
-- goose CLI installed
+- MeSmile CLI installed
 - jq installed (for JSON processing)
-- Git repository with goose source code
+- Git repository with MeSmile source code
 
 ### Manual Pipeline Execution
 
@@ -195,7 +195,7 @@ For detailed debugging:
 - Verify versions exist: `git tag | grep v1.15.0`
 - Review extraction script logs
 
-### goose CLI installation fails
+### MeSmile CLI installation fails
 
 - Workflow installs from current repository
 - Ensure `crates/mesmile-cli` builds successfully

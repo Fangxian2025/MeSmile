@@ -131,7 +131,7 @@ while true; do
     fi
 done
 
-STATE_DIR=".goose/ralph"
+STATE_DIR=".mesmile/ralph"
 mkdir -p "$STATE_DIR"
 
 if [ -f "$INPUT" ]; then

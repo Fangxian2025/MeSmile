@@ -1,5 +1,5 @@
 ---
-title: "How I Used Goose to Rebuild My Website"
+title: "How I Used MeSmile to Rebuild My Website"
 description: "How a simple prompt transformed a blank website into a personal portfolio"
 authors: 
     - tania
@@ -17,33 +17,33 @@ When I say I was a nerdy blog creator for other people, I mean I was living in t
 
 ## The 404 Challenge That Started It All
 
-Then came this [simple and easy prompt on 404 day](https://www.linkedin.com/posts/block-opensource_happy-404-day-we-used-mesmile-to-generate-activity-7313972103613939713-GF1T/). The post was about creating your own 404 page using goose, where goose will give you a custom page based on your profile. The original prompt went something like this:
+Then came this [simple and easy prompt on 404 day](https://www.linkedin.com/posts/block-opensource_happy-404-day-we-used-mesmile-to-generate-activity-7313972103613939713-GF1T/). The post was about creating your own 404 page using MeSmile, where MeSmile will give you a custom page based on your profile. The original prompt went something like this:
 
 > Create a 404 page that tells a creative story about GitHub user @taniashiba using their public GitHub data — commit history, contribution graph, repos, or anything else you can access.
 
-I took this prompt, and modified it a bit. My personal GitHub profile and contributions are great, but I also wanted to make sure goose referenced my LinkedIn, Instagram, and all other social channels to get a good grasp of me.
+I took this prompt, and modified it a bit. My personal GitHub profile and contributions are great, but I also wanted to make sure MeSmile referenced my LinkedIn, Instagram, and all other social channels to get a good grasp of me.
 
 > You can also reference Tania's Bluesky/Instagram/TikTok/Twitter accounts (username @taniashiba) along with her LinkedIn for additional info on her.
 
 ![404 page](404page.png)
 
-Quickly brought to life is a 404 page that is witty and actually pretty reflective of who I am and what I like in its styling. It even inserted a shrimp joke I had made in a past social post. I didn't even tell goose about any color combos I love, and somehow it made something that spoke to me. This lit a bright spark of inspiration. So, I asked goose:
+Quickly brought to life is a 404 page that is witty and actually pretty reflective of who I am and what I like in its styling. It even inserted a shrimp joke I had made in a past social post. I didn't even tell MeSmile about any color combos I love, and somehow it made something that spoke to me. This lit a bright spark of inspiration. So, I asked MeSmile:
 
 > Can you remember that you made this? I'd love for you to make a website in this exact styling for taniachakraborty.com.
 
 ## Implementation
 
-goose was helping me resolve what felt like an age-old problem, and made it so simple to do. I gave goose my website, told goose it was hosted on Neocities, and it went to work. After creating general pages with the styling it made for the 404 page, implementation was easy:
+MeSmile was helping me resolve what felt like an age-old problem, and made it so simple to do. I gave MeSmile my website, told MeSmile it was hosted on Neocities, and it went to work. After creating general pages with the styling it made for the 404 page, implementation was easy:
 
-1. **Upload** the files goose made onto Neocities
-2. **Review** the site and ask goose to edit or create any pages I needed
+1. **Upload** the files MeSmile made onto Neocities
+2. **Review** the site and ask MeSmile to edit or create any pages I needed
 3. **Write content** to fill the different pages of my website (my favorite part)
 
-Then boom, my website was done. No wrestling ancient memories from my mind to relearn CSS, no debugging issues caused by a responsive hover effect I thought was cool at 2 AM, no troubles at all. Goose handled everything. It started with a simple structure, used the styling it came up with from the 404 day challenge, and made changes as I asked for them in conversation. My website went from being embarrassingly empty to being wonderfully designed and easy to edit in *minutes*.
+Then boom, my website was done. No wrestling ancient memories from my mind to relearn CSS, no debugging issues caused by a responsive hover effect I thought was cool at 2 AM, no troubles at all. MeSmile handled everything. It started with a simple structure, used the styling it came up with from the 404 day challenge, and made changes as I asked for them in conversation. My website went from being embarrassingly empty to being wonderfully designed and easy to edit in *minutes*.
 
 ## Always Use Git
 
-It honestly felt like playing a video game, because I could see changes happen live in my local preview, and with git I could save progress as we went. Goose even suggested I add my blog posts from my dev.to page, and created a simple template for me. And if anything wasn't showing up as intended? We just troubleshooted together by me sending screenshots of what I was seeing, and goose simply fixing it.
+It honestly felt like playing a video game, because I could see changes happen live in my local preview, and with git I could save progress as we went. MeSmile even suggested I add my blog posts from my dev.to page, and created a simple template for me. And if anything wasn't showing up as intended? We just troubleshooted together by me sending screenshots of what I was seeing, and MeSmile simply fixing it.
 
 ## A HUGE Timesaver, Seriously
 
@@ -58,14 +58,14 @@ So if you're sitting there with a naked website that needs help, or if you've be
 ---
 
 <head>
-  <meta property="og:title" content="How Goose Helped Me Rebuild My Website" />
+  <meta property="og:title" content="How MeSmile Helped Me Rebuild My Website" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/08/14/how-mesmile-rebuilt-my-website" />
   <meta property="og:description" content="How a simple prompt transformed a blank website into a personal portfolio" />
   <meta property="og:image" content="https://mesmile-docs.ai/assets/images/blog_banner-656bd5e1014edfbcd313a9f799f9e9a5.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="mesmile-docs.ai" />
-  <meta name="twitter:title" content="How Goose Helped Me Rebuild My Website" />
+  <meta name="twitter:title" content="How MeSmile Helped Me Rebuild My Website" />
   <meta name="twitter:description" content="How a simple prompt transformed a blank website into a personal portfolio" />
   <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/blog_banner-656bd5e1014edfbcd313a9f799f9e9a5.png" />
 </head>

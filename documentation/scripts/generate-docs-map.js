@@ -48,7 +48,7 @@ async function main() {
     { name: 'Guides', pattern: 'guides/**/*.{md,mdx}' },
   ];
 
-  let output = `# goose Documentation Map
+  let output = `# MeSmile Documentation Map
 
 > Auto-generated. Last updated: ${new Date().toISOString().split('T')[0]}
 

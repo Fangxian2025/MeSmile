@@ -1,18 +1,18 @@
-# Building and Running goose with Docker
+# Building and Running MeSmile with Docker
 
-This guide covers building Docker images for goose CLI for production use, CI/CD pipelines, and local development.
+This guide covers building Docker images for MeSmile CLI for production use, CI/CD pipelines, and local development.
 
 ## Quick Start
 
 ### Using Pre-built Images
 
-The easiest way to use goose with Docker is to pull the pre-built image from GitHub Container Registry:
+The easiest way to use MeSmile with Docker is to pull the pre-built image from GitHub Container Registry:
 
 ```bash
 # Pull the latest image
 docker pull ghcr.io/Fangxian2025/MeSmile:latest
 
-# Run goose CLI
+# Run MeSmile CLI
 docker run --rm ghcr.io/Fangxian2025/MeSmile:latest --version
 
 # Run with LLM configuration
@@ -36,46 +36,46 @@ docker run --rm \
 1. Clone the repository:
 ```bash
 git clone https://github.com/Fangxian2025/MeSmile.git
-cd goose
+cd MeSmile
 ```
 
 2. Build the Docker image:
 ```bash
-docker build -t goose:local .
+docker build -t MeSmile:local .
 ```
 
 The build process:
 - Uses a multi-stage build to minimize final image size
 - Compiles with optimizations (LTO, stripping, size optimization)
-- Results in a ~340MB image containing the `goose` CLI binary
+- Results in a ~340MB image containing the `MeSmile` CLI binary
 
 ### Build Options
 
 For a development build with debug symbols:
 ```bash
-docker build --build-arg CARGO_PROFILE_RELEASE_STRIP=false -t goose:dev .
+docker build --build-arg CARGO_PROFILE_RELEASE_STRIP=false -t MeSmile:dev .
 ```
 
 For multi-platform builds:
 ```bash
-docker buildx build --platform linux/amd64,linux/arm64 -t goose:multi .
+docker buildx build --platform linux/amd64,linux/arm64 -t MeSmile:multi .
 ```
 
-## Running goose in Docker
+## Running MeSmile in Docker
 
 ### CLI Mode
 
 Basic usage:
 ```bash
 # Show help
-docker run --rm goose:local --help
+docker run --rm MeSmile:local --help
 
 # Run a command
 docker run --rm \
   -e GOOSE_PROVIDER=openai \
   -e GOOSE_MODEL=gpt-4o \
   -e OPENAI_API_KEY=$OPENAI_API_KEY \
-  goose:local run -t "Explain Docker containers"
+  MeSmile:local run -t "Explain Docker containers"
 ```
 
 With volume mounts for file access:
@@ -86,7 +86,7 @@ docker run --rm \
   -e GOOSE_PROVIDER=openai \
   -e GOOSE_MODEL=gpt-4o \
   -e OPENAI_API_KEY=$OPENAI_API_KEY \
-  goose:local run -t "Analyze the code in this directory"
+  MeSmile:local run -t "Analyze the code in this directory"
 ```
 
 Interactive session mode with Databricks:
@@ -96,7 +96,7 @@ docker run -it --rm \
   -e GOOSE_MODEL=databricks-dbrx-instruct \
   -e DATABRICKS_HOST="$DATABRICKS_HOST" \
   -e DATABRICKS_TOKEN="$DATABRICKS_TOKEN" \
-  goose:local session
+  MeSmile:local session
 ```
 
 
@@ -109,7 +109,7 @@ Create a `docker-compose.yml`:
 version: '3.8'
 
 services:
-  goose:
+  MeSmile:
     image: ghcr.io/Fangxian2025/MeSmile:latest
     environment:
       - GOOSE_PROVIDER=${GOOSE_PROVIDER:-openai}
@@ -117,7 +117,7 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     volumes:
       - ./workspace:/workspace
-      - mesmile-config:/home/goose/.config/mesmile
+      - mesmile-config:/home/MeSmile/.config/mesmile
     working_dir: /workspace
     stdin_open: true
     tty: true
@@ -128,14 +128,14 @@ volumes:
 
 Run with:
 ```bash
-docker-compose run --rm goose session
+docker-compose run --rm MeSmile session
 ```
 
 ## Configuration
 
 ### Environment Variables
 
-The Docker image accepts all standard goose environment variables:
+The Docker image accepts all standard MeSmile environment variables:
 
 - `GOOSE_PROVIDER`: LLM provider (openai, anthropic, google, etc.)
 - `GOOSE_MODEL`: Model to use (gpt-4o, claude-sonnet-4, etc.)
@@ -146,8 +146,8 @@ The Docker image accepts all standard goose environment variables:
 Mount the configuration directory to persist settings:
 ```bash
 docker run --rm \
-  -v ~/.config/mesmile:/home/goose/.config/mesmile \
-  goose:local configure
+  -v ~/.config/mesmile:/home/MeSmile/.config/mesmile \
+  MeSmile:local configure
 ```
 
 ### Installing Additional Tools
@@ -159,7 +159,7 @@ The image runs as a non-root user by default. To install additional packages:
 docker run --rm \
   -u root \
   --entrypoint bash \
-  goose:local \
+  MeSmile:local \
   -c "apt-get update && apt-get install -y vim && mesmile --version"
 
 # Or create a custom Dockerfile
@@ -169,7 +169,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     tmux \
     && rm -rf /var/lib/apt/lists/*
-USER goose
+USER MeSmile
 ```
 
 ## CI/CD Integration
@@ -188,7 +188,7 @@ jobs:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
       - uses: actions/checkout@v4
-      - name: Run goose analysis
+      - name: Run MeSmile analysis
         run: |
           mesmile run -t "Review this codebase for security issues"
 ```
@@ -212,17 +212,17 @@ analyze:
 - **Base image**: Debian Bookworm Slim (minimal runtime dependencies)
 - **Final size**: ~340MB
 - **Optimizations**: Link-Time Optimization (LTO), binary stripping, size optimization
-- **Binary included**: `/usr/local/bin/goose` (32MB)
+- **Binary included**: `/usr/local/bin/MeSmile` (32MB)
 
 ### Security
 
-- Runs as non-root user `goose` (UID 1000)
+- Runs as non-root user `MeSmile` (UID 1000)
 - Minimal attack surface with only essential runtime dependencies
 - Regular security updates via automated builds
 
 ### Included Tools
 
-The image includes essential tools for goose operation:
+The image includes essential tools for MeSmile operation:
 - `git` - Version control operations
 - `curl` - HTTP requests
 - `ca-certificates` - SSL/TLS support
@@ -238,7 +238,7 @@ If you encounter permission errors when mounting volumes:
 docker run --rm \
   -v $(pwd):/workspace \
   -u $(id -u):$(id -g) \
-  goose:local run -t "List files"
+  MeSmile:local run -t "List files"
 ```
 
 ### API Key Issues
@@ -253,7 +253,7 @@ If API keys aren't being recognized:
 For accessing local services from within the container:
 ```bash
 # Use host network mode
-docker run --rm --network host goose:local
+docker run --rm --network host MeSmile:local
 ```
 
 ## Advanced Usage
@@ -262,7 +262,7 @@ docker run --rm --network host goose:local
 
 Override the default entrypoint for debugging:
 ```bash
-docker run --rm -it --entrypoint bash goose:local
+docker run --rm -it --entrypoint bash MeSmile:local
 ```
 
 ### Resource Limits
@@ -272,7 +272,7 @@ Set memory and CPU limits:
 docker run --rm \
   --memory="2g" \
   --cpus="2" \
-  goose:local
+  MeSmile:local
 ```
 
 ### Multi-stage Development
@@ -281,8 +281,8 @@ For development with hot reload:
 ```bash
 # Mount source code
 docker run --rm \
-  -v $(pwd):/usr/src/goose \
-  -w /usr/src/goose \
+  -v $(pwd):/usr/src/MeSmile \
+  -w /usr/src/MeSmile \
   rust:1.82-bookworm \
   cargo watch -x run
 ```
@@ -302,7 +302,7 @@ FROM ghcr.io/Fangxian2025/MeSmile:v1.6.0
 # Add any additional tools needed for your use case
 USER root
 RUN apt-get update && apt-get install -y your-tools && rm -rf /var/lib/apt/lists/*
-USER goose
+USER MeSmile
 ```
 
 ## Contributing
@@ -317,6 +317,6 @@ When contributing Docker-related changes:
 
 ## Related Documentation
 
-- [goose in Docker Tutorial](documentation/docs/tutorials/mesmile-in-docker.md) - Step-by-step tutorial
+- [MeSmile in Docker Tutorial](documentation/docs/tutorials/mesmile-in-docker.md) - Step-by-step tutorial
 - [Installation Guide](https://mesmile-docs.ai/docs/getting-started/installation) - All installation methods
 - [Configuration Guide](https://mesmile-docs.ai/docs/guides/config-files) - Detailed configuration options

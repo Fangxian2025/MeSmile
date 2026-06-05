@@ -7,7 +7,7 @@
   "properties": {
     "version": {
       "type": "string",
-      "description": "The goose version these rules apply to"
+      "description": "The mesmile version these rules apply to"
     },
     "extracted_at": {
       "type": "string",

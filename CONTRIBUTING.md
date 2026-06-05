@@ -1,6 +1,6 @@
 # Contribution Guide
 
-goose is open source!
+MeSmile is open source!
 
 We welcome pull requests for general contributions! In these days of AI it is easier than ever to contribute, but
 there are some pitfalls to avoid. This document describes the best practices for new and experienced contributors
@@ -13,8 +13,8 @@ to get work landed as smoothly as possible.
 
 ## Getting Started
 
-Your first contribution to goose should probably be a small bug fix. The goose maintainers have a lot of incoming
-PRs to review, and the reputation of the author is an important signal. While contributions to goose are generally
+Your first contribution to MeSmile should probably be a small bug fix. The MeSmile maintainers have a lot of incoming
+PRs to review, and the reputation of the author is an important signal. While contributions to MeSmile are generally
 of remarkably high quality, we do get our fair share of AI slop. When a first-time contributor opens a
 3k line PR touching 20 files, we have no easy way to tell whether it’s thoughtful work or
 blindly AI-generated without doing a deep dive.
@@ -76,7 +76,7 @@ are responsible for the final code. Before submitting a PR for review, make sure
 We'll close any vibe coded submissions that obviously skip this step.
 
 You can use whatever agent and whatever methodology you like as long as you stick to that principle. We hope
-you like goose of course and use that. One thing to watch out for is LLM eagerness. They like to please and
+you like MeSmile of course and use that. One thing to watch out for is LLM eagerness. They like to please and
 are in a hurry. 
 
    * **Think first**. Agents tend to jump straight to code writing. Explain the architecture you want first to 
@@ -95,7 +95,7 @@ are in a hurry.
    
 ## Prerequisites
 
-goose includes Rust binaries alongside an electron app for the GUI.
+MeSmile includes Rust binaries alongside an electron app for the GUI.
 
 We use [Hermit][hermit] to manage development dependencies (Rust, Node, pnpm, just, etc.).
 Activate Hermit when entering the project:
@@ -123,16 +123,16 @@ sudo apt install libxcb1-dev      # libxcb1-dev is the development package for t
 
 ### Rust
 
-First let's compile goose and try it out
-Since goose requires Hermit for managing dependencies, let's activate hermit.
+First let's compile MeSmile and try it out
+Since MeSmile requires Hermit for managing dependencies, let's activate hermit.
 
 ```
-cd goose
+cd MeSmile
 source ./bin/activate-hermit
 cargo build
 ```
 
-When that completes, debug builds of the binaries are available, including the goose CLI:
+When that completes, debug builds of the binaries are available, including the MeSmile CLI:
 
 ```
 ./target/debug/mesmile --help
@@ -141,13 +141,13 @@ When that completes, debug builds of the binaries are available, including the g
 For first-time setup, run the configure command:
 
 ```
-./target/debug/goose configure
+./target/debug/MeSmile configure
 ```
 
 Once a connection to an LLM provider is working, start a session:
 
 ```
-./target/debug/goose session
+./target/debug/MeSmile session
 ```
 
 These same commands can be recompiled and immediately run using `cargo run -p mesmile-cli` for iteration.
@@ -169,7 +169,7 @@ just run-ui
 ```
 
 This command builds a release build of Rust (equivalent to `cargo build -r`) and starts the Electron process.
-The app opens a window and displays first-time setup. After completing setup, goose is ready for use.
+The app opens a window and displays first-time setup. After completing setup, MeSmile is ready for use.
 
 Make GUI changes in `ui/desktop`.
 
@@ -190,7 +190,7 @@ API changes should be made in the Rust source under `crates/mesmile-server/src/`
 
 ### Debugging
 
-To debug the Goose server, run it from an IDE. The configuration will depend on the IDE. The command to run is:
+To debug the MeSmile server, run it from an IDE. The configuration will depend on the IDE. The command to run is:
 
 ```
 export GOOSE_SERVER__SECRET_KEY=test
@@ -214,12 +214,12 @@ and stepping through the server code while interacting with the UI.
 To fork the repository:
 
 1. Go to https://github.com/Fangxian2025/MeSmile and click “Fork” (top-right corner).
-2. This creates https://github.com/<your-username>/goose under your GitHub account.
+2. This creates https://github.com/<your-username>/MeSmile under your GitHub account.
 3. Clone your fork (not the main repo):
 
 ```
 git clone https://github.com/<your-username>/mesmile.git
-cd goose
+cd MeSmile
 ```
 
 4. Add the main repository as upstream:
@@ -309,7 +309,7 @@ your configuration.
 > At the moment, we are still updating some of the CLI configuration to make sure this is
 > respected.
 
-You can change the provider goose points to via the `GOOSE_PROVIDER` env var. If you already
+You can change the provider MeSmile points to via the `GOOSE_PROVIDER` env var. If you already
 have a credential for that provider in your keychain from previously setting up, it should
 reuse it. For things like automations or to test without doing official setup, you can also
 set the relevant env vars for that provider. For example `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`,
@@ -317,23 +317,23 @@ or `DATABRICKS_HOST`. Refer to the provider details for more info on required ke
 
 ### Isolating Test Environments
 
-When testing changes or running multiple goose configurations, use `GOOSE_PATH_ROOT` to isolate your data:
+When testing changes or running multiple MeSmile configurations, use `GOOSE_PATH_ROOT` to isolate your data:
 
 ```bash
 # Test with a clean environment
 export GOOSE_PATH_ROOT="/tmp/mesmile-test"
-./target/debug/goose session
+./target/debug/MeSmile session
 
 # Or for a single command
 GOOSE_PATH_ROOT="/tmp/mesmile-dev" cargo run -p mesmile-cli -- session
 ```
 
-This creates isolated `config/`, `data/`, and `state/` directories under the specified path, preventing your test sessions from affecting your main goose installation. See the [environment variables guide](./documentation/docs/guides/environment-variables.md#development--testing) for more details.
+This creates isolated `config/`, `data/`, and `state/` directories under the specified path, preventing your test sessions from affecting your main MeSmile installation. See the [environment variables guide](./documentation/docs/guides/environment-variables.md#development--testing) for more details.
 
-## Enable traces in goose with [locally hosted Langfuse](https://langfuse.com/docs/deployment/self-host)
+## Enable traces in MeSmile with [locally hosted Langfuse](https://langfuse.com/docs/deployment/self-host)
 
 - [Start a local Langfuse using the docs](https://langfuse.com/self-hosting/docker-compose). Create an organization and project and create API credentials.
-- Set the environment variables so that goose can connect to the langfuse server:
+- Set the environment variables so that MeSmile can connect to the langfuse server:
 
 ```
 export LANGFUSE_INIT_PROJECT_PUBLIC_KEY=publickey-local
@@ -364,12 +364,12 @@ git commit -s ...
 
 There are numerous ways to be an open source contributor and contribute to mesmile. We're here to help you on your way! Here are some suggestions to get started. If you have any questions or need help, feel free to reach out to us on [Discord](https://discord.gg/mesmile-oss).
 
-- **Stars on GitHub:** If you resonate with our project and find it valuable, consider starring our goose on GitHub! 🌟
+- **Stars on GitHub:** If you resonate with our project and find it valuable, consider starring our MeSmile on GitHub! 🌟
 - **Ask Questions:** Your questions not only help us improve but also benefit the community. If you have a question, don't hesitate to ask it on [Discord](https://discord.gg/mesmile-oss).
-- **Give Feedback:** Have a feature you want to see or encounter an issue with goose, [click here to open an issue](https://github.com/Fangxian2025/MeSmile/issues/new/choose), [start a discussion](https://github.com/Fangxian2025/MeSmile/discussions) or tell us on Discord.
+- **Give Feedback:** Have a feature you want to see or encounter an issue with MeSmile, [click here to open an issue](https://github.com/Fangxian2025/MeSmile/issues/new/choose), [start a discussion](https://github.com/Fangxian2025/MeSmile/discussions) or tell us on Discord.
 - **Participate in Community Events:** We host a variety of community events and livestreams on Discord every month, ranging from workshops to brainstorming sessions. You can subscribe to our [events calendar](https://calget.com/c/t7jszrie) or follow us on [social media](https://linktr.ee/mesmile_oss) to stay in touch.
 - **Improve Documentation:** Good documentation is key to the success of any project. You can help improve the quality of our existing docs or add new pages.
 - **Help Other Members:** See another community member stuck? Or a contributor blocked by a question you know the answer to? Reply to community threads or do a code review for others to help.
 - **Showcase Your Work:** Working on a project or written a blog post recently? Share it with the community in our [#share-your-work](https://discord.com/channels/1287729918100246654/1287729920797179958) channel.
 - **Give Shoutouts:** Is there a project you love or a community/staff who's been especially helpful? Feel free to give them a shoutout in our [#general](https://discord.com/channels/1287729918100246654/1287729920797179957) channel.
-- **Spread the Word:** Help us reach more people by sharing goose's project, website, YouTube, and/or Twitter/X.
+- **Spread the Word:** Help us reach more people by sharing MeSmile's project, website, YouTube, and/or Twitter/X.

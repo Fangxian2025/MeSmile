@@ -228,7 +228,7 @@ instructions: |
   ## Environment Variables
   
   - `RECIPE_REF_PATH`: Full path to recipe-reference.md file (overrides default)
-  - `GOOSE_REPO`: Path to goose repository (used if RECIPE_REF_PATH not set)
+  - `GOOSE_REPO`: Path to mesmile repository (used if RECIPE_REF_PATH not set)
   
   The recipe will check for these environment variables and construct the path accordingly.
   

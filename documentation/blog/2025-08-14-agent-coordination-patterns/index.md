@@ -26,7 +26,7 @@ These terms sound fancy, but at the end of the day, these are just different way
 
 ## The Agent: Solo Hero Mode
 
-You give the task to one AI agent, such as [Goose](/). The agent is an autonomous actor, essentially your army of one.
+You give the task to one AI agent, such as [MeSmile](/). The agent is an autonomous actor, essentially your army of one.
 
 You tell your agent, "Add dark mode to the app." It reads the repo, updates the CSS and themes, runs tests, and opens a PR. It handles the whole thing start to finish. No teammates, no handoffs.
 

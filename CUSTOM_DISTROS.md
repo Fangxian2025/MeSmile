@@ -1,12 +1,12 @@
-# Custom Distributions of goose
+# Custom Distributions of MeSmile
 
 > **Tip:** This is sometimes referred to as "white labelling" — creating a branded or tailored version of an open source project for your organization.
 
-This guide explains how to create custom distributions of goose tailored to your organization's needs—whether that's preconfigured models, custom tools, branded interfaces, or entirely new user experiences.
+This guide explains how to create custom distributions of MeSmile tailored to your organization's needs—whether that's preconfigured models, custom tools, branded interfaces, or entirely new user experiences.
 
 ## Overview
 
-goose's architecture is designed for extensibility. Organizations can create "remixed" versions that:
+MeSmile's architecture is designed for extensibility. Organizations can create "remixed" versions that:
 
 - **Preconfigure AI providers**: Ship with a specific model (local or cloud) and API credentials
 - **Bundle custom tools**: Include proprietary extensions for internal data sources
@@ -27,12 +27,12 @@ goose's architecture is designed for extensibility. Organizations can create "re
           ▼                ▼                      ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                    mesmile-server (mesmiled)                        │
-│         REST API for all goose functionality                    │
+│         REST API for all MeSmile functionality                    │
 └─────────────────────────────────────────────────────────────────┘
           │
           ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                      Core (goose crate)                         │
+│                      Core (MeSmile crate)                         │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────────┐  │
 │  │  Providers  │  │  Extensions │  │  Config & Recipes       │  │
 │  │  (AI models)│  │  (MCP tools)│  │  (behavior & defaults)  │  │
@@ -45,9 +45,9 @@ goose's architecture is designed for extensibility. Organizations can create "re
 | What You Want | Where to Look | Complexity |
 |---------------|---------------|------------|
 | Preconfigure a model/provider | `config.yaml`, `init-config.yaml`, environment variables | Low |
-| Add custom AI providers | `crates/goose/src/providers/declarative/` | Low |
+| Add custom AI providers | `crates/MeSmile/src/providers/declarative/` | Low |
 | Bundle custom MCP extensions | `config.yaml` extensions section, `ui/desktop/src/built-in-extensions.json`, `ui/desktop/src/components/settings/extensions/bundled-extensions.json` | Medium |
-| Modify system prompts | `crates/goose/src/prompts/` | Low |
+| Modify system prompts | `crates/MeSmile/src/prompts/` | Low |
 | Customize desktop branding | `ui/desktop/` (icons, names, colors) | Medium |
 | Build a new UI (web, mobile) | Integrate with `mesmile-server` REST API | High |
 | Create guided workflows | Recipes (YAML-based task definitions) | Low |
@@ -59,7 +59,7 @@ goose's architecture is designed for extensibility. Organizations can create "re
 
 ```bash
 git clone https://github.com/YOUR_ORG/mesmile.git
-cd goose
+cd MeSmile
 ```
 
 ### 2. Choose Your Customization Strategy
@@ -76,10 +76,10 @@ See [BUILDING_LINUX.md](BUILDING_LINUX.md) and [ui/desktop/README.md](ui/desktop
 
 ### Licensing
 
-goose is licensed under Apache License 2.0 (ASL v2). Custom distributions must:
+MeSmile is licensed under Apache License 2.0 (ASL v2). Custom distributions must:
 - Include the original license and copyright notices
 - Clearly indicate any modifications made
-- Not use "Goose" trademarks in ways that imply official endorsement
+- Not use "MeSmile" trademarks in ways that imply official endorsement
 
 For detailed guidance on ASL v2 compliance, see the [Apache License FAQ](https://www.apache.org/foundation/license-faq.html).
 
@@ -89,9 +89,9 @@ While you're free to maintain private forks, contributing improvements upstream 
 
 ### Telemetry
 
-goose includes optional telemetry (via PostHog) to help improve the project. For custom distributions, you can:
+MeSmile includes optional telemetry (via PostHog) to help improve the project. For custom distributions, you can:
 - **Disable telemetry**: Set `GOOSE_DISABLE_TELEMETRY=1`
-- **Use your own instance**: Modify `crates/goose/src/posthog.rs` to point to your PostHog instance
+- **Use your own instance**: Modify `crates/MeSmile/src/posthog.rs` to point to your PostHog instance
 
 ### Staying Current
 
@@ -107,7 +107,7 @@ To benefit from upstream improvements:
 
 ## A. Preconfigured Local Model Distribution
 
-**Goal**: Ship goose preconfigured to use a local Ollama model, requiring no API keys.
+**Goal**: Ship MeSmile preconfigured to use a local Ollama model, requiring no API keys.
 
 ### Steps
 
@@ -131,19 +131,19 @@ export OLLAMA_HOST=http://localhost:11434  # Or your hosted instance
 
 ### Technical Details
 
-- Provider configuration: `crates/goose/src/config/base.rs`
-- Ollama provider implementation: `crates/goose/src/providers/ollama.rs`
+- Provider configuration: `crates/MeSmile/src/config/base.rs`
+- Ollama provider implementation: `crates/MeSmile/src/providers/ollama.rs`
 - Config precedence: Environment variables → config.yaml → defaults
 
 ---
 
 ## B. Corporate Distribution with Managed API Keys
 
-**Goal**: Distribute goose internally with pre-provisioned API keys for a frontier model.
+**Goal**: Distribute MeSmile internally with pre-provisioned API keys for a frontier model.
 
 ### Steps
 
-1. **Store API keys securely** using goose's secret management:
+1. **Store API keys securely** using MeSmile's secret management:
 
 ```yaml
 # config.yaml (distributed with your package)
@@ -156,14 +156,14 @@ GOOSE_MODEL: claude-sonnet-4-20250514
 ```bash
 # Secrets are stored in system keyring or ~/.config/mesmile/secrets.yaml
 # if GOOSE_DISABLE_KEYRING=1
-goose configure set-secret ANTHROPIC_API_KEY "your-corporate-key"
+MeSmile configure set-secret ANTHROPIC_API_KEY "your-corporate-key"
 ```
 
 3. **Lock down provider changes** (optional) by modifying the settings UI or using a recipe that enforces the provider.
 
 ### Technical Details
 
-- Secret storage: `crates/goose/src/config/base.rs` (SecretStorage enum)
+- Secret storage: `crates/MeSmile/src/config/base.rs` (SecretStorage enum)
 - Keyring integration: Uses system keyring by default, file-based fallback available
 - Config file location: `~/.config/mesmile/config.yaml`
 
@@ -216,22 +216,22 @@ Example:
 ```yaml
 # data-analyst.yaml
 title: Data Analyst Assistant
-description: goose configured for data analysis
+description: MeSmile configured for data analysis
 instructions: |
   You have access to the corporate data lake. Help users query and analyze data.
 extensions:
   - type: stdio
     name: internal-data
     cmd: python
-    args: ["/opt/corp-goose/internal_data_mcp.py"]
+    args: ["/opt/corp-MeSmile/internal_data_mcp.py"]
     description: Corporate data lake access
 ```
 
 ### Technical Details
 
-- Extension types: `crates/goose/src/agents/extension.rs` (ExtensionConfig enum)
+- Extension types: `crates/MeSmile/src/agents/extension.rs` (ExtensionConfig enum)
 - Built-in MCP servers: `crates/mesmile-mcp/`
-- Extension loading: `crates/goose/src/agents/extension_manager.rs`
+- Extension loading: `crates/MeSmile/src/agents/extension_manager.rs`
 
 ---
 
@@ -260,7 +260,7 @@ module.exports = {
 };
 ```
 
-3. **Update the system prompt** to reflect your branding in `crates/goose/src/prompts/system.md`:
+3. **Update the system prompt** to reflect your branding in `crates/MeSmile/src/prompts/system.md`:
 
 ```markdown
 You are an AI assistant called [YourName], created by [YourCompany].
@@ -277,14 +277,14 @@ You are an AI assistant called [YourName], created by [YourCompany].
 
    - Set build/release environment variables consistently:
      - `GITHUB_OWNER` and `GITHUB_REPO` for publisher + updater repository lookup
-     - `GOOSE_BUNDLE_NAME` for bundle/debug scripts and updater asset naming (defaults to `Goose`)
+     - `GOOSE_BUNDLE_NAME` for bundle/debug scripts and updater asset naming (defaults to `MeSmile`)
 
 Example:
 
 ```bash
 export GITHUB_OWNER="your-org"
 export GITHUB_REPO="your-mesmile-fork"
-export GOOSE_BUNDLE_NAME="InsightStream-goose"
+export GOOSE_BUNDLE_NAME="InsightStream-MeSmile"
 ```
 
 6. **Use this branding consistency checklist** before release:
@@ -296,15 +296,15 @@ export GOOSE_BUNDLE_NAME="InsightStream-goose"
 
 - Electron config: `ui/desktop/forge.config.ts`
 - UI entry point: `ui/desktop/src/renderer.tsx`
-- System prompts: `crates/goose/src/prompts/`
+- System prompts: `crates/MeSmile/src/prompts/`
 
 ---
 
 ## E. Building a New Interface (Web, Mobile, etc.)
 
-**Goal**: Create an entirely new frontend while leveraging goose's backend.
+**Goal**: Create an entirely new frontend while leveraging MeSmile's backend.
 
-goose provides two integration options for building custom UIs:
+MeSmile provides two integration options for building custom UIs:
 
 ### Option 1: REST API (mesmile-server)
 
@@ -333,7 +333,7 @@ GET  /extensions            # List available extensions
 POST /extensions/{name}/enable  # Enable an extension
 ```
 
-**Handle streaming responses** - goose uses Server-Sent Events (SSE) for real-time responses.
+**Handle streaming responses** - MeSmile uses Server-Sent Events (SSE) for real-time responses.
 
 ### Option 2: Agent Client Protocol (ACP)
 
@@ -345,11 +345,11 @@ ACP provides:
 - **Session management**: Create, load, and resume sessions with full conversation history
 - **MCP server integration**: Dynamically add MCP servers to sessions
 
-**Start goose as an ACP agent**:
+**Start MeSmile as an ACP agent**:
 
 ```bash
-# Run goose as an ACP server on stdio
-goose acp --with-builtin developer,memory
+# Run MeSmile as an ACP server on stdio
+MeSmile acp --with-builtin developer,memory
 
 # Or programmatically
 cargo run -p mesmile-cli -- acp --with-builtin developer
@@ -374,7 +374,7 @@ import json
 class AcpClient:
     def __init__(self):
         self.process = subprocess.Popen(
-            ['goose', 'acp', '--with-builtin', 'developer'],
+            ['MeSmile', 'acp', '--with-builtin', 'developer'],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             text=True
@@ -416,7 +416,7 @@ For the full ACP specification, see the [Agent Client Protocol documentation](ht
 - API client example: `ui/desktop/src/api/` (generated TypeScript client)
 
 **ACP**:
-- ACP server implementation: `crates/goose/src/acp/server.rs`
+- ACP server implementation: `crates/MeSmile/src/acp/server.rs`
 - CLI integration: `crates/mesmile-cli/src/cli.rs` (Command::Acp)
 - Protocol library: `agent-client-protocol` crate (Rust implementation of ACP)
 - Test client example: `test_acp_client.py`
@@ -425,7 +425,7 @@ For the full ACP specification, see the [Agent Client Protocol documentation](ht
 
 ## F. Audience-Specific Distributions (Legal, Design, etc.)
 
-**Goal**: Create a version of goose tailored for a specific professional audience.
+**Goal**: Create a version of MeSmile tailored for a specific professional audience.
 
 ### Steps
 
@@ -452,7 +452,7 @@ extensions:
   - type: stdio
     name: legal-database
     cmd: python
-    args: ["/opt/legal-goose/legal_db_mcp.py"]
+    args: ["/opt/legal-MeSmile/legal_db_mcp.py"]
     description: Legal database search
 
 activities:
@@ -471,8 +471,8 @@ settings:
 
 ### Technical Details
 
-- Recipe format: `crates/goose/src/recipe/mod.rs`
-- Recipe loading: `crates/goose/src/recipe/local_recipes.rs`
+- Recipe format: `crates/MeSmile/src/recipe/mod.rs`
+- Recipe loading: `crates/MeSmile/src/recipe/local_recipes.rs`
 - Activity suggestions: Shown in UI as quick-start prompts
 
 ---
@@ -510,16 +510,16 @@ Supported engines: `openai`, `anthropic`, `ollama`
 
 For providers with unique APIs, implement the Provider trait:
 
-1. Create a new file in `crates/goose/src/providers/`
+1. Create a new file in `crates/MeSmile/src/providers/`
 2. Implement the `Provider` trait from `base.rs`
-3. Register in `crates/goose/src/providers/factory.rs`
+3. Register in `crates/MeSmile/src/providers/factory.rs`
 
 ### Technical Details
 
-- Declarative providers: `crates/goose/src/config/declarative_providers.rs`
-- Provider trait: `crates/goose/src/providers/base.rs`
-- Provider registration: `crates/goose/src/providers/factory.rs`
-- Example providers: `crates/goose/src/providers/declarative/*.json`
+- Declarative providers: `crates/MeSmile/src/config/declarative_providers.rs`
+- Provider trait: `crates/MeSmile/src/providers/base.rs`
+- Provider registration: `crates/MeSmile/src/providers/factory.rs`
+- Example providers: `crates/MeSmile/src/providers/declarative/*.json`
 
 ---
 
@@ -527,7 +527,7 @@ For providers with unique APIs, implement the Provider trait:
 
 **Goal**: Create standardized, repeatable workflows that users can run with minimal setup.
 
-Recipes are YAML files that define complete goose experiences—instructions, extensions, parameters, and prompts bundled together. They're ideal for custom distributions because they require no code changes and can be distributed as simple files.
+Recipes are YAML files that define complete MeSmile experiences—instructions, extensions, parameters, and prompts bundled together. They're ideal for custom distributions because they require no code changes and can be distributed as simple files.
 
 ### Basic Recipe Structure
 
@@ -597,9 +597,9 @@ prompt: |
 
 ### Technical Details
 
-- Recipe schema: `crates/goose/src/recipe/mod.rs`
-- Parameter handling: `crates/goose/src/recipe/template_recipe.rs`
-- Recipe validation: `crates/goose/src/recipe/validate_recipe.rs`
+- Recipe schema: `crates/MeSmile/src/recipe/mod.rs`
+- Parameter handling: `crates/MeSmile/src/recipe/template_recipe.rs`
+- Recipe validation: `crates/MeSmile/src/recipe/validate_recipe.rs`
 
 ---
 
@@ -607,7 +607,7 @@ prompt: |
 
 **Goal**: Build sophisticated multi-step workflows that orchestrate multiple specialized tasks.
 
-For complex workflows, goose supports two powerful composition mechanisms:
+For complex workflows, MeSmile supports two powerful composition mechanisms:
 
 1. **Sub-recipes**: Predefined recipe templates that can be invoked by name
 2. **Subagents**: Independent AI agents spawned to handle specific tasks
@@ -824,7 +824,7 @@ prompt: |
 
 ### Technical Details
 
-- Subagent tool: `crates/goose/src/agents/subagent_tool.rs`
-- Subagent execution: `crates/goose/src/agents/subagent_handler.rs`
-- Recipe sub_recipes field: `crates/goose/src/recipe/mod.rs` (SubRecipe struct)
-- Template rendering: `crates/goose/src/recipe/template_recipe.rs`
+- Subagent tool: `crates/MeSmile/src/agents/subagent_tool.rs`
+- Subagent execution: `crates/MeSmile/src/agents/subagent_handler.rs`
+- Recipe sub_recipes field: `crates/MeSmile/src/recipe/mod.rs` (SubRecipe struct)
+- Template rendering: `crates/MeSmile/src/recipe/template_recipe.rs`

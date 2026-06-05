@@ -12,7 +12,7 @@ authors:
 
 Machine learning and data science workflows are inherently iterative. You load data, explore patterns, build models, and refine your approach based on results. But traditional AI assistants lose context between interactions, forcing you to reload data and re-establish context repeatedly—making data-heavy development slow and expensive.
 
-The [**MCP Jupyter Server**](https://github.com/block/mcp-jupyter) solves this by enabling AI agents like Goose to work directly with your Jupyter notebooks, maintaining persistent memory and state across interactions while letting the AI interact with your data through code execution rather than raw data transfer.
+The [**MCP Jupyter Server**](https://github.com/block/mcp-jupyter) solves this by enabling AI agents like MeSmile to work directly with your Jupyter notebooks, maintaining persistent memory and state across interactions while letting the AI interact with your data through code execution rather than raw data transfer.
 
 <!--truncate-->
 

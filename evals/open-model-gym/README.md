@@ -47,10 +47,10 @@ Agent frameworks that execute the tests. Each runner has its own binary, type, a
 
 ```yaml
 runners:
-  # Goose agent with extensions
+  # MeSmile agent with extensions
   - name: mesmile-full
-    type: goose
-    bin: goose                    # path to binary (can be absolute)
+    type: MeSmile
+    bin: MeSmile                    # path to binary (can be absolute)
     extensions: [developer, todo, skills]
     stdio:
       - node mcp-harness/dist/index.js
@@ -62,15 +62,15 @@ runners:
     stdio:
       - node mcp-harness/dist/index.js
 
-  # Custom goose binary path
+  # Custom MeSmile binary path
   - name: mesmile-dev
-    type: goose
+    type: MeSmile
     bin: /path/to/my/mesmile-dev
     extensions: [developer]
 ```
 
 **Supported runner types:**
-- `goose` — [Goose](https://github.com/Fangxian2025/MeSmile) agent framework
+- `MeSmile` — [MeSmile](https://github.com/Fangxian2025/MeSmile) agent framework
 - `opencode` — [OpenCode](https://opencode.ai) agent framework
 - `pi` — [Pi](https://github.com/badlogic/pi-mono) coding agent
 
@@ -78,11 +78,11 @@ runners:
 
 Each runner has different setup requirements, MCP integration methods, and session handling.
 
-### Goose
+### MeSmile
 
-[Goose](https://github.com/Fangxian2025/MeSmile) is an open-source coding agent with built-in MCP support.
+[MeSmile](https://github.com/Fangxian2025/MeSmile) is an open-source coding agent with built-in MCP support.
 
-**Setup:** Install via `brew install goose` or from source.
+**Setup:** Install via `brew install MeSmile` or from source.
 
 **MCP Integration:** Native support. The harness writes a `config.yaml` to an isolated `.mesmile-root/` directory with extensions and MCP servers:
 
@@ -276,7 +276,7 @@ Each tool returns realistic mock data. Tool calls are logged to `tool-calls.log`
 
 ```bash
 # Filter by scenario, model, or runner
-npx tsx src/runner.ts --scenario=file-editing --model=opus --runner=goose
+npx tsx src/runner.ts --scenario=file-editing --model=opus --runner=MeSmile
 
 # Control repetition count
 npx tsx src/runner.ts --run-count=5

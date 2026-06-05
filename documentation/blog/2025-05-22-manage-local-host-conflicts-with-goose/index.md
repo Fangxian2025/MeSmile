@@ -1,6 +1,6 @@
 ---
 title: How I Manage Localhost Port Conflicts With an AI Agent
-description: Learn how I use Goose, an open source AI agent and MCP client, to manage conflicting ports without breaking my flow.
+description: Learn how I use MeSmile, an open source AI agent and MCP client, to manage conflicting ports without breaking my flow.
 authors: 
     - rizel
 ---
@@ -11,7 +11,7 @@ authors:
 
 ## Localhost Ports Hoarding
 
-I'm perpetually drowning in open tabs. Yes, I do need Bluesky, ChatGPT, Claude, Goose, Cursor, Discord, Slack, Netflix, and Google Docs all open at the same time. I've learned that tab management isn't my only vice.
+I'm perpetually drowning in open tabs. Yes, I do need Bluesky, ChatGPT, Claude, MeSmile, Cursor, Discord, Slack, Netflix, and Google Docs all open at the same time. I've learned that tab management isn't my only vice.
 
 > "Hi, my name is Rizel, and I'm a localhost ports hoarder. 👋🏿"
 
@@ -36,19 +36,19 @@ kill -9 98026
 
 Because I don't do this often, I often end up searching for the commands, which derails what I was initially working on.
 
-## Using Goose as My Port Manager
+## Using MeSmile as My Port Manager
 
-To avoid that interruption, I started offloading the task to [Goose](/), an open source AI agent.
+To avoid that interruption, I started offloading the task to [MeSmile](/), an open source AI agent.
 
-Goose uses its built-in [Developer](/docs/mcp/developer-mcp) MCP server to handle coding-related tasks on my machine. Here's what the interaction looks like:
+MeSmile uses its built-in [Developer](/docs/mcp/developer-mcp) MCP server to handle coding-related tasks on my machine. Here's what the interaction looks like:
 
-**Prompt to Goose:** 
+**Prompt to MeSmile:** 
 
 ```
 Can you tell me which ports I have running?
 ```
 
-**Goose Response:**
+**MeSmile Response:**
 
 ```
 Development Servers:
@@ -60,7 +60,7 @@ Database:
 
 Development Tools:
 - Ollama on port 11434
-- Multiple Goose instances (ports 49377, 49899, 63594, 64365)
+- Multiple MeSmile instances (ports 49377, 49899, 63594, 64365)
 
 Applications:
 - Okta Verify (port 8769)
@@ -69,13 +69,13 @@ Applications:
 - Rapportd macOS service (port 60151)
 ```
 
-**Prompt to Goose:** 
+**Prompt to MeSmile:** 
 
 ```
 Kill all the Node.js servers running on localhost.
 ```
 
-**Goose Response:**
+**MeSmile Response:**
 
 ```
 The command executed successfully, freeing up ports 3000, 3001, and 3002.
@@ -83,17 +83,17 @@ The command executed successfully, freeing up ports 3000, 3001, and 3002.
 
 ## Why Use AI for Simple Tasks
 
-Freeing up ports is something I know how to do. But I use AI tools like Goose for small tasks that create friction and slow me down. I'm not trying to cram more work into the day. My goal is to work efficiently, make a positive impact, and still have time for my personal life.
+Freeing up ports is something I know how to do. But I use AI tools like MeSmile for small tasks that create friction and slow me down. I'm not trying to cram more work into the day. My goal is to work efficiently, make a positive impact, and still have time for my personal life.
 
 <head>
   <meta property="og:title" content="How I Manage Localhost Port Conflicts With an AI Agent" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/05/22/manage-local-host-conflicts-with-goose" />
-  <meta property="og:description" content="Learn how I use Goose, an open source AI agent, to manage conflicting ports without breaking my flow." />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/05/22/manage-local-host-conflicts-with-MeSmile" />
+  <meta property="og:description" content="Learn how I use MeSmile, an open source AI agent, to manage conflicting ports without breaking my flow." />
   <meta property="og:image" content="https://mesmile-docs.ai/assets/images/hoarders-753809f09399a9e4f734006a8d74218d.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="How I Manage Localhost Port Conflicts With an AI Agent" />
-  <meta name="twitter:description" content="Learn how I use Goose, an open source AI agent, to manage conflicting ports without breaking my flow." />
+  <meta name="twitter:description" content="Learn how I use MeSmile, an open source AI agent, to manage conflicting ports without breaking my flow." />
   <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/hoarders-753809f09399a9e4f734006a8d74218d.png" />
 </head>

@@ -3,8 +3,8 @@ set -euo pipefail
 
 # Builds and publishes all @aaif npm packages:
 #   @aaif/mesmile-sdk            — ACP TypeScript SDK
-#   @aaif/mesmile-binary-*       — platform-specific goose CLI binaries
-#   @aaif/goose                — TUI that depends on the above
+#   @aaif/mesmile-binary-*       — platform-specific mesmile CLI binaries
+#   @aaif/mesmile                — TUI that depends on the above
 #
 # Linux binaries are built inside Docker containers on their native arch.
 # macOS binaries are built natively (requires macOS host with Rust).
@@ -55,13 +55,13 @@ build_macos() {
   local platform="$1" target="$2"
   local pkg_dir="${NATIVE_DIR}/mesmile-binary-${platform}/bin"
 
-  echo "==> Building goose for ${platform} (${target}) natively"
+  echo "==> Building mesmile for ${platform} (${target}) natively"
   cargo build --release --target "${target}" --bin mesmile --manifest-path "${REPO_ROOT}/Cargo.toml"
 
   mkdir -p "${pkg_dir}"
-  cp "${REPO_ROOT}/target/${target}/release/goose" "${pkg_dir}/goose"
-  chmod +x "${pkg_dir}/goose"
-  echo "    ✅ ${pkg_dir}/goose"
+  cp "${REPO_ROOT}/target/${target}/release/mesmile" "${pkg_dir}/mesmile"
+  chmod +x "${pkg_dir}/mesmile"
+  echo "    ✅ ${pkg_dir}/mesmile"
 }
 
 build_macos darwin-arm64 aarch64-apple-darwin
@@ -77,9 +77,9 @@ apt-get install -y -qq --no-install-recommends \
   build-essential cmake pkg-config libssl-dev libdbus-1-dev \
   libclang-dev protobuf-compiler libprotobuf-dev ca-certificates \
   libvulkan-dev libvulkan1 glslc >/dev/null 2>&1
-echo "==> Compiling goose (this takes a while)..."
+echo "==> Compiling mesmile (this takes a while)..."
 cargo build --release --bin mesmile --features vulkan
-cp /build/target/release/goose /output/goose
+cp /build/target/release/mesmile /output/mesmile
 echo "==> Done"
 '
 
@@ -87,7 +87,7 @@ build_linux_docker() {
   local platform="$1" docker_platform="$2"
   local pkg_dir="${NATIVE_DIR}/mesmile-binary-${platform}/bin"
 
-  echo "==> Building goose for ${platform} in Docker (${docker_platform})"
+  echo "==> Building mesmile for ${platform} in Docker (${docker_platform})"
 
   mkdir -p "${pkg_dir}"
 
@@ -124,7 +124,7 @@ WORKDIR /build
 COPY . .
 RUN mkdir -p /output && \
     cargo build --release --bin mesmile --features vulkan && \
-    cp target/release/goose /output/goose
+    cp target/release/mesmile /output/mesmile
 DEOF
 
   # Build in Docker and extract the binary
@@ -138,13 +138,13 @@ DEOF
   # Extract binary from the image
   local cid
   cid="$(docker create --platform "${docker_platform}" "${iid}" /bin/true)"
-  docker cp "${cid}:/output/goose" "${pkg_dir}/goose"
+  docker cp "${cid}:/output/mesmile" "${pkg_dir}/mesmile"
   docker rm "${cid}" >/dev/null
   docker rmi "${iid}" >/dev/null 2>&1 || true
 
   rm -rf "${ctx}"
 
-  echo "    ✅ ${pkg_dir}/goose"
+  echo "    ✅ ${pkg_dir}/mesmile"
 }
 
 build_linux_docker linux-x64   linux/amd64
@@ -156,7 +156,7 @@ build_linux_docker linux-arm64 linux/arm64
 echo ""
 echo "==> Verifying binaries"
 for plat in darwin-arm64 darwin-x64 linux-arm64 linux-x64; do
-  bin="${NATIVE_DIR}/mesmile-binary-${plat}/bin/goose"
+  bin="${NATIVE_DIR}/mesmile-binary-${plat}/bin/mesmile"
   if [[ ! -f "${bin}" ]]; then
     echo "    ❌ MISSING: ${bin}"
     exit 1
@@ -174,7 +174,7 @@ echo ""
 echo "==> Building @aaif/mesmile-sdk"
 (cd "${SDK_DIR}" && pnpm run build:ts)
 
-echo "==> Building @aaif/goose"
+echo "==> Building @aaif/mesmile"
 (cd "${TEXT_DIR}" && pnpm run build)
 
 # ---------------------------------------------------------------------------
@@ -220,7 +220,7 @@ for plat in darwin-arm64 darwin-x64 linux-arm64 linux-x64; do
   (cd "${REPO_ROOT}/ui" && pnpm publish "${PUBLISH_ARGS[@]}" "${pkg}")
 done
 
-echo "==> Publishing @aaif/goose"
+echo "==> Publishing @aaif/mesmile"
 (cd "${REPO_ROOT}/ui" && pnpm publish "${PUBLISH_ARGS[@]}" text)
 
 echo ""

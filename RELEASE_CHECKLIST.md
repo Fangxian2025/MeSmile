@@ -1,4 +1,4 @@
-# goose Release Manual Testing Checklist
+# MeSmile Release Manual Testing Checklist
 
 ## Version: {{VERSION}}
 
@@ -18,7 +18,7 @@ Make a copy of this document for each version and check off as steps are verifie
 ### Provider Testing
 
 - [ ] Run `cd ui/desktop && pnpm run test:integration:providers` locally from the release branch and verify all providers/models work
-- [ ] Launch goose, click reset providers, choose databricks and a model
+- [ ] Launch MeSmile, click reset providers, choose databricks and a model
 
 ### Starting Conversations
 
@@ -50,7 +50,7 @@ Test various ways to start a conversation:
 
 #### Use Existing Recipe
 
-- [ ] Pick trip planner from recipe hub (go/gooserecipes)
+- [ ] Pick trip planner from recipe hub (go/MeSmilerecipes)
   - [ ] See the warning whether to trust this recipe (only on fresh install)
   - [ ] See the form pop up
   - [ ] Fill in the form with "Africa" and "14 days"
@@ -96,7 +96,7 @@ recipe:
 
 - [ ] Can manually add an extension using random quotes from project
   - [ ] Add new custom stdio extension with the following command and save:
-    - [ ] `node /ABSOLUTE/PATH/TO/goose/ui/desktop/tests/e2e/basic-mcp.ts` (use your actual project path)
+    - [ ] `node /ABSOLUTE/PATH/TO/MeSmile/ui/desktop/tests/e2e/basic-mcp.ts` (use your actual project path)
     - [ ] Should add and can chat to ask for a random quote
 
 #### Playwright Extension

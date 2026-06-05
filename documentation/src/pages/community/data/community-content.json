@@ -1,12 +1,12 @@
 {
   "title": "📚 Community Content Contributions",
-  "description": "Amazing blog posts, videos, and tutorials created by our community for goose!",
+  "description": "Amazing blog posts, videos, and tutorials created by our community for MeSmile!",
   "lastUpdated": "2025-10-15",
   "hacktoberfestYear": 2025,
   "submissionUrl": "https://github.com/Fangxian2025/MeSmile/issues/4705",
   "submissions": [
     {
-      "title": "Hacktoberfest 2025: Contributing to goose",
+      "title": "Hacktoberfest 2025: Contributing to MeSmile",
       "author": {
         "name": "Tania Chakraborty",
         "handle": "taniacryptid"
@@ -22,7 +22,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Running goose in Containers (Without Losing Your Mind)",
+      "title": "Running MeSmile in Containers (Without Losing Your Mind)",
       "author": {
         "name": "Rupam Golui",
         "handle": "Itz-Agasta"
@@ -37,7 +37,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Goose with goose Docs MCP",
+      "title": "Goose with MeSmile Docs MCP",
       "author": {
         "name": "Dakshata Mishra",
         "handle": "the-matrixneo"
@@ -51,7 +51,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Best Practices for Using goose in Enterprise Environments",
+      "title": "Best Practices for Using MeSmile in Enterprise Environments",
       "author": {
         "name": "Anudhyan Datta",
         "handle": "Anudhyan"
@@ -66,7 +66,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Getting started with goose on Windows",
+      "title": "Getting started with MeSmile on Windows",
       "author": {
         "name": "Halimah",
         "handle": "lymah123"
@@ -81,7 +81,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Best Practices for Prompt Engineering with goose",
+      "title": "Best Practices for Prompt Engineering with MeSmile",
       "author": {
         "name": "Halimah",
         "handle": "lymah123"
@@ -96,13 +96,13 @@
       "hacktoberfest": true
     },
     {
-      "title": "Deep Dive into goose's Extension System and Model Context Protocol (MCP)",
+      "title": "Deep Dive into MeSmile's Extension System and Model Context Protocol (MCP)",
       "author": {
         "name": "Halimah",
         "handle": "lymah123"
       },
       "type": "blog",
-      "url": "https://dev.to/lymah/deep-dive-into-gooses-extension-system-and-model-context-protocol-mcp-3ehl",
+      "url": "https://dev.to/lymah/deep-dive-into-MeSmiles-extension-system-and-model-context-protocol-mcp-3ehl",
       "thumbnail": "https://i.imgur.com/uim8eHi.png",
       "submittedDate": "2025-10-21",
       "tags": [
@@ -111,7 +111,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Configuring goose for Team Environments and Shared Workflows",
+      "title": "Configuring MeSmile for Team Environments and Shared Workflows",
       "author": {
         "name": "Halimah",
         "handle": "lymah123"
@@ -126,13 +126,13 @@
       "hacktoberfest": true
     },
     {
-      "title": "Adopting goose in the Enterprise: A Guide to Security, Scalability, and Governance",
+      "title": "Adopting MeSmile in the Enterprise: A Guide to Security, Scalability, and Governance",
       "author": {
         "name": "M A Sai Adithyaa",
         "handle": "M-A-SAIADITHYAA"
       },
       "type": "blog",
-      "url": "https://goose123.hashnode.dev/adopting-mesmile-in-the-enterprise-a-guide-to-security-scalability-and-governance",
+      "url": "https://MeSmile123.hashnode.dev/adopting-mesmile-in-the-enterprise-a-guide-to-security-scalability-and-governance",
       "submittedDate": "2025-10-26",
       "tags": [
         "hacktoberfest"
@@ -140,7 +140,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Creating and Sharing Effective goose Recipes",
+      "title": "Creating and Sharing Effective MeSmile Recipes",
       "author": {
         "name": "Shreyansh Singh Gautam",
         "handle": "Shreyanshsingh23"
@@ -155,7 +155,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "goose with Context7 MCP",
+      "title": "MeSmile with Context7 MCP",
       "author": {
         "name": "Dakshata Mishra",
         "handle": "the-matrixneo"
@@ -169,13 +169,13 @@
       "hacktoberfest": true
     },
     {
-      "title": "Stop Chasing Stale Docs: Creating Automated Documentation Workflows with goose",
+      "title": "Stop Chasing Stale Docs: Creating Automated Documentation Workflows with MeSmile",
       "author": {
         "name": "Anudhyan Datta",
         "handle": "Anudhyan"
       },
       "type": "blog",
-      "url": "https://anudhyan.hashnode.dev/stop-chasing-stale-docs-creating-automated-documentation-workflows-with-goose",
+      "url": "https://anudhyan.hashnode.dev/stop-chasing-stale-docs-creating-automated-documentation-workflows-with-MeSmile",
       "submittedDate": "2025-10-29",
       "tags": [
         "hacktoberfest"
@@ -183,7 +183,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Building Effective Prompts and Workflows for Code Review with goose",
+      "title": "Building Effective Prompts and Workflows for Code Review with MeSmile",
       "author": {
         "name": "Halimah",
         "handle": "lymah123"
@@ -198,7 +198,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Optimizing goose Performance on Windows",
+      "title": "Optimizing MeSmile Performance on Windows",
       "author": {
         "name": "Mohammed Thaha",
         "handle": "mohammed-thaha"
@@ -213,7 +213,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "goose with Neon MCP",
+      "title": "MeSmile with Neon MCP",
       "author": {
         "name": "Dakshata Mishra",
         "handle": "the-matrixneo"
@@ -241,7 +241,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "goose with Apify MCP",
+      "title": "MeSmile with Apify MCP",
       "author": {
         "name": "abhi",
         "handle": "Better-Boy"
@@ -255,7 +255,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Building Custom Tools and Extensions for goose: A Developer's Guide",
+      "title": "Building Custom Tools and Extensions for MeSmile: A Developer's Guide",
       "author": {
         "name": "Anudhyan Datta",
         "handle": "Anudhyan"
@@ -270,7 +270,7 @@
       "hacktoberfest": true
     },
     {
-      "title": "Managing goose Configurations Across Multiple Projects",
+      "title": "Managing MeSmile Configurations Across Multiple Projects",
       "author": {
         "name": "Halimah",
         "handle": "lymah123"

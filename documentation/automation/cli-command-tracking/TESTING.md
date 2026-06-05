@@ -5,10 +5,10 @@ This guide explains how to test the CLI command tracking automation locally and 
 ## Prerequisites
 
 - Python 3.7+
-- Rust toolchain (for building goose)
+- Rust toolchain (for building MeSmile)
 - jq (for JSON processing)
-- goose CLI installed (for running recipes)
-- Git with access to goose repository
+- MeSmile CLI installed (for running recipes)
+- Git with access to MeSmile repository
 
 ## Local Testing
 
@@ -17,8 +17,8 @@ This guide explains how to test the CLI command tracking automation locally and 
 ```bash
 cd /path/to/cli-command-tracking
 
-# Set the goose repository path
-export GOOSE_REPO=/path/to/goose
+# Set the MeSmile repository path
+export GOOSE_REPO=/path/to/MeSmile
 
 # Create output directory
 mkdir -p output
@@ -115,7 +115,7 @@ Update the actual documentation:
 cd output
 
 # Set path to documentation file
-export CLI_COMMANDS_PATH=/path/to/goose/documentation/docs/guides/mesmile-cli-commands.md
+export CLI_COMMANDS_PATH=/path/to/MeSmile/documentation/docs/guides/mesmile-cli-commands.md
 
 # Run update recipe
 mesmile run --recipe ../recipes/update-cli-commands.yaml
@@ -136,7 +136,7 @@ Run the complete end-to-end pipeline:
 cd /path/to/cli-command-tracking
 
 # Set documentation path (optional - only needed for update step)
-export CLI_COMMANDS_PATH=/path/to/goose/documentation/docs/guides/mesmile-cli-commands.md
+export CLI_COMMANDS_PATH=/path/to/MeSmile/documentation/docs/guides/mesmile-cli-commands.md
 
 # Run pipeline
 ./scripts/run-pipeline.sh v1.14.0 v1.15.0
@@ -160,10 +160,10 @@ ls -lh output/
 2. **Copy automation files** to your fork:
    ```bash
    cp -r /path/to/cli-command-tracking \
-         /path/to/forked-goose/documentation/automation/
+         /path/to/forked-MeSmile/documentation/automation/
    
-   cp /path/to/goose/.github/workflows/docs-update-cli-ref.yml \
-      /path/to/forked-goose/.github/workflows/
+   cp /path/to/MeSmile/.github/workflows/docs-update-cli-ref.yml \
+      /path/to/forked-MeSmile/.github/workflows/
    ```
 
 3. **Set up secrets** in your fork:
@@ -217,7 +217,7 @@ To validate the automation works correctly, test with versions that have known C
 ### Finding Test Versions
 
 ```bash
-cd /path/to/goose
+cd /path/to/MeSmile
 
 # Check git history for CLI changes
 git log --oneline --all -- crates/mesmile-cli/src/cli.rs | head -20
@@ -264,7 +264,7 @@ Before considering the automation complete:
 - [ ] Captures defaults and possible values
 - [ ] Works with commands that have no description
 - [ ] Handles nested subcommands (2+ levels)
-- [ ] Builds goose from git tags correctly
+- [ ] Builds MeSmile from git tags correctly
 
 ### Diff Script
 - [ ] Detects added commands
@@ -287,11 +287,11 @@ Before considering the automation complete:
 - [ ] Runs end-to-end without errors
 - [ ] Handles "no changes" case
 - [ ] Creates all expected output files
-- [ ] Filters goose session output correctly
+- [ ] Filters MeSmile session output correctly
 
 ### GitHub Actions
 - [ ] Workflow triggers correctly
-- [ ] Builds goose for both versions
+- [ ] Builds MeSmile for both versions
 - [ ] Uploads artifacts
 - [ ] Creates PR when changes detected
 - [ ] Respects dry_run mode
@@ -301,11 +301,11 @@ Before considering the automation complete:
 
 ### Keychain Access (macOS)
 
-On macOS, running `mesmile --help` or `mesmile --version` may prompt for keychain access. This happens because goose tries to access stored credentials on startup.
+On macOS, running `mesmile --help` or `mesmile --version` may prompt for keychain access. This happens because MeSmile tries to access stored credentials on startup.
 
 **Local workaround:** Allow the keychain access when prompted.
 
-**CI consideration:** GitHub Actions runners don't have a keychain, so this may need to be handled. Check existing goose workflows for patterns - there may be a `keyring: false` config option or environment variable to disable credential loading.
+**CI consideration:** GitHub Actions runners don't have a keychain, so this may need to be handled. Check existing MeSmile workflows for patterns - there may be a `keyring: false` config option or environment variable to disable credential loading.
 
 **TODO:** Investigate if this blocks CI execution and document the solution.
 
@@ -337,8 +337,8 @@ Check if help text formatting changed:
 
 ```bash
 # Compare raw help output
-./old-goose session --help > old-help.txt
-./new-goose session --help > new-help.txt
+./old-MeSmile session --help > old-help.txt
+./new-MeSmile session --help > new-help.txt
 diff old-help.txt new-help.txt
 ```
 

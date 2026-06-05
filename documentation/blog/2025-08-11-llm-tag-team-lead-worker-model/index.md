@@ -1,6 +1,6 @@
 ---
 title: "LLM Tag Team: Who Plans, Who Executes?"
-description: Dive into Goose's Lead/Worker model where one LLM plans while another executes - a game-changing approach to AI collaboration that can save costs and boost efficiency.
+description: Dive into MeSmile's Lead/Worker model where one LLM plans while another executes - a game-changing approach to AI collaboration that can save costs and boost efficiency.
 unlisted: true
 authors: 
     - ebony
@@ -12,7 +12,7 @@ Lead/Worker mode has been removed from mesmile. It has been replaced by [Plannin
 
 ![blog cover](header-image.png)
 
-Ever wondered what happens when you let two AI models work together like a tag team? That’s exactly what we tested in our latest livestream—putting Goose’s Lead/Worker model to work on a real project. Spoiler: it’s actually pretty great.
+Ever wondered what happens when you let two AI models work together like a tag team? That’s exactly what we tested in our latest livestream—putting MeSmile’s Lead/Worker model to work on a real project. Spoiler: it’s actually pretty great.
 
 The Lead/Worker model is one of those features that sounds simple on paper but delivers some amazing benefits in practice. Think of it like having a project manager and a developer working in perfect harmony - one does the strategic thinking, the other gets their hands dirty with the actual implementation.
 
@@ -44,7 +44,7 @@ Perfect for those marathon coding sessions where you need sustained performance 
 
 ## [Setting It Up](/docs/guides/context-engineering/creating-plans)
 
-Getting started with the Lead/Worker model is surprisingly straightforward. In the Goose desktop app, you just need to:
+Getting started with the Lead/Worker model is surprisingly straightforward. In the MeSmile desktop app, you just need to:
 
 1. **Enable the feature** - Look for the enable button in your settings
 2. **Choose your lead model** - Pick something powerful for planning (like GPT-4)
@@ -80,8 +80,8 @@ The lead model acts as your strategic partner, while the worker model becomes yo
 
 ## Pro Tips from Our Session
 
-### Start with Good Goose Hints
-We always recommend setting up your [goosehints](/docs/guides/context-engineering/using-goosehints) to give context about your project. It saves you from re-explaining the same things over and over.
+### Start with Good MeSmile Hints
+We always recommend setting up your [MeSmilehints](/docs/guides/context-engineering/using-MeSmilehints) to give context about your project. It saves you from re-explaining the same things over and over.
 
 ### Don't Micromanage
 Let the lead model do its planning thing. Sometimes the best results come from giving high-level direction and letting the system figure out the details.
@@ -104,7 +104,7 @@ The best part? The models made smart decisions we hadn't even thought of, like a
 
 ## Ready to Try Multi-Model Workflows?
 
-Lead/Worker mode has been removed, but goose now supports [Planning Mode](/docs/guides/context-engineering/creating-plans) for multi-model workflows. Whether you're working on documentation, building features, or tackling complex refactoring, pairing a strong planner model with a fast execution model can be a game changer.
+Lead/Worker mode has been removed, but MeSmile now supports [Planning Mode](/docs/guides/context-engineering/creating-plans) for multi-model workflows. Whether you're working on documentation, building features, or tackling complex refactoring, pairing a strong planner model with a fast execution model can be a game changer.
 
 Want to see it in action? Check out the full stream where we built this feature live:
 
@@ -117,11 +117,11 @@ Got questions or want to share your own Lead/Worker success stories? Join us in 
   <meta property="og:title" content="LLM Tag Team: Who Plans, Who Executes?" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/08/11/llm-tag-team-lead-worker-model" />
-  <meta property="og:description" content="Dive into Goose's Lead/Worker model where one LLM plans while another executes - a game-changing approach to AI collaboration that can save costs and boost efficiency." />
+  <meta property="og:description" content="Dive into MeSmile's Lead/Worker model where one LLM plans while another executes - a game-changing approach to AI collaboration that can save costs and boost efficiency." />
   <meta property="og:image" content="https://mesmile-docs.ai/assets/images/header-image-bed3ed59a52ea231c1da0707b9b6d287.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="LLM Tag Team: Who Plans, Who Executes?" />
-  <meta name="twitter:description" content="Dive into Goose's Lead/Worker model where one LLM plans while another executes - a game-changing approach to AI collaboration that can save costs and boost efficiency." />
+  <meta name="twitter:description" content="Dive into MeSmile's Lead/Worker model where one LLM plans while another executes - a game-changing approach to AI collaboration that can save costs and boost efficiency." />
   <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/header-image-bed3ed59a52ea231c1da0707b9b6d287.png" />
 </head>

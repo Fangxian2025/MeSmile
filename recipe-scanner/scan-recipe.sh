@@ -12,7 +12,7 @@ echo "======================================"
 RECIPE_FILE="/input/recipe.yaml"
 OUTPUT_DIR="/output"
 WORKSPACE="/workspace"
-GOOSE_BIN="/usr/local/bin/goose"
+GOOSE_BIN="/usr/local/bin/mesmile"
 BASE_RECIPE="/docker/base_recipe.yaml"
 
 # Globals used for meta
@@ -205,7 +205,7 @@ if [ ! -f "$GOOSE_BIN" ]; then
 
     if curl -fsSL --connect-timeout 30 --max-time 300 \
        https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash; then
-        for path in "$HOME/.local/bin/goose" "/usr/local/bin/goose" "$(which goose 2>/dev/null || true)"; do
+        for path in "$HOME/.local/bin/mesmile" "/usr/local/bin/mesmile" "$(which mesmile 2>/dev/null || true)"; do
             if [ -n "$path" ] && [ -f "$path" ] && [ -x "$path" ]; then
                 cp "$path" "$GOOSE_BIN"
                 chmod +x "$GOOSE_BIN"
@@ -222,7 +222,7 @@ if [ ! -f "$GOOSE_BIN" ]; then
            "https://github.com/Fangxian2025/MeSmile/releases/download/stable/mesmile-x86_64-unknown-linux-gnu.tar.bz2" \
            -o "$temp_dir/mesmile.tar.bz2"; then
             tar -xjf "$temp_dir/mesmile.tar.bz2" -C "$temp_dir"
-            mesmile_binary=$(find "$temp_dir" -name "goose" -type f -executable | head -1)
+            mesmile_binary=$(find "$temp_dir" -name "mesmile" -type f -executable | head -1)
             if [ -n "$mesmile_binary" ]; then
                 cp "$mesmile_binary" "$GOOSE_BIN"
                 chmod +x "$GOOSE_BIN"

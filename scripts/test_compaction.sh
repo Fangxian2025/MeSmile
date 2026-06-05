@@ -14,7 +14,7 @@ fi
 
 if [ -z "$SKIP_BUILD" ]; then
   echo "Building mesmile..."
-  cargo build --bin goose
+  cargo build --bin mesmile
   echo ""
 else
   echo "Skipping build (SKIP_BUILD is set)..."
@@ -22,7 +22,7 @@ else
 fi
 
 SCRIPT_DIR=$(pwd)
-GOOSE_BIN="$SCRIPT_DIR/target/debug/goose"
+GOOSE_BIN="$SCRIPT_DIR/target/debug/mesmile"
 
 # Apply provider/model overrides if set
 if [ -n "$COMPACTION_PROVIDER" ]; then

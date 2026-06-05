@@ -72,10 +72,10 @@ timed out during teardown, or it timed out after writing the correct answer).
 If we got points, count them. See `reporter.trial_status` for the canonical
 rule.
 
-Several `agent_result` fields are commonly `null` for older `GooseBinaryAgent`
+Several `agent_result` fields are commonly `null` for older `MeSmileBinaryAgent`
 runs (notably `n_cache_tokens`, `n_output_tokens`, `cost_usd`). Don't treat
 that as a failure — just omit those facts from the comparison if missing on
-either side. The reporter has fallbacks that read goose's `complete` event
+either side. The reporter has fallbacks that read MeSmile's `complete` event
 from `agent/mesmile.txt`; you don't normally need to replicate them here.
 
 ### 3. Read the task spec
@@ -116,7 +116,7 @@ Two sources, prefer the first when present:
 - `$TRIAL_DIR/agent/trajectory.json` — harbor's ATIF format, one entry per
   agent step. `jq '.steps[] | {step_id, source, message, tool_calls: [.tool_calls[]?.function_name]}'`
   gives a compact view. Recent mesmile runs (after the populate_context_post_run
-  fix) have this; older `GooseBinaryAgent` runs may not.
+  fix) have this; older `MeSmileBinaryAgent` runs may not.
 - `$TRIAL_DIR/agent/<harness>.txt` — raw stream-json or log. The filename
   matches the harness: `mesmile.txt`, `pi.txt`, `opencode.txt`,
   `claude-code.txt`. `ls "$TRIAL_DIR/agent/"` to find it.

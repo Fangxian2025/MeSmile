@@ -2,9 +2,9 @@
 set -eu
 
 ##############################################################################
-# goose CLI Install Script
+# mesmile CLI Install Script
 #
-# This script downloads the latest stable 'goose' CLI binary from GitHub releases
+# This script downloads the latest stable 'mesmile' CLI binary from GitHub releases
 # and installs it to your system.
 #
 # Supported OS: macOS (darwin), Linux, Windows (MSYS2/Git Bash/WSL)
@@ -14,14 +14,14 @@ set -eu
 #   curl -fsSL https://github.com/Fangxian2025/MeSmile/releases/download/stable/download_cli.sh | bash
 #
 # Environment variables:
-#   GOOSE_BIN_DIR  - Directory to which goose will be installed (default: $HOME/.local/bin)
+#   GOOSE_BIN_DIR  - Directory to which mesmile will be installed (default: $HOME/.local/bin)
 #   GOOSE_VERSION  - Optional: specific version to install (e.g., "v1.0.25"). Overrides CANARY. Can be in the format vX.Y.Z, vX.Y.Z-suffix, or X.Y.Z
-#   GOOSE_PROVIDER - Optional: provider for goose
-#   GOOSE_MODEL    - Optional: model for goose
+#   GOOSE_PROVIDER - Optional: provider for mesmile
+#   GOOSE_MODEL    - Optional: model for mesmile
 #   GOOSE_LINUX_VARIANT - Optional: Linux package variant to install (`standard`, `vulkan`, or `musl`)
 #   GOOSE_WINDOWS_VARIANT - Optional: Windows package variant to install (`standard` or `cuda`)
 #   CANARY         - Optional: if set to "true", downloads from canary release instead of stable
-#   CONFIGURE      - Optional: if set to "false", disables running goose configure interactively
+#   CONFIGURE      - Optional: if set to "false", disables running mesmile configure interactively
 #   ** other provider specific environment variables (eg. DATABRICKS_HOST)
 ##############################################################################
 
@@ -55,12 +55,12 @@ fi
 
 # --- 2) Variables ---
 REPO="Fangxian2025/MeSmile"
-OUT_FILE="goose"
+OUT_FILE="mesmile"
 
 # Set default bin directory based on detected OS environment
 if [[ "${WINDIR:-}" ]] || [[ "${windir:-}" ]] || [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
     # Native Windows environments - use Windows user profile path
-    DEFAULT_BIN_DIR="$USERPROFILE/goose"
+    DEFAULT_BIN_DIR="$USERPROFILE/mesmile"
 else
     # Linux, macOS, and WSL all use the same bin directory
     DEFAULT_BIN_DIR="$HOME/.local/bin"
@@ -122,7 +122,7 @@ case "$OS" in
     OS="windows"
     ;;
   *)
-    echo "Error: Unsupported OS '$OS'. goose currently supports Linux, macOS, and Windows."
+    echo "Error: Unsupported OS '$OS'. mesmile currently supports Linux, macOS, and Windows."
     exit 1
     ;;
 esac
@@ -215,7 +215,7 @@ fi
 
 DOWNLOAD_URL="https://github.com/$REPO/releases/download/$RELEASE_TAG/$FILE"
 
-# --- 4) Download & extract 'goose' binary ---
+# --- 4) Download & extract 'mesmile' binary ---
 echo "Downloading $RELEASE_TAG release: $FILE..."
 if ! curl -sLf "$DOWNLOAD_URL" --output "$FILE"; then
   # If the download fails, only fall back to latest stable when no version was specified and canary was not requested).
@@ -300,7 +300,7 @@ fi
 if [ "$OS" = "windows" ]; then
   chmod +x "$EXTRACT_DIR/mesmile.exe"
 else
-  chmod +x "$EXTRACT_DIR/goose"
+  chmod +x "$EXTRACT_DIR/mesmile"
 fi
 
 # --- 5) Install to $GOOSE_BIN_DIR ---
@@ -309,7 +309,7 @@ if [ ! -d "$GOOSE_BIN_DIR" ]; then
   mkdir -p "$GOOSE_BIN_DIR"
 fi
 
-echo "Moving goose to $GOOSE_BIN_DIR/$OUT_FILE"
+echo "Moving mesmile to $GOOSE_BIN_DIR/$OUT_FILE"
 if [ "$OS" = "windows" ]; then
   mv "$EXTRACT_DIR/mesmile.exe" "$GOOSE_BIN_DIR/$OUT_FILE"
 else
@@ -319,14 +319,14 @@ else
   # so the user is never left without an executable.
   if [ -f "$GOOSE_BIN_DIR/$OUT_FILE" ]; then
     mv "$GOOSE_BIN_DIR/$OUT_FILE" "$GOOSE_BIN_DIR/$OUT_FILE.old"
-    if ! mv "$EXTRACT_DIR/goose" "$GOOSE_BIN_DIR/$OUT_FILE"; then
+    if ! mv "$EXTRACT_DIR/mesmile" "$GOOSE_BIN_DIR/$OUT_FILE"; then
       echo "Error: failed to install new binary, restoring previous version"
       mv "$GOOSE_BIN_DIR/$OUT_FILE.old" "$GOOSE_BIN_DIR/$OUT_FILE"
       exit 1
     fi
     rm -f "$GOOSE_BIN_DIR/$OUT_FILE.old"
   else
-    mv "$EXTRACT_DIR/goose" "$GOOSE_BIN_DIR/$OUT_FILE"
+    mv "$EXTRACT_DIR/mesmile" "$GOOSE_BIN_DIR/$OUT_FILE"
   fi
 fi
 
@@ -342,9 +342,9 @@ fi
 
 # skip configuration for non-interactive installs e.g. automation, docker
 if [ "$CONFIGURE" = true ]; then
-  # --- 6) Configure goose (Optional) ---
+  # --- 6) Configure mesmile (Optional) ---
   echo ""
-  echo "Configuring goose"
+  echo "Configuring mesmile"
   echo ""
   if [ -t 0 ]; then
     "$GOOSE_BIN_DIR/$OUT_FILE" configure
@@ -352,11 +352,11 @@ if [ "$CONFIGURE" = true ]; then
     "$GOOSE_BIN_DIR/$OUT_FILE" configure < /dev/tty
   else
     echo "Non-interactive shell detected (e.g. 'curl ... | bash')."
-    echo "Skipping 'goose configure' — please run it manually after installation:"
+    echo "Skipping 'mesmile configure' — please run it manually after installation:"
     echo "    $GOOSE_BIN_DIR/$OUT_FILE configure"
   fi
 else
-  echo "Skipping 'goose configure', you may need to run this manually later"
+  echo "Skipping 'mesmile configure', you may need to run this manually later"
 fi
 
 
@@ -364,10 +364,10 @@ fi
 # --- 7) Check PATH and give instructions if needed ---
 if [[ ":$PATH:" != *":$GOOSE_BIN_DIR:"* ]]; then
   echo ""
-  echo "Warning: goose installed, but $GOOSE_BIN_DIR is not in your PATH."
+  echo "Warning: mesmile installed, but $GOOSE_BIN_DIR is not in your PATH."
 
   if [ "$OS" = "windows" ]; then
-    echo "To add goose to your PATH in PowerShell:"
+    echo "To add mesmile to your PATH in PowerShell:"
     echo ""
     echo "# Add to your PowerShell profile"
     echo '$profilePath = $PROFILE'
@@ -377,7 +377,7 @@ if [[ ":$PATH:" != *":$GOOSE_BIN_DIR:"* ]]; then
     echo '. $PROFILE'
     echo ""
     echo "Alternatively, you can run:"
-    echo "    goose configure"
+    echo "    mesmile configure"
     echo "or rerun this install script after updating your PATH."
   else
     SHELL_NAME=$(basename "$SHELL")

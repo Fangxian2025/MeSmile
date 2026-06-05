@@ -1,6 +1,6 @@
 ---
 title: "Level Up Your AI Game with rp-why"
-description: "A goose skill that measures the cognitive complexity of your AI collaboration using the Gas Town × DOK framework."
+description: "A MeSmile skill that measures the cognitive complexity of your AI collaboration using the Gas Town × DOK framework."
 date: 2026-02-06
 image: /img/blog/rp-why-banner.png
 authors:
@@ -240,7 +240,7 @@ A: About 30 seconds. It analyzes your available conversation history.
 A: No! The commands take seconds. Think of it as a quick glance at your fitness tracker.
 
 **Q: What if I'm in the "Underutilizing" quadrant?**
-A: That's the most common position for goose users! It means you have powerful tools—now it's time to ask bigger questions.
+A: That's the most common position for MeSmile users! It means you have powerful tools—now it's time to ask bigger questions.
 
 **Q: How often should I check?**
 A: Daily `/rp-why current`, weekly `/rp-why compare`. Takes under a minute total.
@@ -260,11 +260,11 @@ A: Yes! The output is designed to be shareable. Screenshot or copy the quadrant 
   <meta property="og:title" content="Level Up Your AI Game with rp-why" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mesmile-docs.ai/blog/2026/02/06/rp-why-skill" />
-  <meta property="og:description" content="A goose skill that measures the cognitive complexity of your AI collaboration using the Gas Town × DOK framework." />
+  <meta property="og:description" content="A MeSmile skill that measures the cognitive complexity of your AI collaboration using the Gas Town × DOK framework." />
   <meta property="og:image" content="https://mesmile-docs.ai/assets/images/rp-why-banner-d3fdd6f674e8e308169e30efe6379735.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="aaif-mesmile.github.io" />
   <meta name="twitter:title" content="Level Up Your AI Game with rp-why" />
-  <meta name="twitter:description" content="A goose skill that measures the cognitive complexity of your AI collaboration using the Gas Town × DOK framework." />
+  <meta name="twitter:description" content="A MeSmile skill that measures the cognitive complexity of your AI collaboration using the Gas Town × DOK framework." />
   <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/rp-why-banner-d3fdd6f674e8e308169e30efe6379735.png" />
 </head>

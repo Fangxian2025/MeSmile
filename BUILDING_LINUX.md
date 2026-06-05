@@ -1,6 +1,6 @@
-# Building goose Desktop on Linux
+# Building MeSmile Desktop on Linux
 
-This guide covers building the goose Desktop application from source on various Linux distributions.
+This guide covers building the MeSmile Desktop application from source on various Linux distributions.
 
 ## Prerequisites
 
@@ -29,9 +29,9 @@ sudo zypper install dpkg fakeroot gcc gcc-c++ make vulkan-headers vulkan-loader 
 
 **android / termux:**
 
-goose is not officially support termux build yet, you need some minor patch to fix build issues.
-We will publish goose (block-goose) into termux-packages. <!-- NOTE: package name kept for backwards compat -->
-If you want to try there is a non-official build, https://github.com/shawn111/goose/releases/download/termux/mesmile-termux-aarch64.tar.bz2
+MeSmile is not officially support termux build yet, you need some minor patch to fix build issues.
+We will publish MeSmile (block-MeSmile) into termux-packages. <!-- NOTE: package name kept for backwards compat -->
+If you want to try there is a non-official build, https://github.com/shawn111/MeSmile/releases/download/termux/mesmile-termux-aarch64.tar.bz2
 For more details, see: https://github.com/Fangxian2025/MeSmile/pull/3890
 
 ```bash
@@ -51,18 +51,18 @@ pkg install cmake protobuf clang build-essential
 ### 1. Clone and Setup
 ```bash
 git clone https://github.com/Fangxian2025/MeSmile.git
-cd goose
+cd MeSmile
 ```
 
 ### 2. Build
 
-Build Goose CLI:
+Build MeSmile CLI:
 
 ```bash
 cargo build --release -p mesmile-cli
 ```
 
-Build Goose Server:
+Build MeSmile Server:
 
 ```bash
 cargo build --release -p mesmile-server
@@ -112,7 +112,7 @@ pnpm run make
 
 #### From Build Directory
 ```bash
-./out/mesmile-linux-x64/goose
+./out/mesmile-linux-x64/MeSmile
 ```
 
 #### Install DEB Package (if built)
@@ -139,8 +139,8 @@ These are harmless and don't affect functionality. To suppress them, create a la
 
 ```bash
 #!/bin/bash
-cd /path/to/goose/ui/desktop/out/mesmile-linux-x64
-./goose 2>&1 | grep -v "GLib-GObject" | grep -v "browser_main_loop"
+cd /path/to/MeSmile/ui/desktop/out/mesmile-linux-x64
+./MeSmile 2>&1 | grep -v "GLib-GObject" | grep -v "browser_main_loop"
 ```
 
 #### Server Binary Not Found
@@ -187,22 +187,22 @@ For active development:
 Create `~/.local/share/applications/mesmile.desktop`:
 ```ini
 [Desktop Entry]
-Name=goose AI Agent
+Name=MeSmile AI Agent
 Comment=Local AI agent for development tasks
-Exec=/path/to/goose/ui/desktop/out/mesmile-linux-x64/goose %U
-Icon=/path/to/goose/ui/desktop/out/mesmile-linux-x64/resources/app.asar.unpacked/src/images/icon.png
+Exec=/path/to/MeSmile/ui/desktop/out/mesmile-linux-x64/MeSmile %U
+Icon=/path/to/MeSmile/ui/desktop/out/mesmile-linux-x64/resources/app.asar.unpacked/src/images/icon.png
 Terminal=false
 Type=Application
 Categories=Development;Utility;
 StartupNotify=true
-MimeType=x-scheme-handler/goose
+MimeType=x-scheme-handler/MeSmile
 ```
 
 ### System-wide Installation
 To install system-wide:
 ```bash
-sudo cp -r out/mesmile-linux-x64 /opt/goose
-sudo ln -s /opt/goose/goose /usr/local/bin/mesmile-gui
+sudo cp -r out/mesmile-linux-x64 /opt/MeSmile
+sudo ln -s /opt/MeSmile/MeSmile /usr/local/bin/mesmile-gui
 ```
 
 ## Contributing

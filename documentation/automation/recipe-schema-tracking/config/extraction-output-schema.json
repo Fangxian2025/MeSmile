@@ -7,7 +7,7 @@
   "properties": {
     "version": {
       "type": "string",
-      "description": "The goose version tag that was extracted (e.g., 'v1.15.0')"
+      "description": "The mesmile version tag that was extracted (e.g., 'v1.15.0')"
     },
     "extracted_at": {
       "type": "string",

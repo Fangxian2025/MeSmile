@@ -1,12 +1,12 @@
 # CLI Command Tracking
 
-Automated pipeline for detecting and documenting CLI command changes between goose releases.
+Automated pipeline for detecting and documenting CLI command changes between MeSmile releases.
 
 ## Overview
 
 This automation keeps the [CLI Commands Guide](https://mesmile-docs.ai/docs/guides/mesmile-cli-commands) synchronized with code changes by:
 
-1. **Extracting** CLI structure from goose binary using `--help` output (deterministic)
+1. **Extracting** CLI structure from MeSmile binary using `--help` output (deterministic)
 2. **Detecting** changes between versions (deterministic diff)
 3. **Synthesizing** human-readable change documentation (AI-powered)
 4. **Updating** the CLI Commands Guide (AI-powered)
@@ -22,8 +22,8 @@ The automation runs automatically when a new release is published. See [TESTING.
 ### Manual (Local Testing)
 
 ```bash
-# Set the goose repository path
-export GOOSE_REPO=/path/to/goose
+# Set the MeSmile repository path
+export GOOSE_REPO=/path/to/MeSmile
 
 # Run the complete pipeline with auto-detected versions
 ./scripts/run-pipeline.sh
@@ -103,7 +103,7 @@ The automation uses a **hybrid approach**: deterministic scripts for data extrac
 ### Why This Design?
 
 **Scripts handle deterministic tasks:**
-- Building goose from specific git tags
+- Building MeSmile from specific git tags
 - Running `--help` commands and parsing output
 - JSON structure comparison
 - No interpretation or inference - direct extraction
@@ -137,13 +137,13 @@ All stages communicate via JSON/Markdown files in the `output/` directory:
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `GOOSE_REPO` | Yes (local) | - | Path to goose repository root |
+| `GOOSE_REPO` | Yes (local) | - | Path to MeSmile repository root |
 | `CLI_COMMANDS_PATH` | No | `$GOOSE_REPO/documentation/docs/guides/mesmile-cli-commands.md` | Full path to target doc file |
 | `RELEASE_TAG` | No | - | Used by GitHub Actions to specify the new version |
 
 **Example:**
 ```bash
-export GOOSE_REPO=/Users/you/goose
+export GOOSE_REPO=/Users/you/MeSmile
 # CLI_COMMANDS_PATH is auto-constructed from GOOSE_REPO
 ```
 
@@ -157,7 +157,7 @@ Some commands are intentionally excluded from extraction and documentation track
   "skip_commands": [
     {
       "name": "term",
-      "reason": "Terminal integration documented via @goose/@g aliases"
+      "reason": "Terminal integration documented via @MeSmile/@g aliases"
     }
   ]
 }
@@ -169,7 +169,7 @@ To add or remove skipped commands, edit the config file - no code changes requir
 
 ### `extract-cli-structure.sh`
 
-Builds goose from a specific git tag and extracts CLI structure using `--help` output.
+Builds MeSmile from a specific git tag and extracts CLI structure using `--help` output.
 
 **Usage:**
 ```bash
@@ -270,7 +270,7 @@ cli-command-tracking/
 ├── config/                             # Configuration files
 │   └── skip-commands.json              # Commands to exclude from tracking
 ├── scripts/                            # Extraction and diff scripts
-│   ├── extract-cli-structure.sh        # Wrapper that builds goose and runs Python
+│   ├── extract-cli-structure.sh        # Wrapper that builds MeSmile and runs Python
 │   ├── extract-cli-structure.py        # Python script to parse --help output
 │   ├── diff-cli-structures.py          # Compare structures and detect changes
 │   └── run-pipeline.sh                 # End-to-end pipeline runner
@@ -293,7 +293,7 @@ cli-command-tracking/
 The automation runs via `.github/workflows/docs-update-cli-ref.yml`:
 
 - **Trigger**: Automatically on new releases, or manually for testing
-- **Process**: Builds goose for both versions, extracts CLI structures, detects changes, updates documentation
+- **Process**: Builds MeSmile for both versions, extracts CLI structures, detects changes, updates documentation
 - **Output**: Creates a PR with updated `mesmile-cli-commands.md` if changes detected
 - **Testing**: See [TESTING.md](./TESTING.md) for detailed testing instructions
 

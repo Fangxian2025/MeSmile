@@ -100,7 +100,7 @@ const getDocumentationPath = (serverId: string): string => {
                       <div className="flex items-center gap-2">
                         <Info className="h-4 w-4 text-textSubtle shrink-0" />
                         <span className="text-sm text-textSubtle">
-                           Can be enabled on the Extensions page in goose
+                           Can be enabled on the Extensions page in MeSmile
                         </span>
                       </div>
                     ) : server.show_install_command !== false ? (
@@ -112,15 +112,15 @@ const getDocumentationPath = (serverId: string): string => {
                         <div className="command-content">
                           {(server.type === "local" || !server.type) ? (
                             <code className="text-sm block">
-                              {`goose session --with-extension "${server.command}"`}
+                              {`mesmile session --with-extension "${server.command}"`}
                             </code>
                           ) : server.type === "remote" ? (
                             <code className="text-sm block">
-                              {`goose session --with-remote-extension "${server.url}"`}
+                              {`mesmile session --with-remote-extension "${server.url}"`}
                             </code>
                           ) : server.type === "streamable-http" ? (
                             <code className="text-sm block">
-                              {`goose session --with-streamable-http-extension "${server.url}"`}
+                              {`mesmile session --with-streamable-http-extension "${server.url}"`}
                             </code>
                           ) : (
                             <code className="text-sm block">

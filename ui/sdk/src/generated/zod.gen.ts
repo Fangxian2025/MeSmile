@@ -126,7 +126,7 @@ export const zGetExtensionsResponse_unstable = z.object({
 });
 
 /**
- * Persist a new extension to the user's global goose config.
+ * Persist a new extension to the user's global mesmile config.
  */
 export const zAddConfigExtensionRequest_unstable = z.object({
     name: z.string(),
@@ -135,14 +135,14 @@ export const zAddConfigExtensionRequest_unstable = z.object({
 });
 
 /**
- * Remove a persisted extension from the user's global goose config.
+ * Remove a persisted extension from the user's global mesmile config.
  */
 export const zRemoveConfigExtensionRequest_unstable = z.object({
     configKey: z.string()
 });
 
 /**
- * Toggle the `enabled` flag for a persisted extension in the user's global goose config.
+ * Toggle the `enabled` flag for a persisted extension in the user's global mesmile config.
  */
 export const zToggleConfigExtensionRequest_unstable = z.object({
     configKey: z.string(),
@@ -731,7 +731,7 @@ export const zExportSessionRequest_unstable = z.object({
 });
 
 /**
- * Export session response — raw JSON of the goose session with `conversation`.
+ * Export session response — raw JSON of the mesmile session with `conversation`.
  */
 export const zExportSessionResponse_unstable = z.object({
     data: z.string()
@@ -929,7 +929,7 @@ export const zExportSourceResponse_unstable = z.object({
 });
 
 /**
- * Import a source from a JSON export payload produced by `_goose/unstable/sources/export`.
+ * Import a source from a JSON export payload produced by `_mesmile/unstable/sources/export`.
  * The imported source is written into the explicit target scope; on name
  * collisions a `-imported` suffix is appended.
  */

@@ -44,7 +44,7 @@ Without sampling, the tool mostly acts like a messenger. It fetches data, return
 ![with sampling](with-mcp.png)
 
 
-With sampling, the behavior changes. The tool gathers its data, then uses the same LLM you already configured in Goose to ask a targeted question from its own context before returning anything. Instead of just passing information upward, it’s now contributing to the thinking.
+With sampling, the behavior changes. The tool gathers its data, then uses the same LLM you already configured in MeSmile to ask a targeted question from its own context before returning anything. Instead of just passing information upward, it’s now contributing to the thinking.
 
 It’s the same model and the same agent, but the behavior changes completely.
 

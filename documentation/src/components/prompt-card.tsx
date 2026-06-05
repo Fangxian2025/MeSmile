@@ -121,11 +121,11 @@ export function PromptCard({ prompt }: { prompt: Prompt }) {
                                   </button>
                                     {extension.url ? (
                                       <CodeBlock language="bash">
-                                        goose session --with-remote-extension "{extension.url}"
+                                        mesmile session --with-remote-extension "{extension.url}"
                                       </CodeBlock>
                                       ) : (
                                       <CodeBlock language="bash">
-                                        goose session --with-extension "{extension.command}"
+                                        mesmile session --with-extension "{extension.command}"
                                       </CodeBlock>
                                     )}
                                 </div>

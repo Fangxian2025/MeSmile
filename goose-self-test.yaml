@@ -1,6 +1,6 @@
 version: 1.0.0
 title: Goose Self-Testing Integration Suite
-description: A comprehensive meta-testing recipe where goose tests its own capabilities using its own tools - true first-person integration testing
+description: A comprehensive meta-testing recipe where mesmile tests its own capabilities using its own tools - true first-person integration testing
 author:
   contact: mesmile-self-test
 
@@ -31,7 +31,7 @@ parameters:
   - key: workspace_dir
     input_type: string
     requirement: optional
-    default: "./gooseselftest"
+    default: "./mesmileselftest"
     description: "Directory for test artifacts and results"
 
   - key: parallel_tests
@@ -47,11 +47,11 @@ parameters:
     description: "Clean up test artifacts after completion"
 
 instructions: |
-  You are testing yourself - a running goose instance validating its own capabilities through meta-testing.
+  You are testing yourself - a running mesmile instance validating its own capabilities through meta-testing.
   This is true first-person integration testing where you use your own tools to test your own functionality.
 
   ## Understanding First-Person Integration Testing
-  This is a crucial distinction - as a running goose instance, you are testing yourself using your own capabilities.
+  This is a crucial distinction - as a running mesmile instance, you are testing yourself using your own capabilities.
   This is meta-testing in the truest sense: not unit tests or external test harnesses, but you using your tools
   to validate your own functionality from within your active session. You can only test what you can observe and
   control from inside your running instance - your tools, your behaviors, your error handling, your consistency.
@@ -438,7 +438,7 @@ prompt: |
   - Success means your tools work as expected
   - Failure reveals areas needing attention
   - The ability to complete this test IS itself a test
-  - Document everything - your future self (or another goose) will thank you
+  - Document everything - your future self (or another mesmile) will thank you
 
   Use your todo extension to track progress throughout.
   Handle errors gracefully - a failed test shouldn't crash the suite.

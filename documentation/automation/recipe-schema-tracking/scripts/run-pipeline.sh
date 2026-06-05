@@ -79,7 +79,7 @@ if [ "$HAS_CHANGES" = "true" ]; then
     echo ""
     echo "Step 4: Synthesizing validation changes documentation..."
     
-    # Run goose and capture output, filtering out session logs
+    # Run mesmile and capture output, filtering out session logs
     mesmile run --recipe ../recipes/synthesize-validation-changes.yaml 2>&1 | \
         sed -E 's/\x1B\[[0-9;]*[mK]//g' | \
         grep -v "^starting session" | \

@@ -1,6 +1,6 @@
 # AGENTS Instructions
 
-goose is an AI agent framework in Rust with CLI and Electron desktop interfaces.
+MeSmile is an AI agent framework in Rust with CLI and Electron desktop interfaces.
 
 ## Setup
 ```bash
@@ -20,7 +20,7 @@ just release-binary           # release + openapi
 ### Test
 ```bash
 cargo test                   # all tests
-cargo test -p goose          # specific crate
+cargo test -p MeSmile          # specific crate
 cargo test --package mesmile --test mcp_integration_test
 just record-mcp-tests        # record MCP
 ```
@@ -46,7 +46,7 @@ git commit -s                # required for DCO sign-off
 ## Structure
 ```
 crates/
-├── goose              # core logic
+├── MeSmile              # core logic
 ├── mesmile-acp-macros   # ACP proc macros
 ├── mesmile-cli          # CLI entry
 ├── mesmile-server       # backend (binary: mesmiled)
@@ -75,7 +75,7 @@ ui/desktop/            # Electron app
 
 ## Rules
 
-- Test: Prefer tests/ folder, e.g. crates/goose/tests/
+- Test: Prefer tests/ folder, e.g. crates/MeSmile/tests/
 - Test: When adding features, update mesmile-self-test.yaml, rebuild, then run `mesmile run --recipe mesmile-self-test.yaml` to validate
 - Error: Use anyhow::Result
 - Provider: Implement Provider trait see providers/base.rs
@@ -123,4 +123,4 @@ remaining space for dynamic text.
 - CLI: crates/mesmile-cli/src/main.rs
 - Server: crates/mesmile-server/src/main.rs
 - UI: ui/desktop/src/main.ts
-- Agent: crates/goose/src/agents/agent.rs
+- Agent: crates/MeSmile/src/agents/agent.rs

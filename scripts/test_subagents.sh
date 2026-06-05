@@ -1,8 +1,8 @@
 #!/bin/bash
 # Local smoke test for subagent @-mention behaviour.
 #
-# Sets up a workdir with two named subagents on disk, runs goose against
-# several prompts, and validates that goose delegates to the right subagent
+# Sets up a workdir with two named subagents on disk, runs mesmile against
+# several prompts, and validates that mesmile delegates to the right subagent
 # in each case. Uses an LLM judge for the fuzzy-match scenarios.
 #
 # Not wired into CI — run manually:
@@ -11,11 +11,11 @@
 # Knobs:
 #   GOOSE_PROVIDER (default: anthropic)
 #   GOOSE_MODEL    (default: claude-haiku-4-5)
-#   SKIP_BUILD     skip cargo build (assumes target/debug/goose already exists)
+#   SKIP_BUILD     skip cargo build (assumes target/debug/mesmile already exists)
 #   KEEP_TESTDIR   don't rm the temp workdir on exit (for debugging)
 #
 # Agent names are deliberately weird ("janpier", "peterjoris") so that they
-# won't collide with anything the user might have in ~/.agents, ~/.goose, or
+# won't collide with anything the user might have in ~/.agents, ~/.mesmile, or
 # ~/.claude. The empty-workdir scenario asserts those specific names do NOT
 # leak in from elsewhere, which is the practical way to detect global
 # pollution without trying to sandbox $HOME (which would break provider
@@ -29,7 +29,7 @@ fi
 
 if [ -z "$SKIP_BUILD" ]; then
   echo "Building mesmile..."
-  cargo build --bin goose
+  cargo build --bin mesmile
   echo ""
 else
   echo "Skipping build (SKIP_BUILD is set)..."
@@ -37,7 +37,7 @@ else
 fi
 
 SCRIPT_DIR=$(pwd)
-GOOSE_BIN="$SCRIPT_DIR/target/debug/goose"
+GOOSE_BIN="$SCRIPT_DIR/target/debug/mesmile"
 export PATH="$SCRIPT_DIR/target/debug:$PATH"
 
 export GOOSE_PROVIDER="${GOOSE_PROVIDER:-anthropic}"
@@ -57,7 +57,7 @@ fi
 
 # Two subagents with deliberately recognizable behaviour and unusual names
 # so they can't collide with any pre-existing global agents in
-# ~/.agents/agents, ~/.goose/agents, or ~/.claude/agents.
+# ~/.agents/agents, ~/.mesmile/agents, or ~/.claude/agents.
 #
 # - janpier: a farmer with trick-performing animals (cow, pig, donkey). The
 #   donkey is the one that speaks. Emits HEEHAW_DONKEY_OK as proof that
@@ -98,8 +98,8 @@ echo ""
 
 RESULTS=()
 
-# Run goose with a prompt in TESTDIR. We use --no-session for hermeticity.
-run_goose() {
+# Run mesmile with a prompt in TESTDIR. We use --no-session for hermeticity.
+run_mesmile() {
   local prompt="$1"
   local outfile="$2"
   (cd "$TESTDIR" && "$GOOSE_BIN" run --text "$prompt" --no-session 2>&1) | tee "$outfile"
@@ -164,7 +164,7 @@ llm_judge() {
 
   local judge_prompt
   judge_prompt=$(cat <<EOF
-You are a validator. You will be given a transcript of a goose CLI run.
+You are a validator. You will be given a transcript of a mesmile CLI run.
 Determine whether the following statement is true of the transcript:
 
   $question
@@ -204,7 +204,7 @@ assert_judge() {
 # ---------------------------------------------------------------------------
 echo "=== Scenario 1: explicit @janpier mention ==="
 TMP1=$(mktemp)
-run_goose "@janpier which of your animals can speak?" "$TMP1"
+run_mesmile "@janpier which of your animals can speak?" "$TMP1"
 assert_delegated_to "janpier" "$TMP1" "S1: @janpier delegates to janpier"
 assert_contains "HEEHAW_DONKEY_OK" "$TMP1" "S1: janpier's marker surfaces in output"
 rm "$TMP1"
@@ -217,7 +217,7 @@ echo ""
 # ---------------------------------------------------------------------------
 echo "=== Scenario 2: bare name (no @) ==="
 TMP2=$(mktemp)
-run_goose "Ask janpier what tricks his animals can do." "$TMP2"
+run_mesmile "Ask janpier what tricks his animals can do." "$TMP2"
 assert_delegated_to "janpier" "$TMP2" "S2: bare name delegates to janpier"
 rm "$TMP2"
 echo ""
@@ -243,7 +243,7 @@ echo ""
 # ---------------------------------------------------------------------------
 echo "=== Scenario 3: description match (no name) ==="
 TMP3=$(mktemp)
-run_goose "Write me a hello world program in the Forth programming language." "$TMP3"
+run_mesmile "Write me a hello world program in the Forth programming language." "$TMP3"
 
 if grep -qE "▸.*delegate" "$TMP3" && grep -qE "^\s*source[[:space:]]+peterjoris\b" "$TMP3"; then
   echo "✓ S3: description match delegated to peterjoris"
@@ -251,7 +251,7 @@ if grep -qE "▸.*delegate" "$TMP3" && grep -qE "^\s*source[[:space:]]+peterjori
 else
   echo "⚠ S3: did not delegate to peterjoris directly — using LLM judge to grade overall behaviour"
   assert_judge "$TMP3" \
-    "The user asked goose to write a Hello World program in the Forth programming language. The session had a registered subagent named 'peterjoris' described as a Forth expert. Does the transcript show ANY of: (a) goose called the delegate tool with source 'peterjoris', or (b) goose's reply mentions peterjoris (or 'the Forth expert') as the right specialist for this task, or (c) goose produced syntactically plausible Forth code as the answer? ANY of (a), (b), (c) counts as PASS. Only FAIL if none of those apply." \
+    "The user asked mesmile to write a Hello World program in the Forth programming language. The session had a registered subagent named 'peterjoris' described as a Forth expert. Does the transcript show ANY of: (a) mesmile called the delegate tool with source 'peterjoris', or (b) mesmile's reply mentions peterjoris (or 'the Forth expert') as the right specialist for this task, or (c) mesmile produced syntactically plausible Forth code as the answer? ANY of (a), (b), (c) counts as PASS. Only FAIL if none of those apply." \
     "S3: description match handled"
 fi
 rm "$TMP3"
@@ -263,7 +263,7 @@ echo ""
 # ---------------------------------------------------------------------------
 echo "=== Scenario 4: negative (no subagent should be invoked) ==="
 TMP4=$(mktemp)
-run_goose "What is 2 + 2? Reply with just the digit." "$TMP4"
+run_mesmile "What is 2 + 2? Reply with just the digit." "$TMP4"
 if grep -qE "▸.*delegate" "$TMP4"; then
   echo "✗ S4: unexpectedly delegated for an unrelated prompt"
   RESULTS+=("✗ S4: spurious delegation on unrelated prompt")

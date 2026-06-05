@@ -1,6 +1,6 @@
 # Recipe Schema Tracking
 
-Automated pipeline for detecting and documenting Recipe schema and validation rule changes between goose releases.
+Automated pipeline for detecting and documenting Recipe schema and validation rule changes between MeSmile releases.
 
 ## Overview
 
@@ -125,13 +125,13 @@ All stages communicate via JSON/Markdown files in the `output/` directory:
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
 | `RECIPE_REF_PATH` | No | - | Full path to `recipe-reference.md` file (overrides `GOOSE_REPO` construction) |
-| `GOOSE_REPO` | No | Auto-detect | Path to goose repository root |
+| `GOOSE_REPO` | No | Auto-detect | Path to MeSmile repository root |
 
 **Example (for local testing):**
 ```bash
-export RECIPE_REF_PATH=/path/to/local/goose/documentation/docs/guides/recipes/recipe-reference.md
+export RECIPE_REF_PATH=/path/to/local/MeSmile/documentation/docs/guides/recipes/recipe-reference.md
 # OR
-export GOOSE_REPO=/path/to/local/goose
+export GOOSE_REPO=/path/to/local/MeSmile
 ```
 
 ### Configuration Files
@@ -158,8 +158,8 @@ Lists source files containing recipe validation logic:
 ```json
 {
   "validation_files": [
-    "crates/goose/src/recipe/validate_recipe.rs",
-    "crates/goose/src/agents/types.rs"
+    "crates/MeSmile/src/recipe/validate_recipe.rs",
+    "crates/MeSmile/src/agents/types.rs"
   ]
 }
 ```
@@ -189,7 +189,7 @@ Attempting to document all extension validation rules in the Recipe Reference wo
 
 ### `extract-schema.sh`
 
-Extracts OpenAPI schema from the goose codebase.
+Extracts OpenAPI schema from the MeSmile codebase.
 
 **Usage:**
 ```bash

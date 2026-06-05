@@ -6,7 +6,7 @@
 set -e
 
 VERSION=${1:-"main"}
-GOOSE_REPO=${GOOSE_REPO:-"$HOME/Development/goose"}
+GOOSE_REPO=${GOOSE_REPO:-"$HOME/Development/mesmile"}
 
 if [ ! -d "$GOOSE_REPO" ]; then
     echo "Error: GOOSE_REPO directory not found: $GOOSE_REPO" >&2
@@ -38,9 +38,9 @@ FIRST_FIELD=true
 
 # Get file content from git history or working directory
 if [ "$VERSION" = "main" ]; then
-    MOD_RS_CONTENT=$(cat crates/goose/src/recipe/mod.rs)
+    MOD_RS_CONTENT=$(cat crates/mesmile/src/recipe/mod.rs)
 else
-    MOD_RS_CONTENT=$(git show "$VERSION:crates/goose/src/recipe/mod.rs" 2>/dev/null || {
+    MOD_RS_CONTENT=$(git show "$VERSION:crates/mesmile/src/recipe/mod.rs" 2>/dev/null || {
         echo "Error: Failed to read mod.rs from version $VERSION" >&2
         exit 1
     })
@@ -111,13 +111,13 @@ FIRST_FUNC=true
 # Get validation file content from git history or working directory
 # Note: validate_recipe.rs may not exist in older versions
 if [ "$VERSION" = "main" ]; then
-    if [ -f crates/goose/src/recipe/validate_recipe.rs ]; then
-        VALIDATE_RS_CONTENT=$(cat crates/goose/src/recipe/validate_recipe.rs)
+    if [ -f crates/mesmile/src/recipe/validate_recipe.rs ]; then
+        VALIDATE_RS_CONTENT=$(cat crates/mesmile/src/recipe/validate_recipe.rs)
     else
         VALIDATE_RS_CONTENT=""
     fi
 else
-    VALIDATE_RS_CONTENT=$(git show "$VERSION:crates/goose/src/recipe/validate_recipe.rs" 2>/dev/null || echo "")
+    VALIDATE_RS_CONTENT=$(git show "$VERSION:crates/mesmile/src/recipe/validate_recipe.rs" 2>/dev/null || echo "")
 fi
 
 if [ -n "$VALIDATE_RS_CONTENT" ]; then

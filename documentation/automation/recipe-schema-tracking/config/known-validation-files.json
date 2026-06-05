@@ -1,8 +1,8 @@
 {
   "description": "List of source files containing recipe validation logic",
   "validation_files": [
-    "crates/goose/src/recipe/validate_recipe.rs",
-    "crates/goose/src/recipe/mod.rs"
+    "crates/mesmile/src/recipe/validate_recipe.rs",
+    "crates/mesmile/src/recipe/mod.rs"
   ],
   "exclude_patterns": [
     "extension",

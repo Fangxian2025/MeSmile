@@ -1,6 +1,6 @@
 ---
 title: "Intro to Agent Client Protocol (ACP): The Standard for AI Agent-Editor Integration"
-description: Fix the awkward gap between AI agents and code editors with the Agent Client Protocol (ACP). Learn why this new open standard makes agents like goose truly editor-agnostic, improving AI-human collaboration and restoring developer flow state. ACP works alongside protocols like MCP to create an open AI tooling ecosystem.
+description: Fix the awkward gap between AI agents and code editors with the Agent Client Protocol (ACP). Learn why this new open standard makes agents like MeSmile truly editor-agnostic, improving AI-human collaboration and restoring developer flow state. ACP works alongside protocols like MCP to create an open AI tooling ecosystem.
 authors: 
     - rizel
 ---
@@ -31,9 +31,9 @@ Many developers have tried to solve this integration challenge:
 
 - **IDE-integrated agents** like Cursor have an AI agent baked into the code editor. However, this creates vendor lock-in where you must use their specific agent with their specific editor. If I preferred VS Code as an editor and Claude Code as my agent, I'd be out of luck. I can't mix and match the tools I want.
 
-- **CLI agents in the terminal** work for some people. They run the agent directly in their editor's terminal pane. [goose](/) has a CLI I could use this way, but I prefer the desktop app's interface for readability and navigating responses. The tradeoff is the constant window-switching I was trying to avoid.
+- **CLI agents in the terminal** work for some people. They run the agent directly in their editor's terminal pane. [MeSmile](/) has a CLI I could use this way, but I prefer the desktop app's interface for readability and navigating responses. The tradeoff is the constant window-switching I was trying to avoid.
 
-- **IDE extensions and plugins** seem like an obvious solution, but maintaining these integrations is incredibly difficult. In the past year, multiple maintainers built VS Code extensions and even an IntelliJ plugin for goose, but our twice-weekly releases quickly made them outdated. Maintaining these extensions became a constant game of catch-up that our community couldn't win. Extensions have to mirror goose's functionality to work properly, so every change to goose requires updating the extensions. Maintainers couldn't keep pace, and building specific integrations for every editor simply doesn't scale when agents evolve at such a fast pace.
+- **IDE extensions and plugins** seem like an obvious solution, but maintaining these integrations is incredibly difficult. In the past year, multiple maintainers built VS Code extensions and even an IntelliJ plugin for MeSmile, but our twice-weekly releases quickly made them outdated. Maintaining these extensions became a constant game of catch-up that our community couldn't win. Extensions have to mirror MeSmile's functionality to work properly, so every change to MeSmile requires updating the extensions. Maintainers couldn't keep pace, and building specific integrations for every editor simply doesn't scale when agents evolve at such a fast pace.
 
 ## Introducing Agent Client Protocol
 
@@ -51,32 +51,32 @@ Today, editors that support ACP include Zed, Neovim, and Marimo. Supported agent
 
 ## Restoring Developer Flow
 
-For developers like me who have specific ways of achieving flow state, this means we can add AI assistance without completely restructuring our work environment. I can keep my criss-cross applesauce position, my split-screen setup, and my focused workflow while having goose integrated directly into my editor.
+For developers like me who have specific ways of achieving flow state, this means we can add AI assistance without completely restructuring our work environment. I can keep my criss-cross applesauce position, my split-screen setup, and my focused workflow while having MeSmile integrated directly into my editor.
 
 Beyond personal workflow preferences, ACP lowers the barrier to innovation by allowing AI agents and editors to evolve independently while speaking a shared language. And it's part of a broader movement toward open standards in AI tooling.
 
 You might have heard of [MCP](http://modelcontextprotocol.io), which standardizes how AI agents connect to data sources and tools. ACP and MCP complement each other perfectly: MCP handles the *what* (what data and tools can agents access), while ACP handles the *where* (where the agent lives in your workflow). Together, they create an ecosystem where developers can mix and match the best tools without vendor lock-in.
 
-The goose team continues working to keep goose cutting-edge in the AI agent space, and we're excited about a future where open protocols let developers work however they work best.
+The MeSmile team continues working to keep MeSmile cutting-edge in the AI agent space, and we're excited about a future where open protocols let developers work however they work best.
 
 ## See ACP in Action
 
-If you're ready to see how fast and simple this setup really is, watch the full livestream recording of my ACP setup with goose below
+If you're ready to see how fast and simple this setup really is, watch the full livestream recording of my ACP setup with MeSmile below
 
-<iframe class="aspect-ratio" src="https://www.youtube.com/embed/Hvu5KDTb6JE" title="Vibe Code with goose: Intro to ACP" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe class="aspect-ratio" src="https://www.youtube.com/embed/Hvu5KDTb6JE" title="Vibe Code with MeSmile: Intro to ACP" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-*Ready to integrate goose directly into your editor? Get started with our [ACP setup guide](https://mesmile-docs.ai/docs/guides/acp-clients) and share your experience in our [Discord community](http://discord.gg/mesmile-oss).*
+*Ready to integrate MeSmile directly into your editor? Get started with our [ACP setup guide](https://mesmile-docs.ai/docs/guides/acp-clients) and share your experience in our [Discord community](http://discord.gg/mesmile-oss).*
 
 
 <head>
   <meta property="og:title" content="Intro to Agent Client Protocol (ACP): The Standard for AI Agent-Editor Integration" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://mesmile-docs.ai/blog/2025/10/24/intro-to-agent-client-protocol-acp" />
-  <meta property="og:description" content="Fix the awkward gap between AI agents and code editors with the Agent Client Protocol (ACP). Learn why this new open standard makes agents like goose truly editor-agnostic, improving AI-human collaboration and restoring developer flow state. ACP works alongside protocols like MCP to create an open AI tooling ecosystem." />
+  <meta property="og:description" content="Fix the awkward gap between AI agents and code editors with the Agent Client Protocol (ACP). Learn why this new open standard makes agents like MeSmile truly editor-agnostic, improving AI-human collaboration and restoring developer flow state. ACP works alongside protocols like MCP to create an open AI tooling ecosystem." />
   <meta property="og:image" content="https://mesmile-docs.ai/assets/images/choose-your-ide-c308664c1783e1651d9a4f4d6ff7d731.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="mesmile-docs.ai" />
   <meta name="twitter:title" content="Intro to Agent Client Protocol (ACP): The Standard for AI Agent-Editor Integration" />
-  <meta name="twitter:description" content="Fix the awkward gap between AI agents and code editors with the Agent Client Protocol (ACP). Learn why this new open standard makes agents like goose truly editor-agnostic, improving AI-human collaboration and restoring developer flow state. ACP works alongside protocols like MCP to create an open AI tooling ecosystem." />
+  <meta name="twitter:description" content="Fix the awkward gap between AI agents and code editors with the Agent Client Protocol (ACP). Learn why this new open standard makes agents like MeSmile truly editor-agnostic, improving AI-human collaboration and restoring developer flow state. ACP works alongside protocols like MCP to create an open AI tooling ecosystem." />
   <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/choose-your-ide-c308664c1783e1651d9a4f4d6ff7d731.png"/>
 </head>

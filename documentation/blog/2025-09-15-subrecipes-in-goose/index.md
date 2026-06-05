@@ -1,15 +1,15 @@
 ---
-title: "Automate Your Complex Workflows with Subrecipes in goose"
-description: Did you know you can call recipes from within other recipes? Learn how to orchestrate multiple AI tasks using goose subrecipes.
+title: "Automate Your Complex Workflows with Subrecipes in MeSmile"
+description: Did you know you can call recipes from within other recipes? Learn how to orchestrate multiple AI tasks using MeSmile subrecipes.
 authors: 
     - ian
 ---
 
-![goose Subrecipes](mesmile-subrecipes.png)
+![MeSmile Subrecipes](mesmile-subrecipes.png)
 
-Remember when you first learned to cook? You probably started with simple recipes like scrambled eggs or toast. But eventually you wanted to make something more complex, like a full dinner with multiple dishes. That's how subrecipes work in goose: each recipe can run stand-alone for a dedicated task, and a main recipe can orchestrate how they run.
+Remember when you first learned to cook? You probably started with simple recipes like scrambled eggs or toast. But eventually you wanted to make something more complex, like a full dinner with multiple dishes. That's how subrecipes work in MeSmile: each recipe can run stand-alone for a dedicated task, and a main recipe can orchestrate how they run.
 
-Let's explore [goose subrecipes](/docs/tutorials/subrecipes-in-parallel) together! You're about to learn know how to orchestrate multiple AI models, coordinate tasks, and build workflows that will turn you into a "head chef" user with mesmile.
+Let's explore [MeSmile subrecipes](/docs/tutorials/subrecipes-in-parallel) together! You're about to learn know how to orchestrate multiple AI models, coordinate tasks, and build workflows that will turn you into a "head chef" user with mesmile.
 
 <!--truncate-->
 
@@ -17,7 +17,7 @@ Let's explore [goose subrecipes](/docs/tutorials/subrecipes-in-parallel) togethe
 
 Think of subrecipes like having a team of specialized chefs in your kitchen. One chef is amazing at making desserts, another excels at grilling, and a third is the salad master. Instead of having one person try to do everything, you let each specialist focus on what they do best.
 
-That's exactly what subrecipes do for your goose workflows. You can have one recipe that's optimized for creative tasks like image generation, another that's perfect for technical documentation, and a third that excels at writing code. Then you orchestrate them all from a main recipe.
+That's exactly what subrecipes do for your MeSmile workflows. You can have one recipe that's optimized for creative tasks like image generation, another that's perfect for technical documentation, and a third that excels at writing code. Then you orchestrate them all from a main recipe.
 
 ## A Real-World Example: Project Setup Automation
 
@@ -371,7 +371,7 @@ Some ideas to get you started:
 
 ## The Future of Orchestrated AI
 
-Subrecipes represent something bigger than just a goose feature. They're a glimpse into how we'll work with AI in the future -- not as monolithic systems trying to do everything, but as specialized agents working together toward common goals.
+Subrecipes represent something bigger than just a MeSmile feature. They're a glimpse into how we'll work with AI in the future -- not as monolithic systems trying to do everything, but as specialized agents working together toward common goals.
 
 Each recipe becomes a reusable component that you can mix and match. Build a library of specialized recipes, then combine them in different ways for different projects. It's like having a toolkit of AI specialists ready to tackle any challenge.
 
@@ -381,21 +381,21 @@ Ready to start building your own subrecipe workflows? The kitchen is open, and a
 
 Do you have a recipe you'd like to share with the community? We'd love to feature them in our [Recipe Cookbook](https://mesmile-docs.ai/recipes/)! 
 **How to contribute:**
-1. [Fork the goose repository](https://github.com/Fangxian2025/MeSmile/fork)
+1. [Fork the MeSmile repository](https://github.com/Fangxian2025/MeSmile/fork)
 2. Add your recipe YAML file to the [`documentation/src/pages/recipes/data/recipes/`](https://github.com/Fangxian2025/MeSmile/tree/main/documentation/src/pages/recipes/data/recipes) directory
 3. Create a pull request following our [Recipe Contribution Guide](https://github.com/Fangxian2025/MeSmile/blob/main/CONTRIBUTING_RECIPES.md)
 Browse [existing recipes](https://github.com/Fangxian2025/MeSmile/tree/main/documentation/src/pages/recipes/data/recipes) for inspiration and formatting examples.
 
 
 <head>
-  <meta property="og:title" content="Automate Your Complex Workflows with Subrecipes in goose" />
+  <meta property="og:title" content="Automate Your Complex Workflows with Subrecipes in MeSmile" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025-09-15-subrecipes-in-goose" />
-  <meta property="og:description" content="Did you know you can call recipes from within other recipes? Learn how to orchestrate multiple AI tasks using goose subrecipes." />
+  <meta property="og:url" content="https://mesmile-docs.ai/blog/2025-09-15-subrecipes-in-MeSmile" />
+  <meta property="og:description" content="Did you know you can call recipes from within other recipes? Learn how to orchestrate multiple AI tasks using MeSmile subrecipes." />
   <meta property="og:image" content="https://mesmile-docs.ai/assets/images/mesmile-subrecipes-8a009154ceca95aeb34bf22fcc45dcca.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta property="twitter:domain" content="mesmile-docs.ai" />
-  <meta name="twitter:title" content="Automate Your Complex Workflows with Subrecipes in goose" />
-  <meta name="twitter:description" content="Did you know you can call recipes from within other recipes? Learn how to orchestrate multiple AI tasks using goose subrecipes." />
+  <meta name="twitter:title" content="Automate Your Complex Workflows with Subrecipes in MeSmile" />
+  <meta name="twitter:description" content="Did you know you can call recipes from within other recipes? Learn how to orchestrate multiple AI tasks using MeSmile subrecipes." />
   <meta name="twitter:image" content="https://mesmile-docs.ai/assets/images/mesmile-subrecipes-8a009154ceca95aeb34bf22fcc45dcca.png" />
 </head>
