@@ -303,7 +303,7 @@ impl Agent {
             Arc::new(SessionManager::instance()),
             PermissionManager::instance(),
             None,
-            config.get_mesmile_model().unwrap_or_default(),
+            config.get_mesmile_mode().unwrap_or_default(),
             config.get_mesmile_disable_session_naming().unwrap_or(false),
             GoosePlatform::GooseCli,
         ))

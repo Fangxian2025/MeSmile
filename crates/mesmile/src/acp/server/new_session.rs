@@ -33,7 +33,7 @@ impl GooseAcpAgent {
                 }
                 None => super::resolve_default_provider_model_config(config)?,
             };
-        let current_mode: MeSmileMode = config.get_mesmile_model().unwrap_or_default();
+        let current_mode: MeSmileMode = config.get_mesmile_mode().unwrap_or_default();
         let t0 = std::time::Instant::now();
         let mut mesmile_session = self
             .session_manager

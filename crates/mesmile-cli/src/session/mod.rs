@@ -1083,7 +1083,7 @@ impl CliSession {
                     self.run_mode = RunMode::Normal;
                     // set MeSmile mode: auto if that isn't already the case
                     let config = Config::global();
-                    let curr_mesmile_mode = config.get_mesmile_model().unwrap_or_default();
+                    let curr_mesmile_mode = config.get_mesmile_mode().unwrap_or_default();
                     if curr_mesmile_mode != MeSmileMode::Auto {
                         config.set_mesmile_mode(MeSmileMode::Auto).unwrap();
                     }

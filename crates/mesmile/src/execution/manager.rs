@@ -71,7 +71,7 @@ impl AgentManager {
                 let max_sessions = config
                     .get_mesmile_max_active_agents()
                     .unwrap_or(DEFAULT_MAX_SESSION);
-                let default_mode = config.get_mesmile_model().unwrap_or_default();
+                let default_mode = config.get_mesmile_mode().unwrap_or_default();
                 let schedule_file_path = Paths::data_dir().join("schedule.json");
                 let session_manager = Arc::new(SessionManager::instance());
                 let scheduler = Scheduler::new(schedule_file_path, Arc::clone(&session_manager))

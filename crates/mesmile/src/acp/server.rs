@@ -1029,7 +1029,7 @@ impl GooseAcpAgent {
             Arc::clone(&session_manager),
             Arc::clone(&permission_manager),
             None,
-            Config::global().get_mesmile_model().unwrap_or_default(),
+            Config::global().get_mesmile_mode().unwrap_or_default(),
             options.disable_session_naming,
             options.mesmile_platform.clone(),
         );

@@ -244,7 +244,7 @@ async fn start_agent(
 
     let manager = state.session_manager();
     let config = Config::global();
-    let current_mode = config.get_mesmile_model().unwrap_or_default();
+    let current_mode = config.get_mesmile_mode().unwrap_or_default();
 
     let mut session = manager
         .create_session(

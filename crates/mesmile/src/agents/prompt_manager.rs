@@ -136,7 +136,7 @@ impl<'a> SystemPromptBuilder<'a, PromptManager> {
 
         let mesmile_mode = self
             .mesmile_mode
-            .unwrap_or_else(|| Config::global().get_mesmile_model().unwrap_or_default());
+            .unwrap_or_else(|| Config::global().get_mesmile_mode().unwrap_or_default());
 
         let extension_tool_limits = self
             .extension_tool_count
