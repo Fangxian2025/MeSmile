@@ -12,7 +12,7 @@ use axum::{
     Json, Router,
 };
 use mesmile::agents::{Container, ExtensionLoadResult};
-use mesmile::goose_apps::{fetch_mcp_apps, GooseApp, McpAppCache};
+use mesmile::mesmile_apps::{fetch_mcp_apps, GooseApp, McpAppCache};
 
 use base64::Engine;
 use mesmile::agents::reply_parts::is_tool_visible_to_app;

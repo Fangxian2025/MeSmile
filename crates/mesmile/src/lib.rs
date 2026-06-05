@@ -15,7 +15,7 @@ pub mod doctor;
 pub mod download_manager;
 pub mod execution;
 pub mod gateway;
-pub mod goose_apps;
+pub mod mesmile_apps;
 pub mod hints;
 pub mod hooks;
 pub mod instance_id;
