@@ -1,5 +1,5 @@
 use crate::acp::server::{meta_string, sid_short, validate_absolute_cwd, ResultExt};
-use crate::config::{Config, GooseMode};
+use crate::config::{Config, MeSmileMode};
 use crate::session::SessionType;
 
 use super::GooseAcpAgent;
@@ -33,7 +33,7 @@ impl GooseAcpAgent {
                 }
                 None => super::resolve_default_provider_model_config(config)?,
             };
-        let current_mode: GooseMode = config.get_mesmile_mode().unwrap_or_default();
+        let current_mode: MeSmileMode = config.get_mesmile_model().unwrap_or_default();
         let t0 = std::time::Instant::now();
         let mut mesmile_session = self
             .session_manager

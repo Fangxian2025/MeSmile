@@ -10,7 +10,7 @@ use crate::agents::extension::ExtensionInfo;
 use crate::hints::load_hints::build_gitignore;
 use crate::hints::{get_context_filenames, load_hint_files, SubdirectoryHintTracker};
 use crate::{
-    config::{Config, GooseMode},
+    config::{Config, MeSmileMode},
     prompt_template,
     utils::sanitize_unicode_tags,
 };
@@ -38,7 +38,7 @@ struct SystemPromptContext {
     current_date_time: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     extension_tool_limits: Option<(usize, usize)>,
-    mesmile_mode: GooseMode,
+    mesmile_mode: MeSmileMode,
     is_autonomous: bool,
     enable_subagents: bool,
     max_extensions: usize,
@@ -55,7 +55,7 @@ pub struct SystemPromptBuilder<'a, M> {
     subagents_enabled: bool,
     hints: Option<String>,
     code_execution_mode: bool,
-    mesmile_mode: Option<GooseMode>,
+    mesmile_mode: Option<MeSmileMode>,
 }
 
 impl<'a> SystemPromptBuilder<'a, PromptManager> {
@@ -107,7 +107,7 @@ impl<'a> SystemPromptBuilder<'a, PromptManager> {
         self
     }
 
-    pub fn with_mesmile_mode(mut self, mode: GooseMode) -> Self {
+    pub fn with_mesmile_mode(mut self, mode: MeSmileMode) -> Self {
         self.mesmile_mode = Some(mode);
         self
     }
@@ -136,7 +136,7 @@ impl<'a> SystemPromptBuilder<'a, PromptManager> {
 
         let mesmile_mode = self
             .mesmile_mode
-            .unwrap_or_else(|| Config::global().get_mesmile_mode().unwrap_or_default());
+            .unwrap_or_else(|| Config::global().get_mesmile_model().unwrap_or_default());
 
         let extension_tool_limits = self
             .extension_tool_count
@@ -147,7 +147,7 @@ impl<'a> SystemPromptBuilder<'a, PromptManager> {
             current_date_time: self.manager.current_date_timestamp.clone(),
             extension_tool_limits,
             mesmile_mode,
-            is_autonomous: mesmile_mode == GooseMode::Auto,
+            is_autonomous: mesmile_mode == MeSmileMode::Auto,
             enable_subagents: self.subagents_enabled,
             max_extensions: MAX_EXTENSIONS,
             max_tools: MAX_TOOLS,
@@ -171,7 +171,7 @@ impl<'a> SystemPromptBuilder<'a, PromptManager> {
             system_prompt_extras.insert("hints".to_string(), hints);
         }
 
-        if mesmile_mode == GooseMode::Chat {
+        if mesmile_mode == MeSmileMode::Chat {
             system_prompt_extras.insert(
                 "chat_mode".to_string(),
                 "Right now you are in the chat only mode, no access to any tool use and system."
@@ -442,7 +442,7 @@ mod tests {
     #[tokio::test]
     async fn test_all_platform_extensions() {
         use crate::agents::platform_extensions::{PlatformExtensionContext, PLATFORM_EXTENSIONS};
-        use crate::config::GooseMode;
+        use crate::config::MeSmileMode;
         use crate::session::SessionManager;
         use std::sync::Arc;
 
@@ -458,7 +458,7 @@ mod tests {
                 tmp_dir.path().to_path_buf(),
                 "test session".to_owned(),
                 crate::session::SessionType::Hidden,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await
             .unwrap();

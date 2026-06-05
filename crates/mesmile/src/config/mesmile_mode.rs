@@ -21,7 +21,7 @@ use utoipa::ToSchema;
 )]
 #[serde(rename_all = "snake_case")]
 #[strum(serialize_all = "snake_case")]
-pub enum GooseMode {
+pub enum MeSmileMode {
     #[default]
     #[strum(message = "Automatically approve tool calls")]
     Auto,

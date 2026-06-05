@@ -3,7 +3,7 @@ use dotenvy::dotenv;
 use futures::StreamExt;
 use mesmile::acp::ACP_CURRENT_MODEL;
 use mesmile::agents::{Agent, AgentConfig, AgentEvent, GoosePlatform, PromptManager, SessionConfig};
-use mesmile::config::{ExtensionConfig, GooseMode, PermissionManager};
+use mesmile::config::{ExtensionConfig, MeSmileMode, PermissionManager};
 use mesmile::conversation::message::{ActionRequiredData, Message, MessageContent};
 use mesmile::permission::permission_confirmation::PrincipalType;
 use mesmile::permission::{Permission, PermissionConfirmation};
@@ -209,7 +209,7 @@ impl ProviderTestConfig {
 }
 
 impl ProviderFixture {
-    async fn setup(config: &ProviderTestConfig, mode: GooseMode) -> Result<Self> {
+    async fn setup(config: &ProviderTestConfig, mode: MeSmileMode) -> Result<Self> {
         let mut env_vars: Vec<(&'static str, Option<&str>)> =
             vec![("GOOSE_MODE", Some(<&str>::from(mode)))];
         for &var in config.clear_env {
@@ -256,7 +256,7 @@ impl ProviderFixture {
                 std::env::current_dir()?,
                 "provider_test".to_string(),
                 SessionType::User,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await?;
         let session_id = session.id;
@@ -607,7 +607,7 @@ impl ProviderFixture {
         // Start in Auto mode (fixture default), tools auto-approved.
         // Switch to Approve mode dynamically via agent.
         self.agent
-            .update_mesmile_mode(GooseMode::Approve, &self.session_id)
+            .update_mesmile_mode(MeSmileMode::Approve, &self.session_id)
             .await?;
         // Verify tool call now requires permission (ActionRequired).
         // Cancel prevents the task from completing → tool fails.
@@ -651,61 +651,61 @@ async fn test_provider(config: ProviderTestConfig) -> Result<()> {
         }
     }
 
-    let run_test = |mode: GooseMode| ProviderFixture::setup(&config, mode);
+    let run_test = |mode: MeSmileMode| ProviderFixture::setup(&config, mode);
 
-    if run_test(GooseMode::Auto).await.is_err() {
+    if run_test(MeSmileMode::Auto).await.is_err() {
         println!("Skipping {} tests - failed to create provider", name);
         TEST_REPORT.record_skip(name);
         return Ok(());
     }
 
     let result: Result<()> = async {
-        run_test(GooseMode::Auto)
+        run_test(MeSmileMode::Auto)
             .await?
             .test_model_listing()
             .await?;
-        run_test(GooseMode::Auto)
+        run_test(MeSmileMode::Auto)
             .await?
             .test_basic_response()
             .await?;
         if config.test_mcp_tools {
-            run_test(GooseMode::Auto).await?.test_tool_usage().await?;
-            run_test(GooseMode::Auto)
+            run_test(MeSmileMode::Auto).await?.test_tool_usage().await?;
+            run_test(MeSmileMode::Auto)
                 .await?
                 .test_image_content_support()
                 .await?;
         }
         if config.model_switch_name.is_some() {
-            run_test(GooseMode::Auto).await?.test_model_switch().await?;
+            run_test(MeSmileMode::Auto).await?.test_model_switch().await?;
         }
         if config.test_context_length_exceeded {
-            run_test(GooseMode::Auto)
+            run_test(MeSmileMode::Auto)
                 .await?
                 .test_context_length_exceeded_error()
                 .await?;
         }
         if config.test_permissions {
-            run_test(GooseMode::Approve)
+            run_test(MeSmileMode::Approve)
                 .await?
                 .test_permission_allow()
                 .await?;
-            run_test(GooseMode::Approve)
+            run_test(MeSmileMode::Approve)
                 .await?
                 .test_permission_deny()
                 .await?;
             if config.test_smart_approve {
-                run_test(GooseMode::SmartApprove)
+                run_test(MeSmileMode::SmartApprove)
                     .await?
                     .test_smart_approve_llm_detect()
                     .await?;
-                run_test(GooseMode::SmartApprove)
+                run_test(MeSmileMode::SmartApprove)
                     .await?
                     .test_smart_approve_readonly()
                     .await?;
             }
         }
         if config.test_mode_update {
-            run_test(GooseMode::Auto).await?.test_mode_update().await?;
+            run_test(MeSmileMode::Auto).await?.test_mode_update().await?;
         }
         Ok(())
     }

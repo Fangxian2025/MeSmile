@@ -1,4 +1,4 @@
-use crate::config::GooseMode;
+use crate::config::MeSmileMode;
 use crate::providers::inventory::{ProviderInventoryEntry, ProviderInventoryService};
 use crate::session::Session;
 use agent_client_protocol::schema::{
@@ -97,13 +97,13 @@ pub(super) fn should_refresh_inventory_for_session_init(entry: &ProviderInventor
 }
 
 pub(super) fn build_mode_state(
-    current_mode: GooseMode,
+    current_mode: MeSmileMode,
 ) -> Result<SessionModeState, agent_client_protocol::Error> {
-    let mut available = Vec::with_capacity(GooseMode::VARIANTS.len());
-    for &name in GooseMode::VARIANTS {
-        let mesmile_mode: GooseMode = name.parse().map_err(|_| {
+    let mut available = Vec::with_capacity(MeSmileMode::VARIANTS.len());
+    for &name in MeSmileMode::VARIANTS {
+        let mesmile_mode: MeSmileMode = name.parse().map_err(|_| {
             agent_client_protocol::Error::internal_error() // impossible but satisfy linters
-                .data(format!("Failed to parse GooseMode variant: {}", name))
+                .data(format!("Failed to parse MeSmileMode variant: {}", name))
         })?;
         let mut mode = SessionMode::new(SessionModeId::new(name), name);
         mode.description = mesmile_mode.get_message().map(Into::into);
@@ -289,7 +289,7 @@ mod tests {
     }
 
     #[test_case(
-        GooseMode::Auto
+        MeSmileMode::Auto
         => Ok(SessionModeState::new(
             SessionModeId::new("auto"),
             vec![
@@ -306,7 +306,7 @@ mod tests {
         ; "auto mode"
     )]
     #[test_case(
-        GooseMode::Approve
+        MeSmileMode::Approve
         => Ok(SessionModeState::new(
             SessionModeId::new("approve"),
             vec![
@@ -323,13 +323,13 @@ mod tests {
         ; "approve mode"
     )]
     fn test_build_mode_state(
-        current_mode: GooseMode,
+        current_mode: MeSmileMode,
     ) -> Result<SessionModeState, agent_client_protocol::Error> {
         build_mode_state(current_mode)
     }
 
     #[test_case(
-        build_mode_state(GooseMode::Auto).unwrap(),
+        build_mode_state(MeSmileMode::Auto).unwrap(),
         "openai",
         vec![
             SessionConfigSelectOption::new("anthropic", "anthropic"),
@@ -367,7 +367,7 @@ mod tests {
         ; "auto mode with multiple models"
     )]
     #[test_case(
-        build_mode_state(GooseMode::Approve).unwrap(),
+        build_mode_state(MeSmileMode::Approve).unwrap(),
         "openai",
         vec![SessionConfigSelectOption::new("openai", "openai")],
         SessionModelState::new(ModelId::new("only-model"), vec![ModelInfo::new(ModelId::new("only-model"), "only-model")])

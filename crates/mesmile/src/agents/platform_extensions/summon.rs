@@ -5,7 +5,7 @@ use crate::agents::subagent_task_config::{TaskConfig, DEFAULT_SUBAGENT_MAX_TURNS
 use crate::agents::tool_execution::ToolCallContext;
 use crate::agents::AgentConfig;
 use crate::config::paths::Paths;
-use crate::config::{Config, GooseMode};
+use crate::config::{Config, MeSmileMode};
 use crate::providers;
 use crate::recipe::build_recipe::build_recipe_from_template;
 use crate::recipe::local_recipes::load_local_recipe_file;
@@ -1087,7 +1087,7 @@ impl SummonClient {
             self.context.session_manager.clone(),
             crate::config::permission::PermissionManager::instance(),
             None,
-            GooseMode::Auto,
+            MeSmileMode::Auto,
             true, // disable session naming for subagents
             crate::agents::GoosePlatform::GooseCli,
         );
@@ -1099,7 +1099,7 @@ impl SummonClient {
                 working_dir,
                 "Delegated task".to_string(),
                 SessionType::SubAgent,
-                GooseMode::Auto,
+                MeSmileMode::Auto,
             )
             .await
             .map_err(|e| format!("Failed to create subagent session: {}", e))?;
@@ -1590,7 +1590,7 @@ impl SummonClient {
             self.context.session_manager.clone(),
             crate::config::permission::PermissionManager::instance(),
             None,
-            GooseMode::Auto,
+            MeSmileMode::Auto,
             true, // disable session naming for subagents
             crate::agents::GoosePlatform::GooseCli,
         );
@@ -1602,7 +1602,7 @@ impl SummonClient {
                 working_dir,
                 description.clone(),
                 SessionType::SubAgent,
-                GooseMode::Auto,
+                MeSmileMode::Auto,
             )
             .await
             .map_err(|e| format!("Failed to create subagent session: {}", e))?;

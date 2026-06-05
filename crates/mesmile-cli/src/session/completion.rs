@@ -1,4 +1,4 @@
-use mesmile::config::GooseMode;
+use mesmile::config::MeSmileMode;
 use rustyline::completion::{Completer, FilenameCompleter, Pair};
 use rustyline::highlight::{CmdKind, Highlighter};
 use rustyline::hint::Hinter;
@@ -83,7 +83,7 @@ impl GooseCompleter {
 
     /// Complete flags for the /mode command
     fn complete_mode_flags(&self, line: &str) -> Result<(usize, Vec<Pair>)> {
-        let modes = GooseMode::VARIANTS;
+        let modes = MeSmileMode::VARIANTS;
 
         let parts: Vec<&str> = line.split_whitespace().collect();
 

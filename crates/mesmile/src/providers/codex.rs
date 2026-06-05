@@ -19,7 +19,7 @@ use super::utils::{filter_extensions_from_system_prompt, RequestLog};
 use crate::config::base::{CodexCommand, CodexSkipGitCheck};
 use crate::config::paths::Paths;
 use crate::config::search_path::SearchPaths;
-use crate::config::{Config, ExtensionConfig, GooseMode};
+use crate::config::{Config, ExtensionConfig, MeSmileMode};
 use crate::conversation::message::{Message, MessageContent};
 use crate::model::ModelConfig;
 use crate::subprocess::configure_subprocess;
@@ -56,7 +56,7 @@ pub struct CodexProvider {
     /// CLI config overrides for MCP servers
     mcp_config_overrides: Vec<String>,
     #[serde(skip)]
-    mode_by_session: tokio::sync::RwLock<HashMap<String, GooseMode>>,
+    mode_by_session: tokio::sync::RwLock<HashMap<String, MeSmileMode>>,
 }
 
 impl CodexProvider {
@@ -100,25 +100,25 @@ impl CodexProvider {
         true
     }
 
-    /// Apply permission flags based on GooseMode
+    /// Apply permission flags based on MeSmileMode
     fn apply_permission_flags(
         cmd: &mut Command,
-        mesmile_mode: GooseMode,
+        mesmile_mode: MeSmileMode,
     ) -> Result<(), ProviderError> {
         match mesmile_mode {
-            GooseMode::Auto => {
+            MeSmileMode::Auto => {
                 // --yolo is shorthand for --dangerously-bypass-approvals-and-sandbox
                 cmd.arg("--yolo");
             }
-            GooseMode::SmartApprove => {
+            MeSmileMode::SmartApprove => {
                 // --full-auto applies workspace-write sandbox and approvals only on failure
                 cmd.arg("--full-auto");
             }
-            GooseMode::Approve => {
+            MeSmileMode::Approve => {
                 // Default codex behavior - interactive approvals
                 // No special flags needed
             }
-            GooseMode::Chat => {
+            MeSmileMode::Chat => {
                 // Read-only sandbox mode
                 cmd.arg("--sandbox").arg("read-only");
             }
@@ -132,7 +132,7 @@ impl CodexProvider {
         system: &str,
         messages: &[Message],
         _tools: &[Tool],
-        mesmile_mode: GooseMode,
+        mesmile_mode: MeSmileMode,
     ) -> Result<Vec<String>, ProviderError> {
         // Single pass: text → prompt (stdin), images → temp files (-i flags)
         let image_dir = Paths::state_dir().join("codex/images");
@@ -740,7 +740,7 @@ impl Provider for CodexProvider {
         ))
     }
 
-    async fn update_mode(&self, session_id: &str, mode: GooseMode) -> Result<(), ProviderError> {
+    async fn update_mode(&self, session_id: &str, mode: MeSmileMode) -> Result<(), ProviderError> {
         self.mode_by_session
             .write()
             .await
@@ -1314,11 +1314,11 @@ mod tests {
         assert_eq!(CODEX_DEFAULT_MODEL, "gpt-5.2-codex");
     }
 
-    #[test_case(GooseMode::Auto, &["--yolo"] ; "auto_yolo")]
-    #[test_case(GooseMode::SmartApprove, &["--full-auto"] ; "smart_approve_full_auto")]
-    #[test_case(GooseMode::Approve, &[] as &[&str] ; "approve_no_flags")]
-    #[test_case(GooseMode::Chat, &["--sandbox", "read-only"] ; "chat_read_only")]
-    fn test_apply_permission_flags(mode: GooseMode, expected: &[&str]) {
+    #[test_case(MeSmileMode::Auto, &["--yolo"] ; "auto_yolo")]
+    #[test_case(MeSmileMode::SmartApprove, &["--full-auto"] ; "smart_approve_full_auto")]
+    #[test_case(MeSmileMode::Approve, &[] as &[&str] ; "approve_no_flags")]
+    #[test_case(MeSmileMode::Chat, &["--sandbox", "read-only"] ; "chat_read_only")]
+    fn test_apply_permission_flags(mode: MeSmileMode, expected: &[&str]) {
         let mut cmd = tokio::process::Command::new("codex");
         CodexProvider::apply_permission_flags(&mut cmd, mode).unwrap();
         let args: Vec<&str> = cmd

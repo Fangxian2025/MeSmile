@@ -1,7 +1,7 @@
 use crate::agents::platform_extensions::MANAGE_EXTENSIONS_TOOL_NAME_COMPLETE;
 use crate::agents::types::SharedProvider;
 use crate::config::permission::PermissionLevel;
-use crate::config::{GooseMode, PermissionManager};
+use crate::config::{MeSmileMode, PermissionManager};
 use crate::conversation::message::{Message, ToolRequest};
 use crate::permission::permission_judge::{detect_read_only_tools, PermissionCheckResult};
 use crate::tool_inspection::{InspectionAction, InspectionResult, ToolInspector};
@@ -126,7 +126,7 @@ impl ToolInspector for PermissionInspector {
         session_id: &str,
         tool_requests: &[ToolRequest],
         _messages: &[Message],
-        mesmile_mode: GooseMode,
+        mesmile_mode: MeSmileMode,
     ) -> Result<Vec<InspectionResult>> {
         let mut results = Vec::new();
         let permission_manager = &self.permission_manager;
@@ -137,9 +137,9 @@ impl ToolInspector for PermissionInspector {
                 let tool_name = &tool_call.name;
 
                 let action = match mesmile_mode {
-                    GooseMode::Chat => continue,
-                    GooseMode::Auto => InspectionAction::Allow,
-                    GooseMode::Approve | GooseMode::SmartApprove => {
+                    MeSmileMode::Chat => continue,
+                    MeSmileMode::Auto => InspectionAction::Allow,
+                    MeSmileMode::Approve | MeSmileMode::SmartApprove => {
                         // 1. Check user-defined permission first
                         if let Some(level) = permission_manager.get_user_permission(tool_name) {
                             match level {
@@ -151,7 +151,7 @@ impl ToolInspector for PermissionInspector {
                             }
                         // 2. Check if it's a smart-approved tool (annotation or cached LLM decision)
                         } else if self.is_readonly_annotated_tool(tool_name)
-                            || (mesmile_mode == GooseMode::SmartApprove
+                            || (mesmile_mode == MeSmileMode::SmartApprove
                                 && permission_manager.get_smart_approve_permission(tool_name)
                                     == Some(PermissionLevel::AlwaysAllow))
                         {
@@ -162,7 +162,7 @@ impl ToolInspector for PermissionInspector {
                                 "Extension management requires approval for security".to_string(),
                             ))
                         // 4. Defer to LLM detection (SmartApprove, not yet cached)
-                        } else if mesmile_mode == GooseMode::SmartApprove
+                        } else if mesmile_mode == MeSmileMode::SmartApprove
                             && permission_manager
                                 .get_smart_approve_permission(tool_name)
                                 .is_none()
@@ -178,11 +178,11 @@ impl ToolInspector for PermissionInspector {
 
                 let reason = match &action {
                     InspectionAction::Allow => {
-                        if mesmile_mode == GooseMode::Auto {
+                        if mesmile_mode == MeSmileMode::Auto {
                             "Auto mode - all tools approved".to_string()
                         } else if self.is_readonly_annotated_tool(tool_name) {
                             "Tool annotated as read-only".to_string()
-                        } else if mesmile_mode == GooseMode::SmartApprove {
+                        } else if mesmile_mode == MeSmileMode::SmartApprove {
                             "SmartApprove cached as read-only".to_string()
                         } else {
                             "User permission allows this tool".to_string()
@@ -270,16 +270,16 @@ mod tests {
     use test_case::test_case;
     use tokio::sync::Mutex;
 
-    #[test_case(GooseMode::Auto, false, None, InspectionAction::Allow; "auto_allows")]
-    #[test_case(GooseMode::SmartApprove, true, None, InspectionAction::Allow; "smart_approve_annotation_allows")]
-    #[test_case(GooseMode::SmartApprove, false, Some(PermissionLevel::AlwaysAllow), InspectionAction::Allow; "smart_approve_cached_allow")]
-    #[test_case(GooseMode::SmartApprove, false, Some(PermissionLevel::AskBefore), InspectionAction::RequireApproval(None); "smart_approve_cached_ask")]
-    #[test_case(GooseMode::SmartApprove, false, None, InspectionAction::RequireApproval(None); "smart_approve_unknown_defers")]
-    #[test_case(GooseMode::Approve, false, None, InspectionAction::RequireApproval(None); "approve_requires_approval")]
-    #[test_case(GooseMode::Approve, false, Some(PermissionLevel::AlwaysAllow), InspectionAction::RequireApproval(None); "approve_ignores_cache")]
+    #[test_case(MeSmileMode::Auto, false, None, InspectionAction::Allow; "auto_allows")]
+    #[test_case(MeSmileMode::SmartApprove, true, None, InspectionAction::Allow; "smart_approve_annotation_allows")]
+    #[test_case(MeSmileMode::SmartApprove, false, Some(PermissionLevel::AlwaysAllow), InspectionAction::Allow; "smart_approve_cached_allow")]
+    #[test_case(MeSmileMode::SmartApprove, false, Some(PermissionLevel::AskBefore), InspectionAction::RequireApproval(None); "smart_approve_cached_ask")]
+    #[test_case(MeSmileMode::SmartApprove, false, None, InspectionAction::RequireApproval(None); "smart_approve_unknown_defers")]
+    #[test_case(MeSmileMode::Approve, false, None, InspectionAction::RequireApproval(None); "approve_requires_approval")]
+    #[test_case(MeSmileMode::Approve, false, Some(PermissionLevel::AlwaysAllow), InspectionAction::RequireApproval(None); "approve_ignores_cache")]
     #[tokio::test]
     async fn test_inspect_action(
-        mode: GooseMode,
+        mode: MeSmileMode,
         smart_approved: bool,
         cache: Option<PermissionLevel>,
         expected: InspectionAction,

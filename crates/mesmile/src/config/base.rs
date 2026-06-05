@@ -1,5 +1,5 @@
 use crate::config::paths::Paths;
-use crate::config::GooseMode;
+use crate::config::MeSmileMode;
 use fs2::FileExt;
 #[cfg(feature = "system-keyring")]
 use keyring::Entry;
@@ -1103,7 +1103,7 @@ config_value!(CODEX_SKIP_GIT_CHECK, String, "false");
 config_value!(CHATGPT_CODEX_REASONING_EFFORT, String, "medium");
 
 config_value!(GOOSE_SEARCH_PATHS, Vec<String>);
-config_value!(GOOSE_MODE, GooseMode);
+config_value!(GOOSE_MODE, MeSmileMode);
 // GOOSE_PROVIDER and GOOSE_MODEL are handled by crate::config::providers
 // which checks the structured `providers:` block first and falls back to
 // the legacy flat keys. The accessors below delegate to that module.

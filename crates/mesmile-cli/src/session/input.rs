@@ -1,7 +1,7 @@
 use super::completion::GooseCompleter;
 use super::{CompletionCache, HintStatus};
 use anyhow::Result;
-use mesmile::config::{Config, GooseMode};
+use mesmile::config::{Config, MeSmileMode};
 use rustyline::Editor;
 use shlex;
 use std::collections::HashMap;
@@ -19,7 +19,7 @@ pub enum InputResult {
     Retry,
     ListPrompts(Option<String>),
     PromptCommand(PromptCommandOptions),
-    GooseMode(String),
+    MeSmileMode(String),
     Model(Option<String>),
     Plan(PlanCommandOptions),
     EndPlan,
@@ -261,7 +261,7 @@ fn handle_slash_command(input: &str) -> Option<InputResult> {
         s if s.starts_with(CMD_BUILTIN) => Some(InputResult::AddBuiltin(
             s.get(CMD_BUILTIN.len()..).unwrap_or("").to_string(),
         )),
-        s if s.starts_with(CMD_MODE) => Some(InputResult::GooseMode(
+        s if s.starts_with(CMD_MODE) => Some(InputResult::MeSmileMode(
             s.get(CMD_MODE.len()..).unwrap_or("").to_string(),
         )),
         s if s == CMD_MODEL => Some(InputResult::Model(None)),
@@ -403,7 +403,7 @@ fn parse_plan_command(input: String) -> Option<InputResult> {
 
 fn print_help() {
     let newline_key = get_newline_key().to_ascii_uppercase();
-    let modes = GooseMode::VARIANTS.join(", ");
+    let modes = MeSmileMode::VARIANTS.join(", ");
     println!(
         "Available commands:
 /exit or /quit - Exit the session

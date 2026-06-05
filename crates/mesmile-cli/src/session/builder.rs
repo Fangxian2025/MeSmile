@@ -5,7 +5,7 @@ use super::CliSession;
 use console::style;
 use mesmile::agents::{Agent, Container, ExtensionError};
 use mesmile::config::resolve_extensions_for_new_session;
-use mesmile::config::{Config, ExtensionConfig, GooseMode};
+use mesmile::config::{Config, ExtensionConfig, MeSmileMode};
 use mesmile::providers::create;
 use mesmile::recipe::Recipe;
 use mesmile::session::session_manager::SessionType;
@@ -294,7 +294,7 @@ fn resolve_provider_and_model(
 async fn resolve_session_id(
     session_config: &SessionBuilderConfig,
     session_manager: &mesmile::session::session_manager::SessionManager,
-    mesmile_mode: GooseMode,
+    mesmile_mode: MeSmileMode,
 ) -> String {
     if session_config.no_session {
         let working_dir = std::env::current_dir().unwrap_or_else(|e| {

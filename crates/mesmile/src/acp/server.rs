@@ -20,7 +20,7 @@ use crate::config::base::CONFIG_YAML_NAME;
 use crate::config::extensions::get_enabled_extensions_with_config;
 use crate::config::paths::Paths;
 use crate::config::permission::PermissionManager;
-use crate::config::{Config, GooseMode};
+use crate::config::{Config, MeSmileMode};
 use crate::conversation::message::{
     ActionRequiredData, Message, MessageContent, SystemNotificationContent, SystemNotificationType,
     ToolRequest,
@@ -1029,7 +1029,7 @@ impl GooseAcpAgent {
             Arc::clone(&session_manager),
             Arc::clone(&permission_manager),
             None,
-            Config::global().get_mesmile_mode().unwrap_or_default(),
+            Config::global().get_mesmile_model().unwrap_or_default(),
             options.disable_session_naming,
             options.mesmile_platform.clone(),
         );
@@ -2736,7 +2736,7 @@ impl GooseAcpAgent {
         session_id: &str,
         mode_id: &str,
     ) -> Result<SetSessionModeResponse, agent_client_protocol::Error> {
-        let mode = mode_id.parse::<GooseMode>().map_err(|_| {
+        let mode = mode_id.parse::<MeSmileMode>().map_err(|_| {
             agent_client_protocol::Error::invalid_params()
                 .data(format!("Invalid mode: {}", mode_id))
         })?;
@@ -3698,7 +3698,7 @@ print(\"hello, world\")
             message_count: 0,
             provider_name: None,
             model_config: None,
-            mesmile_mode: GooseMode::default(),
+            mesmile_mode: MeSmileMode::default(),
             archived_at: None,
             project_id: None,
         }

@@ -10,7 +10,7 @@ use agent_client_protocol::{Channel, Client, ConnectTo, DynConnectTo};
 use async_trait::async_trait;
 use futures::StreamExt;
 use mesmile::acp::{AcpProvider, AcpProviderConfig};
-use mesmile::config::{GooseMode, PermissionManager};
+use mesmile::config::{MeSmileMode, PermissionManager};
 use mesmile::conversation::message::{ActionRequiredData, Message, MessageContent};
 use mesmile::model::ModelConfig;
 use mesmile::permission::permission_confirmation::PrincipalType;
@@ -183,10 +183,10 @@ impl Connection for AcpProviderConnection {
             work_dir: cwd_path.clone(),
             mcp_servers,
             session_mode_id: None,
-            mode_mapping: GooseMode::VARIANTS
+            mode_mapping: MeSmileMode::VARIANTS
                 .iter()
                 .map(|v| {
-                    let mode = GooseMode::from_str(v).unwrap();
+                    let mode = MeSmileMode::from_str(v).unwrap();
                     (mode, mode.to_string())
                 })
                 .collect(),

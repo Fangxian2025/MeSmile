@@ -585,7 +585,7 @@ derive_utoipa!(IconTheme as IconThemeSchema);
         ThinkingEffort,
         super::routes::config_management::ProviderModelInfoQuery,
         Session,
-        mesmile::config::mesmile_mode::GooseMode,
+        mesmile::config::mesmile_mode::MeSmileMode,
         SessionInsights,
         SessionType,
         SystemInfo,

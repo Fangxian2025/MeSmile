@@ -16,7 +16,7 @@ use mesmile::config::paths::Paths;
 use mesmile::config::permission::PermissionLevel;
 use mesmile::config::signup_tetrate::TetrateAuth;
 use mesmile::config::{
-    configure_tetrate, Config, ConfigError, ExperimentManager, ExtensionEntry, GooseMode,
+    configure_tetrate, Config, ConfigError, ExperimentManager, ExtensionEntry, MeSmileMode,
     PermissionManager,
 };
 use mesmile::model::ModelConfig;
@@ -1323,22 +1323,22 @@ pub fn configure_mesmile_mode_dialog() -> anyhow::Result<()> {
 
     let mode = cliclack::select("Which MeSmile mode would you like to configure?")
         .item(
-            GooseMode::Auto,
+            MeSmileMode::Auto,
             "Auto Mode",
             "Full file modification, extension usage, edit, create and delete files freely"
         )
         .item(
-            GooseMode::Approve,
+            MeSmileMode::Approve,
             "Approve Mode",
             "All tools, extensions and file modifications will require human approval"
         )
         .item(
-            GooseMode::SmartApprove,
+            MeSmileMode::SmartApprove,
             "Smart Approve Mode",
             "Editing, creating, deleting files and using extensions will require human approval"
         )
         .item(
-            GooseMode::Chat,
+            MeSmileMode::Chat,
             "Chat Mode",
             "Engage with the selected provider without using tools, extensions, or file modification"
         )
@@ -1346,10 +1346,10 @@ pub fn configure_mesmile_mode_dialog() -> anyhow::Result<()> {
 
     config.set_mesmile_mode(mode)?;
     let msg = match mode {
-        GooseMode::Auto => "Set to Auto Mode - full file modification enabled",
-        GooseMode::Approve => "Set to Approve Mode - all tools and modifications require approval",
-        GooseMode::SmartApprove => "Set to Smart Approve Mode - modifications require approval",
-        GooseMode::Chat => "Set to Chat Mode - no tools or modifications enabled",
+        MeSmileMode::Auto => "Set to Auto Mode - full file modification enabled",
+        MeSmileMode::Approve => "Set to Approve Mode - all tools and modifications require approval",
+        MeSmileMode::SmartApprove => "Set to Smart Approve Mode - modifications require approval",
+        MeSmileMode::Chat => "Set to Chat Mode - no tools or modifications enabled",
     };
     cliclack::outro(msg)?;
     Ok(())

@@ -7,7 +7,7 @@ use crate::acp::{
     extension_configs_to_mcp_servers, AcpProvider, AcpProviderConfig, ACP_CURRENT_MODEL,
 };
 use crate::config::search_path::SearchPaths;
-use crate::config::{Config, GooseMode};
+use crate::config::{Config, MeSmileMode};
 use crate::model::ModelConfig;
 use crate::providers::acp_tooling::{acp_adapter_installed, acp_inventory_identity};
 use crate::providers::base::{current_working_dir, ProviderDef, ProviderMetadata};
@@ -56,13 +56,13 @@ impl ProviderDef for PiAcpProvider {
         Box::pin(async move {
             let config = Config::global();
             let resolved_command = SearchPaths::builder().with_npm().resolve(PI_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_mode().unwrap_or(GooseMode::Auto);
+            let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
 
             let mode_mapping = HashMap::from([
-                (GooseMode::Auto, "auto".to_string()),
-                (GooseMode::Approve, "approve".to_string()),
-                (GooseMode::SmartApprove, "smart-approve".to_string()),
-                (GooseMode::Chat, "chat".to_string()),
+                (MeSmileMode::Auto, "auto".to_string()),
+                (MeSmileMode::Approve, "approve".to_string()),
+                (MeSmileMode::SmartApprove, "smart-approve".to_string()),
+                (MeSmileMode::Chat, "chat".to_string()),
             ]);
 
             let provider_config = AcpProviderConfig {

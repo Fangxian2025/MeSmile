@@ -4,7 +4,7 @@ use clap_complete::{generate, Shell as ClapShell};
 use clap_complete_nushell::Nushell as ClapNushell;
 use mesmile::agents::GoosePlatform;
 use mesmile::builtin_extension::register_builtin_extensions;
-use mesmile::config::{Config, GooseMode};
+use mesmile::config::{Config, MeSmileMode};
 #[cfg(feature = "telemetry")]
 use mesmile::posthog::get_telemetry_choice;
 use mesmile::recipe::Recipe;
@@ -375,7 +375,7 @@ async fn get_or_create_session_id(
     identifier: Option<Identifier>,
     resume: bool,
     no_session: bool,
-    mesmile_mode: GooseMode,
+    mesmile_mode: MeSmileMode,
 ) -> Result<Option<String>> {
     if no_session {
         return Ok(None);
@@ -1489,7 +1489,7 @@ async fn handle_interactive_session(
         }
     }
 
-    let mesmile_mode = Config::global().get_mesmile_mode().unwrap_or_default();
+    let mesmile_mode = Config::global().get_mesmile_model().unwrap_or_default();
     let mut session_id = get_or_create_session_id(identifier, resume, false, mesmile_mode).await?;
 
     if fork {
@@ -1704,7 +1704,7 @@ async fn handle_run_command(
         }
     }
 
-    let mesmile_mode = Config::global().get_mesmile_mode().unwrap_or_default();
+    let mesmile_mode = Config::global().get_mesmile_model().unwrap_or_default();
     let session_id = get_or_create_session_id(
         identifier,
         run_behavior.resume,
@@ -2041,7 +2041,7 @@ async fn handle_default_session() -> Result<()> {
         configure_telemetry_consent_dialog()?;
     }
 
-    let mesmile_mode = Config::global().get_mesmile_mode().unwrap_or_default();
+    let mesmile_mode = Config::global().get_mesmile_model().unwrap_or_default();
     let session_id = get_or_create_session_id(None, false, false, mesmile_mode).await?;
 
     let mut session = build_session(SessionBuilderConfig {

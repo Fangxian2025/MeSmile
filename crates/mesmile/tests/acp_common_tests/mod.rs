@@ -15,7 +15,7 @@ use fixtures::{
 use fs_err as fs;
 use mesmile::acp::server::AcpProviderFactory;
 use mesmile::config::base::CONFIG_YAML_NAME;
-use mesmile::config::GooseMode;
+use mesmile::config::MeSmileMode;
 use mesmile_test_support::{McpFixture, FAKE_CODE, TEST_IMAGE_B64, TEST_MODEL};
 use sqlx::sqlite::SqlitePoolOptions;
 use std::sync::Arc;
@@ -471,10 +471,10 @@ pub async fn run_load_mode<C: Connection>() {
     let SessionData { session, modes, .. } = conn.new_session().await.unwrap();
     assert_eq!(
         modes.unwrap().current_mode_id,
-        SessionModeId::new(<&str>::from(GooseMode::default()))
+        SessionModeId::new(<&str>::from(MeSmileMode::default()))
     );
     let session_id = session.session_id().0.to_string();
-    conn.set_mode(&session_id, <&str>::from(GooseMode::Approve))
+    conn.set_mode(&session_id, <&str>::from(MeSmileMode::Approve))
         .await
         .unwrap();
 
@@ -485,7 +485,7 @@ pub async fn run_load_mode<C: Connection>() {
     } = conn.load_session(&session_id, vec![]).await.unwrap();
     assert_eq!(
         modes.unwrap().current_mode_id,
-        SessionModeId::new(<&str>::from(GooseMode::Approve))
+        SessionModeId::new(<&str>::from(MeSmileMode::Approve))
     );
 
     // Approve mode + Cancel = permission denied → tool fails
@@ -770,7 +770,7 @@ async fn run_mode_set_impl<C: Connection>(via: SetModeVia) {
         ..
     } = conn.new_session().await.unwrap();
     let session_id = &session_b.session_id().0;
-    let approve = <&str>::from(GooseMode::Approve);
+    let approve = <&str>::from(MeSmileMode::Approve);
     match via {
         SetModeVia::Dedicated => conn.set_mode(session_id, approve).await.unwrap(),
         SetModeVia::ConfigOption => conn
@@ -911,7 +911,7 @@ pub async fn run_new_session_uses_current_config_mode<C: Connection>() {
     let expected_session_id = C::expected_session_id();
     let openai = OpenAiFixture::new(vec![], expected_session_id.clone()).await;
     let config = TestConnectionConfig {
-        mesmile_mode: GooseMode::Approve,
+        mesmile_mode: MeSmileMode::Approve,
         data_root: temp_dir.path().to_path_buf(),
         ..Default::default()
     };
@@ -1112,7 +1112,7 @@ pub async fn run_permission_persistence<C: Connection>() {
 
     let config = TestConnectionConfig {
         mcp_servers: vec![McpServer::Http(McpServerHttp::new("mcp-fixture", &mcp.url))],
-        mesmile_mode: GooseMode::Approve,
+        mesmile_mode: MeSmileMode::Approve,
         data_root: temp_dir.path().to_path_buf(),
         ..Default::default()
     };

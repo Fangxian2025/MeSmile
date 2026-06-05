@@ -200,7 +200,7 @@ pub async fn handle_term_init(
                     working_dir,
                     "Goose Term Session".to_string(),
                     SessionType::Terminal,
-                    Config::global().get_mesmile_mode().unwrap_or_default(),
+                    Config::global().get_mesmile_model().unwrap_or_default(),
                 )
                 .await?;
 

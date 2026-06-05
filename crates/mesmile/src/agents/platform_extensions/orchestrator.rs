@@ -2,7 +2,7 @@ use crate::agents::extension::PlatformExtensionContext;
 use crate::agents::mcp_client::{Error, McpClientTrait};
 use crate::agents::tool_execution::ToolCallContext;
 use crate::agents::{AgentEvent, SessionConfig};
-use crate::config::{Config, ExtensionConfig, GooseMode};
+use crate::config::{Config, ExtensionConfig, MeSmileMode};
 use crate::context_mgmt::format_message_for_compacting;
 use crate::conversation::message::Message;
 use crate::execution::manager::AgentManager;
@@ -389,7 +389,7 @@ impl OrchestratorClient {
             return Err(format!("'{}' is not a directory", working_dir));
         }
 
-        let mode = GooseMode::default();
+        let mode = MeSmileMode::default();
 
         let session = self
             .context

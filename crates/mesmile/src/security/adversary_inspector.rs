@@ -5,7 +5,7 @@ use std::sync::OnceLock;
 
 use crate::agents::types::SharedProvider;
 use crate::config::paths::Paths;
-use crate::config::GooseMode;
+use crate::config::MeSmileMode;
 use crate::conversation::message::{Message, MessageContent, ToolRequest};
 use crate::conversation::Conversation;
 use crate::tool_inspection::{InspectionAction, InspectionResult, ToolInspector};
@@ -361,7 +361,7 @@ impl ToolInspector for AdversaryInspector {
         _session_id: &str,
         tool_requests: &[ToolRequest],
         messages: &[Message],
-        _mesmile_mode: GooseMode,
+        _mesmile_mode: MeSmileMode,
     ) -> Result<Vec<InspectionResult>> {
         let config = match self.get_config() {
             Some(c) => c,
@@ -622,7 +622,7 @@ mod tests {
         };
 
         let results = inspector
-            .inspect("test", &[request], &[], GooseMode::Auto)
+            .inspect("test", &[request], &[], MeSmileMode::Auto)
             .await
             .unwrap();
         assert!(results.is_empty());

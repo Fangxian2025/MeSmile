@@ -7,7 +7,7 @@ use crate::acp::{
     extension_configs_to_mcp_servers, AcpProvider, AcpProviderConfig, ACP_CURRENT_MODEL,
 };
 use crate::config::search_path::SearchPaths;
-use crate::config::{Config, GooseMode};
+use crate::config::{Config, MeSmileMode};
 use crate::model::ModelConfig;
 use crate::providers::acp_tooling::{acp_adapter_installed, acp_inventory_identity};
 use crate::providers::base::{current_working_dir, ProviderDef, ProviderMetadata};
@@ -58,17 +58,17 @@ impl ProviderDef for ClaudeAcpProvider {
             let resolved_command = SearchPaths::builder()
                 .with_npm()
                 .resolve(CLAUDE_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_mode().unwrap_or(GooseMode::Auto);
+            let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
 
             let mode_mapping = HashMap::from([
                 // Closest to "autonomous": bypassPermissions skips confirmations.
-                (GooseMode::Auto, "bypassPermissions".to_string()),
+                (MeSmileMode::Auto, "bypassPermissions".to_string()),
                 // Claude Code's default matches "ask before risky actions".
-                (GooseMode::Approve, "default".to_string()),
+                (MeSmileMode::Approve, "default".to_string()),
                 // acceptEdits auto-accepts file edits but still prompts for risky ops.
-                (GooseMode::SmartApprove, "acceptEdits".to_string()),
+                (MeSmileMode::SmartApprove, "acceptEdits".to_string()),
                 // Plan mode disables tool execution, aligning with chat-only intent.
-                (GooseMode::Chat, "plan".to_string()),
+                (MeSmileMode::Chat, "plan".to_string()),
             ]);
 
             let provider_config = AcpProviderConfig {

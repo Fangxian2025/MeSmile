@@ -18,7 +18,7 @@ use base64::Engine;
 use mesmile::agents::reply_parts::is_tool_visible_to_app;
 use mesmile::agents::ExtensionConfig;
 use mesmile::config::resolve_extensions_for_new_session;
-use mesmile::config::{Config, GooseMode};
+use mesmile::config::{Config, MeSmileMode};
 use mesmile::model::ModelConfig;
 use mesmile::providers::create;
 use mesmile::recipe::Recipe;
@@ -244,7 +244,7 @@ async fn start_agent(
 
     let manager = state.session_manager();
     let config = Config::global();
-    let current_mode = config.get_mesmile_mode().unwrap_or_default();
+    let current_mode = config.get_mesmile_model().unwrap_or_default();
 
     let mut session = manager
         .create_session(
@@ -547,9 +547,9 @@ async fn get_tools(
             let permission = permission_manager
                 .get_user_permission(&tool.name)
                 .or_else(|| {
-                    if mesmile_mode == GooseMode::SmartApprove {
+                    if mesmile_mode == MeSmileMode::SmartApprove {
                         permission_manager.get_smart_approve_permission(&tool.name)
-                    } else if mesmile_mode == GooseMode::Approve {
+                    } else if mesmile_mode == MeSmileMode::Approve {
                         Some(PermissionLevel::AskBefore)
                     } else {
                         None
@@ -680,7 +680,7 @@ async fn update_session(
         .map_err(|e| (e, "No agent for session id".to_owned()))?;
 
     if let Some(mode_str) = payload.mesmile_mode {
-        let mode: GooseMode = mode_str.parse().map_err(|_| {
+        let mode: MeSmileMode = mode_str.parse().map_err(|_| {
             (
                 StatusCode::BAD_REQUEST,
                 format!("Invalid mode: {}", mode_str),
@@ -1384,7 +1384,7 @@ pub fn routes(state: Arc<AppState>) -> Router {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use mesmile::config::GooseMode;
+    use mesmile::config::MeSmileMode;
     use mesmile::session::session_manager::SessionType;
     use rmcp::model::Tool;
     use rmcp::object;
@@ -1419,7 +1419,7 @@ mod tests {
                 std::env::current_dir().unwrap(),
                 "frontend-route-test".to_string(),
                 SessionType::Hidden,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await
             .unwrap();

@@ -14,7 +14,7 @@ use super::errors::ProviderError;
 use super::inventory::{default_inventory_identity, InventoryIdentityInput};
 use super::retry::RetryConfig;
 use crate::config::base::ConfigValue;
-use crate::config::{Config, ExtensionConfig, GooseMode};
+use crate::config::{Config, ExtensionConfig, MeSmileMode};
 use crate::conversation::message::{Message, MessageContent};
 use crate::conversation::Conversation;
 use crate::model::ModelConfig;
@@ -1190,7 +1190,7 @@ pub trait Provider: Send + Sync {
         ))
     }
 
-    async fn update_mode(&self, _session_id: &str, _mode: GooseMode) -> Result<(), ProviderError> {
+    async fn update_mode(&self, _session_id: &str, _mode: MeSmileMode) -> Result<(), ProviderError> {
         Ok(())
     }
 

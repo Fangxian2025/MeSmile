@@ -8,7 +8,7 @@ use crate::session::CliSession;
 use anyhow::Result;
 use mesmile::agents::{Agent, AgentConfig, GoosePlatform};
 use mesmile::config::permission::PermissionManager;
-use mesmile::config::GooseMode;
+use mesmile::config::MeSmileMode;
 use mesmile::model::ModelConfig;
 use mesmile::providers::{create, testprovider::TestProvider};
 use mesmile::session::session_manager::SessionType;
@@ -212,7 +212,7 @@ where
         session_manager,
         permission_manager,
         None,
-        GooseMode::Auto,
+        MeSmileMode::Auto,
         true,
         GoosePlatform::GooseCli,
     );
@@ -242,7 +242,7 @@ where
             PathBuf::default(),
             "scenario-runner".to_string(),
             SessionType::Hidden,
-            GooseMode::default(),
+            MeSmileMode::default(),
         )
         .await?;
 

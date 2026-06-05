@@ -155,7 +155,7 @@ impl GatewayHandler {
                 working_dir,
                 session_name,
                 SessionType::Gateway,
-                config.get_mesmile_mode().unwrap_or_default(),
+                config.get_mesmile_model().unwrap_or_default(),
             )
             .await?;
 
@@ -221,7 +221,7 @@ impl GatewayHandler {
         let current_provider = config.get_mesmile_provider().ok();
         let current_model_name = config.get_mesmile_model().ok();
         let current_extensions = get_enabled_extensions();
-        let current_mode = config.get_mesmile_mode().unwrap_or_default();
+        let current_mode = config.get_mesmile_model().unwrap_or_default();
 
         // --- what the session has ---
         let session_extensions: Vec<ExtensionConfig> =

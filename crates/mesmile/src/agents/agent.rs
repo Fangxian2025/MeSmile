@@ -29,7 +29,7 @@ use crate::agents::retry::{RetryManager, RetryResult};
 use crate::agents::types::{FrontendTool, SessionConfig, SharedProvider, ToolResultReceiver};
 use crate::config::extensions::name_to_key;
 use crate::config::permission::PermissionManager;
-use crate::config::{get_enabled_extensions, Config, GooseMode};
+use crate::config::{get_enabled_extensions, Config, MeSmileMode};
 use crate::context_mgmt::{
     check_if_compaction_needed, compact_messages, DEFAULT_COMPACTION_THRESHOLD,
 };
@@ -134,7 +134,7 @@ pub struct ReplyContext {
     pub tools: Vec<Tool>,
     pub toolshim_tools: Vec<Tool>,
     pub system_prompt: String,
-    pub mesmile_mode: GooseMode,
+    pub mesmile_mode: MeSmileMode,
     pub tool_call_cut_off: usize,
     pub initial_messages: Vec<Message>,
 }
@@ -173,7 +173,7 @@ pub struct AgentConfig {
     pub session_manager: Arc<SessionManager>,
     pub permission_manager: Arc<PermissionManager>,
     pub scheduler_service: Option<Arc<dyn SchedulerTrait>>,
-    pub mesmile_mode: GooseMode,
+    pub mesmile_mode: MeSmileMode,
     pub disable_session_naming: bool,
     pub mesmile_platform: GoosePlatform,
     pub mcp_host_info: Option<GooseMcpHostInfo>,
@@ -186,7 +186,7 @@ impl AgentConfig {
         session_manager: Arc<SessionManager>,
         permission_manager: Arc<PermissionManager>,
         scheduler_service: Option<Arc<dyn SchedulerTrait>>,
-        mesmile_mode: GooseMode,
+        mesmile_mode: MeSmileMode,
         disable_session_naming: bool,
         mesmile_platform: GoosePlatform,
     ) -> Self {
@@ -226,7 +226,7 @@ impl AgentConfig {
 pub struct Agent {
     pub(super) provider: SharedProvider,
     pub config: AgentConfig,
-    pub(super) current_mesmile_mode: Mutex<GooseMode>,
+    pub(super) current_mesmile_mode: Mutex<MeSmileMode>,
 
     pub extension_manager: Arc<ExtensionManager>,
     pub(super) final_output_tool: Arc<Mutex<Option<FinalOutputTool>>>,
@@ -303,7 +303,7 @@ impl Agent {
             Arc::new(SessionManager::instance()),
             PermissionManager::instance(),
             None,
-            config.get_mesmile_mode().unwrap_or_default(),
+            config.get_mesmile_model().unwrap_or_default(),
             config.get_mesmile_disable_session_naming().unwrap_or(false),
             GoosePlatform::GooseCli,
         ))
@@ -650,7 +650,7 @@ impl Agent {
 
         let mesmile_mode = *self.current_mesmile_mode.lock().await;
 
-        if mesmile_mode == GooseMode::SmartApprove {
+        if mesmile_mode == MeSmileMode::SmartApprove {
             self.tool_inspection_manager.apply_tool_annotations(&tools);
         }
 
@@ -1889,7 +1889,7 @@ impl Agent {
                                         yield AgentEvent::Message(msg);
                                     }
                                 }
-                                if mesmile_mode == GooseMode::Chat {
+                                if mesmile_mode == MeSmileMode::Chat {
                                     for request in remaining_requests.iter() {
                                         if let Some(response) = request_to_response_map.get_mut(&request.id) {
                                             response.add_tool_response_with_metadata(
@@ -2468,7 +2468,7 @@ impl Agent {
             .context("Failed to persist provider config to session")
     }
 
-    pub async fn update_mesmile_mode(&self, mode: GooseMode, session_id: &str) -> Result<()> {
+    pub async fn update_mesmile_mode(&self, mode: MeSmileMode, session_id: &str) -> Result<()> {
         if let Some(provider) = self.provider.lock().await.as_ref() {
             provider
                 .update_mode(session_id, mode)
@@ -2486,7 +2486,7 @@ impl Agent {
             .context("Failed to persist mesmile_mode to session")
     }
 
-    pub async fn mesmile_mode(&self) -> GooseMode {
+    pub async fn mesmile_mode(&self) -> MeSmileMode {
         *self.current_mesmile_mode.lock().await
     }
 
@@ -3181,7 +3181,7 @@ exit 0
             session_manager.clone(),
             permission_manager,
             None,
-            GooseMode::Auto,
+            MeSmileMode::Auto,
             true,
             GoosePlatform::GooseCli,
         );
@@ -3194,7 +3194,7 @@ exit 0
                 PathBuf::default(),
                 "stop-hook-test".to_string(),
                 SessionType::Hidden,
-                GooseMode::Auto,
+                MeSmileMode::Auto,
             )
             .await?;
         agent.update_provider(provider.clone(), &session.id).await?;
@@ -3329,7 +3329,7 @@ exit 0
         let prompt_manager = agent.prompt_manager.lock().await;
         let system_prompt = prompt_manager
             .builder()
-            .with_mesmile_mode(GooseMode::default())
+            .with_mesmile_mode(MeSmileMode::default())
             .build();
 
         let final_output_tool_ref = agent.final_output_tool.lock().await;

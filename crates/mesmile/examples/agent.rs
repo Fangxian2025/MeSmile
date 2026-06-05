@@ -1,7 +1,7 @@
 use dotenvy::dotenv;
 use futures::StreamExt;
 use mesmile::agents::{Agent, AgentEvent, ExtensionConfig, SessionConfig};
-use mesmile::config::{GooseMode, DEFAULT_EXTENSION_DESCRIPTION, DEFAULT_EXTENSION_TIMEOUT};
+use mesmile::config::{MeSmileMode, DEFAULT_EXTENSION_DESCRIPTION, DEFAULT_EXTENSION_TIMEOUT};
 use mesmile::conversation::message::Message;
 use mesmile::providers::create_with_named_model;
 use mesmile::providers::databricks::DATABRICKS_DEFAULT_MODEL;
@@ -24,7 +24,7 @@ async fn main() -> anyhow::Result<()> {
             PathBuf::default(),
             "max-turn-test".to_string(),
             SessionType::Hidden,
-            GooseMode::default(),
+            MeSmileMode::default(),
         )
         .await?;
 

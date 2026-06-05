@@ -21,7 +21,7 @@ pub use extensions::{
     get_warnings, is_extension_enabled, remove_extension, resolve_extensions_for_new_session,
     set_extension, set_extension_enabled, ExtensionEntry,
 };
-pub use mesmile_mode::GooseMode;
+pub use mesmile_mode::MeSmileMode;
 pub use permission::PermissionManager;
 pub use signup_nanogpt::configure_nanogpt;
 pub use signup_openrouter::configure_openrouter;

@@ -1,5 +1,5 @@
 use crate::config::paths::Paths;
-use crate::config::GooseMode;
+use crate::config::MeSmileMode;
 use crate::conversation::message::Message;
 use crate::conversation::Conversation;
 use crate::model::ModelConfig;
@@ -81,7 +81,7 @@ pub struct Session {
     pub provider_name: Option<String>,
     pub model_config: Option<ModelConfig>,
     #[serde(default)]
-    pub mesmile_mode: GooseMode,
+    pub mesmile_mode: MeSmileMode,
     #[serde(default)]
     pub archived_at: Option<DateTime<Utc>>,
     #[serde(default)]
@@ -108,7 +108,7 @@ pub struct SessionUpdateBuilder<'a> {
     user_recipe_values: Option<Option<HashMap<String, String>>>,
     provider_name: Option<Option<String>>,
     model_config: Option<Option<ModelConfig>>,
-    mesmile_mode: Option<GooseMode>,
+    mesmile_mode: Option<MeSmileMode>,
     archived_at: Option<Option<DateTime<Utc>>>,
 
     project_id: Option<Option<String>>,
@@ -254,7 +254,7 @@ impl<'a> SessionUpdateBuilder<'a> {
         self
     }
 
-    pub fn mesmile_mode(mut self, mode: GooseMode) -> Self {
+    pub fn mesmile_mode(mut self, mode: MeSmileMode) -> Self {
         self.mesmile_mode = Some(mode);
         self
     }
@@ -326,7 +326,7 @@ impl SessionManager {
         working_dir: PathBuf,
         name: String,
         session_type: SessionType,
-        mesmile_mode: GooseMode,
+        mesmile_mode: MeSmileMode,
     ) -> Result<Session> {
         self.storage
             .create_session(working_dir, name, session_type, mesmile_mode)
@@ -560,7 +560,7 @@ impl Default for Session {
             message_count: 0,
             provider_name: None,
             model_config: None,
-            mesmile_mode: GooseMode::default(),
+            mesmile_mode: MeSmileMode::default(),
             archived_at: None,
             project_id: None,
         }
@@ -1200,7 +1200,7 @@ impl SessionStorage {
         working_dir: PathBuf,
         name: String,
         session_type: SessionType,
-        mesmile_mode: GooseMode,
+        mesmile_mode: MeSmileMode,
     ) -> Result<Session> {
         let pool = self.pool().await?;
         let mut tx = pool.begin_with("BEGIN IMMEDIATE").await?;
@@ -2039,7 +2039,7 @@ mod tests {
                 PathBuf::from(working_dir),
                 format!("Session in {working_dir}"),
                 SessionType::User,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await
             .unwrap();
@@ -2104,7 +2104,7 @@ mod tests {
                 PathBuf::from("/tmp/search-test"),
                 name.to_string(),
                 session_type,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await
             .unwrap();
@@ -2393,7 +2393,7 @@ mod tests {
                 PathBuf::from("/tmp/lock-upgrade-test"),
                 "Lock Upgrade Session".to_string(),
                 SessionType::User,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await
             .unwrap();
@@ -2499,7 +2499,7 @@ mod tests {
                         working_dir.clone(),
                         description,
                         SessionType::User,
-                        GooseMode::default(),
+                        MeSmileMode::default(),
                     )
                     .await
                     .unwrap();
@@ -2588,7 +2588,7 @@ mod tests {
                 PathBuf::from("/tmp/test"),
                 DESCRIPTION.to_string(),
                 SessionType::User,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await
             .unwrap();
@@ -2656,7 +2656,7 @@ mod tests {
                 PathBuf::from("/tmp/test"),
                 "User session".to_string(),
                 SessionType::User,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await
             .unwrap();
@@ -2679,7 +2679,7 @@ mod tests {
                 PathBuf::from("/tmp/test"),
                 "ACP session".to_string(),
                 SessionType::Acp,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await
             .unwrap();
@@ -2732,11 +2732,11 @@ mod tests {
         assert_eq!(imported.working_dir, PathBuf::from("/tmp/test"));
     }
 
-    #[test_case(GooseMode::Approve)]
-    #[test_case(GooseMode::SmartApprove)]
-    #[test_case(GooseMode::Chat)]
+    #[test_case(MeSmileMode::Approve)]
+    #[test_case(MeSmileMode::SmartApprove)]
+    #[test_case(MeSmileMode::Chat)]
     #[tokio::test]
-    async fn test_mesmile_mode_persists(mode: GooseMode) {
+    async fn test_mesmile_mode_persists(mode: MeSmileMode) {
         let temp_dir = TempDir::new().unwrap();
         let sm = SessionManager::new(temp_dir.path().to_path_buf());
 
@@ -2764,19 +2764,19 @@ mod tests {
                 temp_dir.path().to_path_buf(),
                 "test".into(),
                 SessionType::User,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await
             .unwrap();
 
         sm.update(&session.id)
-            .mesmile_mode(GooseMode::Approve)
+            .mesmile_mode(MeSmileMode::Approve)
             .apply()
             .await
             .unwrap();
 
         let reloaded = sm.get_session(&session.id, false).await.unwrap();
-        assert_eq!(reloaded.mesmile_mode, GooseMode::Approve);
+        assert_eq!(reloaded.mesmile_mode, MeSmileMode::Approve);
     }
 
     #[tokio::test]
@@ -2789,7 +2789,7 @@ mod tests {
                 temp_dir.path().to_path_buf(),
                 "test".into(),
                 SessionType::User,
-                GooseMode::Approve,
+                MeSmileMode::Approve,
             )
             .await
             .unwrap();
@@ -2802,7 +2802,7 @@ mod tests {
             .unwrap();
 
         let reloaded = sm.get_session(&session.id, false).await.unwrap();
-        assert_eq!(reloaded.mesmile_mode, GooseMode::default());
+        assert_eq!(reloaded.mesmile_mode, MeSmileMode::default());
     }
 
     #[tokio::test]

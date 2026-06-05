@@ -627,7 +627,7 @@ pub fn is_tool_visible_to_model(tool: &Tool) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::GooseMode;
+    use crate::config::MeSmileMode;
     use crate::conversation::message::Message;
     use crate::model::ModelConfig;
     use crate::providers::base::{Provider, ProviderUsage, Usage};
@@ -676,7 +676,7 @@ mod tests {
                 std::env::current_dir().unwrap(),
                 "test-prepare-tools".to_string(),
                 SessionType::Hidden,
-                GooseMode::default(),
+                MeSmileMode::default(),
             )
             .await?;
 

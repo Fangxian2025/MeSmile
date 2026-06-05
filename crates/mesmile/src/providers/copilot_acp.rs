@@ -7,7 +7,7 @@ use crate::acp::{
     extension_configs_to_mcp_servers, AcpProvider, AcpProviderConfig, ACP_CURRENT_MODEL,
 };
 use crate::config::search_path::SearchPaths;
-use crate::config::{Config, GooseMode};
+use crate::config::{Config, MeSmileMode};
 use crate::model::ModelConfig;
 use crate::providers::acp_tooling::{acp_adapter_installed, acp_inventory_identity};
 use crate::providers::base::{current_working_dir, ProviderDef, ProviderMetadata};
@@ -61,7 +61,7 @@ impl ProviderDef for CopilotAcpProvider {
             let resolved_command = SearchPaths::builder()
                 .with_npm()
                 .resolve(COPILOT_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_mode().unwrap_or(GooseMode::Auto);
+            let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
 
             let mut args = vec!["--acp".to_string()];
             if model.model_name != ACP_CURRENT_MODEL {
@@ -72,10 +72,10 @@ impl ProviderDef for CopilotAcpProvider {
             // Copilot modes are full protocol URIs.
             // No approve-specific mode; permissions are handled separately.
             let mode_mapping = HashMap::from([
-                (GooseMode::Auto, MODE_AGENT.to_string()),
-                (GooseMode::Approve, MODE_AGENT.to_string()),
-                (GooseMode::SmartApprove, MODE_AGENT.to_string()),
-                (GooseMode::Chat, MODE_PLAN.to_string()),
+                (MeSmileMode::Auto, MODE_AGENT.to_string()),
+                (MeSmileMode::Approve, MODE_AGENT.to_string()),
+                (MeSmileMode::SmartApprove, MODE_AGENT.to_string()),
+                (MeSmileMode::Chat, MODE_PLAN.to_string()),
             ]);
 
             let provider_config = AcpProviderConfig {

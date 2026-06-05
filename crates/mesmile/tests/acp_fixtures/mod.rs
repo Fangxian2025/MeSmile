@@ -15,7 +15,7 @@ pub use mesmile::acp::{map_permission_response, PermissionDecision};
 use mesmile::agents::GoosePlatform;
 use mesmile::builtin_extension::register_builtin_extensions;
 use mesmile::config::paths::Paths;
-use mesmile::config::{GooseMode, PermissionManager};
+use mesmile::config::{MeSmileMode, PermissionManager};
 use mesmile::providers::api_client::{ApiClient, AuthMethod as ApiAuthMethod};
 use mesmile::providers::base::Provider;
 use mesmile::providers::openai::OpenAiProvider;
@@ -173,7 +173,7 @@ pub async fn spawn_acp_server_in_process(
     openai_base_url: &str,
     builtins: &[String],
     data_root: &std::path::Path,
-    mesmile_mode: GooseMode,
+    mesmile_mode: MeSmileMode,
     provider_factory: Option<AcpProviderFactory>,
     current_model: &str,
     disable_session_naming: bool,
@@ -517,7 +517,7 @@ pub struct SessionData<S> {
 pub struct TestConnectionConfig {
     pub mcp_servers: Vec<McpServer>,
     pub builtins: Vec<String>,
-    pub mesmile_mode: GooseMode,
+    pub mesmile_mode: MeSmileMode,
     pub cwd: Option<tempfile::TempDir>,
     pub data_root: PathBuf,
     pub provider_factory: Option<AcpProviderFactory>,
@@ -537,7 +537,7 @@ impl Default for TestConnectionConfig {
         Self {
             mcp_servers: Vec::new(),
             builtins: Vec::new(),
-            mesmile_mode: GooseMode::default(),
+            mesmile_mode: MeSmileMode::default(),
             cwd: None,
             data_root: PathBuf::new(),
             provider_factory: None,

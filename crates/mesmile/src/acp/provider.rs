@@ -30,7 +30,7 @@ use tokio::sync::{mpsc, oneshot, Mutex as TokioMutex};
 use tokio_util::compat::{TokioAsyncReadCompatExt as _, TokioAsyncWriteCompatExt as _};
 
 use crate::acp::{map_permission_response, PermissionDecision};
-use crate::config::{ExtensionConfig, GooseMode};
+use crate::config::{ExtensionConfig, MeSmileMode};
 use crate::context_mgmt::format_message_for_compacting;
 use crate::conversation::message::{Message, MessageContent, TOOL_META_EXTERNAL_DISPATCH_KEY};
 use crate::model::ModelConfig;
@@ -51,7 +51,7 @@ pub struct AcpProviderConfig {
     pub work_dir: PathBuf,
     pub mcp_servers: Vec<McpServer>,
     pub session_mode_id: Option<String>,
-    pub mode_mapping: HashMap<GooseMode, String>,
+    pub mode_mapping: HashMap<MeSmileMode, String>,
     pub notification_callback: Option<Arc<dyn Fn(SessionNotification) + Send + Sync>>,
 }
 
@@ -135,8 +135,8 @@ struct HandoffContextClaim {
 pub struct AcpProvider {
     name: String,
     model: ModelConfig,
-    mesmile_mode: Arc<Mutex<GooseMode>>,
-    mode_mapping: HashMap<GooseMode, String>,
+    mesmile_mode: Arc<Mutex<MeSmileMode>>,
+    mode_mapping: HashMap<MeSmileMode, String>,
 
     session: AcpSession,
 
@@ -177,7 +177,7 @@ impl AcpProvider {
     pub async fn connect(
         name: String,
         model: ModelConfig,
-        mesmile_mode: GooseMode,
+        mesmile_mode: MeSmileMode,
         config: AcpProviderConfig,
     ) -> Result<Self> {
         Self::start(
@@ -194,7 +194,7 @@ impl AcpProvider {
     pub async fn connect_with_transport(
         name: String,
         model: ModelConfig,
-        mesmile_mode: GooseMode,
+        mesmile_mode: MeSmileMode,
         config: AcpProviderConfig,
         transport: impl agent_client_protocol::ConnectTo<Client> + 'static,
     ) -> Result<Self> {
@@ -217,7 +217,7 @@ impl AcpProvider {
     async fn start(
         name: String,
         model: ModelConfig,
-        mesmile_mode: GooseMode,
+        mesmile_mode: MeSmileMode,
         config: AcpProviderConfig,
         run: ClientLoopFn,
     ) -> Result<Self> {
@@ -386,7 +386,7 @@ impl Provider for AcpProvider {
         model
     }
 
-    async fn update_mode(&self, session_id: &str, mode: GooseMode) -> Result<(), ProviderError> {
+    async fn update_mode(&self, session_id: &str, mode: MeSmileMode) -> Result<(), ProviderError> {
         let mode_str = self
             .mode_mapping
             .get(&mode)
@@ -465,7 +465,7 @@ impl Provider for AcpProvider {
             .lock()
             .map_err(|_| ProviderError::RequestFailed("mesmile_mode lock poisoned".into()))?;
 
-        let reject_all_tools = mesmile_mode == GooseMode::Chat;
+        let reject_all_tools = mesmile_mode == MeSmileMode::Chat;
         let model_name = model_config.model_name.clone();
 
         Ok(Box::pin(try_stream! {
@@ -639,7 +639,7 @@ impl Drop for AcpProvider {
 
 struct AcpClientLoop {
     config: AcpProviderConfig,
-    mesmile_mode: Arc<Mutex<GooseMode>>,
+    mesmile_mode: Arc<Mutex<MeSmileMode>>,
     prompt_response_tx: Arc<Mutex<Option<mpsc::Sender<AcpUpdate>>>>,
     pending_tool_updates: Arc<Mutex<HashMap<String, AccumulatedToolCall>>>,
     context_size: Arc<AtomicU64>,
@@ -648,7 +648,7 @@ struct AcpClientLoop {
 impl AcpClientLoop {
     fn new(
         config: AcpProviderConfig,
-        mesmile_mode: Arc<Mutex<GooseMode>>,
+        mesmile_mode: Arc<Mutex<MeSmileMode>>,
         pending_tool_updates: Arc<Mutex<HashMap<String, AccumulatedToolCall>>>,
         context_size: Arc<AtomicU64>,
     ) -> Self {
@@ -999,7 +999,7 @@ fn log_undelivered<E: std::fmt::Debug>(result: Result<(), E>, method: &str) {
 
 async fn handle_requests(
     config: AcpProviderConfig,
-    mesmile_mode: Arc<Mutex<GooseMode>>,
+    mesmile_mode: Arc<Mutex<MeSmileMode>>,
     cx: ConnectionTo<Agent>,
     rx: &mut mpsc::Receiver<ClientRequest>,
     prompt_response_tx: Arc<Mutex<Option<mpsc::Sender<AcpUpdate>>>>,
@@ -1141,7 +1141,7 @@ async fn handle_requests(
 
 async fn apply_session_mode(
     config: &AcpProviderConfig,
-    mesmile_mode: &Arc<Mutex<GooseMode>>,
+    mesmile_mode: &Arc<Mutex<MeSmileMode>>,
     cx: &ConnectionTo<Agent>,
     session: NewSessionResponse,
 ) -> Result<NewSessionResponse> {
@@ -1482,9 +1482,9 @@ fn resolve_model_info(
 }
 
 fn reverse_mode_mapping(
-    mode_mapping: &HashMap<GooseMode, String>,
-) -> HashMap<String, Vec<GooseMode>> {
-    let mut reverse: HashMap<String, Vec<GooseMode>> = HashMap::new();
+    mode_mapping: &HashMap<MeSmileMode, String>,
+) -> HashMap<String, Vec<MeSmileMode>> {
+    let mut reverse: HashMap<String, Vec<MeSmileMode>> = HashMap::new();
     for (mode, id) in mode_mapping {
         reverse.entry(id.clone()).or_default().push(*mode);
     }
@@ -1492,10 +1492,10 @@ fn reverse_mode_mapping(
 }
 
 fn resolve_mode(
-    reverse_modes: &HashMap<String, Vec<GooseMode>>,
+    reverse_modes: &HashMap<String, Vec<MeSmileMode>>,
     mode_id: &str,
-    current: &Arc<Mutex<GooseMode>>,
-) -> Option<GooseMode> {
+    current: &Arc<Mutex<MeSmileMode>>,
+) -> Option<MeSmileMode> {
     let candidates = reverse_modes.get(mode_id)?;
     if candidates.len() == 1 {
         return Some(candidates[0]);
@@ -1508,11 +1508,11 @@ fn resolve_mode(
     }
 }
 
-fn permission_decision_from_mode(mesmile_mode: GooseMode) -> Option<PermissionDecision> {
+fn permission_decision_from_mode(mesmile_mode: MeSmileMode) -> Option<PermissionDecision> {
     match mesmile_mode {
-        GooseMode::Auto => Some(PermissionDecision::AllowOnce),
-        GooseMode::Chat => Some(PermissionDecision::RejectOnce),
-        GooseMode::Approve | GooseMode::SmartApprove => None,
+        MeSmileMode::Auto => Some(PermissionDecision::AllowOnce),
+        MeSmileMode::Chat => Some(PermissionDecision::RejectOnce),
+        MeSmileMode::Approve | MeSmileMode::SmartApprove => None,
     }
 }
 
@@ -1541,7 +1541,7 @@ mod tests {
                 model_name: "test-model".to_string(),
                 ..Default::default()
             },
-            mesmile_mode: Arc::new(Mutex::new(GooseMode::Auto)),
+            mesmile_mode: Arc::new(Mutex::new(MeSmileMode::Auto)),
             mode_mapping: HashMap::new(),
             session: AcpSession {
                 id: SessionId::new("test-session"),
@@ -1800,61 +1800,61 @@ mod tests {
         assert!(filtered.is_empty());
     }
 
-    #[test_case(GooseMode::Auto => Some(PermissionDecision::AllowOnce) ; "auto allows")]
-    #[test_case(GooseMode::Chat => Some(PermissionDecision::RejectOnce) ; "chat rejects")]
-    #[test_case(GooseMode::Approve => None ; "approve defers")]
-    #[test_case(GooseMode::SmartApprove => None ; "smart_approve defers")]
-    fn test_permission_decision_from_mode(mode: GooseMode) -> Option<PermissionDecision> {
+    #[test_case(MeSmileMode::Auto => Some(PermissionDecision::AllowOnce) ; "auto allows")]
+    #[test_case(MeSmileMode::Chat => Some(PermissionDecision::RejectOnce) ; "chat rejects")]
+    #[test_case(MeSmileMode::Approve => None ; "approve defers")]
+    #[test_case(MeSmileMode::SmartApprove => None ; "smart_approve defers")]
+    fn test_permission_decision_from_mode(mode: MeSmileMode) -> Option<PermissionDecision> {
         permission_decision_from_mode(mode)
     }
 
     #[test_case(
         HashMap::from([
-            (GooseMode::Auto, "yolo".to_string()),
-            (GooseMode::Approve, "default".to_string()),
-            (GooseMode::SmartApprove, "auto_edit".to_string()),
-            (GooseMode::Chat, "plan".to_string()),
+            (MeSmileMode::Auto, "yolo".to_string()),
+            (MeSmileMode::Approve, "default".to_string()),
+            (MeSmileMode::SmartApprove, "auto_edit".to_string()),
+            (MeSmileMode::Chat, "plan".to_string()),
         ]),
         HashMap::from([
-            ("yolo".to_string(), vec![GooseMode::Auto]),
-            ("default".to_string(), vec![GooseMode::Approve]),
-            ("auto_edit".to_string(), vec![GooseMode::SmartApprove]),
-            ("plan".to_string(), vec![GooseMode::Chat]),
+            ("yolo".to_string(), vec![MeSmileMode::Auto]),
+            ("default".to_string(), vec![MeSmileMode::Approve]),
+            ("auto_edit".to_string(), vec![MeSmileMode::SmartApprove]),
+            ("plan".to_string(), vec![MeSmileMode::Chat]),
         ])
         ; "gemini provider mapping"
     )]
     #[test_case(
         HashMap::from([
-            (GooseMode::Auto, "bypassPermissions".to_string()),
-            (GooseMode::Approve, "default".to_string()),
-            (GooseMode::SmartApprove, "acceptEdits".to_string()),
-            (GooseMode::Chat, "plan".to_string()),
+            (MeSmileMode::Auto, "bypassPermissions".to_string()),
+            (MeSmileMode::Approve, "default".to_string()),
+            (MeSmileMode::SmartApprove, "acceptEdits".to_string()),
+            (MeSmileMode::Chat, "plan".to_string()),
         ]),
         HashMap::from([
-            ("bypassPermissions".to_string(), vec![GooseMode::Auto]),
-            ("default".to_string(), vec![GooseMode::Approve]),
-            ("acceptEdits".to_string(), vec![GooseMode::SmartApprove]),
-            ("plan".to_string(), vec![GooseMode::Chat]),
+            ("bypassPermissions".to_string(), vec![MeSmileMode::Auto]),
+            ("default".to_string(), vec![MeSmileMode::Approve]),
+            ("acceptEdits".to_string(), vec![MeSmileMode::SmartApprove]),
+            ("plan".to_string(), vec![MeSmileMode::Chat]),
         ])
         ; "claude provider mapping"
     )]
     #[test_case(
         HashMap::from([
-            (GooseMode::Auto, "full-access".to_string()),
-            (GooseMode::Approve, "read-only".to_string()),
-            (GooseMode::SmartApprove, "auto".to_string()),
-            (GooseMode::Chat, "read-only".to_string()),
+            (MeSmileMode::Auto, "full-access".to_string()),
+            (MeSmileMode::Approve, "read-only".to_string()),
+            (MeSmileMode::SmartApprove, "auto".to_string()),
+            (MeSmileMode::Chat, "read-only".to_string()),
         ]),
         HashMap::from([
-            ("full-access".to_string(), vec![GooseMode::Auto]),
-            ("read-only".to_string(), vec![GooseMode::Approve, GooseMode::Chat]),
-            ("auto".to_string(), vec![GooseMode::SmartApprove]),
+            ("full-access".to_string(), vec![MeSmileMode::Auto]),
+            ("read-only".to_string(), vec![MeSmileMode::Approve, MeSmileMode::Chat]),
+            ("auto".to_string(), vec![MeSmileMode::SmartApprove]),
         ])
         ; "codex duplicate read-only"
     )]
     fn test_reverse_mode_mapping(
-        forward: HashMap<GooseMode, String>,
-        expected: HashMap<String, Vec<GooseMode>>,
+        forward: HashMap<MeSmileMode, String>,
+        expected: HashMap<String, Vec<MeSmileMode>>,
     ) {
         let result = reverse_mode_mapping(&forward);
         assert_eq!(result.len(), expected.len());
@@ -1918,43 +1918,43 @@ mod tests {
         resolve_model_info("test", &response)
     }
 
-    fn codex_reverse_modes() -> HashMap<String, Vec<GooseMode>> {
+    fn codex_reverse_modes() -> HashMap<String, Vec<MeSmileMode>> {
         HashMap::from([
-            ("full-access".to_string(), vec![GooseMode::Auto]),
+            ("full-access".to_string(), vec![MeSmileMode::Auto]),
             (
                 "read-only".to_string(),
-                vec![GooseMode::Approve, GooseMode::Chat],
+                vec![MeSmileMode::Approve, MeSmileMode::Chat],
             ),
-            ("auto".to_string(), vec![GooseMode::SmartApprove]),
+            ("auto".to_string(), vec![MeSmileMode::SmartApprove]),
         ])
     }
 
     #[test_case(
-        "full-access", GooseMode::Auto, Some(GooseMode::Auto)
+        "full-access", MeSmileMode::Auto, Some(MeSmileMode::Auto)
         ; "unique mapping returns the only candidate"
     )]
     #[test_case(
-        "read-only", GooseMode::Approve, Some(GooseMode::Approve)
+        "read-only", MeSmileMode::Approve, Some(MeSmileMode::Approve)
         ; "duplicate prefers current when current is Approve"
     )]
     #[test_case(
-        "read-only", GooseMode::Chat, Some(GooseMode::Chat)
+        "read-only", MeSmileMode::Chat, Some(MeSmileMode::Chat)
         ; "duplicate prefers current when current is Chat"
     )]
     #[test_case(
-        "read-only", GooseMode::Auto, Some(GooseMode::Approve)
+        "read-only", MeSmileMode::Auto, Some(MeSmileMode::Approve)
         ; "duplicate falls back to first when current not in candidates"
     )]
     #[test_case(
-        "unknown-id", GooseMode::Auto, None
+        "unknown-id", MeSmileMode::Auto, None
         ; "unknown mode id returns None"
     )]
-    fn test_resolve_mode(mode_id: &str, current: GooseMode, expected: Option<GooseMode>) {
+    fn test_resolve_mode(mode_id: &str, current: MeSmileMode, expected: Option<MeSmileMode>) {
         let reverse_modes = codex_reverse_modes();
         let current = Arc::new(Mutex::new(current));
         let result = resolve_mode(&reverse_modes, mode_id, &current);
-        if mode_id == "read-only" && expected == Some(GooseMode::Approve) {
-            assert!(result == Some(GooseMode::Approve) || result == Some(GooseMode::Chat));
+        if mode_id == "read-only" && expected == Some(MeSmileMode::Approve) {
+            assert!(result == Some(MeSmileMode::Approve) || result == Some(MeSmileMode::Chat));
         } else {
             assert_eq!(result, expected);
         }

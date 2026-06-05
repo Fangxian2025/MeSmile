@@ -7,7 +7,7 @@ use crate::acp::{
     extension_configs_to_mcp_servers, AcpProvider, AcpProviderConfig, ACP_CURRENT_MODEL,
 };
 use crate::config::search_path::SearchPaths;
-use crate::config::{Config, GooseMode};
+use crate::config::{Config, MeSmileMode};
 use crate::model::ModelConfig;
 use crate::providers::acp_tooling::{acp_adapter_installed, acp_inventory_identity};
 use crate::providers::base::{current_working_dir, ProviderDef, ProviderMetadata};
@@ -57,15 +57,15 @@ impl ProviderDef for AmpAcpProvider {
         Box::pin(async move {
             let config = Config::global();
             let resolved_command = SearchPaths::builder().with_npm().resolve(AMP_ACP_BINARY)?;
-            let mesmile_mode = config.get_mesmile_mode().unwrap_or(GooseMode::Auto);
+            let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
 
             let mode_mapping = HashMap::from([
                 // "bypass" skips confirmations, closest to autonomous mode.
-                (GooseMode::Auto, "bypass".to_string()),
+                (MeSmileMode::Auto, "bypass".to_string()),
                 // "default" prompts before risky actions.
-                (GooseMode::Approve, "default".to_string()),
-                (GooseMode::SmartApprove, "default".to_string()),
-                (GooseMode::Chat, "default".to_string()),
+                (MeSmileMode::Approve, "default".to_string()),
+                (MeSmileMode::SmartApprove, "default".to_string()),
+                (MeSmileMode::Chat, "default".to_string()),
             ]);
 
             let provider_config = AcpProviderConfig {

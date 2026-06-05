@@ -35,7 +35,7 @@ use mesmile::agents::extension::{Envs, ExtensionConfig, PLATFORM_EXTENSIONS};
 use mesmile::agents::types::RetryConfig;
 use mesmile::agents::{Agent, SessionConfig, COMPACT_TRIGGERS};
 use mesmile::config::extensions::name_to_key;
-use mesmile::config::{Config, GooseMode};
+use mesmile::config::{Config, MeSmileMode};
 use input::InputResult;
 use rmcp::model::PromptMessage;
 use rmcp::model::ServerNotification;
@@ -604,7 +604,7 @@ impl CliSession {
                     Err(e) => output::render_error(&e.to_string()),
                 }
             }
-            InputResult::GooseMode(mode) => {
+            InputResult::MeSmileMode(mode) => {
                 history.save(editor);
                 self.handle_mesmile_mode(&mode).await?;
             }
@@ -783,12 +783,12 @@ impl CliSession {
 
     async fn handle_mesmile_mode(&self, mode: &str) -> Result<()> {
         let config = Config::global();
-        let mode = match GooseMode::from_str(&mode.to_lowercase()) {
+        let mode = match MeSmileMode::from_str(&mode.to_lowercase()) {
             Ok(mode) => mode,
             Err(_) => {
                 output::render_error(&format!(
                     "Invalid mode '{mode}'. Mode must be one of: {}",
-                    GooseMode::VARIANTS.join(", ")
+                    MeSmileMode::VARIANTS.join(", ")
                 ));
                 return Ok(());
             }
@@ -1083,9 +1083,9 @@ impl CliSession {
                     self.run_mode = RunMode::Normal;
                     // set MeSmile mode: auto if that isn't already the case
                     let config = Config::global();
-                    let curr_mesmile_mode = config.get_mesmile_mode().unwrap_or_default();
-                    if curr_mesmile_mode != GooseMode::Auto {
-                        config.set_mesmile_mode(GooseMode::Auto).unwrap();
+                    let curr_mesmile_mode = config.get_mesmile_model().unwrap_or_default();
+                    if curr_mesmile_mode != MeSmileMode::Auto {
+                        config.set_mesmile_mode(MeSmileMode::Auto).unwrap();
                     }
 
                     // clear the messages before acting on the plan
@@ -1100,7 +1100,7 @@ impl CliSession {
                     output::hide_thinking();
 
                     // Reset run & MeSmile mode
-                    if curr_mesmile_mode != GooseMode::Auto {
+                    if curr_mesmile_mode != MeSmileMode::Auto {
                         config.set_mesmile_mode(curr_mesmile_mode)?;
                     }
                 } else {
@@ -1191,14 +1191,14 @@ impl CliSession {
                                     // Approve/SmartApprove modes since auto-allowing would
                                     // bypass the safety contract those modes are meant to enforce.
                                     let config = Config::global();
-                                    let mesmile_mode = config.get_mesmile_mode().unwrap_or(GooseMode::Auto);
-                                    if mesmile_mode == GooseMode::Approve || mesmile_mode == GooseMode::SmartApprove {
+                                    let mesmile_mode = config.get_mesmile_model().unwrap_or(MeSmileMode::Auto);
+                                    if mesmile_mode == MeSmileMode::Approve || mesmile_mode == MeSmileMode::SmartApprove {
                                         cancel_token_clone.cancel();
                                         drop(stream);
                                         return Err(anyhow::anyhow!(
-                                            "Tool approval required in non-interactive mode with GooseMode::{mesmile_mode}. \
+                                            "Tool approval required in non-interactive mode with MeSmileMode::{mesmile_mode}. \
                                              This is an invalid configuration — Approve/SmartApprove modes require an \
-                                             interactive terminal. Use GooseMode::Auto for headless sessions."
+                                             interactive terminal. Use MeSmileMode::Auto for headless sessions."
                                         ));
                                     }
                                     tracing::warn!(
